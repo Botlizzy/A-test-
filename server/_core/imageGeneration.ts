@@ -86,20 +86,26 @@ export async function generateImage(
     );
   }
 
-  const result = (await response.json()) as {
-    image: {
-      b64Json: string;
-      mimeType: string;
-    };
-  };
-  const base64Data = result.image.b64Json;
+  const rawBody = await response.text().catch(() => "");
+  let result: { image?: { b64Json?: string; mimeType?: string }; message?: string; error?: string };
+  try {
+    result = rawBody ? JSON.parse(rawBody) : {};
+  } catch {
+    throw new Error("The image service returned an invalid response. Please try again in a moment.");
+  }
+  const base64Data = result.image?.b64Json;
+  if (!base64Data) {
+    const detail = result.message || result.error;
+    throw new Error(detail ? `Image service could not generate this image: ${detail}` : "Image service returned no image file. Please try again.");
+  }
+  const mimeType = result.image?.mimeType || "image/png";
   const buffer = Buffer.from(base64Data, "base64");
 
   // Save to S3
   const { url } = await storagePut(
     `generated/${Date.now()}.png`,
     buffer,
-    result.image.mimeType
+    mimeType
   );
   return {
     url,
