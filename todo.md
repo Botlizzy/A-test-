@@ -244,3 +244,6 @@
 - [x] Add a Premium conversational AI workspace with five selectable catalog models, prompt input, chat history, loading/error states, and readable replies extracted from API responses instead of raw JSON.
 - [x] Update Premium downloader workspaces to extract actual returned media URLs, render in-page video/audio previews, and provide open/save actions when the API returns usable files; exact JSON remains available below the media result.
 - [x] Add Premium AI tests, verify Premium gating/mobile UX through the live bundle, run 12 test files / 26 tests and production build, push GitHub at `0755402`, and save a recoverable checkpoint.
+- [x] Remove XVideo from the Premium Room and current homepage flow, leaving a clear replacement-video slot for the API the user will provide.
+- [x] Inspect TikTok/YouTube booster responses for task IDs or status fields and implement confirmed progress/status handling without claiming a boost from JSON acceptance alone.
+- [x] Add tests, verify mobile behavior, and run production build. GitHub push and checkpoint remain for delivery.

@@ -37,15 +37,14 @@ type ApiVideo = {
 
 type ApiResponse = { success: boolean; source?: string; data?: ApiVideo | { results?: ApiVideo[] }; fetchedAt?: string; title?: string; thumbnail?: string; download_url?: string };
 
-const XVIDEO_SOURCE_URL = "https://www.xvideos.com/video.hppakie6a79/mia_khalifa_fucks_a_fanboy";
-const API_URL = `https://apis.davidcyril.name.ng/xvideo?url=${encodeURIComponent(XVIDEO_SOURCE_URL)}`;
+const HOMEPAGE_API_URL = "";
 const FALLBACK_VIDEO: ApiVideo = {
-  title: "A fresh signal is waiting in the feed",
-  url: "https://www.xnxx.com",
+  title: "Homepage video API ready for connection",
+  url: "",
   thumbnail: "",
   duration: "—",
-  views: "Search feed",
-  uploader: { name: "XNXX Search" },
+  views: "Waiting for source API",
+  uploader: { name: "Eliminator Homepage" },
 };
 
 function resolveThumbnail(path?: string | { cover?: string; preview?: string }) {
@@ -87,7 +86,7 @@ const ADMIN_EMAILS = new Set(["mikeakex80@gmail.com", "elijahchinecheremonah@gma
 export default function Home({ user, onProfile, onPricing, onPremium, onAdmin, onTools, onSignOut }: HomeProps) {
   const [video, setVideo] = useState<ApiVideo>(FALLBACK_VIDEO);
   const [previous, setPrevious] = useState<ApiVideo[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [consented, setConsented] = useState(() => localStorage.getItem("streamline-18-plus") === "true");
   const [isPlaying, setIsPlaying] = useState(false);
@@ -99,13 +98,19 @@ export default function Home({ user, onProfile, onPricing, onPremium, onAdmin, o
     setLoading(true);
     setError("");
     try {
-      const response = await fetch(API_URL, { headers: { Accept: "application/json" } });
+      if (!HOMEPAGE_API_URL) {
+        setError("The homepage video API is ready for the new source you will provide.");
+        setVideo(FALLBACK_VIDEO);
+        setPrevious([]);
+        return;
+      }
+      const response = await fetch(HOMEPAGE_API_URL, { headers: { Accept: "application/json" } });
       if (!response.ok) throw new Error(`Request failed (${response.status})`);
       const payload = (await response.json()) as ApiResponse;
       const items = (() => {
         if (payload.data && "results" in payload.data) return payload.data.results || [];
         if (payload.data && "title" in payload.data) return [payload.data];
-        if (payload.title) return [{ title: payload.title, thumbnail: payload.thumbnail, download_url: payload.download_url, url: XVIDEO_SOURCE_URL, uploader: { name: "XVideo" }, views: "XVideo API" }];
+        if (payload.title) return [{ title: payload.title, thumbnail: payload.thumbnail, download_url: payload.download_url, url: "", uploader: { name: "Homepage video API" }, views: "Live API" }];
         return [];
       })().filter((item): item is ApiVideo => "title" in item && Boolean(item.title));
       if (!items.length) throw new Error("The feed returned no video items.");
@@ -191,14 +196,14 @@ export default function Home({ user, onProfile, onPricing, onPremium, onAdmin, o
             <div className="hero-copy__text">
               <span className="eyebrow eyebrow--blue">THE DAILY DROP / {new Date().toLocaleDateString("en-US", { month: "short", day: "2-digit" }).toUpperCase()}</span>
               <h1>Find the next<br /><i>good signal.</i></h1>
-              <p>One fresh title from the live feed, presented with the useful bits up front. Press play on the source when you’re ready.</p>
+              <p>The homepage video source is reserved for the replacement API you will provide. Once connected, playable media will stay inside Eliminator.</p>
             </div>
             <div className="hero-copy__stamp"><Sparkles size={18} /><span>CURATED<br /><b>RANDOMLY</b></span></div>
           </section>
 
           <section id="player" className="player-stage">
             <div className="stage-rings" aria-hidden="true"><span /><span /><span /></div>
-            <div className="player-toolbar"><span><span className="signal-dot" /> SOURCE / XNXX SEARCH</span><span className="player-toolbar__right">SAFE LINK <ShieldCheck size={14} /></span></div>
+            <div className="player-toolbar"><span><span className="signal-dot" /> SOURCE / HOMEPAGE API</span><span className="player-toolbar__right">SAFE LINK <ShieldCheck size={14} /></span></div>
             <div className="player-frame">
               {mediaUrl ? <video ref={videoRef} className="player-video" src={mediaUrl} poster={thumbnail || undefined} controls playsInline muted={isMuted} onLoadedMetadata={() => { if (videoRef.current) { videoRef.current.muted = false; videoRef.current.volume = 1; } }} onPlay={() => setIsPlaying(true)} onPause={() => setIsPlaying(false)} /> : thumbnail ? <img src={thumbnail} alt="" className="player-poster" /> : <div className="player-poster player-poster--fallback" />}
               <div className="player-wash" />
