@@ -1,7 +1,9 @@
 import { COOKIE_NAME } from "@shared/const";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
-import { publicProcedure, router } from "./_core/trpc";
+import { protectedProcedure, publicProcedure, router } from "./_core/trpc";
+import { generateImage } from "./_core/imageGeneration";
+import { z } from "zod";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -17,12 +19,15 @@ export const appRouter = router({
     }),
   }),
 
-  // TODO: add feature routers here, e.g.
-  // todo: router({
-  //   list: protectedProcedure.query(({ ctx }) =>
-  //     db.getUserTodos(ctx.user.id)
-  //   ),
-  // }),
+  image: router({
+    generate: protectedProcedure
+      .input(z.object({ prompt: z.string().trim().min(3).max(1200), quality: z.enum(["medium", "high"]).default("medium") }))
+      .mutation(async ({ input }) => {
+        const result = await generateImage({ prompt: input.prompt, quality: input.quality });
+        if (!result.url) throw new Error("Image generation returned no image file.");
+        return { url: result.url };
+      }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

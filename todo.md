@@ -268,3 +268,6 @@
 - [x] Filter API/service URLs and source-page URLs out of user-facing downloader media links and download actions.
 - [x] Require a direct media-file candidate before rendering preview/download controls; otherwise show a clear no-file-supplied state.
 - [x] Add tests, verify mobile downloader UI, run build, push GitHub at remote commit `77bac67`, and publish a checkpoint.
+- [x] Add downloader fetch/preparation progress bar, animated loading state, and clear stage messaging while the direct file is being prepared.
+- [x] Add a secure Premium image generator workspace with prompt input, server-side image generation, loading/error states, preview, and download action.
+- [x] Add/update tests, verify responsive UI, run build, push GitHub at remote commit `0d34fbe`, and publish a checkpoint.
