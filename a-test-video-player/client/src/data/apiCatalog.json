@@ -1,0 +1,5673 @@
+{
+  "base": "https://apis.davidcyril.name.ng",
+  "categories": [
+    "ai",
+    "aimusic",
+    "anime",
+    "canvas",
+    "download",
+    "fun",
+    "games",
+    "imagegen",
+    "imageToImage",
+    "movies",
+    "news",
+    "random",
+    "search",
+    "socialboost",
+    "sports",
+    "stalk",
+    "tempmail",
+    "tempnumber",
+    "tools",
+    "uploader",
+    "urlshortener",
+    "xxx"
+  ],
+  "count": 445,
+  "endpoints": [
+    {
+      "category": "ai",
+      "path": "/blackbox",
+      "alias": "Blackbox AI",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "search",
+        "chat"
+      ],
+      "text": "expand_more Blackbox AI JSON Response Search Chat"
+    },
+    {
+      "category": "ai",
+      "path": "/ai/claude-fable-5",
+      "alias": "Claude Fable 5",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "ai",
+        "anthropic"
+      ],
+      "text": "expand_more Claude Fable 5 JSON Response Ai Anthropic"
+    },
+    {
+      "category": "ai",
+      "path": "/ai/claude-haiku-4.5",
+      "alias": "Claude Haiku 4.5",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "ai",
+        "anthropic"
+      ],
+      "text": "expand_more Claude Haiku 4.5 JSON Response Ai Anthropic"
+    },
+    {
+      "category": "ai",
+      "path": "/ai/claude-opus-4.5",
+      "alias": "Claude Opus 4.5",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "ai",
+        "anthropic"
+      ],
+      "text": "expand_more Claude Opus 4.5 JSON Response Ai Anthropic"
+    },
+    {
+      "category": "ai",
+      "path": "/ai/claude-opus-4.6",
+      "alias": "Claude Opus 4.6",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "ai",
+        "anthropic"
+      ],
+      "text": "expand_more Claude Opus 4.6 JSON Response Ai Anthropic"
+    },
+    {
+      "category": "ai",
+      "path": "/ai/claude-opus-4.7",
+      "alias": "Claude Opus 4.7",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "ai",
+        "anthropic"
+      ],
+      "text": "expand_more Claude Opus 4.7 JSON Response Ai Anthropic"
+    },
+    {
+      "category": "ai",
+      "path": "/ai/claude-opus-4.8",
+      "alias": "Claude Opus 4.8",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "ai",
+        "anthropic"
+      ],
+      "text": "expand_more Claude Opus 4.8 JSON Response Ai Anthropic"
+    },
+    {
+      "category": "ai",
+      "path": "/ai/claude-sonnet-4.6",
+      "alias": "Claude Sonnet 4.6",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "ai",
+        "anthropic"
+      ],
+      "text": "expand_more Claude Sonnet 4.6 JSON Response Ai Anthropic"
+    },
+    {
+      "category": "ai",
+      "path": "/ai/deepseek-v3.2-thinking",
+      "alias": "Deepseek V3.2 Thinking",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "ai",
+        "deepseek"
+      ],
+      "text": "expand_more Deepseek V3.2 Thinking JSON Response Ai Deepseek"
+    },
+    {
+      "category": "ai",
+      "path": "/ai/deepseek-v4-flash",
+      "alias": "Deepseek V4 Flash",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "ai",
+        "deepseek"
+      ],
+      "text": "expand_more Deepseek V4 Flash JSON Response Ai Deepseek"
+    },
+    {
+      "category": "ai",
+      "path": "/ai/deepseek-v4-pro",
+      "alias": "Deepseek V4 Pro",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "ai",
+        "deepseek"
+      ],
+      "text": "expand_more Deepseek V4 Pro JSON Response Ai Deepseek"
+    },
+    {
+      "category": "ai",
+      "path": "/ai/gemini-3-pro",
+      "alias": "Gemini 3 Pro",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "ai",
+        "google"
+      ],
+      "text": "expand_more Gemini 3 Pro JSON Response Ai Google"
+    },
+    {
+      "category": "ai",
+      "path": "/ai/gemini-3.1-flash-lite",
+      "alias": "Gemini 3.1 Flash Lite",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "ai",
+        "google"
+      ],
+      "text": "expand_more Gemini 3.1 Flash Lite JSON Response Ai Google"
+    },
+    {
+      "category": "ai",
+      "path": "/ai/gemini-3.1-pro",
+      "alias": "Gemini 3.1 Pro",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "ai",
+        "google"
+      ],
+      "text": "expand_more Gemini 3.1 Pro JSON Response Ai Google"
+    },
+    {
+      "category": "ai",
+      "path": "/ai/gpt-4o",
+      "alias": "GPT 4o",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "ai",
+        "openai"
+      ],
+      "text": "expand_more GPT 4o JSON Response Ai Openai"
+    },
+    {
+      "category": "ai",
+      "path": "/ai/gpt-4o-mini",
+      "alias": "GPT 4o Mini",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "ai",
+        "openai"
+      ],
+      "text": "expand_more GPT 4o Mini JSON Response Ai Openai"
+    },
+    {
+      "category": "ai",
+      "path": "/ai/gpt-5",
+      "alias": "GPT 5",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "ai",
+        "openai"
+      ],
+      "text": "expand_more GPT 5 JSON Response Ai Openai"
+    },
+    {
+      "category": "ai",
+      "path": "/ai/gpt-5.1-instant",
+      "alias": "GPT 5.1 Instant",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "ai",
+        "openai"
+      ],
+      "text": "expand_more GPT 5.1 Instant JSON Response Ai Openai"
+    },
+    {
+      "category": "ai",
+      "path": "/ai/gpt-5.3-chat",
+      "alias": "GPT 5.3 Chat",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "ai",
+        "openai"
+      ],
+      "text": "expand_more GPT 5.3 Chat JSON Response Ai Openai"
+    },
+    {
+      "category": "ai",
+      "path": "/ai/gpt-5.4",
+      "alias": "GPT 5.4",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "ai",
+        "openai"
+      ],
+      "text": "expand_more GPT 5.4 JSON Response Ai Openai"
+    },
+    {
+      "category": "ai",
+      "path": "/ai/gpt-5.5",
+      "alias": "GPT 5.5",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "ai",
+        "openai"
+      ],
+      "text": "expand_more GPT 5.5 JSON Response Ai Openai"
+    },
+    {
+      "category": "ai",
+      "path": "/ai/grok-4.1-fast",
+      "alias": "Grok 4.1 Fast",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "ai",
+        "xai"
+      ],
+      "text": "expand_more Grok 4.1 Fast JSON Response Ai Xai"
+    },
+    {
+      "category": "ai",
+      "path": "/ai/kimi-k2.6",
+      "alias": "Kimi K2.6",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "ai",
+        "moonshotai"
+      ],
+      "text": "expand_more Kimi K2.6 JSON Response Ai Moonshotai"
+    },
+    {
+      "category": "ai",
+      "path": "/ai/llama-4-maverick",
+      "alias": "Llama 4 Maverick",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "ai",
+        "meta"
+      ],
+      "text": "expand_more Llama 4 Maverick JSON Response Ai Meta"
+    },
+    {
+      "category": "ai",
+      "path": "/ai/qwen3-max",
+      "alias": "Qwen3 Max",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "ai",
+        "alibaba"
+      ],
+      "text": "expand_more Qwen3 Max JSON Response Ai Alibaba"
+    },
+    {
+      "category": "ai",
+      "path": "/standard",
+      "alias": "DeepAI Standard",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "ai",
+        "deepai",
+        "standard"
+      ],
+      "text": "expand_more DeepAI Standard JSON Response Ai Deepai"
+    },
+    {
+      "category": "ai",
+      "path": "/deepseek-v3.2",
+      "alias": "DeepAI DeepSeek V3.2",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "ai",
+        "deepai",
+        "deepseek-v3.2"
+      ],
+      "text": "expand_more DeepAI DeepSeek V3.2 JSON Response Ai Deepai"
+    },
+    {
+      "category": "ai",
+      "path": "/gemini-2.5-flash-lite",
+      "alias": "DeepAI Gemini 2.5 Flash Lite",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "ai",
+        "deepai",
+        "gemini-2.5-flash-lite"
+      ],
+      "text": "expand_more DeepAI Gemini 2.5 Flash Lite JSON Response Ai Deepai"
+    },
+    {
+      "category": "ai",
+      "path": "/gemma-4",
+      "alias": "DeepAI Gemma 4",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "ai",
+        "deepai",
+        "gemma-4"
+      ],
+      "text": "expand_more DeepAI Gemma 4 JSON Response Ai Deepai"
+    },
+    {
+      "category": "ai",
+      "path": "/gpt-4.1-nano",
+      "alias": "DeepAI GPT-4.1 Nano",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "ai",
+        "deepai",
+        "gpt-4.1-nano"
+      ],
+      "text": "expand_more DeepAI GPT-4.1 Nano JSON Response Ai Deepai"
+    },
+    {
+      "category": "ai",
+      "path": "/gpt-oss-120b",
+      "alias": "DeepAI GPT OSS 120B",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "ai",
+        "deepai",
+        "gpt-oss-120b"
+      ],
+      "text": "expand_more DeepAI GPT OSS 120B JSON Response Ai Deepai"
+    },
+    {
+      "category": "ai",
+      "path": "/gpt-5-nano",
+      "alias": "DeepAI GPT-5 Nano",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "ai",
+        "deepai",
+        "gpt-5-nano"
+      ],
+      "text": "expand_more DeepAI GPT-5 Nano JSON Response Ai Deepai"
+    },
+    {
+      "category": "ai",
+      "path": "/llama-3.3-70b-instruct",
+      "alias": "DeepAI Llama 3.3 70B Instruct",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "ai",
+        "deepai",
+        "llama-3.3-70b-instruct"
+      ],
+      "text": "expand_more DeepAI Llama 3.3 70B Instruct JSON Response Ai Deepai"
+    },
+    {
+      "category": "ai",
+      "path": "/llama-3.1-8b-instant",
+      "alias": "DeepAI Llama 3.1 8B Instant",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "ai",
+        "deepai",
+        "llama-3.1-8b-instant"
+      ],
+      "text": "expand_more DeepAI Llama 3.1 8B Instant JSON Response Ai Deepai"
+    },
+    {
+      "category": "ai",
+      "path": "/llama-4-scout",
+      "alias": "DeepAI Llama 4 Scout",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "ai",
+        "deepai",
+        "llama-4-scout"
+      ],
+      "text": "expand_more DeepAI Llama 4 Scout JSON Response Ai Deepai"
+    },
+    {
+      "category": "aimusic",
+      "path": "/aimusic/aiva/create",
+      "alias": "AIVA Create",
+      "method": "POST",
+      "tags": [
+        "ai music",
+        "aiva",
+        "generate",
+        "task",
+        "classical",
+        "orchestral"
+      ],
+      "text": "expand_more AIVA Create JSON Response Async Task Classical / Orchestral AIVA.ai"
+    },
+    {
+      "category": "aimusic",
+      "path": "/aimusic/aiva/public",
+      "alias": "AIVA Public",
+      "method": "GET",
+      "tags": [
+        "ai music",
+        "aiva",
+        "public",
+        "compositions",
+        "browse"
+      ],
+      "text": "expand_more AIVA Public JSON Response Public Compositions Browse AIVA.ai"
+    },
+    {
+      "category": "aimusic",
+      "path": "/aimusic/aiva/status",
+      "alias": "AIVA Status",
+      "method": "GET",
+      "tags": [
+        "ai music",
+        "aiva",
+        "status",
+        "poll",
+        "task"
+      ],
+      "text": "expand_more AIVA Status JSON Response Status Poll Task ID AIVA.ai"
+    },
+    {
+      "category": "aimusic",
+      "path": "/ai/music/list",
+      "alias": "AI Music List",
+      "method": "GET",
+      "tags": [
+        "ai music",
+        "list",
+        "files",
+        "browse"
+      ],
+      "text": "expand_more AI Music List JSON Response File List Download Links"
+    },
+    {
+      "category": "aimusic",
+      "path": "/ai/music/models",
+      "alias": "AI Music Models",
+      "method": "GET",
+      "tags": [
+        "ai music",
+        "models",
+        "list",
+        "browse"
+      ],
+      "text": "expand_more AI Music Models JSON Response Model List v3.5 - v5.0"
+    },
+    {
+      "category": "aimusic",
+      "path": "/ai/music/generate",
+      "alias": "AI Music Generate",
+      "method": "POST",
+      "tags": [
+        "ai music",
+        "generate",
+        "music",
+        "prompt",
+        "lyrics",
+        "vocal",
+        "instrumental"
+      ],
+      "text": "expand_more AI Music Generate JSON Response GET + POST Prompt + Lyrics Multiple Models"
+    },
+    {
+      "category": "aimusic",
+      "path": "/aimusic/beatoven/create",
+      "alias": "Beatoven Create",
+      "method": "POST",
+      "tags": [
+        "ai music",
+        "beatoven",
+        "generate",
+        "task",
+        "royalty free"
+      ],
+      "text": "expand_more Beatoven Create JSON Response Async Task Royalty Free Beatoven.ai"
+    },
+    {
+      "category": "aimusic",
+      "path": "/aimusic/beatoven/status",
+      "alias": "Beatoven Status",
+      "method": "GET",
+      "tags": [
+        "ai music",
+        "beatoven",
+        "status",
+        "poll",
+        "task"
+      ],
+      "text": "expand_more Beatoven Status JSON Response Status Poll Task ID Beatoven.ai"
+    },
+    {
+      "category": "aimusic",
+      "path": "/aimusic/melobytes/create",
+      "alias": "Melobytes Create",
+      "method": "POST",
+      "tags": [
+        "ai music",
+        "melobytes",
+        "generate",
+        "task",
+        "no auth"
+      ],
+      "text": "expand_more Melobytes Create JSON Response Async Task HF_API_TOKEN HuggingFace"
+    },
+    {
+      "category": "aimusic",
+      "path": "/aimusic/melobytes/status",
+      "alias": "Melobytes Status",
+      "method": "GET",
+      "tags": [
+        "ai music",
+        "melobytes",
+        "status",
+        "poll",
+        "task"
+      ],
+      "text": "expand_more Melobytes Status JSON Response Status Poll Task ID Melobytes.com"
+    },
+    {
+      "category": "aimusic",
+      "path": "/aimusic/mubert/create",
+      "alias": "Mubert Create",
+      "method": "POST",
+      "tags": [
+        "ai music",
+        "mubert",
+        "instrumental",
+        "generate",
+        "task"
+      ],
+      "text": "expand_more Mubert Create JSON Response Async Task Instrumental Mubert.com"
+    },
+    {
+      "category": "aimusic",
+      "path": "/aimusic/mubert/status",
+      "alias": "Mubert Status",
+      "method": "GET",
+      "tags": [
+        "ai music",
+        "mubert",
+        "status",
+        "poll",
+        "task"
+      ],
+      "text": "expand_more Mubert Status JSON Response Status Poll Task ID Mubert.com"
+    },
+    {
+      "category": "aimusic",
+      "path": "/aimusic/mureka/create",
+      "alias": "Mureka Create",
+      "method": "POST",
+      "tags": [
+        "ai music",
+        "mureka",
+        "vocal",
+        "instrumental",
+        "generate",
+        "task"
+      ],
+      "text": "expand_more Mureka Create JSON Response Async Task Vocal + Instrumental Mureka.ai"
+    },
+    {
+      "category": "aimusic",
+      "path": "/aimusic/mureka/status",
+      "alias": "Mureka Status",
+      "method": "GET",
+      "tags": [
+        "ai music",
+        "mureka",
+        "status",
+        "poll",
+        "task"
+      ],
+      "text": "expand_more Mureka Status JSON Response Status Poll Task ID Mureka.ai"
+    },
+    {
+      "category": "aimusic",
+      "path": "/aimusic/riffusion/create",
+      "alias": "Riffusion Create",
+      "method": "POST",
+      "tags": [
+        "ai music",
+        "riffusion",
+        "generate",
+        "task",
+        "no auth"
+      ],
+      "text": "expand_more Riffusion Create JSON Response Async Task HF_API_TOKEN HuggingFace"
+    },
+    {
+      "category": "aimusic",
+      "path": "/aimusic/riffusion/status",
+      "alias": "Riffusion Status",
+      "method": "GET",
+      "tags": [
+        "ai music",
+        "riffusion",
+        "status",
+        "poll",
+        "task"
+      ],
+      "text": "expand_more Riffusion Status JSON Response Status Poll Task ID Riffusion.com"
+    },
+    {
+      "category": "aimusic",
+      "path": "/ai/music/remusic",
+      "alias": "Remusic Generate",
+      "method": "GET",
+      "tags": [
+        "ai music",
+        "remusic",
+        "generate",
+        "prompt",
+        "styles",
+        "vocal",
+        "lyrics"
+      ],
+      "text": "expand_more Remusic Generate JSON Response Prompt + Styles Custom Lyrics Remusic.ai"
+    },
+    {
+      "category": "aimusic",
+      "path": "/ai/music/remusic/status/:song_id",
+      "alias": "Remusic Status",
+      "method": "GET",
+      "tags": [
+        "ai music",
+        "remusic",
+        "status",
+        "poll",
+        "song id"
+      ],
+      "text": "expand_more Remusic Status JSON Response Status Poll Song ID Remusic.ai"
+    },
+    {
+      "category": "aimusic",
+      "path": "/ai/music/remusic/styles",
+      "alias": "Remusic Styles",
+      "method": "GET",
+      "tags": [
+        "ai music",
+        "remusic",
+        "styles",
+        "genres",
+        "browse",
+        "list"
+      ],
+      "text": "expand_more Remusic Styles JSON Response Style List Browse Remusic.ai"
+    },
+    {
+      "category": "aimusic",
+      "path": "/aimusic/soundful/create",
+      "alias": "Soundful Create",
+      "method": "POST",
+      "tags": [
+        "ai music",
+        "soundful",
+        "generate",
+        "task",
+        "royalty free"
+      ],
+      "text": "expand_more Soundful Create JSON Response Discontinued Epidemic Sound Soundful.com"
+    },
+    {
+      "category": "aimusic",
+      "path": "/aimusic/soundful/status",
+      "alias": "Soundful Status",
+      "method": "GET",
+      "tags": [
+        "ai music",
+        "soundful",
+        "status",
+        "poll",
+        "task"
+      ],
+      "text": "expand_more Soundful Status JSON Response Status Poll Task ID Soundful.com"
+    },
+    {
+      "category": "aimusic",
+      "path": "/aimusic/soundful/templates",
+      "alias": "Soundful Templates",
+      "method": "GET",
+      "tags": [
+        "ai music",
+        "soundful",
+        "templates",
+        "genres",
+        "browse"
+      ],
+      "text": "expand_more Soundful Templates JSON Response Genre Templates Browse Soundful.com"
+    },
+    {
+      "category": "aimusic",
+      "path": "/aimusic/suno/create",
+      "alias": "Suno Create",
+      "method": "POST",
+      "tags": [
+        "ai music",
+        "suno",
+        "vocal",
+        "generate",
+        "lyrics",
+        "task"
+      ],
+      "text": "expand_more Suno Create JSON Response Async Task Vocal Songs Suno.com"
+    },
+    {
+      "category": "aimusic",
+      "path": "/aimusic/suno/status",
+      "alias": "Suno Status",
+      "method": "GET",
+      "tags": [
+        "ai music",
+        "suno",
+        "status",
+        "poll",
+        "task"
+      ],
+      "text": "expand_more Suno Status JSON Response Status Poll Task ID Suno.com"
+    },
+    {
+      "category": "aimusic",
+      "path": "/api/suno",
+      "alias": "Suno (Custom)",
+      "method": "GET",
+      "tags": [
+        "ai music",
+        "suno",
+        "generate",
+        "prompt",
+        "title",
+        "tags",
+        "music generation"
+      ],
+      "text": "expand_more Suno (Custom) JSON Response Job ID Status Check 2 Tracks"
+    },
+    {
+      "category": "anime",
+      "path": "/anime/schedule",
+      "alias": "Airing Schedule",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "anime",
+        "schedule",
+        "weekly",
+        "jikan"
+      ],
+      "text": "expand_more Airing Schedule JSON Response Jikan/MAL Schedule expand_more Anime Characters JSON Response Jikan/MAL Characters expand_more Anime Episodes JSON Response Jikan/MAL Episodes expand_more Anime Info JSON Response Jikan/MAL Info expand_more Anime Quote JSON Response Anime Quote expand_more Anime Search JSON Response Jikan/MAL Search expand_more Animelovers Genres JSON Response Anime expand_more Animelovers List JSON Response Anime expand_more Animelovers Resolutions JSON Response Anime"
+    },
+    {
+      "category": "anime",
+      "path": "/anime/characters",
+      "alias": "Anime Characters",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "anime",
+        "characters",
+        "voice actors",
+        "jikan"
+      ],
+      "text": "expand_more Anime Characters JSON Response Jikan/MAL Characters"
+    },
+    {
+      "category": "anime",
+      "path": "/anime/episodes",
+      "alias": "Anime Episodes",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "anime",
+        "episodes",
+        "jikan",
+        "list"
+      ],
+      "text": "expand_more Anime Episodes JSON Response Jikan/MAL Episodes"
+    },
+    {
+      "category": "anime",
+      "path": "/anime/info",
+      "alias": "Anime Info",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "anime",
+        "info",
+        "jikan",
+        "myanimelist",
+        "details"
+      ],
+      "text": "expand_more Anime Info JSON Response Jikan/MAL Info"
+    },
+    {
+      "category": "anime",
+      "path": "/anime/quote",
+      "alias": "Anime Quote",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "anime",
+        "quote"
+      ],
+      "text": "expand_more Anime Quote JSON Response Anime Quote"
+    },
+    {
+      "category": "anime",
+      "path": "/anime/search",
+      "alias": "Anime Search",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "anime",
+        "search",
+        "jikan",
+        "myanimelist"
+      ],
+      "text": "expand_more Anime Search JSON Response Jikan/MAL Search"
+    },
+    {
+      "category": "anime",
+      "path": "/anime/animelovers/genres",
+      "alias": "Animelovers Genres",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "anime"
+      ],
+      "text": "expand_more Animelovers Genres JSON Response Anime"
+    },
+    {
+      "category": "anime",
+      "path": "/anime/animelovers/list",
+      "alias": "Animelovers List",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "anime"
+      ],
+      "text": "expand_more Animelovers List JSON Response Anime"
+    },
+    {
+      "category": "anime",
+      "path": "/anime/animelovers/resolutions",
+      "alias": "Animelovers Resolutions",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "anime"
+      ],
+      "text": "expand_more Animelovers Resolutions JSON Response Anime"
+    },
+    {
+      "category": "anime",
+      "path": "/anime/bluearchive",
+      "alias": "Bluearchive",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "anime",
+        "game"
+      ],
+      "text": "expand_more Bluearchive JSON Response Anime Game"
+    },
+    {
+      "category": "anime",
+      "path": "/anime/season",
+      "alias": "Current Season Anime",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "anime",
+        "season",
+        "seasonal",
+        "jikan"
+      ],
+      "text": "expand_more Current Season Anime JSON Response Jikan/MAL Seasonal"
+    },
+    {
+      "category": "anime",
+      "path": "/anime/airing",
+      "alias": "Currently Airing Anime",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "anime",
+        "airing",
+        "anilist",
+        "schedule"
+      ],
+      "text": "expand_more Currently Airing Anime JSON Response AniList Airing"
+    },
+    {
+      "category": "anime",
+      "path": "/manga/komikindo/search",
+      "alias": "Komikindo Search",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "manga"
+      ],
+      "text": "expand_more Komikindo Search JSON Response Manga"
+    },
+    {
+      "category": "anime",
+      "path": "/anime/mobinime/list",
+      "alias": "Mobinime List",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "anime"
+      ],
+      "text": "expand_more Mobinime List JSON Response Anime"
+    },
+    {
+      "category": "anime",
+      "path": "/anime/mobinime/movies",
+      "alias": "Mobinime Movies",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "anime",
+        "movies"
+      ],
+      "text": "expand_more Mobinime Movies JSON Response Anime Movies"
+    },
+    {
+      "category": "anime",
+      "path": "/anime/otakudesu/ongoing",
+      "alias": "Otakudesu Ongoing",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "anime"
+      ],
+      "text": "expand_more Otakudesu Ongoing JSON Response Anime"
+    },
+    {
+      "category": "anime",
+      "path": "/anime/otakudesu/search",
+      "alias": "Otakudesu Search",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "anime"
+      ],
+      "text": "expand_more Otakudesu Search JSON Response Anime"
+    },
+    {
+      "category": "anime",
+      "path": "/anime/sakuranovel/search",
+      "alias": "Sakuranovel Search",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "novel",
+        "search"
+      ],
+      "text": "expand_more Sakuranovel Search JSON Response Novel Search"
+    },
+    {
+      "category": "anime",
+      "path": "/anime/top",
+      "alias": "Top Anime",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "anime",
+        "top",
+        "ranking",
+        "jikan"
+      ],
+      "text": "expand_more Top Anime JSON Response Jikan/MAL Top Ranking"
+    },
+    {
+      "category": "anime",
+      "path": "/anime/trace",
+      "alias": "Trace.moe",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "anime",
+        "image search"
+      ],
+      "text": "expand_more Trace.moe JSON Response Anime Image Search"
+    },
+    {
+      "category": "anime",
+      "path": "/anime/trending",
+      "alias": "Trending Anime",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "anime",
+        "trending",
+        "anilist"
+      ],
+      "text": "expand_more Trending Anime JSON Response AniList Trending"
+    },
+    {
+      "category": "canvas",
+      "path": "/canvas/fakewa",
+      "alias": "Fake WhatsApp",
+      "method": "GET",
+      "tags": [
+        "image",
+        "generator"
+      ],
+      "text": "expand_more Fake WhatsApp Image Generator"
+    },
+    {
+      "category": "canvas",
+      "path": "/canvas/gun",
+      "alias": "Gun Effect",
+      "method": "GET",
+      "tags": [
+        "image response",
+        "gun",
+        "effect",
+        "text",
+        "canvas"
+      ],
+      "text": "expand_more Gun Effect Image Response Gun Effect"
+    },
+    {
+      "category": "canvas",
+      "path": "/canvas/jail",
+      "alias": "Jail Effect",
+      "method": "GET",
+      "tags": [
+        "image response",
+        "jail",
+        "effect",
+        "canvas"
+      ],
+      "text": "expand_more Jail Effect Image Response Jail Effect"
+    },
+    {
+      "category": "canvas",
+      "path": "/canvas/quote",
+      "alias": "Quote Generator",
+      "method": "GET",
+      "tags": [
+        "image response",
+        "quote",
+        "text",
+        "canvas"
+      ],
+      "text": "expand_more Quote Generator Image Response Quote Text"
+    },
+    {
+      "category": "canvas",
+      "path": "/canvas/welcomecard",
+      "alias": "Welcome Card V1",
+      "method": "GET",
+      "tags": [
+        "image response",
+        "welcome",
+        "card",
+        "canvas"
+      ],
+      "text": "expand_more Welcome Card V1 Image Response Welcome Card"
+    },
+    {
+      "category": "download",
+      "path": "/download/aio",
+      "alias": "AIO Downloader",
+      "method": "GET/POST",
+      "tags": [
+        "json response",
+        "aio",
+        "all-in-one",
+        "download"
+      ],
+      "text": "expand_more AIO Downloader JSON Response All-in-One"
+    },
+    {
+      "category": "download",
+      "path": "/download/aiov2",
+      "alias": "AIO Downloader V2",
+      "method": "GET/POST",
+      "tags": [
+        "json response",
+        "aio",
+        "all-in-one",
+        "download"
+      ],
+      "text": "expand_more AIO Downloader V2 JSON Response All-in-One"
+    },
+    {
+      "category": "download",
+      "path": "/download/aiov3",
+      "alias": "AIO Downloader V3",
+      "method": "GET/POST",
+      "tags": [
+        "json response",
+        "aio",
+        "all-in-one",
+        "download"
+      ],
+      "text": "expand_more AIO Downloader V3 JSON Response All-in-One"
+    },
+    {
+      "category": "download",
+      "path": "/download/alight-motion",
+      "alias": "Alight Motion",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "downloader"
+      ],
+      "text": "expand_more Alight Motion JSON Response Downloader"
+    },
+    {
+      "category": "download",
+      "path": "/download/android1",
+      "alias": "Android1",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "downloader",
+        "apk"
+      ],
+      "text": "expand_more Android1 JSON Response Downloader Apk"
+    },
+    {
+      "category": "download",
+      "path": "/download/apk",
+      "alias": "APK Downloader",
+      "method": "GET/POST",
+      "tags": [
+        "json response",
+        "apk",
+        "android",
+        "download"
+      ],
+      "text": "expand_more APK Downloader JSON Response APK"
+    },
+    {
+      "category": "download",
+      "path": "/download/aplmate",
+      "alias": "Aplmate",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "apple music",
+        "downloader"
+      ],
+      "text": "expand_more Aplmate JSON Response Apple Music Downloader"
+    },
+    {
+      "category": "download",
+      "path": "/download/clipto",
+      "alias": "Clipto",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "youtube",
+        "downloader"
+      ],
+      "text": "expand_more Clipto JSON Response Youtube Downloader"
+    },
+    {
+      "category": "download",
+      "path": "/download/densave",
+      "alias": "Densave",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "downloader"
+      ],
+      "text": "expand_more Densave JSON Response Downloader"
+    },
+    {
+      "category": "download",
+      "path": "/download/downr",
+      "alias": "Downr",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "downloader"
+      ],
+      "text": "expand_more Downr JSON Response Downloader"
+    },
+    {
+      "category": "download",
+      "path": "/facebook",
+      "alias": "Facebook Video",
+      "method": "GET/POST",
+      "tags": [
+        "json response",
+        "facebook",
+        "video",
+        "download"
+      ],
+      "text": "expand_more Facebook Video JSON Response Facebook Video"
+    },
+    {
+      "category": "download",
+      "path": "/facebook2",
+      "alias": "Facebook Video V2",
+      "method": "GET/POST",
+      "tags": [
+        "json response",
+        "facebook",
+        "video",
+        "download"
+      ],
+      "text": "expand_more Facebook Video V2 JSON Response Facebook Video"
+    },
+    {
+      "category": "download",
+      "path": "/facebook3",
+      "alias": "Facebook Video V3",
+      "method": "GET/POST",
+      "tags": [
+        "json response",
+        "facebook",
+        "video",
+        "download"
+      ],
+      "text": "expand_more Facebook Video V3 JSON Response Facebook Video"
+    },
+    {
+      "category": "download",
+      "path": "/gdrive",
+      "alias": "Google Drive Downloader",
+      "method": "GET/POST",
+      "tags": [
+        "json response",
+        "google drive",
+        "file",
+        "download"
+      ],
+      "text": "expand_more Google Drive Downloader JSON Response Google Drive"
+    },
+    {
+      "category": "download",
+      "path": "/hdvideo",
+      "alias": "HD Video Downloader",
+      "method": "GET",
+      "tags": [
+        "video",
+        "download"
+      ],
+      "text": "expand_more HD Video Downloader Video Download"
+    },
+    {
+      "category": "download",
+      "path": "/instagram",
+      "alias": "Instagram Downloader",
+      "method": "GET/POST",
+      "tags": [
+        "json response",
+        "instagram",
+        "video",
+        "download"
+      ],
+      "text": "expand_more Instagram Downloader JSON Response Instagram Video"
+    },
+    {
+      "category": "download",
+      "path": "/download/inthistweet",
+      "alias": "InThisTweet",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "twitter",
+        "download"
+      ],
+      "text": "expand_more InThisTweet JSON Response Twitter Download"
+    },
+    {
+      "category": "download",
+      "path": "/mediafire",
+      "alias": "MediaFire Downloader",
+      "method": "GET/POST",
+      "tags": [
+        "json response",
+        "mediafire",
+        "file",
+        "download"
+      ],
+      "text": "expand_more MediaFire Downloader JSON Response MediaFire File"
+    },
+    {
+      "category": "download",
+      "path": "/download/pinterest",
+      "alias": "Pinterest Dl",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "pinterest",
+        "downloader"
+      ],
+      "text": "expand_more Pinterest Dl JSON Response Pinterest Downloader"
+    },
+    {
+      "category": "download",
+      "path": "/play",
+      "alias": "Play Music",
+      "method": "GET/POST",
+      "tags": [
+        "json response",
+        "music",
+        "download",
+        "audio"
+      ],
+      "text": "expand_more Play Music JSON Response Music Audio"
+    },
+    {
+      "category": "download",
+      "path": "/download/savetik",
+      "alias": "Savetik",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "tiktok",
+        "downloader"
+      ],
+      "text": "expand_more Savetik JSON Response Tiktok Downloader"
+    },
+    {
+      "category": "download",
+      "path": "/download/savetube",
+      "alias": "Savetube",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "youtube",
+        "downloader"
+      ],
+      "text": "expand_more Savetube JSON Response Youtube Downloader"
+    },
+    {
+      "category": "download",
+      "path": "/download/soundcloud",
+      "alias": "Scloudsave",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "soundcloud",
+        "downloader"
+      ],
+      "text": "expand_more Scloudsave JSON Response Soundcloud Downloader"
+    },
+    {
+      "category": "download",
+      "path": "/download/seekin",
+      "alias": "Seekin",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "instagram",
+        "downloader"
+      ],
+      "text": "expand_more Seekin JSON Response Instagram Downloader"
+    },
+    {
+      "category": "download",
+      "path": "/download/snaptwitt",
+      "alias": "Snaptwitt",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "twitter",
+        "downloader"
+      ],
+      "text": "expand_more Snaptwitt JSON Response Twitter Downloader"
+    },
+    {
+      "category": "download",
+      "path": "/song",
+      "alias": "Song Download",
+      "method": "GET/POST",
+      "tags": [
+        "json response",
+        "music",
+        "download",
+        "audio"
+      ],
+      "text": "expand_more Song Download JSON Response Music Audio"
+    },
+    {
+      "category": "download",
+      "path": "/download/spodownloader",
+      "alias": "Spodownloader",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "spotify",
+        "downloader"
+      ],
+      "text": "expand_more Spodownloader JSON Response Spotify Downloader"
+    },
+    {
+      "category": "download",
+      "path": "/download/spotdown",
+      "alias": "Spotdown",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "spotify",
+        "downloader"
+      ],
+      "text": "expand_more Spotdown JSON Response Spotify Downloader"
+    },
+    {
+      "category": "download",
+      "path": "/download/spotidown",
+      "alias": "Spotidown",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "spotify",
+        "downloader"
+      ],
+      "text": "expand_more Spotidown JSON Response Spotify Downloader"
+    },
+    {
+      "category": "download",
+      "path": "/download/spotidownloader",
+      "alias": "Spotidownloader",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "spotify",
+        "downloader"
+      ],
+      "text": "expand_more Spotidownloader JSON Response Spotify Downloader"
+    },
+    {
+      "category": "download",
+      "path": "/spotifydl",
+      "alias": "Spotify Downloader",
+      "method": "GET/POST",
+      "tags": [
+        "json response",
+        "spotify",
+        "music",
+        "audio",
+        "download"
+      ],
+      "text": "expand_more Spotify Downloader JSON Response Spotify Music"
+    },
+    {
+      "category": "download",
+      "path": "/spotifydl2",
+      "alias": "Spotify Downloader V2",
+      "method": "GET/POST",
+      "tags": [
+        "json response",
+        "spotify",
+        "music",
+        "audio",
+        "download"
+      ],
+      "text": "expand_more Spotify Downloader V2 JSON Response Spotify Music"
+    },
+    {
+      "category": "download",
+      "path": "/download/spotmate",
+      "alias": "Spotmate",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "spotify",
+        "downloader"
+      ],
+      "text": "expand_more Spotmate JSON Response Spotify Downloader"
+    },
+    {
+      "category": "download",
+      "path": "/download/ssvid",
+      "alias": "Ssvid",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "downloader"
+      ],
+      "text": "expand_more Ssvid JSON Response Downloader"
+    },
+    {
+      "category": "download",
+      "path": "/download/terabox",
+      "alias": "Terabox Downloader",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "download"
+      ],
+      "text": "expand_more Terabox Downloader JSON Response Download"
+    },
+    {
+      "category": "download",
+      "path": "/download/tiktok",
+      "alias": "TikTok Downloader",
+      "method": "GET/POST",
+      "tags": [
+        "json response",
+        "tiktok",
+        "video",
+        "download"
+      ],
+      "text": "expand_more TikTok Downloader JSON Response TikTok Video"
+    },
+    {
+      "category": "download",
+      "path": "/download/tiktokv2",
+      "alias": "TikTok Downloader V2",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "tiktok",
+        "download"
+      ],
+      "text": "expand_more TikTok Downloader V2 JSON Response TikTok Download"
+    },
+    {
+      "category": "download",
+      "path": "/download/tiktokv3",
+      "alias": "TikTok V2",
+      "method": "GET/POST",
+      "tags": [
+        "json response",
+        "tiktok",
+        "video",
+        "download"
+      ],
+      "text": "expand_more TikTok V2 JSON Response TikTok Video"
+    },
+    {
+      "category": "download",
+      "path": "/download/tiktokv4",
+      "alias": "TikTok V4",
+      "method": "GET/POST",
+      "tags": [
+        "json response",
+        "tiktok",
+        "video",
+        "download"
+      ],
+      "text": "expand_more TikTok V4 JSON Response TikTok Video"
+    },
+    {
+      "category": "download",
+      "path": "/download/tiktokdl-rapid",
+      "alias": "Tiktokdl Rapid",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "tiktok",
+        "downloader"
+      ],
+      "text": "expand_more Tiktokdl Rapid JSON Response Tiktok Downloader"
+    },
+    {
+      "category": "download",
+      "path": "/download/tweeload",
+      "alias": "Tweeload",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "twitter",
+        "downloader"
+      ],
+      "text": "expand_more Tweeload JSON Response Twitter Downloader"
+    },
+    {
+      "category": "download",
+      "path": "/download/tweeterdownloader",
+      "alias": "Tweeterdownloader",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "twitter",
+        "downloader"
+      ],
+      "text": "expand_more Tweeterdownloader JSON Response Twitter Downloader"
+    },
+    {
+      "category": "download",
+      "path": "/twitter",
+      "alias": "Twitter/X Downloader",
+      "method": "GET/POST",
+      "tags": [
+        "json response",
+        "twitter",
+        "x",
+        "video",
+        "download"
+      ],
+      "text": "expand_more Twitter/X Downloader JSON Response Twitter Video"
+    },
+    {
+      "category": "download",
+      "path": "/twitterV2",
+      "alias": "Twitter/X Downloader V2",
+      "method": "GET/POST",
+      "tags": [
+        "json response",
+        "twitter",
+        "x",
+        "video",
+        "download"
+      ],
+      "text": "expand_more Twitter/X Downloader V2 JSON Response Twitter Video"
+    },
+    {
+      "category": "download",
+      "path": "/download/vibetik",
+      "alias": "Vibetik",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "tiktok",
+        "downloader"
+      ],
+      "text": "expand_more Vibetik JSON Response Tiktok Downloader"
+    },
+    {
+      "category": "download",
+      "path": "/tools/downloadweb",
+      "alias": "Website Downloader",
+      "method": "GET/POST",
+      "tags": [
+        "json response",
+        "website",
+        "html",
+        "download"
+      ],
+      "text": "expand_more Website Downloader JSON Response Website"
+    },
+    {
+      "category": "download",
+      "path": "/download/xdownloader",
+      "alias": "Xdownloader",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "twitter",
+        "downloader"
+      ],
+      "text": "expand_more Xdownloader JSON Response Twitter Downloader"
+    },
+    {
+      "category": "download",
+      "path": "/download/yt",
+      "alias": "YouTube (Generic)",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "youtube",
+        "download"
+      ],
+      "text": "expand_more YouTube (Generic) JSON Response YouTube Download"
+    },
+    {
+      "category": "download",
+      "path": "/download/ytv3",
+      "alias": "YouTube Downloader V3",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "youtube",
+        "mp3",
+        "mp4",
+        "audio",
+        "video",
+        "download"
+      ],
+      "text": "expand_more YouTube Downloader V3 JSON Response YouTube MP3 MP4 Audio Video expand_more YouTube MP3 JSON Response YouTube MP3 Audio expand_more YouTube MP3 (Alt) Audio YouTube Download expand_more YouTube MP3 (V2) Audio YouTube Download expand_more YouTube MP3 Alt JSON Response YouTube MP3 expand_more YouTube MP3 V2 Audio YouTube Download expand_more YouTube MP3 V3 Audio YouTube Download expand_more YouTube MP4 JSON Response YouTube MP4 Video expand_more YouTube MP4 (V2) Video YouTube Download e"
+    },
+    {
+      "category": "download",
+      "path": "/download/ytmp3",
+      "alias": "YouTube MP3",
+      "method": "GET/POST",
+      "tags": [
+        "json response",
+        "youtube",
+        "mp3",
+        "audio",
+        "download"
+      ],
+      "text": "expand_more YouTube MP3 JSON Response YouTube MP3 Audio"
+    },
+    {
+      "category": "download",
+      "path": "/download/ytmp3v2",
+      "alias": "YouTube MP3 (Alt)",
+      "method": "GET",
+      "tags": [
+        "audio",
+        "youtube",
+        "download"
+      ],
+      "text": "expand_more YouTube MP3 (Alt) Audio YouTube Download"
+    },
+    {
+      "category": "download",
+      "path": "/youtube/mp33",
+      "alias": "YouTube MP3 (V2)",
+      "method": "GET",
+      "tags": [
+        "audio",
+        "youtube",
+        "download"
+      ],
+      "text": "expand_more YouTube MP3 (V2) Audio YouTube Download"
+    },
+    {
+      "category": "download",
+      "path": "/youtube/mp3",
+      "alias": "YouTube MP3 Alt",
+      "method": "GET/POST",
+      "tags": [
+        "json response",
+        "youtube",
+        "mp3",
+        "audio",
+        "download"
+      ],
+      "text": "expand_more YouTube MP3 Alt JSON Response YouTube MP3"
+    },
+    {
+      "category": "download",
+      "path": "/download/ytmp33",
+      "alias": "YouTube MP3 V2",
+      "method": "GET",
+      "tags": [
+        "audio",
+        "youtube",
+        "download"
+      ],
+      "text": "expand_more YouTube MP3 V2 Audio YouTube Download"
+    },
+    {
+      "category": "download",
+      "path": "/download/ytmp333",
+      "alias": "YouTube MP3 V3",
+      "method": "GET",
+      "tags": [
+        "audio",
+        "youtube",
+        "download"
+      ],
+      "text": "expand_more YouTube MP3 V3 Audio YouTube Download"
+    },
+    {
+      "category": "download",
+      "path": "/download/ytmp4",
+      "alias": "YouTube MP4",
+      "method": "GET/POST",
+      "tags": [
+        "json response",
+        "youtube",
+        "mp4",
+        "video",
+        "download"
+      ],
+      "text": "expand_more YouTube MP4 JSON Response YouTube MP4 Video"
+    },
+    {
+      "category": "download",
+      "path": "/youtube/mp444",
+      "alias": "YouTube MP4 (V2)",
+      "method": "GET",
+      "tags": [
+        "video",
+        "youtube",
+        "download"
+      ],
+      "text": "expand_more YouTube MP4 (V2) Video YouTube Download"
+    },
+    {
+      "category": "download",
+      "path": "/youtube/mp4",
+      "alias": "YouTube MP4 Alt",
+      "method": "GET/POST",
+      "tags": [
+        "json response",
+        "youtube",
+        "mp4",
+        "video",
+        "download"
+      ],
+      "text": "expand_more YouTube MP4 Alt JSON Response YouTube MP4"
+    },
+    {
+      "category": "download",
+      "path": "/download/ytmp444",
+      "alias": "YouTube MP4 V2",
+      "method": "GET",
+      "tags": [
+        "video",
+        "youtube",
+        "download"
+      ],
+      "text": "expand_more YouTube MP4 V2 Video YouTube Download"
+    },
+    {
+      "category": "download",
+      "path": "/download/ytdl-rapid",
+      "alias": "Ytdl Rapid",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "youtube",
+        "downloader"
+      ],
+      "text": "expand_more Ytdl Rapid JSON Response Youtube Downloader"
+    },
+    {
+      "category": "download",
+      "path": "/download/ytscribeto",
+      "alias": "Ytscribeto",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "twitter",
+        "downloader"
+      ],
+      "text": "expand_more Ytscribeto JSON Response Twitter Downloader"
+    },
+    {
+      "category": "fun",
+      "path": "/couplepp",
+      "alias": "Couple Profile Pictures",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "couple",
+        "pp",
+        "love",
+        "fun"
+      ],
+      "text": "expand_more Couple Profile Pictures JSON Response Couple Profile"
+    },
+    {
+      "category": "fun",
+      "path": "/dare",
+      "alias": "Dare",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "dare",
+        "game",
+        "fun"
+      ],
+      "text": "expand_more Dare JSON Response Dare Game"
+    },
+    {
+      "category": "fun",
+      "path": "/pickupline",
+      "alias": "Pickup Lines",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "pickup",
+        "love",
+        "fun"
+      ],
+      "text": "expand_more Pickup Lines JSON Response Pickup Love"
+    },
+    {
+      "category": "fun",
+      "path": "/fact",
+      "alias": "Random Facts",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "facts",
+        "random",
+        "fun"
+      ],
+      "text": "expand_more Random Facts JSON Response Facts Random"
+    },
+    {
+      "category": "fun",
+      "path": "/truth",
+      "alias": "Truth",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "truth",
+        "game",
+        "fun"
+      ],
+      "text": "expand_more Truth JSON Response Truth Game"
+    },
+    {
+      "category": "games",
+      "path": "/api/games/trivia",
+      "alias": "Trivia",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "games",
+        "trivia"
+      ],
+      "text": "expand_more Trivia JSON Response Games"
+    },
+    {
+      "category": "games",
+      "path": "/api/games/trivia/categories",
+      "alias": "Trivia Categories",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "games",
+        "trivia"
+      ],
+      "text": "expand_more Trivia Categories JSON Response Games"
+    },
+    {
+      "category": "games",
+      "path": "/api/games/riddle",
+      "alias": "Riddle",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "games",
+        "riddle"
+      ],
+      "text": "expand_more Riddle JSON Response Games"
+    },
+    {
+      "category": "games",
+      "path": "/api/games/joke",
+      "alias": "Joke",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "games",
+        "joke",
+        "fun"
+      ],
+      "text": "expand_more Joke JSON Response Games"
+    },
+    {
+      "category": "games",
+      "path": "/api/games/truth",
+      "alias": "Truth Question",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "games",
+        "truth or dare"
+      ],
+      "text": "expand_more Truth Question JSON Response Games"
+    },
+    {
+      "category": "games",
+      "path": "/api/games/dare",
+      "alias": "Dare Challenge",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "games",
+        "truth or dare"
+      ],
+      "text": "expand_more Dare Challenge JSON Response Games"
+    },
+    {
+      "category": "games",
+      "path": "/api/games/would-you-rather",
+      "alias": "Would You Rather",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "games",
+        "would you rather"
+      ],
+      "text": "expand_more Would You Rather JSON Response Games"
+    },
+    {
+      "category": "games",
+      "path": "/api/games/8ball",
+      "alias": "Magic 8 Ball",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "games",
+        "8ball"
+      ],
+      "text": "expand_more Magic 8 Ball JSON Response Games"
+    },
+    {
+      "category": "games",
+      "path": "/api/games/rps",
+      "alias": "Rock Paper Scissors",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "games",
+        "rps"
+      ],
+      "text": "expand_more Rock Paper Scissors JSON Response Games"
+    },
+    {
+      "category": "games",
+      "path": "/api/games/dice",
+      "alias": "Roll Dice",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "games",
+        "dice"
+      ],
+      "text": "expand_more Roll Dice JSON Response Games"
+    },
+    {
+      "category": "games",
+      "path": "/api/games/coin",
+      "alias": "Coin Flip",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "games",
+        "coin"
+      ],
+      "text": "expand_more Coin Flip JSON Response Games"
+    },
+    {
+      "category": "games",
+      "path": "/api/games/rng",
+      "alias": "Random Number",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "games",
+        "random"
+      ],
+      "text": "expand_more Random Number JSON Response Games"
+    },
+    {
+      "category": "games",
+      "path": "/api/games/word-scramble",
+      "alias": "Word Scramble",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "games",
+        "word"
+      ],
+      "text": "expand_more Word Scramble JSON Response Games"
+    },
+    {
+      "category": "games",
+      "path": "/api/games/hangman",
+      "alias": "Hangman Word",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "games",
+        "hangman",
+        "word"
+      ],
+      "text": "expand_more Hangman Word JSON Response Games"
+    },
+    {
+      "category": "games",
+      "path": "/api/games/chess-puzzle",
+      "alias": "Chess Puzzle",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "games",
+        "chess"
+      ],
+      "text": "expand_more Chess Puzzle JSON Response Games"
+    },
+    {
+      "category": "games",
+      "path": "/api/games/anime-quiz",
+      "alias": "Anime Quiz",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "games",
+        "anime",
+        "quiz"
+      ],
+      "text": "expand_more Anime Quiz JSON Response Games"
+    },
+    {
+      "category": "games",
+      "path": "/api/games/country-quiz",
+      "alias": "Country Quiz",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "games",
+        "country",
+        "quiz"
+      ],
+      "text": "expand_more Country Quiz JSON Response Games"
+    },
+    {
+      "category": "games",
+      "path": "/api/games/shipper",
+      "alias": "Shipper",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "games",
+        "ship",
+        "love"
+      ],
+      "text": "expand_more Shipper JSON Response Games"
+    },
+    {
+      "category": "games",
+      "path": "/api/games/roast",
+      "alias": "Roast",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "games",
+        "roast",
+        "fun"
+      ],
+      "text": "expand_more Roast JSON Response Games"
+    },
+    {
+      "category": "games",
+      "path": "/api/games/compliment",
+      "alias": "Compliment",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "games",
+        "compliment",
+        "fun"
+      ],
+      "text": "expand_more Compliment JSON Response Games"
+    },
+    {
+      "category": "games",
+      "path": "/api/games/never-have-i-ever",
+      "alias": "Never Have I Ever",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "games",
+        "never have i ever"
+      ],
+      "text": "expand_more Never Have I Ever JSON Response Games"
+    },
+    {
+      "category": "games",
+      "path": "/api/games/password-generator",
+      "alias": "Password Generator",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "games",
+        "password",
+        "tools"
+      ],
+      "text": "expand_more Password Generator JSON Response Games"
+    },
+    {
+      "category": "games",
+      "path": "/api/games/wordle-word",
+      "alias": "Wordle Word",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "games",
+        "wordle",
+        "word"
+      ],
+      "text": "expand_more Wordle Word JSON Response Games"
+    },
+    {
+      "category": "imagegen",
+      "path": "/animagine",
+      "alias": "Animagine",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "ai",
+        "anime",
+        "generation",
+        "imagegen"
+      ],
+      "text": "expand_more Animagine JSON Response Anime AI"
+    },
+    {
+      "category": "imagegen",
+      "path": "/api/ephoto/:effect",
+      "alias": "Ephoto Effects",
+      "method": "GET",
+      "tags": [
+        "image",
+        "effects"
+      ],
+      "text": "expand_more Ephoto Effects Image Effects"
+    },
+    {
+      "category": "imagegen",
+      "path": "/epicrealism",
+      "alias": "EpicRealism",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "ai",
+        "realistic",
+        "generation",
+        "imagegen"
+      ],
+      "text": "expand_more EpicRealism JSON Response Realistic AI"
+    },
+    {
+      "category": "imagegen",
+      "path": "/fluxv2",
+      "alias": "Flux V2",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "ai",
+        "flux",
+        "generation",
+        "imagegen"
+      ],
+      "text": "expand_more Flux V2 JSON Response Flux AI"
+    },
+    {
+      "category": "imagegen",
+      "path": "/nanobanana2",
+      "alias": "NanoBanana 2",
+      "method": "GET",
+      "tags": [
+        "image",
+        "ai generated"
+      ],
+      "text": "expand_more NanoBanana 2 Image AI Generated"
+    },
+    {
+      "category": "imagegen",
+      "path": "/pixwith",
+      "alias": "PixWith AI",
+      "method": "GET",
+      "tags": [
+        "image",
+        "ai generated"
+      ],
+      "text": "expand_more PixWith AI Image AI Generated"
+    },
+    {
+      "category": "imagegen",
+      "path": "/ai/writecream/image",
+      "alias": "Writecream Image",
+      "method": "GET",
+      "tags": [
+        "image",
+        "ai generated"
+      ],
+      "text": "expand_more Writecream Image Image AI Generated"
+    },
+    {
+      "category": "imageToImage",
+      "path": "/imageToImage/gpt-image-2",
+      "alias": "GPT Image 2",
+      "method": "GET",
+      "tags": [
+        "image",
+        "ai generated"
+      ],
+      "text": "expand_more GPT Image 2 Image AI Generated"
+    },
+    {
+      "category": "imageToImage",
+      "path": "/imageToImage/seedream",
+      "alias": "Seedream 5.0",
+      "method": "GET",
+      "tags": [
+        "image",
+        "ai generated"
+      ],
+      "text": "expand_more Seedream 5.0 Image AI Generated"
+    },
+    {
+      "category": "news",
+      "path": "/news/aljazeera",
+      "alias": "Al Jazeera News",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "al jazeera",
+        "news",
+        "world"
+      ],
+      "text": "expand_more Al Jazeera News JSON Response Al Jazeera World"
+    },
+    {
+      "category": "news",
+      "path": "/news/bbc",
+      "alias": "BBC News",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "bbc",
+        "news",
+        "world",
+        "tech",
+        "sports",
+        "entertainment"
+      ],
+      "text": "expand_more BBC News JSON Response BBC News"
+    },
+    {
+      "category": "news",
+      "path": "/news/deadline",
+      "alias": "Deadline News",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "deadline",
+        "entertainment",
+        "hollywood",
+        "news"
+      ],
+      "text": "expand_more Deadline News JSON Response Deadline Entertainment"
+    },
+    {
+      "category": "news",
+      "path": "/news/entertainment",
+      "alias": "Entertainment News",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "entertainment",
+        "news",
+        "variety",
+        "deadline",
+        "bbc",
+        "aggregated"
+      ],
+      "text": "expand_more Entertainment News JSON Response Entertainment Aggregated"
+    },
+    {
+      "category": "news",
+      "path": "/news/hackernews",
+      "alias": "Hacker News",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "hacker news",
+        "tech",
+        "dev",
+        "news"
+      ],
+      "text": "expand_more Hacker News JSON Response Hacker News Dev"
+    },
+    {
+      "category": "news",
+      "path": "/news/nytimes",
+      "alias": "NY Times News",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "ny times",
+        "nytimes",
+        "world",
+        "news"
+      ],
+      "text": "expand_more NY Times News JSON Response NY Times World"
+    },
+    {
+      "category": "news",
+      "path": "/news/sports",
+      "alias": "Sports News",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "sports",
+        "news",
+        "bbc sport"
+      ],
+      "text": "expand_more Sports News JSON Response Sports BBC Sport"
+    },
+    {
+      "category": "news",
+      "path": "/news/tech",
+      "alias": "Tech News",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "tech",
+        "technology",
+        "news",
+        "techcrunch",
+        "hacker news",
+        "wired",
+        "aggregated"
+      ],
+      "text": "expand_more Tech News JSON Response Tech Aggregated"
+    },
+    {
+      "category": "news",
+      "path": "/news/techcrunch",
+      "alias": "TechCrunch News",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "techcrunch",
+        "tech",
+        "news",
+        "startup"
+      ],
+      "text": "expand_more TechCrunch News JSON Response TechCrunch Tech"
+    },
+    {
+      "category": "news",
+      "path": "/news/trending",
+      "alias": "Trending News",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "trending",
+        "news",
+        "aggregated",
+        "top headlines"
+      ],
+      "text": "expand_more Trending News JSON Response Trending Aggregated"
+    },
+    {
+      "category": "news",
+      "path": "/news/variety",
+      "alias": "Variety News",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "variety",
+        "entertainment",
+        "news",
+        "hollywood"
+      ],
+      "text": "expand_more Variety News JSON Response Variety Entertainment"
+    },
+    {
+      "category": "news",
+      "path": "/news/wired",
+      "alias": "WIRED News",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "wired",
+        "tech",
+        "news"
+      ],
+      "text": "expand_more WIRED News JSON Response WIRED Tech"
+    },
+    {
+      "category": "news",
+      "path": "/news/world",
+      "alias": "World News",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "world",
+        "news",
+        "aggregated",
+        "bbc",
+        "al jazeera",
+        "ny times"
+      ],
+      "text": "expand_more World News JSON Response World Aggregated"
+    },
+    {
+      "category": "random",
+      "path": "/random/bored",
+      "alias": "Bored Activity",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "bored",
+        "activity",
+        "random"
+      ],
+      "text": "expand_more Bored Activity JSON Response Bored Activity"
+    },
+    {
+      "category": "random",
+      "path": "/random/catfact",
+      "alias": "Cat Facts",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "cat",
+        "facts",
+        "animal"
+      ],
+      "text": "expand_more Cat Facts JSON Response Cat Facts"
+    },
+    {
+      "category": "random",
+      "path": "/api/randomdog",
+      "alias": "Random Dogs",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "dog",
+        "animal",
+        "image"
+      ],
+      "text": "expand_more Random Dogs JSON Response Dog Animal"
+    },
+    {
+      "category": "random",
+      "path": "/random/quotes",
+      "alias": "Random Quotes",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "quotes",
+        "inspirational",
+        "random"
+      ],
+      "text": "expand_more Random Quotes JSON Response Quotes Inspirational"
+    },
+    {
+      "category": "random",
+      "path": "/random/waifu",
+      "alias": "Random Waifu",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "waifu",
+        "anime",
+        "image"
+      ],
+      "text": "expand_more Random Waifu JSON Response Waifu Anime"
+    },
+    {
+      "category": "random",
+      "path": "/random/technews",
+      "alias": "Tech News",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "tech",
+        "news",
+        "random"
+      ],
+      "text": "expand_more Tech News JSON Response Tech News"
+    },
+    {
+      "category": "search",
+      "path": "/animeindo/latest",
+      "alias": "Animeindo Latest",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "anime",
+        "latest",
+        "indonesia"
+      ],
+      "text": "expand_more Animeindo Latest JSON Response Anime Latest"
+    },
+    {
+      "category": "search",
+      "path": "/animeindo/search",
+      "alias": "Animeindo Search",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "anime",
+        "search",
+        "indonesia"
+      ],
+      "text": "expand_more Animeindo Search JSON Response Anime"
+    },
+    {
+      "category": "search",
+      "path": "/search/applemusic",
+      "alias": "Apple Music Search",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "music",
+        "search"
+      ],
+      "text": "expand_more Apple Music Search JSON Response Music Search"
+    },
+    {
+      "category": "search",
+      "path": "/search/brainly",
+      "alias": "Brainly Search",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "education",
+        "search"
+      ],
+      "text": "expand_more Brainly Search JSON Response Education Search"
+    },
+    {
+      "category": "search",
+      "path": "/search/deviantart",
+      "alias": "Deviantart",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "art",
+        "search"
+      ],
+      "text": "expand_more Deviantart JSON Response Art Search"
+    },
+    {
+      "category": "search",
+      "path": "/search/semoji",
+      "alias": "Emoji Search",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "emoji",
+        "search"
+      ],
+      "text": "expand_more Emoji Search JSON Response Emoji"
+    },
+    {
+      "category": "search",
+      "path": "/lyrics/genius",
+      "alias": "Genius Lyrics Search",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "lyrics",
+        "genius"
+      ],
+      "text": "expand_more Genius Lyrics Search JSON Response Lyrics Genius"
+    },
+    {
+      "category": "search",
+      "path": "/search/google",
+      "alias": "Google Search",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "search"
+      ],
+      "text": "expand_more Google Search JSON Response Search"
+    },
+    {
+      "category": "search",
+      "path": "/search/jobstreet",
+      "alias": "JobStreet Search",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "jobs",
+        "search"
+      ],
+      "text": "expand_more JobStreet Search JSON Response Jobs Search"
+    },
+    {
+      "category": "search",
+      "path": "/lyrics/lrclib",
+      "alias": "LRCLib Synced Lyrics",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "lyrics"
+      ],
+      "text": "expand_more LRCLib Synced Lyrics JSON Response Lyrics"
+    },
+    {
+      "category": "search",
+      "path": "/lyrics",
+      "alias": "Lyrics",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "lyrics",
+        "music",
+        "song"
+      ],
+      "text": "expand_more Lyrics JSON Response Lyrics Music"
+    },
+    {
+      "category": "search",
+      "path": "/lyrics/details",
+      "alias": "Lyrics Details",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "lyrics"
+      ],
+      "text": "expand_more Lyrics Details JSON Response Lyrics"
+    },
+    {
+      "category": "search",
+      "path": "/lyrics/search",
+      "alias": "Lyrics Search",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "lyrics",
+        "search"
+      ],
+      "text": "expand_more Lyrics Search JSON Response Lyrics Search"
+    },
+    {
+      "category": "search",
+      "path": "/lyrics2",
+      "alias": "Lyrics V2",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "lyrics",
+        "music",
+        "song"
+      ],
+      "text": "expand_more Lyrics V2 JSON Response Lyrics Music"
+    },
+    {
+      "category": "search",
+      "path": "/lyrics3",
+      "alias": "Lyrics V3",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "lyrics",
+        "music",
+        "song"
+      ],
+      "text": "expand_more Lyrics V3 JSON Response Lyrics Music"
+    },
+    {
+      "category": "search",
+      "path": "/search/pinterest",
+      "alias": "Pinterest Search",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "pinterest",
+        "images",
+        "search"
+      ],
+      "text": "expand_more Pinterest Search JSON Response Pinterest Images"
+    },
+    {
+      "category": "search",
+      "path": "/pinterest",
+      "alias": "Pinterest Search",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "pinterest"
+      ],
+      "text": "expand_more Pinterest Search JSON Response Pinterest"
+    },
+    {
+      "category": "search",
+      "path": "/search/playstore",
+      "alias": "Playstore Search",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "playstore",
+        "apps",
+        "android"
+      ],
+      "text": "expand_more Playstore Search JSON Response Playstore Apps"
+    },
+    {
+      "category": "search",
+      "path": "/search/soundcloud",
+      "alias": "SoundCloud Search",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "soundcloud",
+        "music",
+        "search"
+      ],
+      "text": "expand_more SoundCloud Search JSON Response SoundCloud Music"
+    },
+    {
+      "category": "search",
+      "path": "/search/spotify",
+      "alias": "Spotify Search V1",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "spotify",
+        "music",
+        "search"
+      ],
+      "text": "expand_more Spotify Search V1 JSON Response Spotify Music"
+    },
+    {
+      "category": "search",
+      "path": "/search/spotify-v2",
+      "alias": "Spotify Search V2",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "spotify",
+        "music",
+        "search"
+      ],
+      "text": "expand_more Spotify Search V2 JSON Response Spotify Music"
+    },
+    {
+      "category": "search",
+      "path": "/search/steam",
+      "alias": "Steam Search",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "steam",
+        "games",
+        "search"
+      ],
+      "text": "expand_more Steam Search JSON Response Steam Games"
+    },
+    {
+      "category": "search",
+      "path": "/search/sticker",
+      "alias": "Sticker Search",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "sticker",
+        "images",
+        "search"
+      ],
+      "text": "expand_more Sticker Search JSON Response Sticker"
+    },
+    {
+      "category": "search",
+      "path": "/search/stickerly",
+      "alias": "Stickerly",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "stickers",
+        "search"
+      ],
+      "text": "expand_more Stickerly JSON Response Stickers Search"
+    },
+    {
+      "category": "search",
+      "path": "/search/viu",
+      "alias": "Viu Search",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "drama",
+        "search"
+      ],
+      "text": "expand_more Viu Search JSON Response Drama Search"
+    },
+    {
+      "category": "search",
+      "path": "/search/wallpaper",
+      "alias": "Wallpapers Search",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "wallpaper",
+        "images",
+        "search"
+      ],
+      "text": "expand_more Wallpapers Search JSON Response Wallpaper Images"
+    },
+    {
+      "category": "search",
+      "path": "/search/xnxx",
+      "alias": "Xnxx Search",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "xnxx",
+        "video",
+        "search"
+      ],
+      "text": "expand_more Xnxx Search JSON Response Xnxx Video expand_more Xvideo Search JSON Response Xvideo Video expand_more YouTube Search JSON Response YouTube Video"
+    },
+    {
+      "category": "search",
+      "path": "/search/xvideo",
+      "alias": "Xvideo Search",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "xvideo",
+        "video",
+        "search"
+      ],
+      "text": "expand_more Xvideo Search JSON Response Xvideo Video"
+    },
+    {
+      "category": "search",
+      "path": "/youtube/search",
+      "alias": "YouTube Search",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "youtube",
+        "video",
+        "search"
+      ],
+      "text": "expand_more YouTube Search JSON Response YouTube Video"
+    },
+    {
+      "category": "socialboost",
+      "path": "/api/tiktok/boost",
+      "alias": "TikTok Boost",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "tiktok",
+        "social boost"
+      ],
+      "text": "expand_more TikTok Boost JSON Response TikTok"
+    },
+    {
+      "category": "socialboost",
+      "path": "/api/tiktok/boost2",
+      "alias": "TikTok Boost 2",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "tiktok",
+        "social boost"
+      ],
+      "text": "expand_more TikTok Boost 2 JSON Response TikTok"
+    },
+    {
+      "category": "socialboost",
+      "path": "/api/tiktok/boost3",
+      "alias": "TikTok Boost 3",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "tiktok",
+        "social boost"
+      ],
+      "text": "expand_more TikTok Boost 3 JSON Response TikTok"
+    },
+    {
+      "category": "socialboost",
+      "path": "/api/instagram/boost",
+      "alias": "Instagram Boost",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "instagram",
+        "social boost"
+      ],
+      "text": "expand_more Instagram Boost JSON Response Instagram"
+    },
+    {
+      "category": "socialboost",
+      "path": "/api/instagram/boost2",
+      "alias": "Instagram Boost 2",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "instagram",
+        "social boost"
+      ],
+      "text": "expand_more Instagram Boost 2 JSON Response Instagram"
+    },
+    {
+      "category": "socialboost",
+      "path": "/api/youtube/boost",
+      "alias": "YouTube Boost",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "youtube",
+        "social boost"
+      ],
+      "text": "expand_more YouTube Boost JSON Response YouTube"
+    },
+    {
+      "category": "socialboost",
+      "path": "/api/youtube/boost2",
+      "alias": "YouTube Boost 2",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "youtube",
+        "social boost"
+      ],
+      "text": "expand_more YouTube Boost 2 JSON Response YouTube"
+    },
+    {
+      "category": "socialboost",
+      "path": "/api/facebook/boost",
+      "alias": "Facebook Boost",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "facebook",
+        "social boost"
+      ],
+      "text": "expand_more Facebook Boost link COPY URL JSON Response Facebook"
+    },
+    {
+      "category": "socialboost",
+      "path": "/api/twitter/boost",
+      "alias": "Twitter Boost",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "twitter",
+        "x",
+        "social boost"
+      ],
+      "text": "expand_more Twitter Boost link COPY URL JSON Response Twitter"
+    },
+    {
+      "category": "socialboost",
+      "path": "/api/tiktok/boost4",
+      "alias": "TikTok Boost 4",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "tiktok",
+        "social boost"
+      ],
+      "text": "expand_more TikTok Boost 4 link COPY URL JSON Response TikTok"
+    },
+    {
+      "category": "socialboost",
+      "path": "/api/tiktok/boost5",
+      "alias": "TikTok Boost 5",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "tiktok",
+        "social boost"
+      ],
+      "text": "expand_more TikTok Boost 5 link COPY URL JSON Response TikTok"
+    },
+    {
+      "category": "socialboost",
+      "path": "/api/tiktok/boost6",
+      "alias": "TikTok Boost 6",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "tiktok",
+        "social boost"
+      ],
+      "text": "expand_more TikTok Boost 6 link COPY URL JSON Response TikTok"
+    },
+    {
+      "category": "socialboost",
+      "path": "/api/youtube/boost3",
+      "alias": "YouTube Boost 3",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "youtube",
+        "social boost"
+      ],
+      "text": "expand_more YouTube Boost 3 link COPY URL JSON Response YouTube"
+    },
+    {
+      "category": "socialboost",
+      "path": "/api/youtube/boost4",
+      "alias": "YouTube Boost 4",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "youtube",
+        "social boost"
+      ],
+      "text": "expand_more YouTube Boost 4 link COPY URL JSON Response YouTube"
+    },
+    {
+      "category": "socialboost",
+      "path": "/api/instagram/boost3",
+      "alias": "Instagram Boost 3",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "instagram",
+        "social boost"
+      ],
+      "text": "expand_more Instagram Boost 3 link COPY URL JSON Response Instagram"
+    },
+    {
+      "category": "socialboost",
+      "path": "/api/socialboost/wamessagereact",
+      "alias": "WhatsApp Message React",
+      "method": "POST",
+      "tags": [
+        "json response",
+        "whatsapp",
+        "channel",
+        "react",
+        "emoji",
+        "social boost"
+      ],
+      "text": "expand_more WhatsApp Message React JSON Response WhatsApp Social Boost"
+    },
+    {
+      "category": "sports",
+      "path": "/sports/live",
+      "alias": "Live Scores",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "live",
+        "aggregated",
+        "sports"
+      ],
+      "text": "expand_more Live Scores JSON Response Live Aggregated"
+    },
+    {
+      "category": "sports",
+      "path": "/sports/nba/scores",
+      "alias": "NBA Scores",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "nba",
+        "scores",
+        "sports"
+      ],
+      "text": "expand_more NBA Scores JSON Response NBA Scores"
+    },
+    {
+      "category": "sports",
+      "path": "/sports/nba/standings",
+      "alias": "NBA Standings",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "nba",
+        "standings",
+        "sports"
+      ],
+      "text": "expand_more NBA Standings JSON Response NBA Standings"
+    },
+    {
+      "category": "sports",
+      "path": "/sports/nfl/scores",
+      "alias": "NFL Scores",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "nfl",
+        "scores",
+        "sports"
+      ],
+      "text": "expand_more NFL Scores JSON Response NFL Scores"
+    },
+    {
+      "category": "sports",
+      "path": "/sports/nfl/standings",
+      "alias": "NFL Standings",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "nfl",
+        "standings",
+        "sports"
+      ],
+      "text": "expand_more NFL Standings JSON Response NFL Standings"
+    },
+    {
+      "category": "sports",
+      "path": "/sports/player",
+      "alias": "Player Search",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "player",
+        "search",
+        "sports"
+      ],
+      "text": "expand_more Player Search JSON Response Player Search"
+    },
+    {
+      "category": "sports",
+      "path": "/sports/soccer/scores",
+      "alias": "Soccer Scores",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "soccer",
+        "scores",
+        "sports"
+      ],
+      "text": "expand_more Soccer Scores JSON Response Soccer Scores"
+    },
+    {
+      "category": "sports",
+      "path": "/sports/soccer/standings",
+      "alias": "Soccer Standings",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "soccer",
+        "standings",
+        "sports"
+      ],
+      "text": "expand_more Soccer Standings JSON Response Soccer Standings"
+    },
+    {
+      "category": "sports",
+      "path": "/sports/highlights",
+      "alias": "Sports Highlights",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "espn",
+        "highlights",
+        "sports"
+      ],
+      "text": "expand_more Sports Highlights JSON Response ESPN Highlights"
+    },
+    {
+      "category": "sports",
+      "path": "/sports/team",
+      "alias": "Team Search",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "team",
+        "search",
+        "sports"
+      ],
+      "text": "expand_more Team Search JSON Response Team Search"
+    },
+    {
+      "category": "stalk",
+      "path": "/ffstalk",
+      "alias": "FreeFire Stalk",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "freefire",
+        "game",
+        "stalk"
+      ],
+      "text": "expand_more FreeFire Stalk JSON Response FreeFire Game"
+    },
+    {
+      "category": "stalk",
+      "path": "/githubStalk",
+      "alias": "GitHub Stalk",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "github",
+        "stalk",
+        "developer"
+      ],
+      "text": "expand_more GitHub Stalk JSON Response GitHub Stalk"
+    },
+    {
+      "category": "stalk",
+      "path": "/igstalk",
+      "alias": "Instagram Stalk",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "instagram",
+        "stalk",
+        "social media"
+      ],
+      "text": "expand_more Instagram Stalk JSON Response Instagram Stalk"
+    },
+    {
+      "category": "stalk",
+      "path": "/stalk/npm",
+      "alias": "NPM Package Stalk",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "npm",
+        "package",
+        "stalk"
+      ],
+      "text": "expand_more NPM Package Stalk JSON Response NPM Package"
+    },
+    {
+      "category": "stalk",
+      "path": "/stalk/pinterest",
+      "alias": "Pinterest Stalk",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "pinterest",
+        "stalk",
+        "social media"
+      ],
+      "text": "expand_more Pinterest Stalk JSON Response Pinterest Stalk"
+    },
+    {
+      "category": "stalk",
+      "path": "/stalk/roblox",
+      "alias": "Roblox Stalk",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "roblox",
+        "gaming",
+        "stalk"
+      ],
+      "text": "expand_more Roblox Stalk JSON Response Roblox Gaming"
+    },
+    {
+      "category": "stalk",
+      "path": "/stalk/snapchat",
+      "alias": "Snapchat Stalk",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "snapchat",
+        "stalk",
+        "social media"
+      ],
+      "text": "expand_more Snapchat Stalk JSON Response Snapchat Stalk"
+    },
+    {
+      "category": "stalk",
+      "path": "/stalk/soundcloud",
+      "alias": "SoundCloud Stalk",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "soundcloud",
+        "music",
+        "stalk"
+      ],
+      "text": "expand_more SoundCloud Stalk JSON Response SoundCloud Stalk"
+    },
+    {
+      "category": "stalk",
+      "path": "/stalk/spotify",
+      "alias": "Spotify Stalk",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "spotify",
+        "music",
+        "stalk"
+      ],
+      "text": "expand_more Spotify Stalk JSON Response Spotify Music expand_more Steam Stalk JSON Response Steam Gaming expand_more Telegram Stalk JSON Response Telegram Stalk expand_more TikTok Stalk JSON Response TikTok Stalk expand_more Tokviewer JSON Response Tiktok Stalk"
+    },
+    {
+      "category": "stalk",
+      "path": "/stalk/steam",
+      "alias": "Steam Stalk",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "steam",
+        "gaming",
+        "stalk"
+      ],
+      "text": "expand_more Steam Stalk JSON Response Steam Gaming"
+    },
+    {
+      "category": "stalk",
+      "path": "/stalk/telegram",
+      "alias": "Telegram Stalk",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "telegram",
+        "stalk",
+        "social media"
+      ],
+      "text": "expand_more Telegram Stalk JSON Response Telegram Stalk"
+    },
+    {
+      "category": "stalk",
+      "path": "/tiktokStalk",
+      "alias": "TikTok Stalk",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "tiktok",
+        "stalk",
+        "social media"
+      ],
+      "text": "expand_more TikTok Stalk JSON Response TikTok Stalk"
+    },
+    {
+      "category": "stalk",
+      "path": "/stalk/tokviewer",
+      "alias": "Tokviewer",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "tiktok",
+        "stalk"
+      ],
+      "text": "expand_more Tokviewer JSON Response Tiktok Stalk"
+    },
+    {
+      "category": "stalk",
+      "path": "/stalk/twitter",
+      "alias": "Twitter/X Stalk",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "twitter",
+        "x",
+        "stalk",
+        "social media"
+      ],
+      "text": "expand_more Twitter/X Stalk JSON Response Twitter Stalk"
+    },
+    {
+      "category": "stalk",
+      "path": "/stalk/wa",
+      "alias": "WhatsApp Channel Stalk",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "whatsapp",
+        "channel",
+        "stalk"
+      ],
+      "text": "expand_more WhatsApp Channel Stalk JSON Response WhatsApp Channel"
+    },
+    {
+      "category": "stalk",
+      "path": "/stalk/youtube",
+      "alias": "YouTube Stalk",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "youtube",
+        "video",
+        "stalk"
+      ],
+      "text": "expand_more YouTube Stalk JSON Response YouTube Stalk"
+    },
+    {
+      "category": "tempmail",
+      "path": "/tempmail/emailnator/create",
+      "alias": "Emailnator Create",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "tempmail"
+      ],
+      "text": "expand_more Emailnator Create JSON Response Tempmail"
+    },
+    {
+      "category": "tempmail",
+      "path": "/tempmail/emailnator/inbox",
+      "alias": "Emailnator Inbox",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "tempmail"
+      ],
+      "text": "expand_more Emailnator Inbox JSON Response Tempmail"
+    },
+    {
+      "category": "tempmail",
+      "path": "/tempmail/guerrilla/inbox",
+      "alias": "Guerrilla Mail Check Inbox",
+      "method": "GET",
+      "tags": [
+        "tempmail",
+        "disposable",
+        "email",
+        "guerrilla",
+        "inbox",
+        "messages",
+        "check"
+      ],
+      "text": "expand_more Guerrilla Mail Check Inbox JSON Response Guerrilla Mail Requires sid_token"
+    },
+    {
+      "category": "tempmail",
+      "path": "/tempmail/guerrilla/create",
+      "alias": "Guerrilla Mail Create Session",
+      "method": "GET",
+      "tags": [
+        "tempmail",
+        "disposable",
+        "email",
+        "guerrilla",
+        "create",
+        "session",
+        "throwaway"
+      ],
+      "text": "expand_more Guerrilla Mail Create Session JSON Response Guerrilla Mail Returns sid_token"
+    },
+    {
+      "category": "tempmail",
+      "path": "/tempmail/guerrilla/message",
+      "alias": "Guerrilla Mail Read Message",
+      "method": "GET",
+      "tags": [
+        "tempmail",
+        "disposable",
+        "email",
+        "guerrilla",
+        "message",
+        "read",
+        "content"
+      ],
+      "text": "expand_more Guerrilla Mail Read Message JSON Response Guerrilla Mail Requires sid_token + mail_id"
+    },
+    {
+      "category": "tempmail",
+      "path": "/tempmail/guerrilla/setuser",
+      "alias": "Guerrilla Mail Set Username",
+      "method": "GET",
+      "tags": [
+        "tempmail",
+        "disposable",
+        "email",
+        "guerrilla",
+        "setuser",
+        "username",
+        "custom"
+      ],
+      "text": "expand_more Guerrilla Mail Set Username JSON Response Guerrilla Mail Custom Address"
+    },
+    {
+      "category": "tempmail",
+      "path": "/tempmail/mailtm/inbox",
+      "alias": "mail.tm Check Inbox",
+      "method": "GET",
+      "tags": [
+        "tempmail",
+        "disposable",
+        "email",
+        "mailtm",
+        "inbox",
+        "messages",
+        "check"
+      ],
+      "text": "expand_more mail.tm Check Inbox JSON Response mail.tm Requires Token"
+    },
+    {
+      "category": "tempmail",
+      "path": "/tempmail/mailtm/create",
+      "alias": "mail.tm Create Inbox",
+      "method": "GET",
+      "tags": [
+        "tempmail",
+        "disposable",
+        "email",
+        "mailtm",
+        "create",
+        "inbox",
+        "throwaway"
+      ],
+      "text": "expand_more mail.tm Create Inbox JSON Response mail.tm Returns Token"
+    },
+    {
+      "category": "tempmail",
+      "path": "/tempmail/mailtm/delete",
+      "alias": "mail.tm Delete Account",
+      "method": "GET",
+      "tags": [
+        "tempmail",
+        "disposable",
+        "email",
+        "mailtm",
+        "delete",
+        "account",
+        "destroy"
+      ],
+      "text": "expand_more mail.tm Delete Account JSON Response mail.tm Requires Token"
+    },
+    {
+      "category": "tempmail",
+      "path": "/tempmail/mailtm/message",
+      "alias": "mail.tm Read Message",
+      "method": "GET",
+      "tags": [
+        "tempmail",
+        "disposable",
+        "email",
+        "mailtm",
+        "message",
+        "read",
+        "content"
+      ],
+      "text": "expand_more mail.tm Read Message JSON Response mail.tm Requires Token + ID"
+    },
+    {
+      "category": "tempmail",
+      "path": "/tempmail/tempmailio/inbox",
+      "alias": "temp-mail.io Check Inbox",
+      "method": "GET",
+      "tags": [
+        "tempmail",
+        "disposable",
+        "email",
+        "tempmailio",
+        "inbox",
+        "messages",
+        "check"
+      ],
+      "text": "expand_more temp-mail.io Check Inbox JSON Response temp-mail.io Requires Email + Token"
+    },
+    {
+      "category": "tempmail",
+      "path": "/tempmail/tempmailio/create",
+      "alias": "temp-mail.io Create Inbox",
+      "method": "GET",
+      "tags": [
+        "tempmail",
+        "disposable",
+        "email",
+        "tempmailio",
+        "create",
+        "inbox",
+        "throwaway"
+      ],
+      "text": "expand_more temp-mail.io Create Inbox JSON Response temp-mail.io Returns Token"
+    },
+    {
+      "category": "tempmail",
+      "path": "/tempmail/tempmailio/delete",
+      "alias": "temp-mail.io Delete Address",
+      "method": "GET",
+      "tags": [
+        "tempmail",
+        "disposable",
+        "email",
+        "tempmailio",
+        "delete",
+        "address",
+        "destroy"
+      ],
+      "text": "expand_more temp-mail.io Delete Address JSON Response temp-mail.io Requires Email + Token"
+    },
+    {
+      "category": "tools",
+      "path": "/tempnumber/receive-smss/numbers",
+      "alias": "Receive-SMSS Numbers",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "tempnumber",
+        "sms",
+        "phone",
+        "receive-smss"
+      ],
+      "text": "expand_more Receive-SMSS Numbers JSON Response Temp Number"
+    },
+    {
+      "category": "tools",
+      "path": "/tempnumber/receive-smss/inbox",
+      "alias": "Receive-SMSS Inbox",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "tempnumber",
+        "sms",
+        "inbox",
+        "phone",
+        "receive-smss"
+      ],
+      "text": "expand_more Receive-SMSS Inbox JSON Response Temp Number"
+    },
+    {
+      "category": "tools",
+      "path": "/tempnumber/sms24/numbers",
+      "alias": "SMS24 Numbers",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "tempnumber",
+        "sms",
+        "phone",
+        "sms24"
+      ],
+      "text": "expand_more SMS24 Numbers JSON Response Temp Number"
+    },
+    {
+      "category": "tools",
+      "path": "/tempnumber/sms24/inbox",
+      "alias": "SMS24 Inbox",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "tempnumber",
+        "sms",
+        "inbox",
+        "phone",
+        "sms24"
+      ],
+      "text": "expand_more SMS24 Inbox JSON Response Temp Number"
+    },
+    {
+      "category": "tools",
+      "path": "/tempnumber/receive-sms-online/numbers",
+      "alias": "Receive-SMS-Online Numbers",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "tempnumber",
+        "sms",
+        "phone"
+      ],
+      "text": "expand_more Receive-SMS-Online Numbers JSON Response Temp Number"
+    },
+    {
+      "category": "tools",
+      "path": "/tempnumber/receive-sms-online/inbox",
+      "alias": "Receive-SMS-Online Inbox",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "tempnumber",
+        "sms",
+        "inbox",
+        "phone"
+      ],
+      "text": "expand_more Receive-SMS-Online Inbox JSON Response Temp Number"
+    },
+    {
+      "category": "tools",
+      "path": "/tempnumber/hs3x/numbers",
+      "alias": "HS3X Numbers",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "tempnumber",
+        "sms",
+        "phone",
+        "hs3x"
+      ],
+      "text": "expand_more HS3X Numbers JSON Response Temp Number"
+    },
+    {
+      "category": "tools",
+      "path": "/tempnumber/hs3x/inbox",
+      "alias": "HS3X Inbox",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "tempnumber",
+        "sms",
+        "inbox",
+        "phone",
+        "hs3x"
+      ],
+      "text": "expand_more HS3X Inbox JSON Response Temp Number"
+    },
+    {
+      "category": "tools",
+      "path": "/tempnumber/receivesms/numbers",
+      "alias": "ReceiveSMS Numbers",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "tempnumber",
+        "sms",
+        "phone",
+        "receivesms"
+      ],
+      "text": "expand_more ReceiveSMS Numbers JSON Response Temp Number"
+    },
+    {
+      "category": "tools",
+      "path": "/tempnumber/receivesms/inbox",
+      "alias": "ReceiveSMS Inbox",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "tempnumber",
+        "sms",
+        "inbox",
+        "phone",
+        "receivesms"
+      ],
+      "text": "expand_more ReceiveSMS Inbox JSON Response Temp Number"
+    },
+    {
+      "category": "tools",
+      "path": "/tempnumber/smstome/numbers",
+      "alias": "SMSTome Numbers",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "tempnumber",
+        "sms",
+        "phone",
+        "smstome"
+      ],
+      "text": "expand_more SMSTome Numbers JSON Response Temp Number"
+    },
+    {
+      "category": "tools",
+      "path": "/tempnumber/smstome/inbox",
+      "alias": "SMSTome Inbox",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "tempnumber",
+        "sms",
+        "inbox",
+        "phone",
+        "smstome"
+      ],
+      "text": "expand_more SMSTome Inbox JSON Response Temp Number"
+    },
+    {
+      "category": "tools",
+      "path": "/api/detect",
+      "alias": "AI Text Detector",
+      "method": "GET/POST",
+      "tags": [
+        "json response",
+        "ai",
+        "detector",
+        "tools"
+      ],
+      "text": "expand_more AI Text Detector JSON Response AI Detector"
+    },
+    {
+      "category": "tools",
+      "path": "/tools/humanize",
+      "alias": "AI Text Humanizer",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "ai"
+      ],
+      "text": "expand_more AI Text Humanizer JSON Response AI"
+    },
+    {
+      "category": "tools",
+      "path": "/tools/akunlama-inbox",
+      "alias": "Akunlama",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "email",
+        "inbox"
+      ],
+      "text": "expand_more Akunlama JSON Response Email Inbox"
+    },
+    {
+      "category": "tools",
+      "path": "/tools/decode",
+      "alias": "Base64 Decode",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "convert"
+      ],
+      "text": "expand_more Base64 Decode JSON Response Convert"
+    },
+    {
+      "category": "tools",
+      "path": "/tools/encode",
+      "alias": "Base64 Encode",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "convert"
+      ],
+      "text": "expand_more Base64 Encode JSON Response Convert"
+    },
+    {
+      "category": "tools",
+      "path": "/bible",
+      "alias": "Bible",
+      "method": "GET/POST",
+      "tags": [
+        "json response",
+        "bible",
+        "christian",
+        "tools"
+      ],
+      "text": "expand_more Bible JSON Response Bible"
+    },
+    {
+      "category": "tools",
+      "path": "/generate/book",
+      "alias": "Book Generator",
+      "method": "GET/POST",
+      "tags": [
+        "json response",
+        "book",
+        "generator",
+        "tools"
+      ],
+      "text": "expand_more Book Generator JSON Response Book"
+    },
+    {
+      "category": "tools",
+      "path": "/bypass/cf",
+      "alias": "Bypass Cf",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "bypass",
+        "cloudflare"
+      ],
+      "text": "expand_more Bypass Cf JSON Response Bypass Cloudflare"
+    },
+    {
+      "category": "tools",
+      "path": "/bypass/city",
+      "alias": "Bypass City",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "bypass"
+      ],
+      "text": "expand_more Bypass City JSON Response Bypass"
+    },
+    {
+      "category": "tools",
+      "path": "/bypass/recaptcha",
+      "alias": "Bypass Recaptcha",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "bypass",
+        "captcha"
+      ],
+      "text": "expand_more Bypass Recaptcha JSON Response Bypass Captcha"
+    },
+    {
+      "category": "tools",
+      "path": "/bypass/tools",
+      "alias": "Bypass Tools",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "bypass"
+      ],
+      "text": "expand_more Bypass Tools JSON Response Bypass"
+    },
+    {
+      "category": "tools",
+      "path": "/tools/calculate",
+      "alias": "Calculator",
+      "method": "GET/POST",
+      "tags": [
+        "json response",
+        "calculator",
+        "math",
+        "tools"
+      ],
+      "text": "expand_more Calculator JSON Response Calculator"
+    },
+    {
+      "category": "tools",
+      "path": "/tools/ccgen",
+      "alias": "CC Generator",
+      "method": "GET/POST",
+      "tags": [
+        "json response",
+        "credit card",
+        "generator",
+        "tools"
+      ],
+      "text": "expand_more CC Generator JSON Response Generator"
+    },
+    {
+      "category": "tools",
+      "path": "/convert/mp3",
+      "alias": "Convert to MP3",
+      "method": "GET",
+      "tags": [
+        "audio",
+        "convert"
+      ],
+      "text": "expand_more Convert to MP3 Audio Convert"
+    },
+    {
+      "category": "tools",
+      "path": "/tools/convert",
+      "alias": "Currency Converter",
+      "method": "GET/POST",
+      "tags": [
+        "json response",
+        "currency",
+        "converter",
+        "tools"
+      ],
+      "text": "expand_more Currency Converter JSON Response Currency"
+    },
+    {
+      "category": "tools",
+      "path": "/ai/dalle",
+      "alias": "DALL·E",
+      "method": "GET/POST",
+      "tags": [
+        "image response",
+        "ai",
+        "dalle",
+        "tools"
+      ],
+      "text": "expand_more DALL·E Image Response DALL·E"
+    },
+    {
+      "category": "tools",
+      "path": "/flux",
+      "alias": "Flux",
+      "method": "GET/POST",
+      "tags": [
+        "image response",
+        "ai",
+        "flux",
+        "tools"
+      ],
+      "text": "expand_more Flux Image Response Flux"
+    },
+    {
+      "category": "tools",
+      "path": "/fluxpro",
+      "alias": "Flux Pro",
+      "method": "GET/POST",
+      "tags": [
+        "image response",
+        "ai",
+        "flux",
+        "tools"
+      ],
+      "text": "expand_more Flux Pro Image Response Flux Pro"
+    },
+    {
+      "category": "tools",
+      "path": "/tools/font-analyzer",
+      "alias": "Font Analyzer",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "web"
+      ],
+      "text": "expand_more Font Analyzer JSON Response Web"
+    },
+    {
+      "category": "tools",
+      "path": "/tools/translate",
+      "alias": "Google Translate",
+      "method": "GET/POST",
+      "tags": [
+        "json response",
+        "translate",
+        "google",
+        "tools"
+      ],
+      "text": "expand_more Google Translate JSON Response Translate"
+    },
+    {
+      "category": "tools",
+      "path": "/converter/html2image",
+      "alias": "HTML to Image",
+      "method": "GET",
+      "tags": [
+        "image",
+        "convert"
+      ],
+      "text": "expand_more HTML to Image Image Convert"
+    },
+    {
+      "category": "tools",
+      "path": "/tools/html2img",
+      "alias": "HTML to Image V2",
+      "method": "GET",
+      "tags": [
+        "image",
+        "convert"
+      ],
+      "text": "expand_more HTML to Image V2 Image Convert"
+    },
+    {
+      "category": "tools",
+      "path": "/imgscan",
+      "alias": "Image Scanner",
+      "method": "GET/POST",
+      "tags": [
+        "json response",
+        "image",
+        "scan",
+        "tools"
+      ],
+      "text": "expand_more Image Scanner JSON Response Image Scan"
+    },
+    {
+      "category": "tools",
+      "path": "/googleimage",
+      "alias": "Image Search",
+      "method": "GET/POST",
+      "tags": [
+        "json response",
+        "google",
+        "image",
+        "search",
+        "tools"
+      ],
+      "text": "expand_more Image Search JSON Response Google"
+    },
+    {
+      "category": "tools",
+      "path": "/tools/upscale",
+      "alias": "Image Upscale",
+      "method": "GET/POST",
+      "tags": [
+        "image response",
+        "upscale",
+        "tools"
+      ],
+      "text": "expand_more Image Upscale Image Response Upscale"
+    },
+    {
+      "category": "tools",
+      "path": "/tools/imagy-screenshot",
+      "alias": "Imagy",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "screenshot"
+      ],
+      "text": "expand_more Imagy JSON Responses Screenshot"
+    },
+    {
+      "category": "tools",
+      "path": "/imdb",
+      "alias": "IMDB Search",
+      "method": "GET/POST",
+      "tags": [
+        "json response",
+        "imdb",
+        "movie",
+        "search",
+        "tools"
+      ],
+      "text": "expand_more IMDB Search JSON Response IMDB"
+    },
+    {
+      "category": "tools",
+      "path": "/obfuscate",
+      "alias": "JS Obfuscator",
+      "method": "GET/POST",
+      "tags": [
+        "json response",
+        "javascript",
+        "obfuscator",
+        "tools"
+      ],
+      "text": "expand_more JS Obfuscator JSON Response JavaScript Obfuscator"
+    },
+    {
+      "category": "tools",
+      "path": "/obfuscate/v2",
+      "alias": "JS Obfuscator V2",
+      "method": "GET/POST",
+      "tags": [
+        "json response",
+        "javascript",
+        "obfuscator",
+        "tools"
+      ],
+      "text": "expand_more JS Obfuscator V2 JSON Response JavaScript Obfuscator"
+    },
+    {
+      "category": "tools",
+      "path": "/tools/kbbi",
+      "alias": "KBBI Indonesian Dictionary",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "dictionary"
+      ],
+      "text": "expand_more KBBI Indonesian Dictionary JSON Response Dictionary"
+    },
+    {
+      "category": "tools",
+      "path": "/tools/currencies",
+      "alias": "List Currencies",
+      "method": "GET/POST",
+      "tags": [
+        "json response",
+        "currency",
+        "list",
+        "tools"
+      ],
+      "text": "expand_more List Currencies JSON Response Currency List"
+    },
+    {
+      "category": "tools",
+      "path": "/check/mlbb",
+      "alias": "MLBB Account Check",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "mobile legends",
+        "verifier"
+      ],
+      "text": "expand_more MLBB Account Check JSON Response Mobile Legends Verifier"
+    },
+    {
+      "category": "tools",
+      "path": "/game/mlstalk",
+      "alias": "Mobile Legends Stalk",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "mobile legends"
+      ],
+      "text": "expand_more Mobile Legends Stalk JSON Response Mobile Legends"
+    },
+    {
+      "category": "tools",
+      "path": "/nanobanana",
+      "alias": "Nano Banana (Image Edit)",
+      "method": "GET/POST",
+      "tags": [
+        "image response",
+        "ai",
+        "edit",
+        "tools"
+      ],
+      "text": "expand_more Nano Banana (Image Edit) Image Response AI Edit"
+    },
+    {
+      "category": "tools",
+      "path": "/tools/nik",
+      "alias": "NIK Parser",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "indonesia",
+        "verifier"
+      ],
+      "text": "expand_more NIK Parser JSON Response Indonesia Verifier"
+    },
+    {
+      "category": "tools",
+      "path": "/tools/nsfw-check",
+      "alias": "Nsfw Check",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "nsfw"
+      ],
+      "text": "expand_more Nsfw Check JSON Response Nsfw"
+    },
+    {
+      "category": "tools",
+      "path": "/api/nsfw-check",
+      "alias": "NSFW Check",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "image"
+      ],
+      "text": "expand_more NSFW Check JSON Response Image"
+    },
+    {
+      "category": "tools",
+      "path": "/tools/ondoku-tts",
+      "alias": "Ondoku",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "tts"
+      ],
+      "text": "expand_more Ondoku JSON Response Tts"
+    },
+    {
+      "category": "tools",
+      "path": "/pdf/addtext",
+      "alias": "PDF Add Text",
+      "method": "GET",
+      "tags": [
+        "pdf",
+        "tool"
+      ],
+      "text": "expand_more PDF Add Text PDF Tool"
+    },
+    {
+      "category": "tools",
+      "path": "/pdf/create",
+      "alias": "PDF Create",
+      "method": "GET",
+      "tags": [
+        "pdf",
+        "tool"
+      ],
+      "text": "expand_more PDF Create PDF Tool"
+    },
+    {
+      "category": "tools",
+      "path": "/pdf/merge",
+      "alias": "PDF Merge",
+      "method": "GET",
+      "tags": [
+        "pdf",
+        "tool"
+      ],
+      "text": "expand_more PDF Merge PDF Tool"
+    },
+    {
+      "category": "tools",
+      "path": "/api/porn-checkV2",
+      "alias": "Porn Check V2",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "image"
+      ],
+      "text": "expand_more Porn Check V2 JSON Response Image"
+    },
+    {
+      "category": "tools",
+      "path": "/tools/qrcode",
+      "alias": "QR Code Generator",
+      "method": "GET/POST",
+      "tags": [
+        "image response",
+        "qrcode",
+        "generator",
+        "tools"
+      ],
+      "text": "expand_more QR Code Generator Image Response QR Code"
+    },
+    {
+      "category": "tools",
+      "path": "/quran",
+      "alias": "Quran",
+      "method": "GET/POST",
+      "tags": [
+        "json response",
+        "quran",
+        "islamic",
+        "tools"
+      ],
+      "text": "expand_more Quran JSON Response Quran"
+    },
+    {
+      "category": "tools",
+      "path": "/record/convert",
+      "alias": "Record Convert",
+      "method": "GET",
+      "tags": [
+        "audio",
+        "convert"
+      ],
+      "text": "expand_more Record Convert Audio Convert"
+    },
+    {
+      "category": "tools",
+      "path": "/record/raw",
+      "alias": "Record Raw",
+      "method": "GET",
+      "tags": [
+        "audio"
+      ],
+      "text": "expand_more Record Raw Audio"
+    },
+    {
+      "category": "tools",
+      "path": "/remini",
+      "alias": "Remini (Image Enhancer)",
+      "method": "GET/POST",
+      "tags": [
+        "image response",
+        "image",
+        "enhance",
+        "remini",
+        "tools"
+      ],
+      "text": "expand_more Remini (Image Enhancer) Image Response Image Enhance"
+    },
+    {
+      "category": "tools",
+      "path": "/removebg",
+      "alias": "Remove Background",
+      "method": "GET/POST",
+      "tags": [
+        "image response",
+        "background",
+        "remove",
+        "tools"
+      ],
+      "text": "expand_more Remove Background Image Response Remove BG"
+    },
+    {
+      "category": "tools",
+      "path": "/remove/watermark",
+      "alias": "Remove Watermark",
+      "method": "GET",
+      "tags": [
+        "image",
+        "edit"
+      ],
+      "text": "expand_more Remove Watermark Image Edit"
+    },
+    {
+      "category": "tools",
+      "path": "/convert/reverse",
+      "alias": "Reverse Audio",
+      "method": "GET",
+      "tags": [
+        "audio",
+        "convert"
+      ],
+      "text": "expand_more Reverse Audio Audio Convert"
+    },
+    {
+      "category": "tools",
+      "path": "/bypass/linkvertise",
+      "alias": "Riplinkvertise",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "bypass"
+      ],
+      "text": "expand_more Riplinkvertise JSON Response Bypass"
+    },
+    {
+      "category": "tools",
+      "path": "/tools/saucenao",
+      "alias": "Saucenao",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "anime",
+        "search"
+      ],
+      "text": "expand_more Saucenao JSON Response Anime Search"
+    },
+    {
+      "category": "tools",
+      "path": "/shazam",
+      "alias": "Shazam",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "audio",
+        "music"
+      ],
+      "text": "expand_more Shazam JSON Response Audio Music"
+    },
+    {
+      "category": "tools",
+      "path": "/ssweb",
+      "alias": "SSWEB (Screenshot)",
+      "method": "GET/POST",
+      "tags": [
+        "image response",
+        "screenshot",
+        "website",
+        "tools"
+      ],
+      "text": "expand_more SSWEB (Screenshot) Image Response Screenshot"
+    },
+    {
+      "category": "tools",
+      "path": "/diffusion",
+      "alias": "Stable Diffusion",
+      "method": "GET/POST",
+      "tags": [
+        "image response",
+        "ai",
+        "diffusion",
+        "tools"
+      ],
+      "text": "expand_more Stable Diffusion Image Response AI"
+    },
+    {
+      "category": "tools",
+      "path": "/tools/stackoverflow_details",
+      "alias": "StackOverflow Details",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "search"
+      ],
+      "text": "expand_more StackOverflow Details JSON Response Search"
+    },
+    {
+      "category": "tools",
+      "path": "/telegram-sticker",
+      "alias": "Telegram Sticker",
+      "method": "GET/POST",
+      "tags": [
+        "json response",
+        "telegram",
+        "sticker",
+        "tools"
+      ],
+      "text": "expand_more Telegram Sticker JSON Response Telegram"
+    },
+    {
+      "category": "tools",
+      "path": "/temp-mail",
+      "alias": "Temp Mail (Generate)",
+      "method": "GET/POST",
+      "tags": [
+        "json response",
+        "email",
+        "temporary",
+        "tools"
+      ],
+      "text": "expand_more Temp Mail (Generate) JSON Response Temp Mail"
+    },
+    {
+      "category": "tools",
+      "path": "/temp-mail/inbox",
+      "alias": "Temp-Mail Inbox",
+      "method": "GET/POST",
+      "tags": [
+        "json response",
+        "email",
+        "inbox",
+        "tools"
+      ],
+      "text": "expand_more Temp-Mail Inbox JSON Response Inbox"
+    },
+    {
+      "category": "tools",
+      "path": "/tools/pdf",
+      "alias": "Text to PDF",
+      "method": "GET/POST",
+      "tags": [
+        "pdf response",
+        "document",
+        "text",
+        "tools"
+      ],
+      "text": "expand_more Text to PDF PDF Response Document"
+    },
+    {
+      "category": "tools",
+      "path": "/tts",
+      "alias": "Text to Speech",
+      "method": "GET/POST",
+      "tags": [
+        "audio response",
+        "tts",
+        "speech",
+        "tools"
+      ],
+      "text": "expand_more Text to Speech Audio Response TTS Speech"
+    },
+    {
+      "category": "tools",
+      "path": "/tools/speechma",
+      "alias": "Text2Speech V3",
+      "method": "GET/POST",
+      "tags": [
+        "audio response",
+        "tts",
+        "speech",
+        "tools"
+      ],
+      "text": "expand_more Text2Speech V3 Audio Response TTS Speech"
+    },
+    {
+      "category": "tools",
+      "path": "/tools/transcribe",
+      "alias": "Transcribe",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "ai",
+        "audio"
+      ],
+      "text": "expand_more Transcribe JSON Response Ai Audio"
+    },
+    {
+      "category": "tools",
+      "path": "/tools/vcc-generator",
+      "alias": "Vcc Generator",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "generator"
+      ],
+      "text": "expand_more Vcc Generator JSON Response Generator"
+    },
+    {
+      "category": "tools",
+      "path": "/tools/hdvideo",
+      "alias": "Video Upscaler",
+      "method": "GET",
+      "tags": [
+        "video response",
+        "upscale",
+        "video",
+        "tools",
+        "enhance",
+        "mp4",
+        "h264"
+      ],
+      "text": "expand_more Video Upscaler Video Response Upscale Enhance MP4 expand_more Voice AI Audio Response Voice AI expand_more Waifu Tag JSON Response Anime Tagger expand_more Weather JSON Response Weather expand_more Weather Accuweather JSON Response Weather expand_more Web to ZIP Web Download expand_more Receive-SMSS Numbers JSON Response Temp Number expand_more Receive-SMSS Inbox JSON Response Temp Number expand_more SMS24 Numbers JSON Response Temp Number expand_more SMS24 Inbox JSON Response Temp N"
+    },
+    {
+      "category": "tools",
+      "path": "/voiceai",
+      "alias": "Voice AI",
+      "method": "GET/POST",
+      "tags": [
+        "audio response",
+        "voice",
+        "ai",
+        "tools"
+      ],
+      "text": "expand_more Voice AI Audio Response Voice AI"
+    },
+    {
+      "category": "tools",
+      "path": "/tools/waifu-tag",
+      "alias": "Waifu Tag",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "anime",
+        "tagger"
+      ],
+      "text": "expand_more Waifu Tag JSON Response Anime Tagger"
+    },
+    {
+      "category": "tools",
+      "path": "/weather",
+      "alias": "Weather",
+      "method": "GET/POST",
+      "tags": [
+        "json response",
+        "weather",
+        "forecast",
+        "tools"
+      ],
+      "text": "expand_more Weather JSON Response Weather"
+    },
+    {
+      "category": "tools",
+      "path": "/tools/weather",
+      "alias": "Weather Accuweather",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "weather"
+      ],
+      "text": "expand_more Weather Accuweather JSON Response Weather"
+    },
+    {
+      "category": "tools",
+      "path": "/tools/web2zip",
+      "alias": "Web to ZIP",
+      "method": "GET",
+      "tags": [
+        "web",
+        "download"
+      ],
+      "text": "expand_more Web to ZIP Web Download"
+    },
+    {
+      "category": "uploader",
+      "path": "/8upload",
+      "alias": "8upload",
+      "method": "POST",
+      "tags": [
+        "file upload",
+        "8upload",
+        "uploader",
+        "permanent"
+      ],
+      "text": "expand_more 8upload JSON Response Permanent 8upload"
+    },
+    {
+      "category": "uploader",
+      "path": "/upload/alibaba",
+      "alias": "Alibaba",
+      "method": "POST",
+      "tags": [
+        "file upload",
+        "alibaba",
+        "uploader",
+        "permanent"
+      ],
+      "text": "expand_more Alibaba JSON Response Permanent Alibaba CDN"
+    },
+    {
+      "category": "uploader",
+      "path": "/upload/alioss",
+      "alias": "Alioss",
+      "method": "POST",
+      "tags": [
+        "file upload",
+        "alioss",
+        "uploader",
+        "permanent"
+      ],
+      "text": "expand_more Alioss JSON Response Permanent Alibaba OSS"
+    },
+    {
+      "category": "uploader",
+      "path": "/upload/awss3",
+      "alias": "Awss3",
+      "method": "POST",
+      "tags": [
+        "file upload",
+        "awss3",
+        "uploader",
+        "permanent"
+      ],
+      "text": "expand_more Awss3 JSON Response Permanent AWS S3"
+    },
+    {
+      "category": "uploader",
+      "path": "/uploader/catbox",
+      "alias": "Catbox",
+      "method": "POST",
+      "tags": [
+        "file upload",
+        "catbox",
+        "uploader",
+        "permanent"
+      ],
+      "text": "expand_more Catbox JSON Response Permanent Catbox.moe"
+    },
+    {
+      "category": "uploader",
+      "path": "/upload/freeimage",
+      "alias": "Freeimage",
+      "method": "POST",
+      "tags": [
+        "file upload",
+        "freeimage",
+        "uploader",
+        "permanent"
+      ],
+      "text": "expand_more Freeimage JSON Response Permanent Freeimage.host"
+    },
+    {
+      "category": "uploader",
+      "path": "/uploader/gofile",
+      "alias": "GoFile",
+      "method": "POST",
+      "tags": [
+        "file upload",
+        "gofile",
+        "uploader",
+        "permanent"
+      ],
+      "text": "expand_more GoFile JSON Response Permanent GoFile.io"
+    },
+    {
+      "category": "uploader",
+      "path": "/upload/imgbb",
+      "alias": "Imgbb",
+      "method": "POST",
+      "tags": [
+        "file upload",
+        "imgbb",
+        "uploader",
+        "permanent"
+      ],
+      "text": "expand_more Imgbb JSON Response Permanent Imgbb.com"
+    },
+    {
+      "category": "uploader",
+      "path": "/leopard",
+      "alias": "Leopard",
+      "method": "POST",
+      "tags": [
+        "file upload",
+        "leopard",
+        "uploader",
+        "permanent"
+      ],
+      "text": "expand_more Leopard JSON Response Permanent Leopard"
+    },
+    {
+      "category": "uploader",
+      "path": "/uploader/litterbox",
+      "alias": "Litterbox",
+      "method": "POST",
+      "tags": [
+        "file upload",
+        "litterbox",
+        "uploader",
+        "temporary (24h)"
+      ],
+      "text": "expand_more Litterbox JSON Response Temporary (24h) Litterbox.catbox.moe"
+    },
+    {
+      "category": "uploader",
+      "path": "/pone",
+      "alias": "Pone",
+      "method": "POST",
+      "tags": [
+        "file upload",
+        "pone",
+        "uploader",
+        "permanent"
+      ],
+      "text": "expand_more Pone JSON Response Permanent Pone"
+    },
+    {
+      "category": "uploader",
+      "path": "/uploader/tmpfiles",
+      "alias": "Tmpfiles",
+      "method": "POST",
+      "tags": [
+        "file upload",
+        "tmpfiles",
+        "uploader",
+        "temporary (1h)"
+      ],
+      "text": "expand_more Tmpfiles JSON Response Temporary (1h) Tmpfiles.org"
+    },
+    {
+      "category": "uploader",
+      "path": "/uploader/uguu",
+      "alias": "Uguu",
+      "method": "POST",
+      "tags": [
+        "file upload",
+        "uguu",
+        "uploader",
+        "temporary (24h)"
+      ],
+      "text": "expand_more Uguu JSON Response Temporary (24h) Uguu.se"
+    },
+    {
+      "category": "uploader",
+      "path": "/uploadee",
+      "alias": "Uploadee",
+      "method": "POST",
+      "tags": [
+        "file upload",
+        "uploadee",
+        "uploader",
+        "permanent"
+      ],
+      "text": "expand_more Uploadee JSON Response Permanent Uploadee"
+    },
+    {
+      "category": "uploader",
+      "path": "/upload/vikingfile",
+      "alias": "Vikingfile",
+      "method": "POST",
+      "tags": [
+        "file upload",
+        "vikingfile",
+        "uploader",
+        "permanent"
+      ],
+      "text": "expand_more Vikingfile JSON Response Permanent Vikingfile.com"
+    },
+    {
+      "category": "urlshortener",
+      "path": "/short/1shpl",
+      "alias": "1shpl",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "shortener"
+      ],
+      "text": "expand_more 1shpl JSON Response Shortener"
+    },
+    {
+      "category": "urlshortener",
+      "path": "/adfoc",
+      "alias": "Adfoc URL Shortener",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "url shortener",
+        "adfoc"
+      ],
+      "text": "expand_more Adfoc URL Shortener JSON Response Adfoc Shortener"
+    },
+    {
+      "category": "urlshortener",
+      "path": "/short/ai6net",
+      "alias": "Ai6net",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "shortener"
+      ],
+      "text": "expand_more Ai6net JSON Response Shortener"
+    },
+    {
+      "category": "urlshortener",
+      "path": "/short/anonto",
+      "alias": "Anon.to",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "url"
+      ],
+      "text": "expand_more Anon.to JSON Response URL"
+    },
+    {
+      "category": "urlshortener",
+      "path": "/bitly",
+      "alias": "Bitly URL Shortener",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "url shortener",
+        "bitly"
+      ],
+      "text": "expand_more Bitly URL Shortener JSON Response Bitly Shortener"
+    },
+    {
+      "category": "urlshortener",
+      "path": "/short/bomso",
+      "alias": "Bomso",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "shortener"
+      ],
+      "text": "expand_more Bomso JSON Response Shortener"
+    },
+    {
+      "category": "urlshortener",
+      "path": "/short/bycomvn",
+      "alias": "Bycomvn",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "shortener"
+      ],
+      "text": "expand_more Bycomvn JSON Response Shortener"
+    },
+    {
+      "category": "urlshortener",
+      "path": "/cuttly",
+      "alias": "Cuttly URL Shortener",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "url shortener",
+        "cuttly"
+      ],
+      "text": "expand_more Cuttly URL Shortener JSON Response Cuttly Shortener"
+    },
+    {
+      "category": "urlshortener",
+      "path": "/dagd",
+      "alias": "Da.gd URL Shortener",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "url shortener",
+        "da.gd",
+        "dagd"
+      ],
+      "text": "expand_more Da.gd URL Shortener JSON Response Da.gd Shortener expand_more Ej.uz JSON Response URL expand_more Goo.su JSON Response URL expand_more H1nu JSON Response Shortener expand_more Ige.li JSON Response URL expand_more Is.gd URL Shortener JSON Response Is.gd Shortener expand_more Isgd JSON Response Shortener expand_more Rebrandly JSON Response URL expand_more Referis JSON Response Shortener expand_more Saldus JSON Response Shortener expand_more Smartlnks JSON Response Shortener expand_more"
+    },
+    {
+      "category": "urlshortener",
+      "path": "/short/ejuz",
+      "alias": "Ej.uz",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "url"
+      ],
+      "text": "expand_more Ej.uz JSON Response URL"
+    },
+    {
+      "category": "urlshortener",
+      "path": "/short/goosu",
+      "alias": "Goo.su",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "url"
+      ],
+      "text": "expand_more Goo.su JSON Response URL"
+    },
+    {
+      "category": "urlshortener",
+      "path": "/short/h1nu",
+      "alias": "H1nu",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "shortener"
+      ],
+      "text": "expand_more H1nu JSON Response Shortener"
+    },
+    {
+      "category": "urlshortener",
+      "path": "/short/igeli",
+      "alias": "Ige.li",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "url"
+      ],
+      "text": "expand_more Ige.li JSON Response URL"
+    },
+    {
+      "category": "urlshortener",
+      "path": "/isgd",
+      "alias": "Is.gd URL Shortener",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "url shortener",
+        "is.gd",
+        "isgd"
+      ],
+      "text": "expand_more Is.gd URL Shortener JSON Response Is.gd Shortener"
+    },
+    {
+      "category": "urlshortener",
+      "path": "/short/isgd",
+      "alias": "Isgd",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "shortener"
+      ],
+      "text": "expand_more Isgd JSON Response Shortener"
+    },
+    {
+      "category": "urlshortener",
+      "path": "/rebrandly",
+      "alias": "Rebrandly",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "url"
+      ],
+      "text": "expand_more Rebrandly JSON Response URL"
+    },
+    {
+      "category": "urlshortener",
+      "path": "/short/referis",
+      "alias": "Referis",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "shortener"
+      ],
+      "text": "expand_more Referis JSON Response Shortener"
+    },
+    {
+      "category": "urlshortener",
+      "path": "/short/saldus",
+      "alias": "Saldus",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "shortener"
+      ],
+      "text": "expand_more Saldus JSON Response Shortener"
+    },
+    {
+      "category": "urlshortener",
+      "path": "/short/smartlnks",
+      "alias": "Smartlnks",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "shortener"
+      ],
+      "text": "expand_more Smartlnks JSON Response Shortener"
+    },
+    {
+      "category": "urlshortener",
+      "path": "/short/spoo",
+      "alias": "Spoo.me",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "url"
+      ],
+      "text": "expand_more Spoo.me JSON Response URL"
+    },
+    {
+      "category": "urlshortener",
+      "path": "/ssur",
+      "alias": "Ssur URL Shortener",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "url shortener",
+        "ssur"
+      ],
+      "text": "expand_more Ssur URL Shortener JSON Response Ssur Shortener"
+    },
+    {
+      "category": "urlshortener",
+      "path": "/short/thinfi",
+      "alias": "Thinfi",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "shortener"
+      ],
+      "text": "expand_more Thinfi JSON Response Shortener"
+    },
+    {
+      "category": "urlshortener",
+      "path": "/short/tinyurl",
+      "alias": "Tinyurl",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "shortener"
+      ],
+      "text": "expand_more Tinyurl JSON Response Shortener"
+    },
+    {
+      "category": "urlshortener",
+      "path": "/tinyurl",
+      "alias": "TinyURL Shortener",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "url shortener",
+        "tinyurl"
+      ],
+      "text": "expand_more TinyURL Shortener JSON Response TinyURL Shortener"
+    },
+    {
+      "category": "urlshortener",
+      "path": "/short/tly",
+      "alias": "Tly",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "shortener"
+      ],
+      "text": "expand_more Tly JSON Response Shortener"
+    },
+    {
+      "category": "urlshortener",
+      "path": "/short/uto",
+      "alias": "U.to",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "url"
+      ],
+      "text": "expand_more U.to JSON Response URL"
+    },
+    {
+      "category": "urlshortener",
+      "path": "/short/unshorten",
+      "alias": "Unshorten",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "shortener"
+      ],
+      "text": "expand_more Unshorten JSON Response Shortener"
+    },
+    {
+      "category": "urlshortener",
+      "path": "/vgd",
+      "alias": "Vgd URL Shortener",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "url shortener",
+        "vgd"
+      ],
+      "text": "expand_more Vgd URL Shortener JSON Response Vgd Shortener"
+    },
+    {
+      "category": "urlshortener",
+      "path": "/vurl",
+      "alias": "Vurl URL Shortener",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "url shortener",
+        "vurl"
+      ],
+      "text": "expand_more Vurl URL Shortener JSON Response Vurl Shortener"
+    },
+    {
+      "category": "urlshortener",
+      "path": "/short/walee",
+      "alias": "Walee",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "shortener"
+      ],
+      "text": "expand_more Walee JSON Response Shortener"
+    },
+    {
+      "category": "urlshortener",
+      "path": "/short/xgd",
+      "alias": "Xgd",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "shortener"
+      ],
+      "text": "expand_more Xgd JSON Response Shortener"
+    },
+    {
+      "category": "xxx",
+      "path": "/xxx/asiantolick",
+      "alias": "Asiantolick",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "nsfw",
+        "search"
+      ],
+      "text": "expand_more Asiantolick JSON Response Nsfw Search"
+    },
+    {
+      "category": "xxx",
+      "path": "/xxx/bokepnoz",
+      "alias": "Bokepnoz",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "nsfw"
+      ],
+      "text": "expand_more Bokepnoz JSON Response Nsfw"
+    },
+    {
+      "category": "xxx",
+      "path": "/xxx/coomer",
+      "alias": "Coomer",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "nsfw",
+        "search"
+      ],
+      "text": "expand_more Coomer JSON Response Nsfw Search"
+    },
+    {
+      "category": "xxx",
+      "path": "/xxx/cosplaytele",
+      "alias": "Cosplaytele",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "nsfw",
+        "cosplay"
+      ],
+      "text": "expand_more Cosplaytele JSON Response Nsfw Cosplay"
+    },
+    {
+      "category": "xxx",
+      "path": "/xxx/crotpedia",
+      "alias": "Crotpedia",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "nsfw",
+        "manga"
+      ],
+      "text": "expand_more Crotpedia JSON Response Nsfw Manga"
+    },
+    {
+      "category": "xxx",
+      "path": "/darknaija",
+      "alias": "Darknaija Trending",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "xxx",
+        "adult",
+        "darknaija",
+        "trending"
+      ],
+      "text": "expand_more Darknaija Trending JSON Response Darknaija Trending"
+    },
+    {
+      "category": "xxx",
+      "path": "/xxx/hanime",
+      "alias": "Hanime",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "nsfw",
+        "anime"
+      ],
+      "text": "expand_more Hanime JSON Response Nsfw Anime"
+    },
+    {
+      "category": "xxx",
+      "path": "/hentai",
+      "alias": "Hentai Random",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "video",
+        "nsfw"
+      ],
+      "text": "expand_more Hentai Random JSON Response Video NSFW"
+    },
+    {
+      "category": "xxx",
+      "path": "/xxx/kemono",
+      "alias": "Kemono",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "nsfw",
+        "search"
+      ],
+      "text": "expand_more Kemono JSON Response Nsfw Search"
+    },
+    {
+      "category": "xxx",
+      "path": "/knackvideos",
+      "alias": "KnackVideos Trending",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "xxx",
+        "adult",
+        "knackvideos",
+        "trending"
+      ],
+      "text": "expand_more KnackVideos Trending JSON Response KnackVideos Trending"
+    },
+    {
+      "category": "xxx",
+      "path": "/leaktube",
+      "alias": "Leaktube Trending",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "xxx",
+        "adult",
+        "leaktube",
+        "trending"
+      ],
+      "text": "expand_more Leaktube Trending JSON Response Leaktube Trending"
+    },
+    {
+      "category": "xxx",
+      "path": "/mzansiporn",
+      "alias": "MzansiPorn Random",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "video",
+        "nsfw"
+      ],
+      "text": "expand_more MzansiPorn Random JSON Response Video NSFW"
+    },
+    {
+      "category": "xxx",
+      "path": "/nacknaija",
+      "alias": "Nacknaija Trending",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "xxx",
+        "adult",
+        "nacknaija",
+        "trending"
+      ],
+      "text": "expand_more Nacknaija Trending JSON Response Nacknaija Trending"
+    },
+    {
+      "category": "xxx",
+      "path": "/naijablow",
+      "alias": "NaijaBlow Trending",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "xxx",
+        "adult",
+        "naijablow",
+        "trending"
+      ],
+      "text": "expand_more NaijaBlow Trending JSON Response NaijaBlow Trending"
+    },
+    {
+      "category": "xxx",
+      "path": "/naijacum",
+      "alias": "NaijaCum Trending",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "xxx",
+        "adult",
+        "naijacum",
+        "trending"
+      ],
+      "text": "expand_more NaijaCum Trending JSON Response NaijaCum Trending"
+    },
+    {
+      "category": "xxx",
+      "path": "/naijafap",
+      "alias": "NaijaFap Trending",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "xxx",
+        "adult",
+        "naijafap",
+        "trending"
+      ],
+      "text": "expand_more NaijaFap Trending JSON Response NaijaFap Trending"
+    },
+    {
+      "category": "xxx",
+      "path": "/celeb",
+      "alias": "Naijatape Celeb Leaks",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "xxx",
+        "adult",
+        "celebrity",
+        "leaks"
+      ],
+      "text": "expand_more Naijatape Celeb Leaks JSON Response Celeb Leaks Naijatape"
+    },
+    {
+      "category": "xxx",
+      "path": "/naijatape",
+      "alias": "Naijatape Trending",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "xxx",
+        "adult",
+        "naijatape",
+        "trending"
+      ],
+      "text": "expand_more Naijatape Trending JSON Response Naijatape Trending"
+    },
+    {
+      "category": "xxx",
+      "path": "/xxx/nekopoi",
+      "alias": "Nekopoi",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "nsfw",
+        "anime"
+      ],
+      "text": "expand_more Nekopoi JSON Response Nsfw Anime"
+    },
+    {
+      "category": "xxx",
+      "path": "/nsfw",
+      "alias": "NSFW Random",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "nsfw"
+      ],
+      "text": "expand_more NSFW Random JSON Response NSFW"
+    },
+    {
+      "category": "xxx",
+      "path": "/xxx/seegore",
+      "alias": "Seegore",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "nsfw"
+      ],
+      "text": "expand_more Seegore JSON Response Nsfw"
+    },
+    {
+      "category": "xxx",
+      "path": "/stellaplus",
+      "alias": "Stellaplus Trending",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "xxx",
+        "adult",
+        "stellaplus",
+        "trending"
+      ],
+      "text": "expand_more Stellaplus Trending JSON Response Stellaplus Trending"
+    },
+    {
+      "category": "xxx",
+      "path": "/totoleak",
+      "alias": "TotoLeak Trending",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "xxx",
+        "adult",
+        "totoleak",
+        "trending"
+      ],
+      "text": "expand_more TotoLeak Trending JSON Response TotoLeak Trending expand_more Tube8 JSON Response Nsfw expand_more xHamster Random JSON Response Video NSFW expand_more xHamster Search JSON Response Video NSFW expand_more Xnxx JSON Response Xnxx Video expand_more XNXX Search JSON Response Video NSFW expand_more Xvideo JSON Response Xvideo Video expand_more Xvideos JSON Response Nsfw"
+    },
+    {
+      "category": "xxx",
+      "path": "/xxx/tube8",
+      "alias": "Tube8",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "nsfw"
+      ],
+      "text": "expand_more Tube8 JSON Response Nsfw"
+    },
+    {
+      "category": "xxx",
+      "path": "/xhamster/random",
+      "alias": "xHamster Random",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "video",
+        "nsfw"
+      ],
+      "text": "expand_more xHamster Random JSON Response Video NSFW"
+    },
+    {
+      "category": "xxx",
+      "path": "/xhamster/search",
+      "alias": "xHamster Search",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "video",
+        "nsfw"
+      ],
+      "text": "expand_more xHamster Search JSON Response Video NSFW"
+    },
+    {
+      "category": "xxx",
+      "path": "/download/xnxx",
+      "alias": "Xnxx",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "xxx",
+        "adult",
+        "xnxx",
+        "video"
+      ],
+      "text": "expand_more Xnxx JSON Response Xnxx Video"
+    },
+    {
+      "category": "xxx",
+      "path": "/xxx/xnxx",
+      "alias": "XNXX Search",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "video",
+        "nsfw"
+      ],
+      "text": "expand_more XNXX Search JSON Response Video NSFW"
+    },
+    {
+      "category": "xxx",
+      "path": "/xvideo",
+      "alias": "Xvideo",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "xxx",
+        "adult",
+        "xvideo",
+        "video"
+      ],
+      "text": "expand_more Xvideo JSON Response Xvideo Video"
+    },
+    {
+      "category": "xxx",
+      "path": "/xxx/xvideos",
+      "alias": "Xvideos",
+      "method": "GET",
+      "tags": [
+        "json response",
+        "nsfw"
+      ],
+      "text": "expand_more Xvideos JSON Response Nsfw"
+    }
+  ]
+}
