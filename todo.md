@@ -1,5 +1,13 @@
 # Update checklist
 
+## In-site playback and monetization
+
+- [x] Confirm the current API has no direct video stream field.
+- [x] Add direct MP4/HLS support without forcing external redirects.
+- [x] Add an in-site unavailable state when the API returns metadata only.
+- [x] Add a monetization-ready placement and document the required ad/payment IDs.
+- [x] Verify build, sync, and publish the revision.
+
 ## Branding revision
 
 - [x] Update site title and visible wordmark to Eliminator Streaming Platform and Multitools.
