@@ -1,5 +1,12 @@
 # Update checklist
 
+## Profile page
+
+- [x] Add authenticated profile route and navigation.
+- [x] Load profile details from Supabase and fall back to auth metadata.
+- [x] Save editable profile fields with validation and feedback.
+- [x] Verify build, responsive layout, and publish the feature.
+
 ## Production configuration repair
 
 - [ ] Inspect the live configuration path and current Supabase environment handling.
