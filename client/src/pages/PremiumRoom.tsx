@@ -5,6 +5,7 @@ import PremiumBadge from "@/components/PremiumBadge";
 import { hasPermanentPremiumAccess } from "@/lib/premiumAccess";
 import { getTikTokBoostUrl, isTikTokTarget, type TikTokBoostType } from "@/lib/tiktokBoost";
 import { getYouTubeBoostUrl, isYouTubeTarget, type YouTubeBoostType } from "@/lib/youtubeBoost";
+import { getApkDownloaderUrl, isApkSearch, type ApkResult } from "@/lib/apkDownloader";
 
 type PremiumRoomProps = { user: User; isPremium: boolean; onBack: () => void; onPricing: () => void; onSignOut: () => Promise<void> };
 type PremiumVideo = { title: string; thumbnail?: string; download_url?: string };
@@ -27,6 +28,10 @@ export default function PremiumRoom({ user, isPremium, onBack, onPricing, onSign
   const [youtubeLoading, setYoutubeLoading] = useState(false);
   const [youtubeResult, setYoutubeResult] = useState<BoostResult | null>(null);
   const [youtubeError, setYoutubeError] = useState("");
+  const [apkSearch, setApkSearch] = useState("");
+  const [apkLoading, setApkLoading] = useState(false);
+  const [apkResult, setApkResult] = useState<ApkResult | null>(null);
+  const [apkError, setApkError] = useState("");
 
   const loadPremiumVideo = async () => {
     setLoading(true);
@@ -88,6 +93,27 @@ export default function PremiumRoom({ user, isPremium, onBack, onPricing, onSign
     }
   };
 
+  const submitApkSearch = async (event: FormEvent) => {
+    event.preventDefault();
+    setApkError("");
+    setApkResult(null);
+    if (!isApkSearch(apkSearch)) {
+      setApkError("Enter an app name between 2 and 80 characters.");
+      return;
+    }
+    setApkLoading(true);
+    try {
+      const response = await fetch(getApkDownloaderUrl(apkSearch), { headers: { Accept: "application/json" } });
+      const payload = (await response.json().catch(() => ({ status: false }))) as ApkResult;
+      setApkResult(payload);
+      if (!response.ok || payload.status !== true) setApkError("The APK service did not return a successful result.");
+    } catch (cause) {
+      setApkError(cause instanceof Error ? cause.message : "The APK service is unavailable.");
+    } finally {
+      setApkLoading(false);
+    }
+  };
+
   const activeContent = (
     <>
       <section className="premium-room-card premium-room-card--active">
@@ -112,7 +138,7 @@ export default function PremiumRoom({ user, isPremium, onBack, onPricing, onSign
         {boostError && <div className="premium-boost-result premium-boost-result--error"><CircleAlert size={17} /><span>{boostError}</span></div>}
         {boostResult && <div className={`premium-boost-result ${boostResult.success === true ? "premium-boost-result--success" : "premium-boost-result--notice"}`}><div><strong>{boostResult.success === true ? "Service accepted the request" : "Service response"}</strong><p>{String(boostResult.message || (boostResult.success === true ? "The API reported success." : "The API did not report a successful boost."))}</p></div><pre>{JSON.stringify(boostResult, null, 2)}</pre></div>}
       </section>
-      <section className="premium-tool-card premium-tool-card--youtube"><div className="premium-tool-card__heading"><div><span className="eyebrow eyebrow--red">PREMIUM TOOL / SOCIAL BOOST</span><h2>YouTube View Booster</h2></div><Zap size={22} /></div><p className="premium-tool-card__lead">Submit a YouTube video or channel target to the connected service and see the exact accepted amount, message, and JSON response. A successful API response means the service accepted the request; it does not promise an immediate YouTube metric change.</p><form className="premium-boost-form" onSubmit={submitYouTubeBoost}><label>Target URL<input value={youtubeTarget} onChange={(event) => setYoutubeTarget(event.target.value)} placeholder={youtubeType === "subscribers" ? "https://www.youtube.com/@channel" : "https://www.youtube.com/watch?v=..."} inputMode="url" /></label><label>Service<select value={youtubeType} onChange={(event) => setYoutubeType(event.target.value as YouTubeBoostType)}><option value="views">Video views</option><option value="likes">Likes</option><option value="subscribers">Subscribers</option></select></label><button className="red-button premium-boost-submit" type="submit" disabled={youtubeLoading}>{youtubeLoading ? <RefreshCw size={16} className="spin" /> : <Zap size={16} />}{youtubeLoading ? "Checking service…" : "Run YouTube Boost"}</button></form>{youtubeError && <div className="premium-boost-result premium-boost-result--error"><CircleAlert size={17} /><span>{youtubeError}</span></div>}{youtubeResult && <div className={`premium-boost-result ${youtubeResult.success === true ? "premium-boost-result--success" : "premium-boost-result--notice"}`}><div><strong>{youtubeResult.success === true ? "Service accepted the request" : "Service response"}</strong><p>{String(youtubeResult.message || (youtubeResult.success === true ? "The API reported success." : "The API did not report a successful request."))}</p>{youtubeResult.amount !== undefined && <small>Reported amount: {String(youtubeResult.amount)} · Type: {String(youtubeResult.type || youtubeType)}</small>}</div><pre>{JSON.stringify(youtubeResult, null, 2)}</pre></div>}</section><section className="premium-tool-card premium-tool-card--future"><span className="eyebrow">PREMIUM TOOLKIT</span><h2>More premium functions coming here.</h2><p>This room is ready for additional approved API workspaces without changing the protected layout.</p></section>
+      <section className="premium-tool-card premium-tool-card--youtube"><div className="premium-tool-card__heading"><div><span className="eyebrow eyebrow--red">PREMIUM TOOL / SOCIAL BOOST</span><h2>YouTube View Booster</h2></div><Zap size={22} /></div><p className="premium-tool-card__lead">Submit a YouTube video or channel target to the connected service and see the exact accepted amount, message, and JSON response. A successful API response means the service accepted the request; it does not promise an immediate YouTube metric change.</p><form className="premium-boost-form" onSubmit={submitYouTubeBoost}><label>Target URL<input value={youtubeTarget} onChange={(event) => setYoutubeTarget(event.target.value)} placeholder={youtubeType === "subscribers" ? "https://www.youtube.com/@channel" : "https://www.youtube.com/watch?v=..."} inputMode="url" /></label><label>Service<select value={youtubeType} onChange={(event) => setYoutubeType(event.target.value as YouTubeBoostType)}><option value="views">Video views</option><option value="likes">Likes</option><option value="subscribers">Subscribers</option></select></label><button className="red-button premium-boost-submit" type="submit" disabled={youtubeLoading}>{youtubeLoading ? <RefreshCw size={16} className="spin" /> : <Zap size={16} />}{youtubeLoading ? "Checking service…" : "Run YouTube Boost"}</button></form>{youtubeError && <div className="premium-boost-result premium-boost-result--error"><CircleAlert size={17} /><span>{youtubeError}</span></div>}{youtubeResult && <div className={`premium-boost-result ${youtubeResult.success === true ? "premium-boost-result--success" : "premium-boost-result--notice"}`}><div><strong>{youtubeResult.success === true ? "Service accepted the request" : "Service response"}</strong><p>{String(youtubeResult.message || (youtubeResult.success === true ? "The API reported success." : "The API did not report a successful request."))}</p>{youtubeResult.amount !== undefined && <small>Reported amount: {String(youtubeResult.amount)} · Type: {String(youtubeResult.type || youtubeType)}</small>}</div><pre>{JSON.stringify(youtubeResult, null, 2)}</pre></div>}</section>      <section className="premium-tool-card premium-tool-card--apk"><div className="premium-tool-card__heading"><div><span className="eyebrow eyebrow--red">PREMIUM TOOL / APP UTILITY</span><h2>APK App Downloader</h2></div><Zap size={22} /></div><p className="premium-tool-card__lead">Search the connected APK catalog by app name, review the returned package details, and download the exact APK link returned by the service. Always verify the source, package, permissions, and device compatibility before installing.</p><form className="premium-boost-form" onSubmit={submitApkSearch}><label>App name<input value={apkSearch} onChange={(event) => setApkSearch(event.target.value)} placeholder="WhatsApp, Telegram, Spotify…" autoCapitalize="words" /></label><button className="red-button premium-boost-submit" type="submit" disabled={apkLoading}>{apkLoading ? <RefreshCw size={16} className="spin" /> : <Zap size={16} />}{apkLoading ? "Searching APK catalog…" : "Find APK"}</button></form>{apkError && <div className="premium-boost-result premium-boost-result--error"><CircleAlert size={17} /><span>{apkError}</span></div>}{apkResult?.apk && <div className="apk-result-card">{apkResult.apk.icon && <img src={apkResult.apk.icon} alt="" className="apk-result-card__icon" />}<div className="apk-result-card__identity"><strong>{apkResult.apk.name || "APK result"}</strong><span>{apkResult.apk.package || "Package not provided"}</span><small>Version / update: {apkResult.apk.lastUpdated || "Not provided"}</small></div>{apkResult.apk.downloadLink && <a className="red-button apk-download-button" href={apkResult.apk.downloadLink} target="_blank" rel="noreferrer">Download APK <ArrowLeft size={16} className="rotate-180" /></a>}<details className="apk-result-card__details"><summary>View exact API response</summary><pre>{JSON.stringify(apkResult, null, 2)}</pre></details></div>}<p className="apk-safety-note"><LockKeyhole size={14} /> Eliminator displays the API result; it does not scan or certify APK safety.</p></section><section className="premium-tool-card premium-tool-card--future"><span className="eyebrow">PREMIUM TOOLKIT</span><h2>More premium functions coming here.</h2><p>This room is ready for additional approved API workspaces without changing the protected layout.</p></section>
     </>
   );
 
