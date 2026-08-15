@@ -93,3 +93,7 @@ button:focus-visible, a:focus-visible { outline: 3px solid rgba(22,119,255,.35);
 
 .notification-reference-input{width:135px;padding:.42rem .55rem;color:var(--ink);background:#f8fbfd;border:1px solid #d8e5eb;border-radius:.45rem;font:inherit;font-size:.62rem}.notification-reference-input:focus{outline:2px solid rgba(33,119,236,.2);border-color:var(--blue)}
 @media (max-width:620px){.notification-reference-input{width:100%}}
+
+.auth-cooldown{margin:-.25rem 0 0;color:#8e6a2b;background:#fff8e9;border:1px solid #efdda9;border-radius:.65rem;padding:.7rem .8rem;font-size:.68rem;line-height:1.45}.auth-cooldown strong{color:#76551f}
+
+.auth-recovery-actions{display:flex;justify-content:space-between;gap:.75rem;margin:-.25rem 0 0}.auth-recovery-actions button{padding:0;color:var(--blue);background:none;border:0;font:inherit;font-size:.68rem;font-weight:800;text-decoration:underline;cursor:pointer}.auth-recovery-actions button:hover{color:var(--signal-red)}
