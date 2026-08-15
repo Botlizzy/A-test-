@@ -509,3 +509,21 @@ button:focus-visible, a:focus-visible { outline: 3px solid rgba(22,119,255,.35);
   .premium-match-card__teams { grid-template-columns:1fr; gap:.18rem; }
   .premium-match-card__meta { font-size:.52rem; }
 }
+
+/* Homepage Multi-tools workspace: the full catalog lives in the feed while retaining its task-first architecture. */
+.homepage-tools-section { margin: clamp(1.2rem, 3vw, 2.5rem) 0; padding: clamp(1rem, 3vw, 2rem); border: 1px solid rgba(25,120,234,.14); border-radius: 1.8rem; background: linear-gradient(145deg, rgba(255,255,255,.94), rgba(238,247,255,.88)); box-shadow: 0 24px 70px rgba(32,86,140,.12); overflow: hidden; }
+.homepage-tools-section__intro { max-width: 52rem; margin: 0 auto clamp(1rem, 3vw, 2rem); text-align: center; }
+.homepage-tools-section__intro h2 { margin: .45rem 0 .65rem; color: #10233f; font-size: clamp(2rem, 5vw, 3.7rem); line-height: .98; letter-spacing: -.06em; }
+.homepage-tools-section__intro p { margin: 0 auto; max-width: 42rem; color: #68798b; line-height: 1.6; }
+.tools-shell--embedded { min-height: auto; background: transparent; }
+.tools-topbar--embedded { display: none; }
+.tools-shell--embedded .tools-layout { max-width: none; padding: 0; grid-template-columns: minmax(14rem, 18rem) minmax(0, 1fr); gap: clamp(1rem, 2.5vw, 2rem); }
+.tools-shell--embedded .tools-sidebar { top: 1rem; }
+.tools-shell--embedded .tools-sidebar__intro h1 { font-size: clamp(1.8rem, 3.5vw, 2.8rem); }
+.tools-shell--embedded .tools-content { min-width: 0; }
+.tool-result__details { margin: 0 1rem 1rem; border-top: 1px solid rgba(169,210,255,.22); color: #cfe7ff; }
+.tool-result__details summary { cursor: pointer; padding: .75rem 0; color: #a9d2ff; font-size: .8rem; font-weight: 700; }
+.tool-result__details pre { padding: 0 0 1rem; }
+.tool-result__media--images img { min-height: 10rem; }
+@media (max-width: 850px) { .homepage-tools-section { padding: .8rem; border-radius: 1.2rem; } .tools-shell--embedded .tools-layout { grid-template-columns: 1fr; } .tools-shell--embedded .tools-sidebar { position: static; } }
+@media (max-width: 600px) { .homepage-tools-section__intro { text-align: left; } .homepage-tools-section__intro h2 { font-size: clamp(2rem, 11vw, 3rem); } .tools-shell--embedded .tools-grid { max-height: 48vh; } .tools-shell--embedded .tool-workspace { border-radius: 1.1rem; } }
