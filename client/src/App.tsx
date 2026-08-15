@@ -12,6 +12,7 @@ import PremiumRoom from "./pages/PremiumRoom";
 import ToolHub from "./pages/ToolHub";
 import Auth from "./pages/Auth";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
+import { hasPermanentPremiumAccess } from "@/lib/premiumAccess";
 import type { Session, User } from "@supabase/supabase-js";
 
 function getAuthMode() {
@@ -43,7 +44,7 @@ export default function App() {
       setSession(data.session);
       if (data.session?.user) {
         const { data: entitlement } = await supabase.from("premium_entitlements").select("active").eq("user_id", data.session.user.id).maybeSingle();
-        setPremiumActive(Boolean(entitlement?.active));
+        setPremiumActive(Boolean(entitlement?.active) || hasPermanentPremiumAccess(data.session.user.email));
       }
       setCheckingAuth(false);
     });
@@ -51,7 +52,7 @@ export default function App() {
       setSession(nextSession);
       if (nextSession?.user) {
         const { data: entitlement } = await supabase.from("premium_entitlements").select("active").eq("user_id", nextSession.user.id).maybeSingle();
-        setPremiumActive(Boolean(entitlement?.active));
+        setPremiumActive(Boolean(entitlement?.active) || hasPermanentPremiumAccess(nextSession.user.email));
       } else setPremiumActive(false);
       setCheckingAuth(false);
     });

@@ -125,3 +125,19 @@
 - [x] Make the Premium Admin console explain and accept the copied User ID consistently for activation lookup.
 - [x] Improve the profile setup warning so it accurately distinguishes missing schema from transient/profile-read errors.
 - [x] Run tests and build with 3 test files / 5 tests passing, verify the responsive mobile preview shell, sync GitHub at 7505d57, and publish a recoverable checkpoint; authenticated Profile click testing remains dependent on an available signed-in browser session.
+
+## Premium status and activation feedback
+
+- [x] Add a prominent Profile Premium status visual that clearly communicates Active, Awaiting Verification, or Inactive.
+- [x] Add a successful activation animation and toast notification in Premium Admin without falsely reporting failures.
+- [x] Validate status/activation feedback states, responsive layout, tests/build (3 files, 5 tests), responsive preview review, and GitHub sync at fcb6118.
+- [ ] Save a new recoverable checkpoint after the Premium status card and Premium Admin success-feedback changes.
+- [ ] Verify the authenticated Profile page on mobile and desktop and confirm the Active, Pending, and Inactive visual states.
+- [ ] Verify Premium Admin activation and confirm the success animation/toast appear only after successful writes.
+- [ ] Re-check the published deployment after the final GitHub sync at fcb6118.
+
+## Permanent owner Premium access
+
+- [x] Grant mikeakex80@gmail.com permanent Premium eligibility through a restricted owner-only code path.
+- [x] Reflect owner eligibility as Premium Active on Profile and in the protected Premium Room.
+- [ ] Validate owner access, tests (4 files, 7 tests), GitHub push, and publish a recoverable checkpoint.
