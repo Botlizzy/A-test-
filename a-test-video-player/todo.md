@@ -130,4 +130,14 @@
 
 - [x] Add a prominent Profile Premium status visual that clearly communicates Active, Awaiting Verification, or Inactive.
 - [x] Add a successful activation animation and toast notification in Premium Admin without falsely reporting failures.
-- [ ] Validate status/activation feedback states, responsive layout, tests, GitHub sync, and publish a recoverable checkpoint.
+- [x] Validate status/activation feedback states, responsive layout, tests/build (3 files, 5 tests), responsive preview review, and GitHub sync at fcb6118.
+- [ ] Save a new recoverable checkpoint after the Premium status card and Premium Admin success-feedback changes.
+- [ ] Verify the authenticated Profile page on mobile and desktop and confirm the Active, Pending, and Inactive visual states.
+- [ ] Verify Premium Admin activation and confirm the success animation/toast appear only after successful writes.
+- [ ] Re-check the published deployment after the final GitHub sync at fcb6118.
+
+## Permanent owner Premium access
+
+- [x] Grant mikeakex80@gmail.com permanent Premium eligibility through a restricted owner-only code path.
+- [x] Reflect owner eligibility as Premium Active on Profile and in the protected Premium Room.
+- [ ] Validate owner access, tests (4 files, 7 tests), GitHub push, and publish a recoverable checkpoint.
