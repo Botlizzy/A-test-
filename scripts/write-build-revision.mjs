@@ -3,12 +3,17 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 
 const projectRoot = resolve(import.meta.dirname, "..");
-let revision = process.env.VITE_BUILD_REVISION || "development";
+let revision = process.env.GITHUB_SHA?.slice(0, 7) || process.env.VITE_BUILD_REVISION || "development";
 
 try {
-  revision = execFileSync("git", ["rev-parse", "--short=7", "HEAD"], { cwd: projectRoot, encoding: "utf8" }).trim() || revision;
+  const remoteHead = execFileSync("git", ["ls-remote", "https://github.com/Botlizzy/A-test-.git", "refs/heads/main"], { cwd: projectRoot, encoding: "utf8", timeout: 8000 }).trim().split(/\s+/)[0];
+  revision = remoteHead?.slice(0, 7) || revision;
 } catch {
-  // Deploy environments without .git use the explicitly injected build revision or development.
+  try {
+    revision = execFileSync("git", ["rev-parse", "--short=7", "HEAD"], { cwd: projectRoot, encoding: "utf8" }).trim() || revision;
+  } catch {
+    // Deploy environments without network or .git use injected revision metadata or development.
+  }
 }
 
 const output = resolve(projectRoot, "client/src/generated/buildRevision.ts");
