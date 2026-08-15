@@ -240,3 +240,7 @@
 - [x] Accept TikTok `/t/`, `vm.tiktok.com`, and other valid mobile short-link formats in the Premium TikTok workflow; the live validator now accepts `https://www.tiktok.com/t/...` links like the screenshot.
 - [x] Add five distinct Premium functional API workspaces with guided inputs and exact results, not a copied Multi-tools list: TikTok Save Lab, YouTube Export, APK Vault, Universal Save Desk, and Web Capture.
 - [x] Verify Premium gating/mobile UX through the protected route and live bundle, run 11 test files / 24 tests and production build, push GitHub at `0e7284a`, and save a recoverable checkpoint.
+- [x] Repair duplicated/overlapping Premium launcher content with defensive stacking, overflow, isolation, and containment rules; the live bundle contains the stability styles.
+- [x] Add a Premium conversational AI workspace with five selectable catalog models, prompt input, chat history, loading/error states, and readable replies extracted from API responses instead of raw JSON.
+- [x] Update Premium downloader workspaces to extract actual returned media URLs, render in-page video/audio previews, and provide open/save actions when the API returns usable files; exact JSON remains available below the media result.
+- [x] Add Premium AI tests, verify Premium gating/mobile UX through the live bundle, run 12 test files / 26 tests and production build, push GitHub at `0755402`, and save a recoverable checkpoint.
