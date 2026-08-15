@@ -237,3 +237,6 @@
 - [x] Redesign Premium as a curated product layer distinct from the Multi-tools catalog, with a dedicated app launcher, guided workspace scroll navigation, richer product copy, and distinct Video Lounge, Growth Desk, Creator Desk, and APK Vault identities.
 - [x] Select and implement additional Premium experiences from the catalog with richer result states and mobile-first interaction—not a raw endpoint list; the launcher routes members into the existing functional video, growth, music/future-tool, and APK workspaces.
 - [x] Verify the distinct Premium UX and functional flows through 11 passing test files / 24 tests, production build, live Vercel bundle markers, and GitHub push at `2b19797`; save a recoverable checkpoint.
+- [x] Accept TikTok `/t/`, `vm.tiktok.com`, and other valid mobile short-link formats in the Premium TikTok workflow; the live validator now accepts `https://www.tiktok.com/t/...` links like the screenshot.
+- [x] Add five distinct Premium functional API workspaces with guided inputs and exact results, not a copied Multi-tools list: TikTok Save Lab, YouTube Export, APK Vault, Universal Save Desk, and Web Capture.
+- [x] Verify Premium gating/mobile UX through the protected route and live bundle, run 11 test files / 24 tests and production build, push GitHub at `0e7284a`, and save a recoverable checkpoint.
