@@ -170,3 +170,13 @@ button:focus-visible, a:focus-visible { outline: 3px solid rgba(22,119,255,.35);
 @media (max-width: 600px) { .tools-sidebar__intro h1 { max-width: 100%; font-size: clamp(2.1rem, 11vw, 3rem); line-height: .98; } .tools-heading h2 { max-width: 100%; font-size: clamp(2rem, 10vw, 2.8rem); } .tools-heading p { max-width: 100%; } .tools-grid { max-height: 55vh; } }
 
 @media (max-width: 600px) { .tools-sidebar__intro h1 { max-width: 17rem; white-space: normal; word-break: normal; } .tools-sidebar__intro h1 br { display: block; } }
+
+/* Copyable customer identifier */
+.profile-user-id{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem 1.05rem;background:#f4f9fc;border:1px solid #d8e7ee;border-radius:.8rem}
+.profile-user-id>div{display:grid;gap:.28rem;min-width:0}
+.profile-user-id__label{color:#263d50;font-size:.68rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.profile-user-id code{display:block;overflow-wrap:anywhere;color:var(--blue);font:700 .78rem/1.45 ui-monospace,SFMono-Regular,Menlo,monospace}
+.profile-user-id small{color:var(--muted);font-size:.68rem;line-height:1.45}
+.profile-user-id__copy{flex:0 0 auto;min-height:40px;white-space:nowrap}
+@media (max-width:620px){.profile-user-id{align-items:stretch;flex-direction:column}.profile-user-id__copy{width:100%;justify-content:center}}
+.admin-field-hint{color:var(--muted);font-size:.66rem;font-weight:500;line-height:1.35}

@@ -117,3 +117,11 @@
 - [x] Ensure Vercel-style static deployment serves the SPA routes correctly.
 - [x] Run typecheck/build and verify representative desktop/mobile flows.
 - [x] Sync the completed changes to the selected repository and save a recoverable checkpoint.
+
+## Copyable customer User ID
+
+- [x] Show the authenticated Supabase user UUID on the Profile page as a clearly labeled Customer/User ID.
+- [x] Add a mobile-friendly copy action with success feedback and an accessible fallback.
+- [x] Make the Premium Admin console explain and accept the copied User ID consistently for activation lookup.
+- [x] Improve the profile setup warning so it accurately distinguishes missing schema from transient/profile-read errors.
+- [x] Run tests and build with 3 test files / 5 tests passing, verify the responsive mobile preview shell, sync GitHub at 7505d57, and publish a recoverable checkpoint; authenticated Profile click testing remains dependent on an available signed-in browser session.
