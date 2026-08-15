@@ -225,6 +225,9 @@
 - [x] Build a protected mobile-first Premium Video Room using the XVideo API with in-site playback, explicit user-audio activation, refresh/error states, and a Premium-only locked state.
 - [x] Add a prominent reusable Premium badge to the Premium Room and Profile, with clear active, pending, and inactive states plus compact mobile treatment.
 - [x] Add/update tests, verify protected routing and mobile layout, run the production build, push GitHub at `a0b2463`, and save recoverable checkpoint `0233a6e4`.
-- [ ] Inspect the user-provided TikTok Boost endpoint for required parameters, response states, and policy-safe behavior.
-- [ ] Add a Premium-only TikTok Boost task workspace with validated inputs, exact API result/status rendering, loading/error states, and future-function extension space.
-- [ ] Add tests, verify mobile Premium routing/design, run production build, push GitHub changes, and save a recoverable checkpoint.
+- [x] Inspect the user-provided TikTok Boost endpoint for required parameters, response states, and policy-safe behavior; it accepts `url` plus `type=video_views|like|followers`, and the tested example returned an exact cooldown response rather than success.
+- [x] Add a Premium-only TikTok Boost task workspace with validated inputs, exact API result/status rendering, loading/error states, policy-safe disclosure, and a future-function extension space.
+- [x] Add TikTok Boost helper tests, verify Premium gating and mobile design through the protected route/bundle, run 9 test files / 18 tests and production build, and push GitHub at `c44b489`; save a recoverable checkpoint.
+- [ ] Inspect the user-provided YouTube Boost 4 endpoint for required parameters, response states, and policy-safe behavior.
+- [ ] Add a Premium-only YouTube Boost workspace with validated inputs, exact API result/status rendering, loading/error states, and future-tool consistency.
+- [ ] Add tests, verify Premium gating and mobile design, run production build, push GitHub changes, and save a recoverable checkpoint.
