@@ -250,3 +250,6 @@
 - [x] Make the Premium AI model switcher fit cleanly on narrow mobile screens without oversized horizontal overflow.
 - [x] Redesign TikTok and YouTube booster feedback with visible loading animation and distinct pending, confirmed, and failed status cards.
 - [x] Add/update tests, verify the mobile Premium screenshot, run the production build, and save a published checkpoint.
+- [x] Remove the homepage playback section and its obsolete video-feed state/copy.
+- [x] Remove the Premium playback/lounge section and obsolete playback references while preserving Premium tools.
+- [x] Run tests/build, verify mobile layout, and publish a checkpoint for the removal.
