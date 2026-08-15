@@ -124,4 +124,10 @@
 - [x] Add a mobile-friendly copy action with success feedback and an accessible fallback.
 - [x] Make the Premium Admin console explain and accept the copied User ID consistently for activation lookup.
 - [x] Improve the profile setup warning so it accurately distinguishes missing schema from transient/profile-read errors.
-- [ ] Run tests, build, mobile/profile verification, sync GitHub, and publish a recoverable checkpoint.
+- [x] Run tests and build with 3 test files / 5 tests passing, verify the responsive mobile preview shell, sync GitHub at 7505d57, and publish a recoverable checkpoint; authenticated Profile click testing remains dependent on an available signed-in browser session.
+
+## Premium status and activation feedback
+
+- [x] Add a prominent Profile Premium status visual that clearly communicates Active, Awaiting Verification, or Inactive.
+- [x] Add a successful activation animation and toast notification in Premium Admin without falsely reporting failures.
+- [ ] Validate status/activation feedback states, responsive layout, tests, GitHub sync, and publish a recoverable checkpoint.
