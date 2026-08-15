@@ -274,3 +274,5 @@
 - [x] Harden image generation against empty/non-JSON upstream responses and show a useful user-facing error instead of raw JSON parse failure.
 - [x] Replace the generic APK search result with official Google Play/Palmstore app links and safely expose direct packages only when the provider authorizes and supplies one.
 - [x] Add/update tests, verify mobile UI, run build, push GitHub at remote commit `9a1894c`, and publish a checkpoint.
+- [x] Add app icons, ratings, and brief descriptions to APK Vault results with safe fallbacks for missing provider fields.
+- [x] Add/update tests, verify responsive UI, run build, push GitHub at remote commit `beb8b5e`, and publish a checkpoint.

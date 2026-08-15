@@ -15,6 +15,10 @@ export type ApkResult = {
     lastUpdated?: string;
     package?: string;
     icon?: string;
+    rating?: number | string;
+    description?: string;
+    summary?: string;
+    developer?: string;
     downloadLink?: string;
   };
 };
