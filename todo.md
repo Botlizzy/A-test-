@@ -297,3 +297,7 @@
 - [x] Replace the non-anime Premium image generator with EpicRealism while preserving Animagine unchanged.
 - [x] Filter Premium LiveScore to football/soccer only and refresh automatically without requiring manual refresh.
 - [x] Add/update tests, verify responsive behavior, run build, push GitHub at remote commit `2cd021f`, and publish a checkpoint.
+- [x] Move the Multi-tools catalog into the homepage as a protected/publicly appropriate workspace section.
+- [x] Give each migrated API a custom form, action, loading state, and result presentation based on its actual output type.
+- [x] Make direct media files the primary result with native preview/download controls, while keeping non-file outputs readable and hiding raw JSON from the main UI.
+- [x] Add/update representative tests, verify mobile/desktop UI, run build, push GitHub, and publish a checkpoint.

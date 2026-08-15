@@ -18,6 +18,7 @@ import {
   Wrench,
 } from "lucide-react";
 import type { User } from "@supabase/supabase-js";
+import ToolHub from "./ToolHub";
 
 type ApiVideo = {
   title: string;
@@ -201,6 +202,8 @@ export default function Home({ user, onProfile, onPricing, onPremium, onAdmin, o
             <div className="hero-copy__stamp"><Sparkles size={18} /><span>CURATED<br /><b>RANDOMLY</b></span></div>
           </section>
 
+
+          <section id="tools" className="homepage-tools-section"><div className="homepage-tools-section__intro"><span className="eyebrow eyebrow--red">ELIMINATOR MULTI-TOOLS</span><h2>Every API, rebuilt as a task.</h2><p>Search the full catalog, choose what you want to do, and receive the actual media file or the correct readable result—not an endpoint dump.</p></div><ToolHub user={user} onBack={() => document.getElementById("tools")?.scrollIntoView({ behavior: "smooth", block: "start" })} onSignOut={onSignOut} embedded /></section>
 
           <section className="monetization-card"><div><span className="eyebrow eyebrow--red">MONETIZATION READY</span><h2>Make the platform sustainable.</h2><p>This reserved in-site slot can hold an approved AdSense unit, direct sponsor creative, or a paid-membership CTA once your publisher or payment IDs are ready.</p></div><a className="red-button" href="mailto:elijahchinecheremonah@gmail.com?subject=Eliminator%20monetization">Discuss monetization <ArrowUpRight size={16} /></a></section>
 
