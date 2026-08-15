@@ -10,6 +10,14 @@ import { getApkDownloaderUrl, isApkSearch, type ApkResult } from "@/lib/apkDownl
 type PremiumRoomProps = { user: User; isPremium: boolean; onBack: () => void; onPricing: () => void; onSignOut: () => Promise<void> };
 type PremiumVideo = { title: string; thumbnail?: string; download_url?: string };
 type BoostResult = Record<string, unknown> & { success?: boolean; message?: string };
+type PremiumAppConfig = { id: string; name: string; eyebrow: string; description: string; path: string; field: "url" | "text"; placeholder: string; action: string };
+const PREMIUM_APPS: PremiumAppConfig[] = [
+  { id: "tiktok-download", name: "TikTok Save Lab", eyebrow: "VIDEO SAVER", description: "Turn a TikTok link into the exact returned media result with save actions.", path: "/download/tiktok", field: "url", placeholder: "https://www.tiktok.com/t/...", action: "Fetch TikTok video" },
+  { id: "youtube-download", name: "YouTube Export", eyebrow: "VIDEO EXPORT", description: "Request a YouTube media result without opening the raw API catalog.", path: "/download/ytmp4", field: "url", placeholder: "https://www.youtube.com/watch?v=...", action: "Prepare YouTube file" },
+  { id: "apk-vault", name: "APK Vault", eyebrow: "APP FINDER", description: "Search an app name and review package information plus returned download links.", path: "/download/apk", field: "text", placeholder: "WhatsApp, Telegram, Spotify…", action: "Find app package" },
+  { id: "aio-download", name: "Universal Save Desk", eyebrow: "ALL-IN-ONE", description: "Use one guided URL input for supported media sources.", path: "/download/aio", field: "url", placeholder: "Paste a supported media URL…", action: "Run save desk" },
+  { id: "website-download", name: "Web Capture", eyebrow: "WEB UTILITY", description: "Submit a public page URL and review the exact returned capture metadata.", path: "/tools/downloadweb", field: "url", placeholder: "https://example.com/page", action: "Capture page" },
+];
 
 const PREMIUM_XVIDEO_URL = `https://apis.davidcyril.name.ng/xvideo?url=${encodeURIComponent("https://www.xvideos.com/video.hppakie6a79/mia_khalifa_fucks_a_fanboy")}`;
 
@@ -32,6 +40,11 @@ export default function PremiumRoom({ user, isPremium, onBack, onPricing, onSign
   const [apkLoading, setApkLoading] = useState(false);
   const [apkResult, setApkResult] = useState<ApkResult | null>(null);
   const [apkError, setApkError] = useState("");
+  const [premiumApp, setPremiumApp] = useState(PREMIUM_APPS[0]);
+  const [premiumAppInput, setPremiumAppInput] = useState("");
+  const [premiumAppLoading, setPremiumAppLoading] = useState(false);
+  const [premiumAppResult, setPremiumAppResult] = useState<unknown>(null);
+  const [premiumAppError, setPremiumAppError] = useState("");
 
   const loadPremiumVideo = async () => {
     setLoading(true);
@@ -114,9 +127,32 @@ export default function PremiumRoom({ user, isPremium, onBack, onPricing, onSign
     }
   };
 
+  const runPremiumApp = async (event: FormEvent) => {
+    event.preventDefault();
+    setPremiumAppError("");
+    setPremiumAppResult(null);
+    if (premiumAppInput.trim().length < 2) {
+      setPremiumAppError(premiumApp.field === "url" ? "Paste a valid public URL to continue." : "Enter an app name to continue.");
+      return;
+    }
+    setPremiumAppLoading(true);
+    try {
+      const target = new URL(`https://apis.davidcyril.name.ng${premiumApp.path}`);
+      target.searchParams.set(premiumApp.field, premiumAppInput.trim());
+      const response = await fetch(target.toString(), { headers: { Accept: "application/json" } });
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(payload?.message || `Service returned HTTP ${response.status}.`);
+      setPremiumAppResult(payload);
+    } catch (cause) {
+      setPremiumAppError(cause instanceof Error ? cause.message : "The Premium app could not complete the request.");
+    } finally {
+      setPremiumAppLoading(false);
+    }
+  };
+
   const activeContent = (
     <>
-      <section className="premium-app-launcher"><div className="premium-app-launcher__intro"><span className="eyebrow eyebrow--red">ELIMINATOR PREMIUM APPS</span><h2>Your private toolkit, curated.</h2><p>Choose a focused workspace below. Premium turns individual APIs into guided products with clear inputs, richer results, and mobile-ready actions.</p></div><div className="premium-app-grid"><button className="premium-app-tile premium-app-tile--video" onClick={() => document.getElementById("premium-video-lounge")?.scrollIntoView({ behavior: "smooth", block: "start" })}><span className="premium-app-tile__icon"><Play size={20} /></span><strong>Video Lounge</strong><small>Private XVideo playback</small><b>OPEN APP →</b></button><button className="premium-app-tile premium-app-tile--growth" onClick={() => document.getElementById("premium-tiktok-boost")?.scrollIntoView({ behavior: "smooth", block: "start" })}><span className="premium-app-tile__icon"><Zap size={20} /></span><strong>Growth Desk</strong><small>TikTok + YouTube tools</small><b>OPEN APP →</b></button><button className="premium-app-tile premium-app-tile--music" onClick={() => document.getElementById("premium-toolkit")?.scrollIntoView({ behavior: "smooth", block: "start" })}><span className="premium-app-tile__icon"><Sparkles size={20} /></span><strong>Creator Desk</strong><small>Music and new creative apps</small><b>OPEN APP →</b></button><button className="premium-app-tile premium-app-tile--vault" onClick={() => document.getElementById("premium-apk-vault")?.scrollIntoView({ behavior: "smooth", block: "start" })}><span className="premium-app-tile__icon"><LockKeyhole size={20} /></span><strong>APK Vault</strong><small>Curated app downloads</small><b>OPEN APP →</b></button></div></section><section id="premium-video-lounge" className="premium-room-card premium-room-card--active">
+      <section className="premium-api-board"><div className="premium-api-board__heading"><div><span className="eyebrow eyebrow--red">FIVE CURATED PREMIUM APPS</span><h2>Useful tools, rebuilt for Premium.</h2><p>These are focused products, not endpoint cards. Choose an app, provide one clear input, and review the exact result returned by the service.</p></div><span className="premium-api-board__count">{PREMIUM_APPS.length} APPS</span></div><div className="premium-api-tabs">{PREMIUM_APPS.map((app) => <button key={app.id} className={premiumApp.id === app.id ? "is-active" : ""} onClick={() => { setPremiumApp(app); setPremiumAppInput(""); setPremiumAppResult(null); setPremiumAppError(""); }}>{app.name}</button>)}</div><div className="premium-api-workspace"><div className="premium-api-workspace__copy"><span className="eyebrow eyebrow--red">{premiumApp.eyebrow}</span><h3>{premiumApp.name}</h3><p>{premiumApp.description}</p></div><form className="premium-boost-form" onSubmit={runPremiumApp}><label>{premiumApp.field === "url" ? "Source URL" : "App name"}<input value={premiumAppInput} onChange={(event) => setPremiumAppInput(event.target.value)} placeholder={premiumApp.placeholder} inputMode={premiumApp.field === "url" ? "url" : "text"} /></label><button className="red-button premium-boost-submit" type="submit" disabled={premiumAppLoading}>{premiumAppLoading ? <RefreshCw size={16} className="spin" /> : <Zap size={16} />}{premiumAppLoading ? "Working…" : premiumApp.action}</button></form>{premiumAppError && <div className="premium-boost-result premium-boost-result--error"><CircleAlert size={17} /><span>{premiumAppError}</span></div>}{premiumAppResult !== null && <div className="premium-boost-result premium-boost-result--notice"><strong>Exact service result</strong><pre>{JSON.stringify(premiumAppResult, null, 2)}</pre></div>}</div></section><section className="premium-app-launcher"><div className="premium-app-launcher__intro"><span className="eyebrow eyebrow--red">ELIMINATOR PREMIUM APPS</span><h2>Your private toolkit, curated.</h2><p>Choose a focused workspace below. Premium turns individual APIs into guided products with clear inputs, richer results, and mobile-ready actions.</p></div><div className="premium-app-grid"><button className="premium-app-tile premium-app-tile--video" onClick={() => document.getElementById("premium-video-lounge")?.scrollIntoView({ behavior: "smooth", block: "start" })}><span className="premium-app-tile__icon"><Play size={20} /></span><strong>Video Lounge</strong><small>Private XVideo playback</small><b>OPEN APP →</b></button><button className="premium-app-tile premium-app-tile--growth" onClick={() => document.getElementById("premium-tiktok-boost")?.scrollIntoView({ behavior: "smooth", block: "start" })}><span className="premium-app-tile__icon"><Zap size={20} /></span><strong>Growth Desk</strong><small>TikTok + YouTube tools</small><b>OPEN APP →</b></button><button className="premium-app-tile premium-app-tile--music" onClick={() => document.getElementById("premium-toolkit")?.scrollIntoView({ behavior: "smooth", block: "start" })}><span className="premium-app-tile__icon"><Sparkles size={20} /></span><strong>Creator Desk</strong><small>Music and new creative apps</small><b>OPEN APP →</b></button><button className="premium-app-tile premium-app-tile--vault" onClick={() => document.getElementById("premium-apk-vault")?.scrollIntoView({ behavior: "smooth", block: "start" })}><span className="premium-app-tile__icon"><LockKeyhole size={20} /></span><strong>APK Vault</strong><small>Curated app downloads</small><b>OPEN APP →</b></button></div></section><section id="premium-video-lounge" className="premium-room-card premium-room-card--active">
         <div className="premium-room-card__badge-row"><span className="premium-room-icon"><Sparkles size={24} /></span><PremiumBadge state="active" /></div>
         <span className="eyebrow eyebrow--red">PREMIUM VIDEO LOUNGE</span>
         <h1>Your premium<br /><i>signal is live.</i></h1>
