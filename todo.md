@@ -281,3 +281,5 @@
 - [x] Add/update tests, verify responsive UI, run build, push GitHub at remote commit `a16c45e`, and publish a checkpoint.
 - [x] Put the public site into maintenance mode with a mobile-friendly maintenance screen at the main entry route.
 - [x] Add/update tests, verify the maintenance view, run build, push GitHub at remote commit `06f29cf`, and publish a checkpoint.
+- [x] Disable maintenance mode and restore the normal public app/authentication entry flow.
+- [x] Add/update tests, verify the restored public view, run build, push GitHub at remote commit `922d50c`, and publish a checkpoint.
