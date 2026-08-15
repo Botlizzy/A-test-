@@ -290,3 +290,7 @@
 - [x] Add a Premium-only LiveScore workspace using the documented sports API without changing the public homepage.
 - [x] Normalize live match data into readable cards with loading, empty, error, and refresh states; do not expose API endpoints or raw JSON in the main UI.
 - [x] Add/update tests, verify responsive Premium UI, run build, push GitHub at remote commit `e9470e3`, and publish a checkpoint.
+- [x] Fix duplicated/overlapping Premium launcher and card rendering visible on mobile.
+- [x] Redesign Premium LiveScore into compact leaderboard-style rows with scores aligned on one line.
+- [x] Improve image prompt fidelity with exact prompt submission, clearer provider/result labeling, and robust failure feedback.
+- [x] Add/update tests, verify mobile/desktop UI, run build, push GitHub at remote commit `73a0c26`, and publish a checkpoint.
