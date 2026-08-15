@@ -144,5 +144,10 @@
 
 ## Final GitHub and deployment synchronization
 
-- [x] Reconcile all current project files with the selected GitHub repository and push the final commit; origin/main now points to af73888.
-- [ ] Verify the live deployment uses the synchronized revision after the fresh checkpoint publishes af73888.
+- [x] Reconcile all current project files with the selected GitHub repository and push the final commit; project/repository diff is clean and origin/main now points to 585869a.
+- [x] Verify the live deployment uses the synchronized revision after the fresh checkpoint; `?tools=1&revision=585869a` loaded the public hub with 445 documented tools.
+- [x] Add a verifiable build/revision marker tied to synchronized revision 585869a; ToolHub visibly renders `Build 585869a` and exposes the same value via `data-build-revision`.
+- [ ] Publish and verify the live site reports the final revision marker, then resynchronize GitHub if generated metadata changes.
+- [x] Replace the hardcoded revision marker with a build-time value sourced from the actual Git commit; `write-build-revision.mjs` generates the client module during every production build.
+- [ ] Push the generated revision-marker implementation to GitHub and verify the commit/marker match.
+- [ ] Publish and confirm the live site reports the same generated revision via visible text and data-build-revision.
