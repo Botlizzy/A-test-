@@ -1,11 +1,17 @@
 # Update checklist
 
+## Stale playback-state repair
+
+- [x] Remove the misleading play affordance when no direct media URL exists.
+- [x] Replace the old metadata-only copy/toast with one clear in-player state and refresh action.
+- [ ] Verify the live route, mobile layout, build, tests, GitHub push, and publish.
+
 ## Signup rate-limit repair
 
 - [x] Detect Supabase email-rate-limit errors and show a clear recovery message.
 - [x] Prevent repeated signup submissions with loading and cooldown behavior.
 - [x] Add an explicit post-rate-limit recovery action that routes existing users to Sign in or safely retries after cooldown.
-- [ ] Validate signup recovery UI, build, tests, GitHub push, and publish.
+- [x] Validate signup recovery UI, build, tests, GitHub push, and publish.
 
 ## WhatsApp verification notifications
 
