@@ -7,7 +7,11 @@
 - [x] Add explicit download states for result URLs/files: preparing, success, disabled, and failure feedback.
 - [x] Add dedicated spaces for downloader, search, media, social, image, utility, and adult endpoints where supported through catalog-driven tool workspaces and an 18+ gate.
 - [x] Open the Multi-tools route and verify representative downloader workspace, desktop/mobile layout, isolated 18+ gate, and request-error handling; executed Random Quotes through a safe auto-run deep link and confirmed the downloader invalid-input state visibly reports `Request failed (500)`.
-- [ ] Push all changes to GitHub and publish the multi-tool hub.
+- [x] Push all changes to GitHub; remote main now points to e585fb3 after reconciling the deployment workflow merge.
+- [ ] Save a new project checkpoint/publish the completed Multi-tools hub.
+- [ ] Open the live `/?tools=1` route and confirm the published deployment matches GitHub e585fb3.
+- [x] Make the published public-tools route resilient to auth initialization by bypassing auth checks for `?tools=1`; tests and production build pass locally.
+- [ ] Confirm the published deployment matches GitHub e585fb3 after the final publish.
 
 ## xnxx-search endpoint evaluation
 
