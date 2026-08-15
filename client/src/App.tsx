@@ -31,7 +31,7 @@ export default function App() {
   const [showTools, setShowTools] = useState(() => new URLSearchParams(window.location.search).get("tools") === "1");
   const [premiumActive, setPremiumActive] = useState(false);
   const publicToolsRequested = new URLSearchParams(window.location.search).get("tools") === "1";
-  const maintenanceMode = true;
+  const maintenanceMode = false;
 
   useEffect(() => {
     if (publicToolsRequested) {
