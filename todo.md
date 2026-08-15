@@ -1,5 +1,12 @@
 # Update checklist
 
+## Production configuration repair
+
+- [ ] Inspect the live configuration path and current Supabase environment handling.
+- [ ] Add a production-safe configuration handoff that works with the selected hosting setup.
+- [ ] Validate account creation and auth initialization behavior.
+- [ ] Build, save a checkpoint, and redeploy the fixed version.
+
 - [x] Inspect the deployed page failure and current project configuration.
 - [x] Confirm the current Supabase connection path and required environment variables.
 - [x] Add Supabase authentication setup for login, account creation, session persistence, and sign-out.
