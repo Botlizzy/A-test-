@@ -170,3 +170,31 @@
 - [ ] Complete one real signup/email-confirmation round trip and verify Supabase returns to the deployed origin rather than localhost.
 - [x] Add an explicit global confirmation banner at the App shell so `?confirmed=1` is visible even when Auth state initializes without a session.
 - [x] Push and republish the explicit confirmation banner at GitHub bc55dbe, then verify the live DOM contains “Email confirmed. Sign in to continue to your Eliminator account.” at `/?confirmed=1`.
+
+## Deployed feature visibility diagnosis
+
+- [ ] Verify the live GitHub commit and deployment revision actually include Profile User ID, owner Premium eligibility, and Multi-tools route code.
+- [ ] Diagnose and fix any live route/auth initialization problem hiding Profile User ID, Premium status, or Multi-tools.
+- [ ] Run tests/build, push the repaired tree to GitHub, publish a fresh checkpoint, and verify the live routes with revision evidence.
+
+## Final repository synchronization request
+
+- [x] Copy the complete current working project into the selected GitHub repository without omitting source/configuration files.
+- [x] Commit and push the synchronized tree to origin/main at 3ba01af and verify the resulting GitHub revision; the repository working tree is clean and the source/config tree comparison is empty.
+
+## Functional Multi-tools redesign
+
+- [x] Replace API-first labels with task-first workspace copy and family-specific operation modes.
+- [x] Add functional input/result flows for representative downloader, media, search, AI, image, utility, and adult-gated tools; family-specific task language, inputs, actual media previews, copy, and save actions are implemented in the shared workspace.
+- [x] Show actual output states such as preview, generated result, downloadable file, copyable response, or clear unsupported/error state.
+- [x] Preserve safe handling, 18+ gating, rate/error feedback, and avoid pretending an API succeeded when it did not.
+- [x] Run tests/build (6 files, 11 tests passed) and verify the representative TikTok downloader workspace on mobile; selected task inputs now appear before the tool list.
+- [x] Push the complete functional-tool redesign to GitHub at ee333ff; tests/build pass and the mobile task-shortcut workspace is verified. A fresh recoverable checkpoint remains to be saved.
+
+## Vercel deployment synchronization
+
+- [x] Verify the current functional Multi-tools code and selected GitHub head against the older Vercel deployment shown by the user; GitHub origin/main is ee333ff, while `a-test-ten.vercel.app` still serves a bundle without `START WITH A TASK`, confirming Vercel has not consumed the new commit.
+- [x] Push the complete functional Multi-tools tree to the selected repository; origin/main is ee333ff. Vercel auto-deploy propagation/connection remains unresolved.
+- [ ] Verify the Vercel domain exposes Multi-tools, Profile User ID, and Premium status after deployment.
+- [ ] Save a fresh recoverable checkpoint for the functional Multi-tools redesign after GitHub commit ee333ff.
+- [ ] Verify the published checkpoint serves the task-first mobile Multi-tools experience, not only the local preview or GitHub repository.
