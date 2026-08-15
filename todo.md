@@ -1,5 +1,12 @@
 # Update checklist
 
+## Playback and premium status polish
+
+- [x] Replace the metadata-only play error with a clear, non-alarming in-page explanation and next action; the notice now renders in the player with a Refresh feed action.
+- [x] Add active/inactive/verification-pending Premium status to the user profile; revoked records are now distinguished using the admin audit field.
+- [x] Validate responsive presentation, entitlement lookup, tests, and production build; mobile screenshots were reviewed.
+- [ ] Sync and publish the polish update.
+
 ## Manual premium verification
 
 - [x] Preserve the existing app while completing the full-stack upgrade merge.

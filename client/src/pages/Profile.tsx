@@ -5,6 +5,8 @@ import type { User } from "@supabase/supabase-js";
 import { supabase } from "@/lib/supabase";
 
 type ProfileProps = { user: User; onBack: () => void; onSignOut: () => Promise<void> };
+type PremiumStatus = "active" | "pending" | "inactive";
+
 
 function initials(name: string, email?: string) {
   const source = name.trim() || email?.split("@")[0] || "Viewer";
@@ -15,6 +17,7 @@ export default function Profile({ user, onBack, onSignOut }: ProfileProps) {
   const [fullName, setFullName] = useState(String(user.user_metadata?.full_name || ""));
   const [avatarUrl, setAvatarUrl] = useState(String(user.user_metadata?.avatar_url || ""));
   const [createdAt, setCreatedAt] = useState(user.created_at);
+  const [premiumStatus, setPremiumStatus] = useState<PremiumStatus>("inactive");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -26,11 +29,16 @@ export default function Profile({ user, onBack, onSignOut }: ProfileProps) {
     let active = true;
     const loadProfile = async () => {
       if (!supabase) return;
-      const { data, error: profileError } = await supabase.from("profiles").select("full_name, avatar_url, created_at").eq("id", user.id).maybeSingle();
+      const [{ data, error: profileError }, { data: entitlement }] = await Promise.all([
+        supabase.from("profiles").select("full_name, avatar_url, created_at").eq("id", user.id).maybeSingle(),
+        supabase.from("premium_entitlements").select("active, activated_by").eq("user_id", user.id).maybeSingle(),
+      ]);
       if (!active) return;
       if (!profileError && data?.full_name) setFullName(data.full_name);
       if (!profileError && data?.avatar_url) setAvatarUrl(data.avatar_url);
       if (!profileError && data?.created_at) setCreatedAt(data.created_at);
+      const nextPremiumStatus: PremiumStatus = entitlement?.active ? "active" : entitlement ? (entitlement.activated_by ? "inactive" : "pending") : "inactive";
+      setPremiumStatus(nextPremiumStatus);
       setLoading(false);
     };
     void loadProfile();
@@ -98,8 +106,8 @@ export default function Profile({ user, onBack, onSignOut }: ProfileProps) {
 
   return <div className="profile-shell"><header className="profile-topbar"><a className="brand" href="#top" onClick={(event) => { event.preventDefault(); onBack(); }}><span className="brand-mark"><span className="signal-mark"><span /><span /><span /></span></span><span><strong>eliminator</strong><em>streaming</em></span></a><div className="profile-topbar__actions"><button className="profile-link" onClick={onBack}><ArrowLeft size={15} /> Back to feed</button><a className="profile-link profile-link--muted" href="mailto:elijahchinecheremonah@gmail.com?subject=Eliminator%20feedback">Feedback</a><button className="profile-link profile-link--muted" onClick={onSignOut}><LogOut size={15} /> Sign out</button></div></header>
     <main className="profile-layout"><section className="profile-intro"><span className="eyebrow eyebrow--blue">03 / VIEWER PROFILE</span><h1>Keep your<br /><i>signal personal.</i></h1><p>Your account details travel with your playback room. Update your name and avatar here; your email remains managed securely by Supabase Auth.</p><div className="profile-trust"><ShieldCheck size={18} /><div><b>Protected account</b><span>Only you can read or update this profile.</span></div></div></section>
-      <section className="profile-card"><div className="profile-avatar-wrap"><div className="profile-avatar profile-avatar--photo">{avatarUrl ? <img src={avatarUrl} alt="Profile avatar" /> : <span>{initials(fullName, user.email)}</span>}</div><button className="avatar-upload-button" type="button" onClick={() => fileInputRef.current?.click()} disabled={uploading} aria-label="Upload profile avatar">{uploading ? <LoaderCircle size={16} className="spin" /> : <Camera size={16} />}</button><input ref={fileInputRef} type="file" accept="image/png,image/jpeg,image/webp,image/gif" onChange={uploadAvatar} hidden /></div><div className="profile-avatar-hint">PNG, JPG, WEBP, or GIF · max 5 MB</div><div className="profile-card__heading"><div><span className="eyebrow">ACCOUNT DETAILS</span><h2>{fullName || "Your profile"}</h2></div><span className="profile-status"><span /> ACTIVE</span></div>
-        <form className="profile-form" onSubmit={saveProfile}><label>Full name<input value={fullName} onChange={(event) => setFullName(event.target.value)} placeholder="Your full name" disabled={loading || saving || uploading} autoComplete="name" /></label><label>Email address<div className="profile-readonly"><Mail size={16} /><input value={user.email || "Not available"} readOnly /><span>Verified by auth</span></div></label><div className="profile-meta"><span>Member since</span><b>{new Date(createdAt).toLocaleDateString("en-US", { month: "long", year: "numeric" })}</b></div>{error && <div className="auth-message auth-message--error"><CircleAlert size={16} /><span>{error}</span></div>}{saved && <div className="auth-message auth-message--success"><Check size={16} /><span>Your profile has been updated.</span></div>}<button className="primary-button profile-save" type="submit" disabled={loading || saving || uploading}>{saving ? <LoaderCircle size={16} className="spin" /> : <Save size={16} />}{saving ? "Saving changes…" : "Save profile"}</button></form>
+      <section className="profile-card"><div className="profile-avatar-wrap"><div className="profile-avatar profile-avatar--photo">{avatarUrl ? <img src={avatarUrl} alt="Profile avatar" /> : <span>{initials(fullName, user.email)}</span>}</div><button className="avatar-upload-button" type="button" onClick={() => fileInputRef.current?.click()} disabled={uploading} aria-label="Upload profile avatar">{uploading ? <LoaderCircle size={16} className="spin" /> : <Camera size={16} />}</button><input ref={fileInputRef} type="file" accept="image/png,image/jpeg,image/webp,image/gif" onChange={uploadAvatar} hidden /></div><div className="profile-avatar-hint">PNG, JPG, WEBP, or GIF · max 5 MB</div><div className="profile-card__heading"><div><span className="eyebrow">ACCOUNT DETAILS</span><h2>{fullName || "Your profile"}</h2></div><span className={`profile-status profile-status--premium profile-status--${premiumStatus}`}><span /> {premiumStatus === "active" ? "PREMIUM ACTIVE" : premiumStatus === "pending" ? "AWAITING VERIFICATION" : "PREMIUM INACTIVE"}</span></div>
+        <form className="profile-form" onSubmit={saveProfile}><label>Full name<input value={fullName} onChange={(event) => setFullName(event.target.value)} placeholder="Your full name" disabled={loading || saving || uploading} autoComplete="name" /></label><label>Email address<div className="profile-readonly"><Mail size={16} /><input value={user.email || "Not available"} readOnly /><span>Verified by auth</span></div></label><div className="profile-meta"><span>Member since</span><b>{new Date(createdAt).toLocaleDateString("en-US", { month: "long", year: "numeric" })}</b></div><div className={`premium-status-panel premium-status-panel--${premiumStatus}`}><span>{premiumStatus === "active" ? "Premium is active" : premiumStatus === "pending" ? "Verification is in progress" : "Premium is not active"}</span><small>{premiumStatus === "active" ? "Your account is ready for premium features." : premiumStatus === "pending" ? "An approved admin will activate access after checking your WhatsApp transaction." : "Request Premium access from the Plans page when you are ready."}</small></div>{error && <div className="auth-message auth-message--error"><CircleAlert size={16} /><span>{error}</span></div>}{saved && <div className="auth-message auth-message--success"><Check size={16} /><span>Your profile has been updated.</span></div>}<button className="primary-button profile-save" type="submit" disabled={loading || saving || uploading}>{saving ? <LoaderCircle size={16} className="spin" /> : <Save size={16} />}{saving ? "Saving changes…" : "Save profile"}</button></form>
       </section></main>
   </div>;
 }

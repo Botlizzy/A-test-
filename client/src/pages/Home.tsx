@@ -88,11 +88,13 @@ export default function Home({ user, onProfile, onPricing, onPremium, onAdmin, o
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [copied, setCopied] = useState(false);
+  const [playbackNotice, setPlaybackNotice] = useState("");
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const loadFeed = useCallback(async (count = 6) => {
     setLoading(true);
     setError("");
+    setPlaybackNotice("");
     try {
       const payloads = await Promise.all(Array.from({ length: count }, async () => {
         const response = await fetch(API_URL, { headers: { Accept: "application/json" } });
@@ -131,7 +133,7 @@ export default function Home({ user, onProfile, onPricing, onPremium, onAdmin, o
 
   const handlePlay = async () => {
     if (!mediaUrl || !videoRef.current) {
-      setError("This API item includes metadata only; no direct in-site video stream was provided.");
+      setPlaybackNotice("This title has no playable video stream. Eliminator kept you on this page — refresh the feed to try another title.");
       return;
     }
     try {
@@ -144,7 +146,7 @@ export default function Home({ user, onProfile, onPricing, onPremium, onAdmin, o
 
   const togglePlayback = async () => {
     if (!mediaUrl || !videoRef.current) {
-      setError("This API item includes metadata only; no direct in-site video stream was provided.");
+      setPlaybackNotice("This title has no playable video stream. Eliminator kept you on this page — refresh the feed to try another title.");
       return;
     }
     if (videoRef.current.paused) await handlePlay();
@@ -199,7 +201,7 @@ export default function Home({ user, onProfile, onPricing, onPremium, onAdmin, o
                 <button className="play-orbit" onClick={handlePlay} aria-label={mediaUrl ? "Play video" : "Video stream unavailable"}>
                   {isPlaying ? <Pause size={27} fill="currentColor" /> : <Play size={30} fill="currentColor" />}
                 </button>
-                <span>{mediaUrl ? (isPlaying ? "PLAYING IN ELIMINATOR" : "PLAY ON THIS PAGE") : "DIRECT STREAM NOT PROVIDED"}</span>
+                <span>{mediaUrl ? (isPlaying ? "PLAYING IN ELIMINATOR" : "PLAY ON THIS PAGE") : "PLAYBACK UNAVAILABLE"}</span>{!mediaUrl && <small className="player-unavailable-copy">This feed item includes a thumbnail and source metadata, but no playable media URL.</small>}{playbackNotice && <small className="player-unavailable-copy player-unavailable-copy--notice">{playbackNotice} <button className="player-refresh-link" onClick={() => loadFeed()}>Refresh feed</button></small>}
               </div>
               <div className="player-controls">
                 <button onClick={togglePlayback} aria-label={isPlaying ? "Pause video" : "Play video"} disabled={!mediaUrl}>{isPlaying ? <Pause size={16} fill="currentColor" /> : <Play size={16} fill="currentColor" />}</button>
