@@ -15,6 +15,7 @@ import {
   Sparkles,
   Volume2,
   LogOut,
+  UserRound,
 } from "lucide-react";
 import type { User } from "@supabase/supabase-js";
 
@@ -65,9 +66,9 @@ function SignalMark({ small = false }: { small?: boolean }) {
   );
 }
 
-type HomeProps = { user: User; onSignOut: () => Promise<void> };
+type HomeProps = { user: User; onProfile: () => void; onSignOut: () => Promise<void> };
 
-export default function Home({ user, onSignOut }: HomeProps) {
+export default function Home({ user, onProfile, onSignOut }: HomeProps) {
   const [video, setVideo] = useState<ApiVideo>(FALLBACK_VIDEO);
   const [previous, setPrevious] = useState<ApiVideo[]>([]);
   const [loading, setLoading] = useState(true);
@@ -127,7 +128,7 @@ export default function Home({ user, onSignOut }: HomeProps) {
           <span><strong>streamline</strong><em>video</em></span>
         </a>
         <div className="topbar__status"><span className="status-dot" /> LIVE FEED <span className="topbar__divider" /> 18+ ONLY</div>
-        <div className="topbar__account"><span>{user.user_metadata?.full_name || user.email?.split("@")[0] || "Viewer"}</span><button className="refresh-button" onClick={onSignOut}><LogOut size={16} /><span>Sign out</span></button></div>
+        <div className="topbar__account"><button className="profile-chip" onClick={onProfile}><span className="profile-chip__avatar"><UserRound size={13} /></span><span>{user.user_metadata?.full_name || user.email?.split("@")[0] || "Viewer"}</span></button><button className="refresh-button" onClick={onSignOut}><LogOut size={16} /><span>Sign out</span></button></div>
         <button className="refresh-button" onClick={() => loadFeed()} disabled={loading}>
           <RefreshCw size={16} className={loading ? "spin" : ""} />
           <span>Pull a new frame</span>
