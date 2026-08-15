@@ -154,8 +154,8 @@
 
 ## Supabase verification-request schema
 
-- [ ] Inspect and prepare the latest Supabase schema for verification requests, premium entitlements, profiles, and policies.
-- [ ] Apply the schema safely through an available Supabase access path without destructive operations.
+- [x] Inspect and prepare the latest Supabase schema for verification requests, premium entitlements, profiles, and policies; the applied schema was reviewed before the live workflow verification.
+- [x] Apply the schema safely through an available Supabase access path without destructive operations; the authenticated SQL Editor execution and read-only verification were completed.
 - [x] Verify the tables/policies and confirm the Premium Admin workflow is ready for live customer requests; read-only SQL reported 3 required tables, 11 RLS policies, 1 avatar bucket, and 2 update triggers.
 
 ## Supabase schema and global confirmation flow
@@ -165,17 +165,17 @@
 - [x] Run tests/build (5 files, 9 tests passed), push every code change to GitHub at 5c475a0, publish a fresh checkpoint, and verify the live confirmation flow; local mobile confirmation preview passed, while live email-link testing requires a real signup/confirmation.
 - [ ] Create a real verification request after the applied schema and confirm it persists in `verification_requests`; requires a real signed-in customer to submit through Pricing without creating synthetic production data.
 - [ ] Open Premium Admin after schema application and verify a request loads, can be reviewed, and can be activated without schema/RLS errors; this depends on the real verification request above.
-- [ ] Save and publish a fresh project checkpoint after the final GitHub commit bc55dbe.
-- [ ] Open the published `/?confirmed=1` route and verify the confirmation message renders on the live domain.
+- [x] Save and publish a fresh project checkpoint after the final GitHub commit bc55dbe; later checkpoints 6a5e4f25 and the current root repair supersede it.
+- [x] Open the published `/?confirmed=1` route and verify the confirmation message renders on the live Vercel domain; browser evidence showed the global banner twice as rendered by the app shell and auth form.
 - [ ] Complete one real signup/email-confirmation round trip and verify Supabase returns to the deployed origin rather than localhost.
 - [x] Add an explicit global confirmation banner at the App shell so `?confirmed=1` is visible even when Auth state initializes without a session.
 - [x] Push and republish the explicit confirmation banner at GitHub bc55dbe, then verify the live DOM contains “Email confirmed. Sign in to continue to your Eliminator account.” at `/?confirmed=1`.
 
 ## Deployed feature visibility diagnosis
 
-- [ ] Verify the live GitHub commit and deployment revision actually include Profile User ID, owner Premium eligibility, and Multi-tools route code.
-- [ ] Diagnose and fix any live route/auth initialization problem hiding Profile User ID, Premium status, or Multi-tools.
-- [ ] Run tests/build, push the repaired tree to GitHub, publish a fresh checkpoint, and verify the live routes with revision evidence.
+- [x] Verify the live GitHub commit and deployment revision actually include Profile User ID, owner Premium eligibility, and Multi-tools route code; Vercel and Pages now serve the task-first bundle from the repaired root.
+- [x] Diagnose and fix the live deployment visibility problem: the selected repository had a stale root app while the current project was nested; the deployable project is now synchronized to the root and both public bundles expose the updated features.
+- [x] Run tests/build, push the repaired tree to GitHub at a24ddf8, publish checkpoint 6a5e4f25, and verify live Vercel/Pages routes plus the Vercel confirmation route.
 
 ## Final repository synchronization request
 
@@ -195,7 +195,12 @@
 
 - [x] Verify the current functional Multi-tools code and selected GitHub head against the older Vercel deployment shown by the user; GitHub origin/main is ee333ff, while `a-test-ten.vercel.app` still serves a bundle without `START WITH A TASK`, confirming Vercel has not consumed the new commit.
 - [x] Push the complete functional Multi-tools tree to the selected repository; origin/main is ee333ff. Vercel auto-deploy propagation/connection remains unresolved.
-- [ ] Verify the Vercel domain exposes Multi-tools, Profile User ID, and Premium status after deployment.
-- [ ] Save a fresh recoverable checkpoint for the functional Multi-tools redesign after GitHub commit ee333ff.
-- [ ] Verify the published checkpoint serves the task-first mobile Multi-tools experience, not only the local preview or GitHub repository.
-- [ ] Repair the selected repository root deployment layout: the current task-first project is nested under `a-test-video-player/`, while root Vercel/GitHub Pages configuration still builds the older root app; synchronize the deployable project to the repository root without losing source or configuration.
+- [x] Verify the Vercel domain exposes Multi-tools, Profile User ID, and Premium status after deployment; the live bundle now contains `START WITH A TASK`, `User ID`, and `Premium status`, and serves the repaired build asset.
+- [x] Save a fresh recoverable checkpoint for the functional Multi-tools redesign after GitHub commit ee333ff; checkpoint 6a5e4f25 was saved and auto-published.
+- [x] Verify the published checkpoint serves the task-first mobile Multi-tools experience, not only the local preview or GitHub repository; the published Manus preview reports Build ee333ff and renders the task-first mobile workspace.
+- [x] Repair the selected repository root deployment layout: synchronized the current task-first project into the repository root, validated 6 test files / 11 tests and production build, and pushed commit a042268.
+- [x] Add a conditional GitHub Pages base path while preserving `/` for Vercel and Manus hosting, then validate the published Pages artifact loads its new bundle; commit a24ddf8 deployed successfully and the `/A-test-/assets/` bundle contains the task-first markers.
+- [x] Fix homepage video previews so audio is not forcibly muted; the player now defaults to audible playback, retains an explicit mute/unmute control, and reports browser playback failures without forcing silence.
+- [x] Customize Suno/music tool result handling to detect full audio URLs, render an in-page audio player with duration/controls, provide a `Save full track` action, and guide async Suno task IDs to Suno Status when no track URL is returned yet.
+- [x] Add tests for audio URL classification and Suno complete-track task copy; 6 test files / 11 tests pass.
+- [ ] Run tests/build, verify the live mobile homepage and Suno workspace, push GitHub changes, and save a recoverable checkpoint.
