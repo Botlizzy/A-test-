@@ -270,4 +270,7 @@
 - [x] Add tests, verify mobile downloader UI, run build, push GitHub at remote commit `77bac67`, and publish a checkpoint.
 - [x] Add downloader fetch/preparation progress bar, animated loading state, and clear stage messaging while the direct file is being prepared.
 - [x] Add a secure Premium image generator workspace with prompt input, server-side image generation, loading/error states, preview, and download action.
-- [ ] Add/update tests, verify responsive UI, run build, push GitHub, and publish a checkpoint.
+- [x] Add/update tests, verify responsive UI, run build, push GitHub at remote commit `0d34fbe`, and publish a checkpoint.
+- [x] Harden image generation against empty/non-JSON upstream responses and show a useful user-facing error instead of raw JSON parse failure.
+- [x] Replace the generic APK search result with official Google Play/Palmstore app links and safely expose direct packages only when the provider authorizes and supplies one.
+- [ ] Add/update tests, verify mobile UI, run build, push GitHub, and publish a checkpoint.
