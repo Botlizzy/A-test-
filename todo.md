@@ -247,3 +247,6 @@
 - [x] Remove XVideo from the Premium Room and current homepage flow, leaving a clear replacement-video slot for the API the user will provide.
 - [x] Inspect TikTok/YouTube booster responses for task IDs or status fields and implement confirmed progress/status handling without claiming a boost from JSON acceptance alone.
 - [x] Add tests, verify mobile behavior, and run production build. GitHub push and checkpoint remain for delivery.
+- [x] Make the Premium AI model switcher fit cleanly on narrow mobile screens without oversized horizontal overflow.
+- [x] Redesign TikTok and YouTube booster feedback with visible loading animation and distinct pending, confirmed, and failed status cards.
+- [x] Add/update tests, verify the mobile Premium screenshot, run the production build, and save a published checkpoint.
