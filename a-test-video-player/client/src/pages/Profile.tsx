@@ -1,8 +1,9 @@
 /* Coastal Signal profile room: account details and avatar identity share the same calm, explicit save states. */
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
-import { ArrowLeft, Camera, Check, CircleAlert, LoaderCircle, LogOut, Mail, Save, ShieldCheck, UserRound } from "lucide-react";
+import { ArrowLeft, Camera, Check, CircleAlert, Copy, LoaderCircle, LogOut, Mail, Save, ShieldCheck, UserRound } from "lucide-react";
 import type { User } from "@supabase/supabase-js";
 import { supabase } from "@/lib/supabase";
+import { profileErrorMessage } from "@/lib/profileErrors";
 
 type ProfileProps = { user: User; onBack: () => void; onSignOut: () => Promise<void> };
 type PremiumStatus = "active" | "pending" | "inactive";
@@ -13,6 +14,7 @@ function initials(name: string, email?: string) {
   return source.split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase();
 }
 
+
 export default function Profile({ user, onBack, onSignOut }: ProfileProps) {
   const [fullName, setFullName] = useState(String(user.user_metadata?.full_name || ""));
   const [avatarUrl, setAvatarUrl] = useState(String(user.user_metadata?.avatar_url || ""));
@@ -22,6 +24,7 @@ export default function Profile({ user, onBack, onSignOut }: ProfileProps) {
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [copied, setCopied] = useState(false);
   const [error, setError] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -34,6 +37,9 @@ export default function Profile({ user, onBack, onSignOut }: ProfileProps) {
         supabase.from("premium_entitlements").select("active, activated_by").eq("user_id", user.id).maybeSingle(),
       ]);
       if (!active) return;
+      if (profileError) {
+        setError(profileErrorMessage(profileError.message, "load"));
+      }
       if (!profileError && data?.full_name) setFullName(data.full_name);
       if (!profileError && data?.avatar_url) setAvatarUrl(data.avatar_url);
       if (!profileError && data?.created_at) setCreatedAt(data.created_at);
@@ -72,13 +78,36 @@ export default function Profile({ user, onBack, onSignOut }: ProfileProps) {
     const publicUrl = `${data.publicUrl}?v=${Date.now()}`;
     const { error: profileError } = await supabase.from("profiles").upsert({ id: user.id, full_name: fullName.trim() || "Viewer", email: user.email || "", avatar_url: publicUrl }, { onConflict: "id" });
     if (profileError) {
-      setError(profileError.message);
+      setError(profileErrorMessage(profileError.message, "save"));
     } else {
       await supabase.auth.updateUser({ data: { avatar_url: publicUrl } });
       setAvatarUrl(publicUrl);
       setSaved(true);
     }
     setUploading(false);
+  };
+
+  const copyUserId = async () => {
+    const fallbackCopy = () => {
+      const textarea = document.createElement("textarea");
+      textarea.value = user.id;
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand("copy");
+      textarea.remove();
+    };
+    try {
+      if (navigator.clipboard?.writeText) await navigator.clipboard.writeText(user.id);
+      else fallbackCopy();
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1800);
+    } catch {
+      fallbackCopy();
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1800);
+    }
   };
 
   const saveProfile = async (event: FormEvent) => {
@@ -96,7 +125,7 @@ export default function Profile({ user, onBack, onSignOut }: ProfileProps) {
     setSaving(true);
     const { error: profileError } = await supabase.from("profiles").upsert({ id: user.id, full_name: fullName.trim(), email: user.email || "", avatar_url: avatarUrl || null }, { onConflict: "id" });
     if (profileError) {
-      setError(profileError.message.includes("profiles") ? "The profiles table is not ready yet. Run supabase/schema.sql in Supabase SQL Editor." : profileError.message);
+      setError(profileErrorMessage(profileError.message, "save"));
     } else {
       await supabase.auth.updateUser({ data: { full_name: fullName.trim(), avatar_url: avatarUrl || null } });
       setSaved(true);
@@ -107,7 +136,7 @@ export default function Profile({ user, onBack, onSignOut }: ProfileProps) {
   return <div className="profile-shell"><header className="profile-topbar"><a className="brand" href="#top" onClick={(event) => { event.preventDefault(); onBack(); }}><span className="brand-mark"><span className="signal-mark"><span /><span /><span /></span></span><span><strong>eliminator</strong><em>streaming</em></span></a><div className="profile-topbar__actions"><button className="profile-link" onClick={onBack}><ArrowLeft size={15} /> Back to feed</button><a className="profile-link profile-link--muted" href="mailto:elijahchinecheremonah@gmail.com?subject=Eliminator%20feedback">Feedback</a><button className="profile-link profile-link--muted" onClick={onSignOut}><LogOut size={15} /> Sign out</button></div></header>
     <main className="profile-layout"><section className="profile-intro"><span className="eyebrow eyebrow--blue">03 / VIEWER PROFILE</span><h1>Keep your<br /><i>signal personal.</i></h1><p>Your account details travel with your playback room. Update your name and avatar here; your email remains managed securely by Supabase Auth.</p><div className="profile-trust"><ShieldCheck size={18} /><div><b>Protected account</b><span>Only you can read or update this profile.</span></div></div></section>
       <section className="profile-card"><div className="profile-avatar-wrap"><div className="profile-avatar profile-avatar--photo">{avatarUrl ? <img src={avatarUrl} alt="Profile avatar" /> : <span>{initials(fullName, user.email)}</span>}</div><button className="avatar-upload-button" type="button" onClick={() => fileInputRef.current?.click()} disabled={uploading} aria-label="Upload profile avatar">{uploading ? <LoaderCircle size={16} className="spin" /> : <Camera size={16} />}</button><input ref={fileInputRef} type="file" accept="image/png,image/jpeg,image/webp,image/gif" onChange={uploadAvatar} hidden /></div><div className="profile-avatar-hint">PNG, JPG, WEBP, or GIF · max 5 MB</div><div className="profile-card__heading"><div><span className="eyebrow">ACCOUNT DETAILS</span><h2>{fullName || "Your profile"}</h2></div><span className={`profile-status profile-status--premium profile-status--${premiumStatus}`}><span /> {premiumStatus === "active" ? "PREMIUM ACTIVE" : premiumStatus === "pending" ? "AWAITING VERIFICATION" : "PREMIUM INACTIVE"}</span></div>
-        <form className="profile-form" onSubmit={saveProfile}><label>Full name<input value={fullName} onChange={(event) => setFullName(event.target.value)} placeholder="Your full name" disabled={loading || saving || uploading} autoComplete="name" /></label><label>Email address<div className="profile-readonly"><Mail size={16} /><input value={user.email || "Not available"} readOnly /><span>Verified by auth</span></div></label><div className="profile-meta"><span>Member since</span><b>{new Date(createdAt).toLocaleDateString("en-US", { month: "long", year: "numeric" })}</b></div><div className={`premium-status-panel premium-status-panel--${premiumStatus}`}><span>{premiumStatus === "active" ? "Premium is active" : premiumStatus === "pending" ? "Verification is in progress" : "Premium is not active"}</span><small>{premiumStatus === "active" ? "Your account is ready for premium features." : premiumStatus === "pending" ? "An approved admin will activate access after checking your WhatsApp transaction." : "Request Premium access from the Plans page when you are ready."}</small></div>{error && <div className="auth-message auth-message--error"><CircleAlert size={16} /><span>{error}</span></div>}{saved && <div className="auth-message auth-message--success"><Check size={16} /><span>Your profile has been updated.</span></div>}<button className="primary-button profile-save" type="submit" disabled={loading || saving || uploading}>{saving ? <LoaderCircle size={16} className="spin" /> : <Save size={16} />}{saving ? "Saving changes…" : "Save profile"}</button></form>
+        <form className="profile-form" onSubmit={saveProfile}><label>Full name<input value={fullName} onChange={(event) => setFullName(event.target.value)} placeholder="Your full name" disabled={loading || saving || uploading} autoComplete="name" /></label><label>Email address<div className="profile-readonly"><Mail size={16} /><input value={user.email || "Not available"} readOnly /><span>Verified by auth</span></div></label><div className="profile-user-id"><div><span className="profile-user-id__label">Customer / User ID</span><code>{user.id}</code><small>Copy this ID and enter it in Premium Admin to activate this customer.</small></div><button className="secondary-button profile-user-id__copy" type="button" onClick={() => void copyUserId()} aria-label="Copy customer User ID">{copied ? <Check size={15} /> : <Copy size={15} />}{copied ? "Copied" : "Copy ID"}</button></div><div className="profile-meta"><span>Member since</span><b>{new Date(createdAt).toLocaleDateString("en-US", { month: "long", year: "numeric" })}</b></div><div className={`premium-status-panel premium-status-panel--${premiumStatus}`}><span>{premiumStatus === "active" ? "Premium is active" : premiumStatus === "pending" ? "Verification is in progress" : "Premium is not active"}</span><small>{premiumStatus === "active" ? "Your account is ready for premium features." : premiumStatus === "pending" ? "An approved admin will activate access after checking your WhatsApp transaction." : "Request Premium access from the Plans page when you are ready."}</small></div>{error && <div className="auth-message auth-message--error"><CircleAlert size={16} /><span>{error}</span></div>}{saved && <div className="auth-message auth-message--success"><Check size={16} /><span>Your profile has been updated.</span></div>}<button className="primary-button profile-save" type="submit" disabled={loading || saving || uploading}>{saving ? <LoaderCircle size={16} className="spin" /> : <Save size={16} />}{saving ? "Saving changes…" : "Save profile"}</button></form>
       </section></main>
   </div>;
 }

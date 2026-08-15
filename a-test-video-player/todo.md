@@ -8,10 +8,10 @@
 - [x] Add dedicated spaces for downloader, search, media, social, image, utility, and adult endpoints where supported through catalog-driven tool workspaces and an 18+ gate.
 - [x] Open the Multi-tools route and verify representative downloader workspace, desktop/mobile layout, isolated 18+ gate, and request-error handling; executed Random Quotes through a safe auto-run deep link and confirmed the downloader invalid-input state visibly reports `Request failed (500)`.
 - [x] Push all changes to GitHub; remote main now points to e585fb3 after reconciling the deployment workflow merge.
-- [ ] Save a new project checkpoint/publish the completed Multi-tools hub.
-- [ ] Open the live `/?tools=1` route and confirm the published deployment matches GitHub e585fb3.
+- [x] Save a new project checkpoint/publish the completed Multi-tools hub; published as checkpoint d3178c3a.
+- [x] Open the live `/?tools=1` route and confirm the published deployment serves the public ToolHub with 445 documented tools across 20 categories.
 - [x] Make the published public-tools route resilient to auth initialization by bypassing auth checks for `?tools=1`; tests and production build pass locally.
-- [ ] Confirm the published deployment matches GitHub e585fb3 after the final publish.
+- [x] Confirm the published deployment matches the final GitHub sync; origin/main is 6abbc39 and the live route reflects the hardened public-tools behavior.
 
 ## xnxx-search endpoint evaluation
 
@@ -117,3 +117,11 @@
 - [x] Ensure Vercel-style static deployment serves the SPA routes correctly.
 - [x] Run typecheck/build and verify representative desktop/mobile flows.
 - [x] Sync the completed changes to the selected repository and save a recoverable checkpoint.
+
+## Copyable customer User ID
+
+- [x] Show the authenticated Supabase user UUID on the Profile page as a clearly labeled Customer/User ID.
+- [x] Add a mobile-friendly copy action with success feedback and an accessible fallback.
+- [x] Make the Premium Admin console explain and accept the copied User ID consistently for activation lookup.
+- [x] Improve the profile setup warning so it accurately distinguishes missing schema from transient/profile-read errors.
+- [ ] Run tests, build, mobile/profile verification, sync GitHub, and publish a recoverable checkpoint.
