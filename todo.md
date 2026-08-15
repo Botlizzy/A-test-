@@ -147,7 +147,7 @@
 - [x] Reconcile all current project files with the selected GitHub repository and push the final commit; project/repository diff is clean and origin/main now points to 585869a.
 - [x] Verify the live deployment uses the synchronized revision after the fresh checkpoint; `?tools=1&revision=585869a` loaded the public hub with 445 documented tools.
 - [x] Add a verifiable build/revision marker tied to synchronized revision 585869a; ToolHub visibly renders `Build 585869a` and exposes the same value via `data-build-revision`.
-- [ ] Publish and verify the live site reports the final generated revision marker after origin/main reaches 2ae3ee1.
+- [ ] Publish and verify the live site reports the final generated revision marker after origin/main reaches 213641b.
 - [x] Replace the hardcoded revision marker with a build-time value sourced from the actual Git commit; `write-build-revision.mjs` generates the client module during every production build.
 - [x] Push the generated revision-marker implementation to GitHub at fddd605 and verify the source/config tree matches the repository; the build derives its marker from the actual Git checkout.
-- [ ] Publish and confirm the live site reports the same generated revision via visible text and data-build-revision; origin/main is now 2ae3ee1.
+- [ ] Publish and confirm the live site reports the same generated revision via visible text and data-build-revision; origin/main is now 213641b.
