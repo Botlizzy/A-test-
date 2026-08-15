@@ -1,5 +1,28 @@
 # Update checklist
 
+## Manual premium verification
+
+- [x] Preserve the existing app while completing the full-stack upgrade merge.
+- [x] Add premium entitlement and transaction-reference persistence.
+- [x] Restrict admin verification to the two approved email addresses.
+- [x] Add WhatsApp payment inquiry redirect and customer-ID lookup.
+- [x] Add activate/revoke controls, validation, audit fields, and access feedback.
+- [x] Run tests/build, sync, and publish the workflow.
+
+## Verified premium payments
+
+- [ ] Resolve the full-stack upgrade conflicts without losing the existing app.
+- [ ] Use an official merchant payment provider and server-side webhook verification.
+- [ ] Do not route customer payments to an unverified personal gift-card or PalmPay destination.
+- [ ] Gate premium access only on verified paid subscription status.
+
+## Stripe premium pricing
+
+- [ ] Inspect Stripe integration state and supported project setup.
+- [ ] Add subscription plan configuration and checkout entry points.
+- [ ] Build the Eliminator premium pricing page and navigation.
+- [ ] Validate payment states, build, sync, and publish.
+
 ## In-site playback and monetization
 
 - [x] Confirm the current API has no direct video stream field.
