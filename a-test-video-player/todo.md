@@ -144,5 +144,5 @@
 
 ## Final GitHub and deployment synchronization
 
-- [ ] Reconcile all current project files with the selected GitHub repository, push the final commit, and publish a fresh checkpoint.
-- [ ] Verify the live deployment uses the synchronized revision.
+- [x] Reconcile all current project files with the selected GitHub repository and push the final commit; origin/main now points to af73888.
+- [ ] Verify the live deployment uses the synchronized revision after the fresh checkpoint publishes af73888.
