@@ -1,5 +1,12 @@
 # Update checklist
 
+## Avatar upload
+
+- [x] Add Supabase Storage avatar upload and file validation.
+- [x] Persist avatar URL in the profiles table and auth metadata.
+- [x] Render avatar preview and upload state on the profile page.
+- [x] Add storage bucket/RLS setup instructions and verify the production build.
+
 ## Profile page
 
 - [x] Add authenticated profile route and navigation.
