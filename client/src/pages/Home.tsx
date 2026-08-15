@@ -14,7 +14,9 @@ import {
   ShieldCheck,
   Sparkles,
   Volume2,
+  LogOut,
 } from "lucide-react";
+import type { User } from "@supabase/supabase-js";
 
 type ApiVideo = {
   title: string;
@@ -63,7 +65,9 @@ function SignalMark({ small = false }: { small?: boolean }) {
   );
 }
 
-export default function Home() {
+type HomeProps = { user: User; onSignOut: () => Promise<void> };
+
+export default function Home({ user, onSignOut }: HomeProps) {
   const [video, setVideo] = useState<ApiVideo>(FALLBACK_VIDEO);
   const [previous, setPrevious] = useState<ApiVideo[]>([]);
   const [loading, setLoading] = useState(true);
@@ -73,26 +77,29 @@ export default function Home() {
   const [isMuted, setIsMuted] = useState(true);
   const [copied, setCopied] = useState(false);
 
-  const loadVideo = useCallback(async () => {
+  const loadFeed = useCallback(async (count = 6) => {
     setLoading(true);
     setError("");
     try {
-      const response = await fetch(API_URL, { headers: { Accept: "application/json" } });
-      if (!response.ok) throw new Error(`Request failed (${response.status})`);
-      const payload = (await response.json()) as ApiResponse;
-      if (!payload.success || !payload.data?.title) throw new Error("The feed returned no playable item.");
-      setPrevious((items) => [video, ...items.filter((item) => item.title !== video.title)].slice(0, 3));
-      setVideo(payload.data);
+      const payloads = await Promise.all(Array.from({ length: count }, async () => {
+        const response = await fetch(API_URL, { headers: { Accept: "application/json" } });
+        if (!response.ok) throw new Error(`Request failed (${response.status})`);
+        return (await response.json()) as ApiResponse;
+      }));
+      const items = payloads.map((payload) => payload.data).filter((item): item is ApiVideo => Boolean(item?.title));
+      if (!items.length) throw new Error("The feed returned no video items.");
+      setVideo(items[0]);
+      setPrevious(items.slice(1).filter((item, index, all) => all.findIndex((candidate) => candidate.title === item.title) === index).slice(0, 5));
       setIsPlaying(false);
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "The signal was interrupted.");
     } finally {
       setLoading(false);
     }
-  }, [video]);
+  }, []);
 
   useEffect(() => {
-    if (consented) void loadVideo();
+    if (consented) void loadFeed();
   }, [consented]);
 
   const thumbnail = useMemo(() => resolveThumbnail(video.thumbnail), [video.thumbnail]);
@@ -120,7 +127,8 @@ export default function Home() {
           <span><strong>streamline</strong><em>video</em></span>
         </a>
         <div className="topbar__status"><span className="status-dot" /> LIVE FEED <span className="topbar__divider" /> 18+ ONLY</div>
-        <button className="refresh-button" onClick={loadVideo} disabled={loading}>
+        <div className="topbar__account"><span>{user.user_metadata?.full_name || user.email?.split("@")[0] || "Viewer"}</span><button className="refresh-button" onClick={onSignOut}><LogOut size={16} /><span>Sign out</span></button></div>
+        <button className="refresh-button" onClick={() => loadFeed()} disabled={loading}>
           <RefreshCw size={16} className={loading ? "spin" : ""} />
           <span>Pull a new frame</span>
         </button>
@@ -175,13 +183,13 @@ export default function Home() {
             <div className="detail-card detail-card--accent"><span className="eyebrow eyebrow--blue">SOURCE HANDOFF</span><p>This API provides a source page and thumbnail, not a direct media stream. Watch opens the original page in a new tab.</p><button className="text-button" onClick={copyLink}>{copied ? <><Check size={15} /> Link copied</> : <>Copy source link <ArrowUpRight size={15} /></>}</button></div>
           </section>
 
-          <section id="feed" className="feed-section"><div className="section-heading"><div><span className="eyebrow">02 / RECENT FRAMES</span><h2>Keep the signal moving.</h2></div><button className="text-button" onClick={loadVideo}>Refresh feed <RefreshCw size={15} /></button></div><div className="feed-grid">{previous.length ? previous.map((item, index) => <button className="feed-card" key={`${item.title}-${index}`} onClick={() => { setVideo(item); setIsPlaying(false); }}><div className="feed-card__image" style={{ backgroundImage: item.thumbnail ? `url(${resolveThumbnail(item.thumbnail)})` : undefined }}><span>0{index + 1}</span><Play size={17} fill="currentColor" /></div><div className="feed-card__body"><span className="eyebrow">RECENT FRAME</span><h3>{shortTitle(item.title)}</h3><p>{item.views || "Live feed"} · {formatDuration(item.duration)}</p></div></button>) : <div className="feed-empty"><LoaderCircle size={18} className={loading ? "spin" : ""} /> Pulling the first frames into view…</div>}</div></section>
+          <section id="feed" className="feed-section"><div className="section-heading"><div><span className="eyebrow">02 / RECENT FRAMES</span><h2>Keep the signal moving.</h2></div><button className="text-button" onClick={() => loadFeed()}>Refresh feed <RefreshCw size={15} /></button></div><div className="feed-grid">{previous.length ? previous.map((item, index) => <button className="feed-card" key={`${item.title}-${index}`} onClick={() => { setVideo(item); setIsPlaying(false); }}><div className="feed-card__image" style={{ backgroundImage: item.thumbnail ? `url(${resolveThumbnail(item.thumbnail)})` : undefined }}><span>0{index + 1}</span><Play size={17} fill="currentColor" /></div><div className="feed-card__body"><span className="eyebrow">RECENT FRAME</span><h3>{shortTitle(item.title)}</h3><p>{item.views || "Live feed"} · {formatDuration(item.duration)}</p></div></button>) : <div className="feed-empty"><LoaderCircle size={18} className={loading ? "spin" : ""} /> Pulling the first frames into view…</div>}</div></section>
 
           <section id="note" className="footer-note"><CircleAlert size={17} /><p><b>18+ notice.</b> This interface connects to a third-party adult-content API. Continue only if you are legally an adult in your location. Streamline Video does not host or control the source media.</p></section>
         </section>
       </main>
 
-      {error && <div className="toast-error"><CircleAlert size={17} /><span>{error}</span><button onClick={loadVideo}>Try again</button></div>}
+      {error && <div className="toast-error"><CircleAlert size={17} /><span>{error}</span><button onClick={() => loadFeed()}>Try again</button></div>}
 
       {!consented && <div className="gate-backdrop"><div className="age-gate"><div className="age-gate__mark"><SignalMark small /></div><span className="eyebrow eyebrow--blue">A QUICK CHECK BEFORE PLAY</span><h2>This feed is for adults only.</h2><p>The connected source can return explicit material. Confirm that you are 18+ and legally allowed to view adult content where you are.</p><div className="age-gate__actions"><button className="primary-button" onClick={acceptGate}>I’m 18+ — continue <ArrowUpRight size={16} /></button><a href="https://www.google.com" className="secondary-button">Leave page</a></div><small>By continuing, you acknowledge the source-content boundary.</small></div></div>}
     </div>
