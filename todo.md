@@ -1,5 +1,12 @@
 # Update checklist
 
+## Signup rate-limit repair
+
+- [x] Detect Supabase email-rate-limit errors and show a clear recovery message.
+- [x] Prevent repeated signup submissions with loading and cooldown behavior.
+- [x] Add an explicit post-rate-limit recovery action that routes existing users to Sign in or safely retries after cooldown.
+- [ ] Validate signup recovery UI, build, tests, GitHub push, and publish.
+
 ## WhatsApp verification notifications
 
 - [x] Add Supabase verification-request table, RLS, and status fields.
@@ -7,7 +14,7 @@
 - [x] Show unread request count and request details to approved admins.
 - [x] Preserve selected requests through customer lookup, prevent cross-customer linking, and allow transaction-reference entry before activation.
 - [x] Verify the selected request belongs to the currently loaded customer before activation or revocation.
-- [ ] Run tests/build, push all changes to GitHub, and publish the workflow.
+- [x] Run tests/build, push all changes to GitHub, and publish the workflow.
 
 ## Playback and premium status polish
 
