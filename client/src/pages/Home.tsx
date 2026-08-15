@@ -21,7 +21,7 @@ import type { User } from "@supabase/supabase-js";
 type ApiVideo = {
   title: string;
   url: string;
-  thumbnail?: string;
+  thumbnail?: string | { cover?: string; preview?: string };
   duration?: string;
   video?: string;
   videoUrl?: string;
@@ -33,22 +33,23 @@ type ApiVideo = {
   uploader?: { name?: string; url?: string };
 };
 
-type ApiResponse = { success: boolean; source?: string; data?: ApiVideo; fetchedAt?: string };
+type ApiResponse = { success: boolean; source?: string; data?: ApiVideo | { results?: ApiVideo[] }; fetchedAt?: string };
 
-const API_URL = "https://apis.davidcyril.name.ng/xhamster/random";
+const API_URL = "https://apis.davidcyril.name.ng/xxx/xnxx?q=asmr";
 const FALLBACK_VIDEO: ApiVideo = {
   title: "A fresh signal is waiting in the feed",
-  url: "https://xhamster.com",
+  url: "https://www.xnxx.com",
   thumbnail: "",
   duration: "—",
-  views: "Live feed",
-  uploader: { name: "xHamster Trending" },
+  views: "Search feed",
+  uploader: { name: "XNXX Search" },
 };
 
-function resolveThumbnail(path?: string) {
-  if (!path) return "";
-  if (path.startsWith("http")) return path;
-  return `https://xhamster.com/${path.replace(/^\//, "")}`;
+function resolveThumbnail(path?: string | { cover?: string; preview?: string }) {
+  const cover = typeof path === "object" ? path.cover : path;
+  if (!cover) return "";
+  if (cover.startsWith("http")) return cover;
+  return `https://www.xnxx.com/${cover.replace(/^\//, "")}`;
 }
 
 function formatDuration(value?: string) {
@@ -62,7 +63,8 @@ function shortTitle(title: string) {
 }
 
 function directMediaUrl(item: ApiVideo) {
-  const candidate = item.videoUrl || item.video || item.stream || item.mp4 || item.m3u8 || item.playback_url;
+  const preview = typeof item.thumbnail === "object" ? item.thumbnail.preview : "";
+  const candidate = item.videoUrl || item.video || item.stream || item.mp4 || item.m3u8 || item.playback_url || preview;
   return candidate?.startsWith("http") ? candidate : "";
 }
 
@@ -99,7 +101,11 @@ export default function Home({ user, onProfile, onPricing, onPremium, onAdmin, o
         if (!response.ok) throw new Error(`Request failed (${response.status})`);
         return (await response.json()) as ApiResponse;
       }));
-      const items = payloads.map((payload) => payload.data).filter((item): item is ApiVideo => Boolean(item?.title));
+      const items = payloads.flatMap((payload) => {
+        if (!payload.data) return [];
+        if ("results" in payload.data) return payload.data.results || [];
+        return [payload.data];
+      }).filter((item): item is ApiVideo => "title" in item && Boolean(item.title));
       if (!items.length) throw new Error("The feed returned no video items.");
       setVideo(items[0]);
       setPrevious(items.slice(1).filter((item, index, all) => all.findIndex((candidate) => candidate.title === item.title) === index).slice(0, 5));
@@ -117,6 +123,7 @@ export default function Home({ user, onProfile, onPricing, onPremium, onAdmin, o
 
   const thumbnail = useMemo(() => resolveThumbnail(video.thumbnail), [video.thumbnail]);
   const mediaUrl = useMemo(() => directMediaUrl(video), [video]);
+  const isPreviewMedia = Boolean(mediaUrl && mediaUrl.includes("/preview.mp4"));
 
   const acceptGate = () => {
     localStorage.setItem("streamline-18-plus", "true");
@@ -185,20 +192,20 @@ export default function Home({ user, onProfile, onPricing, onPremium, onAdmin, o
 
           <section id="player" className="player-stage">
             <div className="stage-rings" aria-hidden="true"><span /><span /><span /></div>
-            <div className="player-toolbar"><span><span className="signal-dot" /> SOURCE / XHAMSTER TRENDING</span><span className="player-toolbar__right">SAFE LINK <ShieldCheck size={14} /></span></div>
+            <div className="player-toolbar"><span><span className="signal-dot" /> SOURCE / XNXX SEARCH</span><span className="player-toolbar__right">SAFE LINK <ShieldCheck size={14} /></span></div>
             <div className="player-frame">
               {mediaUrl ? <video ref={videoRef} className="player-video" src={mediaUrl} poster={thumbnail || undefined} controls playsInline muted={isMuted} onPlay={() => setIsPlaying(true)} onPause={() => setIsPlaying(false)} /> : thumbnail ? <img src={thumbnail} alt="" className="player-poster" /> : <div className="player-poster player-poster--fallback" />}
               <div className="player-wash" />
               <div className="player-center">
                 {mediaUrl ? <button className="play-orbit" onClick={handlePlay} aria-label="Play video">{isPlaying ? <Pause size={27} fill="currentColor" /> : <Play size={30} fill="currentColor" />}</button> : <div className="play-orbit play-orbit--disabled" aria-hidden="true"><CircleAlert size={27} /></div>}
-                <span>{mediaUrl ? (isPlaying ? "PLAYING IN ELIMINATOR" : "PLAY ON THIS PAGE") : "NO DIRECT VIDEO STREAM"}</span>{!mediaUrl && <small className="player-unavailable-copy">This API item has a thumbnail and source metadata, but no playable video URL. Use <button className="player-refresh-link" onClick={() => loadFeed()}>Pull a new frame</button> to try another title.</small>}
+                <span>{mediaUrl ? (isPlaying ? (isPreviewMedia ? "PREVIEW PLAYING IN ELIMINATOR" : "PLAYING IN ELIMINATOR") : (isPreviewMedia ? "PLAY PREVIEW ON THIS PAGE" : "PLAY ON THIS PAGE")) : "NO DIRECT VIDEO STREAM"}</span>{!mediaUrl && <small className="player-unavailable-copy">This API item has a thumbnail and source metadata, but no playable video URL. Use <button className="player-refresh-link" onClick={() => loadFeed()}>Pull a new frame</button> to try another title.</small>}
               </div>
               <div className="player-controls">
                 <button onClick={togglePlayback} aria-label={isPlaying ? "Pause video" : "Play video"} disabled={!mediaUrl}>{isPlaying ? <Pause size={16} fill="currentColor" /> : <Play size={16} fill="currentColor" />}</button>
                 <div className="timeline"><span style={{ width: mediaUrl ? "8%" : "0%" }} /></div>
                 <span className="control-time">{formatDuration(video.duration)}</span>
                 <button onClick={() => { setIsMuted((value) => !value); if (videoRef.current) videoRef.current.muted = !isMuted; }} aria-label={isMuted ? "Unmute" : "Mute"} disabled={!mediaUrl}>{isMuted ? <Volume2 size={16} /> : <Volume2 size={16} fill="currentColor" />}</button>
-                <span className="in-site-badge">{mediaUrl ? "IN-SITE" : "METADATA"}</span>
+                <span className="in-site-badge">{mediaUrl ? (isPreviewMedia ? "PREVIEW" : "IN-SITE") : "METADATA"}</span>
               </div>
             </div>
             <div className="player-caption"><div><span className="eyebrow">CURRENT SIGNAL</span><h2>{loading ? "Tuning into the feed…" : shortTitle(video.title)}</h2></div><button className="outline-button" onClick={copyLink}>{copied ? <><Check size={16} /> Link copied</> : <>Copy source URL <ArrowUpRight size={16} /></>}</button></div>
@@ -206,7 +213,7 @@ export default function Home({ user, onProfile, onPricing, onPremium, onAdmin, o
 
           <section className="details-row">
             <div className="detail-card detail-card--primary"><span className="eyebrow">ABOUT THIS FRAME</span><p>{video.uploader?.name ? `Published by ${video.uploader.name}.` : "Published by the live feed."} This page surfaces the source metadata before you decide to continue.</p><div className="detail-card__meta"><span><Clock3 size={14} /> {formatDuration(video.duration)}</span><span><Sparkles size={14} /> {video.views || "Fresh"}</span></div></div>
-            <div className="detail-card detail-card--accent"><span className="eyebrow eyebrow--blue">IN-SITE PLAYBACK</span><p>{mediaUrl ? "This item includes a direct stream, so it plays inside Eliminator without leaving the page." : "This title can’t play here because the API did not provide a direct MP4 or HLS stream. Use Pull a new frame to try another title."}</p><button className="text-button" onClick={copyLink}>{copied ? <><Check size={15} /> Source URL copied</> : <>Copy source URL <ArrowUpRight size={15} /></>}</button></div>
+            <div className="detail-card detail-card--accent"><span className="eyebrow eyebrow--blue">IN-SITE PLAYBACK</span><p>{mediaUrl ? (isPreviewMedia ? "This endpoint provides a browser-playable MP4 preview, not the complete movie. It plays inside Eliminator without leaving the page." : "This item includes a direct stream, so it plays inside Eliminator without leaving the page.") : "This title can’t play here because the API did not provide a direct MP4 or HLS stream. Use Pull a new frame to try another title."}</p><button className="text-button" onClick={copyLink}>{copied ? <><Check size={15} /> Source URL copied</> : <>Copy source URL <ArrowUpRight size={15} /></>}</button></div>
           </section>
 
           <section className="monetization-card"><div><span className="eyebrow eyebrow--red">MONETIZATION READY</span><h2>Make the platform sustainable.</h2><p>This reserved in-site slot can hold an approved AdSense unit, direct sponsor creative, or a paid-membership CTA once your publisher or payment IDs are ready.</p></div><a className="red-button" href="mailto:elijahchinecheremonah@gmail.com?subject=Eliminator%20monetization">Discuss monetization <ArrowUpRight size={16} /></a></section>

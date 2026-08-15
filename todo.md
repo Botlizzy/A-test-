@@ -1,10 +1,17 @@
 # Update checklist
 
+## xnxx-search endpoint evaluation
+
+- [x] Inspect the endpoint documentation and live response for direct MP4/HLS fields; the response provides browser-playable `thumbnail.preview` MP4 clips, not full movie streams.
+- [x] Confirm browser playback compatibility and avoid unsupported external-page scraping; the preview URL returned `video/mp4`, CORS `*`, and byte-range support.
+- [x] Integrate the endpoint using the returned short MP4 preview URLs and label them as previews rather than full movies.
+- [ ] Validate the result and push any code changes to GitHub.
+
 ## Stale playback-state repair
 
 - [x] Remove the misleading play affordance when no direct media URL exists.
 - [x] Replace the old metadata-only copy/toast with one clear in-player state and refresh action.
-- [ ] Verify the live route, mobile layout, build, tests, GitHub push, and publish.
+- [x] Verify the live route, mobile layout, build, tests, GitHub push, and publish; published home route opened and GitHub remote confirmed at 6d442ed.
 
 ## Signup rate-limit repair
 
