@@ -257,3 +257,8 @@
 - [x] Ensure downloader results expose the exact returned media file with native preview and direct download/save actions, not only response JSON.
 - [x] Make TikTok and YouTube booster workflows visibly process returned jobs, poll available status, and clearly report pending, confirmed, or failed outcomes.
 - [x] Add/update tests, verify mobile and desktop layouts, run the production build, save checkpoint `2f784bc8`, and sync the selected GitHub repository at commit `3f3e8e5`.
+- [x] Remove every named example, hardcoded video URL, and related source reference from project files and generated client data.
+- [x] Scan source and production output, run tests/build, and publish the cleanup checkpoint.
+- [x] Remove the stale provider-specific launcher label and any remaining named-video/source references from the current project and synchronized repository tree.
+- [x] Rebuild and scan the production bundle to confirm the stale label is absent.
+- [x] Push the complete current project to Botlizzy/A-test- at commit `951d84f` and save a redeployable checkpoint.
