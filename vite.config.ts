@@ -153,6 +153,8 @@ function vitePluginManusDebugCollector(): Plugin {
 const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector()];
 
 export default defineConfig({
+  // GitHub Pages serves this repository under /A-test-/; Vercel and Manus use /.
+  base: process.env.GITHUB_PAGES === "true" ? "/A-test-/" : "/",
   plugins,
   resolve: {
     alias: {
