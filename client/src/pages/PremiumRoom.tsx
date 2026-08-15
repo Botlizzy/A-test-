@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
-import { ArrowLeft, Check, CircleAlert, LockKeyhole, LogOut, Play, RefreshCw, Sparkles } from "lucide-react";
+import { FormEvent, useEffect, useState } from "react";
+import { ArrowLeft, Check, CircleAlert, LockKeyhole, LogOut, Play, RefreshCw, Sparkles, Zap } from "lucide-react";
 import type { User } from "@supabase/supabase-js";
 import PremiumBadge from "@/components/PremiumBadge";
 import { hasPermanentPremiumAccess } from "@/lib/premiumAccess";
+import { getTikTokBoostUrl, isTikTokTarget, type TikTokBoostType } from "@/lib/tiktokBoost";
 
 type PremiumRoomProps = { user: User; isPremium: boolean; onBack: () => void; onPricing: () => void; onSignOut: () => Promise<void> };
-
 type PremiumVideo = { title: string; thumbnail?: string; download_url?: string };
+type BoostResult = Record<string, unknown> & { success?: boolean; message?: string };
+
 const PREMIUM_XVIDEO_URL = `https://apis.davidcyril.name.ng/xvideo?url=${encodeURIComponent("https://www.xvideos.com/video.hppakie6a79/mia_khalifa_fucks_a_fanboy")}`;
 
 export default function PremiumRoom({ user, isPremium, onBack, onPricing, onSignOut }: PremiumRoomProps) {
@@ -14,6 +16,11 @@ export default function PremiumRoom({ user, isPremium, onBack, onPricing, onSign
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [playing, setPlaying] = useState(false);
+  const [boostTarget, setBoostTarget] = useState("");
+  const [boostType, setBoostType] = useState<TikTokBoostType>("video_views");
+  const [boostLoading, setBoostLoading] = useState(false);
+  const [boostResult, setBoostResult] = useState<BoostResult | null>(null);
+  const [boostError, setBoostError] = useState("");
 
   const loadPremiumVideo = async () => {
     setLoading(true);
@@ -21,7 +28,7 @@ export default function PremiumRoom({ user, isPremium, onBack, onPricing, onSign
     try {
       const response = await fetch(PREMIUM_XVIDEO_URL, { headers: { Accept: "application/json" } });
       if (!response.ok) throw new Error(`Premium feed request failed (${response.status})`);
-      const payload = (await response.json()) as PremiumVideo & { success?: boolean };
+      const payload = (await response.json()) as PremiumVideo;
       if (!payload.title) throw new Error("The Premium feed returned no playable title.");
       setVideo(payload);
     } catch (cause) {
@@ -33,5 +40,54 @@ export default function PremiumRoom({ user, isPremium, onBack, onPricing, onSign
 
   useEffect(() => { if (isPremium) void loadPremiumVideo(); }, [isPremium]);
 
-  return <div className="premium-room-shell"><header className="profile-topbar"><a className="brand" href="#premium" onClick={(event) => { event.preventDefault(); onBack(); }}><span className="brand-mark"><span className="signal-mark"><span /><span /><span /></span></span><span><strong>eliminator</strong><em>premium</em></span></a><div className="profile-topbar__actions"><PremiumBadge state={isPremium ? "active" : "inactive"} compact /><button className="profile-link" onClick={onBack}><ArrowLeft size={15} /> Back to feed</button><button className="profile-link profile-link--muted" onClick={onSignOut}><LogOut size={15} /> Sign out</button></div></header><main className="premium-room-layout">{isPremium ? <><section className="premium-room-card premium-room-card--active"><div className="premium-room-card__badge-row"><span className="premium-room-icon"><Sparkles size={24} /></span><PremiumBadge state="active" /></div><span className="eyebrow eyebrow--red">PREMIUM VIDEO LOUNGE</span><h1>Your premium<br /><i>signal is live.</i></h1><p>Welcome, {user.user_metadata?.full_name || user.email?.split("@")[0] || "member"}. {hasPermanentPremiumAccess(user.email) ? "Your owner account has permanent Premium access." : "This private room is available because an approved administrator activated your entitlement."}</p><div className="premium-benefits"><span><Check size={16} /> Premium account status confirmed</span><span><Check size={16} /> XVideo playback inside Eliminator</span><span><Check size={16} /> New premium features can be added here</span></div></section><section className="premium-video-card"><div className="premium-video-card__heading"><div><span className="eyebrow eyebrow--red">PRIVATE PLAYBACK</span><h2>{video?.title || (loading ? "Tuning the Premium signal…" : "Premium video lounge")}</h2></div><button className="text-button" onClick={() => void loadPremiumVideo()} disabled={loading}><RefreshCw size={15} className={loading ? "spin" : ""} /> Refresh</button></div>{video?.download_url ? <div className="premium-video-frame"><video src={video.download_url} poster={video.thumbnail} controls playsInline onPlay={(event) => { const element = event.currentTarget; element.muted = false; element.volume = 1; setPlaying(true); }} onPause={() => setPlaying(false)} /><span className="premium-video-audio"><Play size={13} /> {playing ? "AUDIBLE PLAYBACK" : "TAP PLAY TO HEAR AUDIO"}</span></div> : <div className="premium-video-empty">{error ? <><CircleAlert size={18} /> {error}</> : <><RefreshCw size={18} className={loading ? "spin" : ""} /> {loading ? "Loading the Premium video…" : "No direct video is available yet."}</>}</div>}</section></> : <section className="premium-room-card"><span className="premium-room-icon premium-room-icon--locked"><LockKeyhole size={24} /></span><PremiumBadge state="inactive" /><span className="eyebrow eyebrow--red">PREMIUM ACCESS REQUIRED</span><h1>This room is<br /><i>locked for now.</i></h1><p>Your account has not been activated by an approved administrator yet. Contact the Eliminator team on WhatsApp, then return after your Customer ID has been verified.</p><button className="red-button" onClick={onPricing}>Request Premium access <Sparkles size={16} /></button></section>}</main></div>;
+  const submitBoost = async (event: FormEvent) => {
+    event.preventDefault();
+    setBoostError("");
+    setBoostResult(null);
+    if (!isTikTokTarget(boostTarget, boostType)) {
+      setBoostError(boostType === "followers" ? "Enter a TikTok profile URL or @username for followers." : "Enter a full TikTok video URL for this service.");
+      return;
+    }
+    setBoostLoading(true);
+    try {
+      const response = await fetch(getTikTokBoostUrl(boostTarget, boostType), { headers: { Accept: "application/json" } });
+      const payload = (await response.json().catch(() => ({ success: false, message: `The service returned HTTP ${response.status}.` }))) as BoostResult;
+      setBoostResult(payload);
+      if (!response.ok) setBoostError(`The boost service returned HTTP ${response.status}.`);
+    } catch (cause) {
+      setBoostError(cause instanceof Error ? cause.message : "The TikTok Boost service is unavailable.");
+    } finally {
+      setBoostLoading(false);
+    }
+  };
+
+  const activeContent = (
+    <>
+      <section className="premium-room-card premium-room-card--active">
+        <div className="premium-room-card__badge-row"><span className="premium-room-icon"><Sparkles size={24} /></span><PremiumBadge state="active" /></div>
+        <span className="eyebrow eyebrow--red">PREMIUM VIDEO LOUNGE</span>
+        <h1>Your premium<br /><i>signal is live.</i></h1>
+        <p>Welcome, {user.user_metadata?.full_name || user.email?.split("@")[0] || "member"}. {hasPermanentPremiumAccess(user.email) ? "Your owner account has permanent Premium access." : "This private room is available because an approved administrator activated your entitlement."}</p>
+        <div className="premium-benefits"><span><Check size={16} /> Premium account status confirmed</span><span><Check size={16} /> XVideo playback inside Eliminator</span><span><Check size={16} /> New premium features can be added here</span></div>
+      </section>
+      <section className="premium-video-card">
+        <div className="premium-video-card__heading"><div><span className="eyebrow eyebrow--red">PRIVATE PLAYBACK</span><h2>{video?.title || (loading ? "Tuning the Premium signal…" : "Premium video lounge")}</h2></div><button className="text-button" onClick={() => void loadPremiumVideo()} disabled={loading}><RefreshCw size={15} className={loading ? "spin" : ""} /> Refresh</button></div>
+        {video?.download_url ? <div className="premium-video-frame"><video src={video.download_url} poster={video.thumbnail} controls playsInline onPlay={(event) => { event.currentTarget.muted = false; event.currentTarget.volume = 1; setPlaying(true); }} onPause={() => setPlaying(false)} /><span className="premium-video-audio"><Play size={13} /> {playing ? "AUDIBLE PLAYBACK" : "TAP PLAY TO HEAR AUDIO"}</span></div> : <div className="premium-video-empty">{error ? <><CircleAlert size={18} /> {error}</> : <><RefreshCw size={18} className={loading ? "spin" : ""} /> {loading ? "Loading the Premium video…" : "No direct video is available yet."}</>}</div>}
+      </section>
+      <section className="premium-tool-card">
+        <div className="premium-tool-card__heading"><div><span className="eyebrow eyebrow--red">PREMIUM TOOL / SOCIAL BOOST</span><h2>TikTok Boost</h2></div><Zap size={22} /></div>
+        <p className="premium-tool-card__lead">Send a TikTok video or profile target to the connected service and see its exact response here. Use this only for accounts and content you own or are authorized to manage, and follow TikTok’s rules.</p>
+        <form className="premium-boost-form" onSubmit={submitBoost}>
+          <label>Target URL or username<input value={boostTarget} onChange={(event) => setBoostTarget(event.target.value)} placeholder={boostType === "followers" ? "@username or TikTok profile URL" : "https://www.tiktok.com/@name/video/123..."} inputMode="url" /></label>
+          <label>Service<select value={boostType} onChange={(event) => setBoostType(event.target.value as TikTokBoostType)}><option value="video_views">Video views</option><option value="like">Likes</option><option value="followers">Followers</option></select></label>
+          <button className="red-button premium-boost-submit" type="submit" disabled={boostLoading}>{boostLoading ? <RefreshCw size={16} className="spin" /> : <Zap size={16} />}{boostLoading ? "Checking service…" : "Run TikTok Boost"}</button>
+        </form>
+        {boostError && <div className="premium-boost-result premium-boost-result--error"><CircleAlert size={17} /><span>{boostError}</span></div>}
+        {boostResult && <div className={`premium-boost-result ${boostResult.success === true ? "premium-boost-result--success" : "premium-boost-result--notice"}`}><div><strong>{boostResult.success === true ? "Service accepted the request" : "Service response"}</strong><p>{String(boostResult.message || (boostResult.success === true ? "The API reported success." : "The API did not report a successful boost."))}</p></div><pre>{JSON.stringify(boostResult, null, 2)}</pre></div>}
+      </section>
+      <section className="premium-tool-card premium-tool-card--future"><span className="eyebrow">PREMIUM TOOLKIT</span><h2>More premium functions coming here.</h2><p>This room is ready for additional approved API workspaces without changing the protected layout.</p></section>
+    </>
+  );
+
+  return <div className="premium-room-shell"><header className="profile-topbar"><a className="brand" href="#premium" onClick={(event) => { event.preventDefault(); onBack(); }}><span className="brand-mark"><span className="signal-mark"><span /><span /><span /></span></span><span><strong>eliminator</strong><em>premium</em></span></a><div className="profile-topbar__actions"><PremiumBadge state={isPremium ? "active" : "inactive"} compact /><button className="profile-link" onClick={onBack}><ArrowLeft size={15} /> Back to feed</button><button className="profile-link profile-link--muted" onClick={onSignOut}><LogOut size={15} /> Sign out</button></div></header><main className="premium-room-layout">{isPremium ? activeContent : <section className="premium-room-card"><span className="premium-room-icon premium-room-icon--locked"><LockKeyhole size={24} /></span><PremiumBadge state="inactive" /><span className="eyebrow eyebrow--red">PREMIUM ACCESS REQUIRED</span><h1>This room is<br /><i>locked for now.</i></h1><p>Your account has not been activated by an approved administrator yet. Contact the Eliminator team on WhatsApp, then return after your Customer ID has been verified.</p><button className="red-button" onClick={onPricing}>Request Premium access <Sparkles size={16} /></button></section>}</main></div>;
 }
