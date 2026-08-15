@@ -224,4 +224,4 @@
 - [x] Run the existing media/auth test suite (8 files / 15 tests), production build, mobile preview, live bundle verification, and push GitHub at `f86b9fb`; save a recoverable checkpoint.
 - [x] Build a protected mobile-first Premium Video Room using the XVideo API with in-site playback, explicit user-audio activation, refresh/error states, and a Premium-only locked state.
 - [x] Add a prominent reusable Premium badge to the Premium Room and Profile, with clear active, pending, and inactive states plus compact mobile treatment.
-- [ ] Add/update tests, verify protected routing and mobile layout, run the production build, push GitHub at `a0b2463`, and save a recoverable checkpoint.
+- [x] Add/update tests, verify protected routing and mobile layout, run the production build, push GitHub at `a0b2463`, and save recoverable checkpoint `0233a6e4`.
