@@ -11,6 +11,7 @@ import PremiumAdmin from "./pages/PremiumAdmin";
 import PremiumRoom from "./pages/PremiumRoom";
 import ToolHub from "./pages/ToolHub";
 import Auth from "./pages/Auth";
+import Maintenance from "./pages/Maintenance";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { hasPermanentPremiumAccess } from "@/lib/premiumAccess";
 import type { Session, User } from "@supabase/supabase-js";
@@ -30,6 +31,7 @@ export default function App() {
   const [showTools, setShowTools] = useState(() => new URLSearchParams(window.location.search).get("tools") === "1");
   const [premiumActive, setPremiumActive] = useState(false);
   const publicToolsRequested = new URLSearchParams(window.location.search).get("tools") === "1";
+  const maintenanceMode = true;
 
   useEffect(() => {
     if (publicToolsRequested) {
@@ -92,6 +94,8 @@ export default function App() {
     window.history.pushState({}, "", "/");
     setShowProfile(false); setShowPricing(false); setShowAdmin(false); setShowPremium(false); setShowTools(false);
   };
+
+  if (maintenanceMode) return <Maintenance />;
 
   if (checkingAuth) {
     return <div className="auth-loading"><span className="signal-mark"><span /><span /><span /></span><p>Tuning into your session…</p></div>;

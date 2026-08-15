@@ -460,3 +460,18 @@ button:focus-visible, a:focus-visible { outline: 3px solid rgba(22,119,255,.35);
   .apk-store-actions { display: grid; grid-template-columns: 1fr; }
   .apk-store-actions > * { width: 100%; }
 }
+
+.maintenance-page { position:relative; display:grid; place-items:center; min-height:100vh; overflow:hidden; padding:1.25rem; color:#082044; background:linear-gradient(135deg,#edf8ff 0%,#fff 54%,#fff3f1 100%); }
+.maintenance-glow { position:absolute; width:22rem; height:22rem; border-radius:50%; filter:blur(2px); opacity:.42; pointer-events:none; }
+.maintenance-glow--one { top:-9rem; right:-7rem; background:#b9d8ff; }
+.maintenance-glow--two { bottom:-10rem; left:-8rem; background:#ffd1ca; }
+.maintenance-card { position:relative; width:min(100%,34rem); padding:clamp(1.5rem,6vw,3rem); text-align:center; background:rgba(255,255,255,.88); border:1px solid rgba(31,81,130,.16); border-radius:1.4rem; box-shadow:0 1.5rem 4rem rgba(16,47,86,.14); backdrop-filter:blur(12px); }
+.maintenance-brand { display:flex; align-items:center; justify-content:center; gap:.6rem; margin-bottom:2.3rem; color:#0d2d55; font-size:1rem; }
+.maintenance-brand strong { font-weight:900; letter-spacing:-.04em; }
+.maintenance-brand em { margin-left:.18rem; color:#2577e5; font-style:normal; font-weight:800; }
+.maintenance-icon { display:grid; place-items:center; width:4rem; height:4rem; margin:0 auto 1.2rem; color:#cc443e; background:#fff0ee; border:1px solid #f0c2bd; border-radius:1.1rem; }
+.maintenance-card h1 { margin:.6rem 0 .8rem; color:#09254a; font:900 clamp(2rem,8vw,3.3rem)/.98 "Space Grotesk",sans-serif; letter-spacing:-.07em; }
+.maintenance-card p { max-width:28rem; margin:0 auto; color:#63758c; font-size:.94rem; line-height:1.65; }
+.maintenance-status { display:inline-flex; align-items:center; gap:.45rem; margin:1.3rem auto 1.2rem; padding:.55rem .8rem; color:#9a3732; background:#fff4f2; border:1px solid #f1c8c3; border-radius:999px; font-size:.72rem; font-weight:800; }
+.maintenance-refresh { width:100%; justify-content:center; }
+@media (max-width:560px) { .maintenance-page { padding:.85rem; }.maintenance-card { padding:1.7rem 1.15rem 1.4rem; border-radius:1.1rem; }.maintenance-brand { margin-bottom:1.7rem; }.maintenance-card p { font-size:.88rem; } }
