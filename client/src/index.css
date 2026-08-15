@@ -412,3 +412,51 @@ button:focus-visible, a:focus-visible { outline: 3px solid rgba(22,119,255,.35);
 @media (prefers-reduced-motion: reduce) {
   .premium-download-progress__track span { animation: none; }
 }
+
+.apk-result-card__icon--fallback {
+  display: grid;
+  place-items: center;
+  color: #2563eb;
+  background: linear-gradient(135deg, #dbeafe, #fee2e2);
+}
+
+.apk-result-card__meta {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 0.45rem;
+  margin-top: 0.3rem;
+}
+
+.apk-rating {
+  width: fit-content;
+  padding: 0.3rem 0.55rem;
+  border-radius: 999px;
+  color: #805b12;
+  background: #fff6d8;
+  font-size: 0.72rem;
+  font-weight: 900;
+}
+
+.apk-result-card__meta p {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.apk-store-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  grid-column: 1 / -1;
+}
+
+.apk-store-actions .tool-download,
+.apk-store-actions .red-button {
+  justify-content: center;
+}
+
+@media (max-width: 560px) {
+  .apk-store-actions { display: grid; grid-template-columns: 1fr; }
+  .apk-store-actions > * { width: 100%; }
+}
