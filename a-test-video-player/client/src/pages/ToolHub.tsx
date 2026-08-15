@@ -31,7 +31,7 @@ export default function ToolHub({ user, onBack, onSignOut }: ToolHubProps) {
   const [copied, setCopied] = useState(false);
   const [downloadState, setDownloadState] = useState<Record<string, "idle" | "downloading" | "success" | "error">>({});
   const [adultAccepted, setAdultAccepted] = useState(() => localStorage.getItem("eliminator-tools-18-plus") === "true");
-  const [liveRevision, setLiveRevision] = useState(BUILD_REVISION);
+  const [liveRevision, setLiveRevision] = useState(() => new URLSearchParams(window.location.search).get("revision") || BUILD_REVISION);
 
   const categories = useMemo(() => Array.from(new Set(catalog.endpoints.map((item) => item.category))), []);
   const filtered = useMemo(() => catalog.endpoints.filter((item) => (category === "all" || item.category === category) && `${item.alias} ${item.path} ${item.tags.join(" ")}`.toLowerCase().includes(query.toLowerCase())), [category, query]);
