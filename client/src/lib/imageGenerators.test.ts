@@ -10,9 +10,19 @@ describe("image generator providers", () => {
     expect(getImageGeneratorUrl("animagine", "anime hero")).toBe("https://apis.davidcyril.name.ng/animagine?prompt=anime+hero");
   });
 
+  it("accepts Writecream's documented image_url success field", async () => {
+    const result = await parseImageGeneratorResponse(new Response(JSON.stringify({ creator: "David Cyril", success: true, prompt: "sunset", ratio: "1:1", image_url: "https://dbuzz-assets.s3.amazonaws.com/ai_image/public/pl/image-test.jpeg" }), { status: 200, headers: { "content-type": "application/json" } }));
+    expect(result.url).toContain("dbuzz-assets.s3.amazonaws.com");
+  });
+
   it("accepts JSON image URLs and rejects provider endpoint URLs", async () => {
     const result = await parseImageGeneratorResponse(new Response(JSON.stringify({ image: "https://cdn.example.com/generated.png" }), { status: 200, headers: { "content-type": "application/json" } }));
     expect(result.url).toBe("https://cdn.example.com/generated.png");
+    await expect(parseImageGeneratorResponse(new Response(JSON.stringify({ image_url: "https://apis.davidcyril.name.ng/ai/writecream/image" }), { status: 200, headers: { "content-type": "application/json" } }))).rejects.toThrow("no usable image file");
+  });
+
+  it("surfaces provider-declared failures", async () => {
+    await expect(parseImageGeneratorResponse(new Response(JSON.stringify({ success: false, message: "Generation is temporarily unavailable" }), { status: 200, headers: { "content-type": "application/json" } }))).rejects.toThrow("temporarily unavailable");
   });
 
   it("accepts direct image responses", async () => {

@@ -44,6 +44,10 @@ export async function parseImageGeneratorResponse(response: Response): Promise<I
   if (!raw.trim()) throw new Error("The image provider returned no image. Try a different prompt.");
   let payload: unknown;
   try { payload = JSON.parse(raw); } catch { throw new Error("The image provider returned an unreadable response. Please try again."); }
+  if (payload && typeof payload === "object" && "success" in payload && payload.success === false) {
+    const message = "message" in payload && typeof payload.message === "string" ? payload.message : "The image provider could not generate this image.";
+    throw new Error(message);
+  }
   const imageUrl = findImageUrl(payload);
   if (!imageUrl) throw new Error("The image provider returned no usable image file. Try again with a more specific prompt.");
   return { url: imageUrl, objectUrl: false };

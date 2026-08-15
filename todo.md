@@ -283,3 +283,10 @@
 - [x] Add/update tests, verify the maintenance view, run build, push GitHub at remote commit `06f29cf`, and publish a checkpoint.
 - [x] Disable maintenance mode and restore the normal public app/authentication entry flow.
 - [x] Add/update tests, verify the restored public view, run build, push GitHub at remote commit `922d50c`, and publish a checkpoint.
+- [x] Audit and repair the Premium Writecream image-generator API integration and real image-file handling.
+- [x] Polish Writecream loading, preview, download, and readable error states.
+- [x] Add/update tests, verify responsive UI, and run build. GitHub push and checkpoint remain for delivery.
+- [x] Confirm Animagine remains wired to the documented endpoint and add a visible Save/Download generated image action.
+- [x] Add a Premium-only LiveScore workspace using the documented sports API without changing the public homepage.
+- [x] Normalize live match data into readable cards with loading, empty, error, and refresh states; do not expose API endpoints or raw JSON in the main UI.
+- [x] Add/update tests, verify responsive Premium UI, run build, push GitHub at remote commit `e9470e3`, and publish a checkpoint.
