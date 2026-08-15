@@ -2,7 +2,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import { ArrowLeft, ArrowRight, CircleAlert, Eye, EyeOff, LoaderCircle, ShieldCheck, UserRound } from "lucide-react";
 import { isSupabaseConfigured, supabase, supabaseConfigMessage } from "@/lib/supabase";
-import { getConfirmationMessage, getConfirmationRedirect, hasConfirmedEmail } from "@/lib/authRedirect";
+import { getConfirmationMessage, getConfirmationRedirect, hasConfirmedEmail, PRODUCTION_APP_ORIGIN } from "@/lib/authRedirect";
 
 type AuthMode = "login" | "signup";
 
@@ -50,7 +50,7 @@ export default function Auth({ mode, onModeChange }: AuthProps) {
     setBusy(true);
     try {
       if (mode === "signup") {
-        const confirmationRedirect = getConfirmationRedirect(window.location.origin);
+        const confirmationRedirect = getConfirmationRedirect(PRODUCTION_APP_ORIGIN);
         const { data, error: signUpError } = await supabase.auth.signUp({
           email: email.trim(),
           password,

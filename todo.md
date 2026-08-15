@@ -207,5 +207,10 @@
 - [x] Fix signup email confirmation redirects so deployed Vercel links never use localhost and preserve the live origin across query/hash/proxy cases; non-public origins now resolve to `https://a-test-ten.vercel.app/?confirmed=1`.
 - [x] Fix the production Supabase configuration warning shown on Vercel by deploying the current root project with its browser-safe Supabase configuration; the live signup route no longer displays the warning, while the explicit fallback error remains available for genuinely missing configuration.
 - [x] Add/update auth redirect tests, run the production build, verify the live mobile signup route, push GitHub at `8e17cab`, and confirm the GitHub deployment succeeded; a fresh recoverable checkpoint remains to be saved.
-- [ ] Fix Premium Admin lookup so a valid Customer / User ID copied from Profile finds the corresponding Supabase customer reliably on mobile.
-- [ ] Add lookup normalization/error-state tests, run the production build, verify the live admin lookup path, push GitHub changes, and save a recoverable checkpoint.
+- [x] Fix Premium Admin lookup so a valid Customer / User ID copied from Profile is normalized, compared safely with verification requests, and resolved with clearer RLS/profile fallback messaging on mobile; live database policy application remains pending.
+- [x] Add lookup normalization/error-state tests, run the production build, verify the live admin bundle, and push GitHub at `b44c143`; save a recoverable checkpoint after the Supabase profile-read policy is applied.
+- [ ] Apply the approved-admin `profiles` SELECT policy in the authenticated Supabase SQL Editor; the project database tool is TiDB and cannot execute PostgreSQL `CREATE POLICY` syntax.
+- [ ] Ensure signup confirmation links use the public Vercel origin and never expose localhost or port 3000 in user emails.
+- [ ] Make homepage video playback restore audible volume and unmute on an explicit user play action, with a clear fallback when the source has no audio track.
+- [ ] Include the authenticated customer’s Customer/User ID automatically in the WhatsApp Premium request message and preserve it in the verification request record.
+- [ ] Add tests, run production/mobile verification, push GitHub changes, and save a recoverable checkpoint.
