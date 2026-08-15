@@ -165,6 +165,8 @@
 - [x] Run tests/build (5 files, 9 tests passed), push every code change to GitHub at 5c475a0, publish a fresh checkpoint, and verify the live confirmation flow; local mobile confirmation preview passed, while live email-link testing requires a real signup/confirmation.
 - [ ] Create a real verification request after the applied schema and confirm it persists in `verification_requests`; requires a real signed-in customer to submit through Pricing without creating synthetic production data.
 - [ ] Open Premium Admin after schema application and verify a request loads, can be reviewed, and can be activated without schema/RLS errors; this depends on the real verification request above.
-- [ ] Save and publish a fresh project checkpoint after GitHub commit 5c475a0.
+- [ ] Save and publish a fresh project checkpoint after the final GitHub commit bc55dbe.
 - [ ] Open the published `/?confirmed=1` route and verify the confirmation message renders on the live domain.
 - [ ] Complete one real signup/email-confirmation round trip and verify Supabase returns to the deployed origin rather than localhost.
+- [x] Add an explicit global confirmation banner at the App shell so `?confirmed=1` is visible even when Auth state initializes without a session.
+- [x] Push and republish the explicit confirmation banner at GitHub bc55dbe, then verify the live DOM contains “Email confirmed. Sign in to continue to your Eliminator account.” at `/?confirmed=1`.
