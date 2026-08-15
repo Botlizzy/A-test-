@@ -10,6 +10,8 @@
 - [x] Push all changes to GitHub; remote main now points to e585fb3 after reconciling the deployment workflow merge.
 - [ ] Save a new project checkpoint/publish the completed Multi-tools hub.
 - [ ] Open the live `/?tools=1` route and confirm the published deployment matches GitHub e585fb3.
+- [x] Make the published public-tools route resilient to auth initialization by bypassing auth checks for `?tools=1`; tests and production build pass locally.
+- [ ] Confirm the published deployment matches GitHub e585fb3 after the final publish.
 
 ## xnxx-search endpoint evaluation
 
