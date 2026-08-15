@@ -231,6 +231,9 @@
 - [x] Inspect the user-provided YouTube Boost 4 endpoint for required parameters, response states, and policy-safe behavior; it accepts `url` plus `type=views|likes|subscribers`, and the tested example returned `success: true`, `amount: 100`, and a countdown message.
 - [x] Add a Premium-only YouTube Boost workspace with validated inputs, exact API result/status rendering, loading/error states, reported amount/type fields, policy-safe copy, and future-tool consistency.
 - [x] Add YouTube Boost helper tests, verify Premium gating and mobile design through the protected route/bundle, run 10 test files / 21 tests and production build, and push GitHub at `a0f300b`; save a recoverable checkpoint.
-- [ ] Inspect the existing downloader catalog and user-provided Multi-tools endpoints for a suitable APK/App download workflow and exact response fields.
-- [ ] Add a Premium-only APK/App Downloader workspace with validated URL input, exact result/download states, safe disclosures, and polished mobile layout; accept valid TikTok short links in the TikTok Boost validator.
-- [ ] Add tests, verify Premium gating/mobile behavior, run production build, push GitHub changes, and save a recoverable checkpoint.
+- [x] Inspect the existing downloader catalog and user-provided Multi-tools endpoints for a suitable APK/App download workflow and exact response fields; `/download/apk?text=whatsapp` returned app name, version, package, icon, and direct `downloadLink` metadata.
+- [x] Add a Premium-only APK/App Downloader workspace with validated app-name input, exact result/download states, safety disclosure, polished mobile result card, and direct APK action; TikTok Boost now accepts valid `vm.tiktok.com` short links.
+- [x] Add APK and TikTok validation tests, verify Premium gating/mobile behavior through the protected route/bundle, run 11 test files / 24 tests and production build, push GitHub at `8705ab2`, and save a recoverable checkpoint.
+- [ ] Redesign Premium as a curated product layer distinct from the Multi-tools catalog, with dedicated app-like cards and guided flows.
+- [ ] Select and implement additional Premium experiences from the catalog with richer result states, saved context, and mobile-first interaction—not a raw endpoint list.
+- [ ] Add tests, verify the distinct Premium UX and functional flows, run production build, push GitHub changes, and save a recoverable checkpoint.
