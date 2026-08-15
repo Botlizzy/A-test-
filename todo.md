@@ -217,3 +217,5 @@
 - [x] Make the homepage shortcut labels bold, correctly named, and clearly visible: Multi-tools, Premium Plans, Premium Room, Admin Verify, Profile, and Sign out.
 - [x] Apply prominent red shortcut colors with responsive mobile spacing and contrast; mobile shortcuts remain visible in a horizontally scrollable header row instead of disappearing.
 - [x] Verify the navigation visually, run tests/build, push GitHub at `428deab`, and save a recoverable checkpoint.
+- [x] Ensure the WhatsApp Premium message always appends the authenticated Customer/User ID immediately after `My Customer ID is:`; the live bundle contains the exact prefix and appends the signed-in UUID at runtime.
+- [x] Add/adjust message-format tests, run the build, verify the live bundle, push GitHub at `8f95923`, and save a recoverable checkpoint.

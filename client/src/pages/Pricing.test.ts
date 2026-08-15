@@ -6,6 +6,6 @@ describe("Premium WhatsApp request link", () => {
     const customerId = "483aff58-3bbf-4e87-9849-19528de38e86";
     const url = getWhatsAppPremiumUrl(customerId);
     expect(url.startsWith("https://wa.me/2349039727490?text=")).toBe(true);
-    expect(decodeURIComponent(url)).toContain(`Customer/User ID is: ${customerId}`);
+    expect(decodeURIComponent(url)).toContain(`My Customer ID is: ${customerId}`);
   });
 });

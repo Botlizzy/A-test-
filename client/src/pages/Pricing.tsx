@@ -6,7 +6,7 @@ import { supabase } from "@/lib/supabase";
 const WHATSAPP_NUMBER = "2349039727490";
 
 export function getWhatsAppPremiumUrl(customerId: string): string {
-  const message = `Hello Eliminator team, I want to request Premium access. My Customer/User ID is: ${customerId}. Please verify my transaction manually.`;
+  const message = `Hello Eliminator team, I want to request Premium access. My Customer ID is: ${customerId}. Please verify my transaction manually.`;
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 }
 
@@ -18,7 +18,7 @@ export default function Pricing({ onBack, user }: PricingProps) {
   const recordRequest = async () => {
     if (!user || !supabase) return;
     setRequestState("sending");
-    const requestMessage = `Customer requested Premium verification through WhatsApp. Customer/User ID: ${user.id}`;
+    const requestMessage = `Customer requested Premium verification through WhatsApp. Customer ID: ${user.id}`;
     const { error } = await supabase.from("verification_requests").insert({ user_id: user.id, customer_email: user.email || "", customer_name: user.user_metadata?.full_name || null, message: requestMessage });
     setRequestState(error ? "error" : "sent");
   };
