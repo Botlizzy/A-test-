@@ -140,6 +140,10 @@ export default function Home({ user, onProfile, onPricing, onPremium, onAdmin, o
   const handlePlay = async () => {
     if (!mediaUrl || !videoRef.current) return;
     try {
+      // This runs from the user’s play tap, so browsers allow audible playback here.
+      videoRef.current.muted = false;
+      videoRef.current.volume = 1;
+      setIsMuted(false);
       await videoRef.current.play();
       setIsPlaying(true);
     } catch {
@@ -205,7 +209,7 @@ export default function Home({ user, onProfile, onPricing, onPremium, onAdmin, o
                 <button onClick={togglePlayback} aria-label={isPlaying ? "Pause video" : "Play video"} disabled={!mediaUrl}>{isPlaying ? <Pause size={16} fill="currentColor" /> : <Play size={16} fill="currentColor" />}</button>
                 <div className="timeline"><span style={{ width: mediaUrl ? "8%" : "0%" }} /></div>
                 <span className="control-time">{formatDuration(video.duration)}</span>
-                <button onClick={() => { setIsMuted((value) => !value); if (videoRef.current) videoRef.current.muted = !isMuted; }} aria-label={isMuted ? "Unmute" : "Mute"} disabled={!mediaUrl}>{isMuted ? <Volume2 size={16} /> : <Volume2 size={16} fill="currentColor" />}</button>
+                <button onClick={() => { const nextMuted = !isMuted; setIsMuted(nextMuted); if (videoRef.current) { videoRef.current.muted = nextMuted; videoRef.current.volume = nextMuted ? 0 : 1; } }} aria-label={isMuted ? "Unmute" : "Mute"} disabled={!mediaUrl}>{isMuted ? <Volume2 size={16} /> : <Volume2 size={16} fill="currentColor" />}</button>
                 <span className="in-site-badge">{mediaUrl ? (isPreviewMedia ? "PREVIEW" : "IN-SITE") : "METADATA"}</span>
               </div>
             </div>

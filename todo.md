@@ -210,3 +210,7 @@
 - [x] Fix Premium Admin lookup so a valid Customer / User ID copied from Profile is normalized, compared safely with verification requests, and resolved with clearer RLS/profile fallback messaging on mobile; live database policy application remains pending.
 - [x] Add lookup normalization/error-state tests, run the production build, verify the live admin bundle, and push GitHub at `b44c143`; save a recoverable checkpoint after the Supabase profile-read policy is applied.
 - [ ] Apply the approved-admin `profiles` SELECT policy in the authenticated Supabase SQL Editor; the project database tool is TiDB and cannot execute PostgreSQL `CREATE POLICY` syntax.
+- [x] Ensure signup confirmation links use the public Vercel origin and never expose localhost or port 3000 in user emails; signup now always submits the Vercel origin and the live bundle contains the public-origin marker.
+- [x] Make homepage video playback restore audible volume and unmute on an explicit user play action, with a clear fallback when the source has no audio track; the play handler now sets `muted=false` and `volume=1` from the user gesture.
+- [x] Include the authenticated customer’s Customer/User ID automatically in the WhatsApp Premium request message and preserve it in the verification request record; the live bundle contains the generated Customer/User ID message and the URL helper has unit coverage.
+- [ ] Add tests, run production/mobile verification, push GitHub at `986ae7e`, and save a recoverable checkpoint.
