@@ -1,5 +1,12 @@
 # Update checklist
 
+## Branding revision
+
+- [x] Update site title and visible wordmark to Eliminator Streaming Platform and Multitools.
+- [x] Add feedback mailto contact for elijahchinecheremonah@gmail.com.
+- [x] Introduce a restrained red accent while preserving the blue-and-white foundation.
+- [x] Validate branding, build, and publish the revision.
+
 ## Avatar upload
 
 - [x] Add Supabase Storage avatar upload and file validation.
