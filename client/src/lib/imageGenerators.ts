@@ -1,7 +1,7 @@
-export const WRITECREAM_IMAGE_ENDPOINT = "https://apis.davidcyril.name.ng/ai/writecream/image";
+export const EPICREALISM_IMAGE_ENDPOINT = "https://apis.davidcyril.name.ng/epicrealism";
 export const ANIMAGINE_IMAGE_ENDPOINT = "https://apis.davidcyril.name.ng/animagine";
 
-export type ImageGeneratorKind = "writecream" | "animagine";
+export type ImageGeneratorKind = "epicrealism" | "animagine";
 export type ImageGeneratorResult = { url: string; objectUrl: boolean };
 
 export function prepareImagePrompt(prompt: string): string {
@@ -10,9 +10,9 @@ export function prepareImagePrompt(prompt: string): string {
 }
 
 export function getImageGeneratorUrl(kind: ImageGeneratorKind, prompt: string, ratio = "1:1"): string {
-  const url = new URL(kind === "writecream" ? WRITECREAM_IMAGE_ENDPOINT : ANIMAGINE_IMAGE_ENDPOINT);
+  const url = new URL(kind === "epicrealism" ? EPICREALISM_IMAGE_ENDPOINT : ANIMAGINE_IMAGE_ENDPOINT);
   url.searchParams.set("prompt", prepareImagePrompt(prompt));
-  if (kind === "writecream") url.searchParams.set("ratio", ratio);
+  if (kind === "epicrealism") url.searchParams.set("ratio", ratio);
   return url.toString();
 }
 

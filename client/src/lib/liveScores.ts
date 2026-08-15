@@ -1,4 +1,5 @@
 export const LIVE_SCORES_ENDPOINT = "https://apis.davidcyril.name.ng/sports/live";
+export const LIVE_SCORES_REFRESH_MS = 60_000;
 
 export type LiveMatch = {
   id: string;
@@ -16,6 +17,12 @@ export type LiveMatch = {
 };
 
 function text(value: unknown): string | undefined { return typeof value === "string" || typeof value === "number" ? String(value) : undefined; }
+
+function isSoccerLeague(league: string, label: string): boolean {
+  const value = `${league} ${label}`.toLowerCase();
+  if (/\b(nfl|cfl|xfl|usfl|ncaa|college|american football)\b/.test(value)) return false;
+  return /\b(soccer|football|fifa|uefa|epl|premier league|champions league|europa league|laliga|la liga|serie a|bundesliga|ligue 1|mls)\b/.test(value);
+}
 
 function normalizeGame(game: any, league: string, leagueLabel: string, index: number): LiveMatch | null {
   const home = game?.homeTeam ?? game?.home ?? game?.teams?.home;
@@ -42,9 +49,11 @@ export function normalizeLiveScores(payload: any): LiveMatch[] {
   const matches: LiveMatch[] = [];
   for (const [league, value] of Object.entries(payload)) {
     if (league === "success" || !value || typeof value !== "object") continue;
+    const leagueLabel = text((value as any).name) ?? league.toUpperCase();
+    if (!isSoccerLeague(league, leagueLabel)) continue;
     const games = Array.isArray((value as any).games) ? (value as any).games : Array.isArray((value as any).events) ? (value as any).events : [];
     games.forEach((game: any, index: number) => {
-      const normalized = normalizeGame(game, league, text((value as any).name) ?? league.toUpperCase(), index);
+      const normalized = normalizeGame(game, league, leagueLabel, index);
       if (normalized) matches.push(normalized);
     });
   }

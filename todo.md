@@ -294,3 +294,6 @@
 - [x] Redesign Premium LiveScore into compact leaderboard-style rows with scores aligned on one line.
 - [x] Improve image prompt fidelity with exact prompt submission, clearer provider/result labeling, and robust failure feedback.
 - [x] Add/update tests, verify mobile/desktop UI, run build, push GitHub at remote commit `73a0c26`, and publish a checkpoint.
+- [x] Replace the non-anime Premium image generator with EpicRealism while preserving Animagine unchanged.
+- [x] Filter Premium LiveScore to football/soccer only and refresh automatically without requiring manual refresh.
+- [x] Add/update tests, verify responsive behavior, run build, push GitHub at remote commit `2cd021f`, and publish a checkpoint.
