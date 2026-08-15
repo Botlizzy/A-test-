@@ -2,6 +2,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import { ArrowLeft, ArrowRight, CircleAlert, Eye, EyeOff, LoaderCircle, ShieldCheck, UserRound } from "lucide-react";
 import { isSupabaseConfigured, supabase, supabaseConfigMessage } from "@/lib/supabase";
+import { getConfirmationMessage, getConfirmationRedirect } from "@/lib/authRedirect";
 
 type AuthMode = "login" | "signup";
 
@@ -13,7 +14,7 @@ export default function Auth({ mode, onModeChange }: AuthProps) {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [busy, setBusy] = useState(false);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState(() => getConfirmationMessage(window.location.search));
   const [error, setError] = useState("");
   const [cooldownSeconds, setCooldownSeconds] = useState(0);
   const [rateLimited, setRateLimited] = useState(false);
@@ -48,10 +49,14 @@ export default function Auth({ mode, onModeChange }: AuthProps) {
     setBusy(true);
     try {
       if (mode === "signup") {
+        const confirmationRedirect = getConfirmationRedirect(window.location.origin);
         const { data, error: signUpError } = await supabase.auth.signUp({
           email: email.trim(),
           password,
-          options: { data: { full_name: fullName.trim() } },
+          options: {
+            emailRedirectTo: confirmationRedirect,
+            data: { full_name: fullName.trim() },
+          },
         });
         if (signUpError) throw signUpError;
         if (data.user) {
