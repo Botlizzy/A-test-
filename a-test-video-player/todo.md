@@ -151,3 +151,17 @@
 - [x] Replace the hardcoded revision marker with a build-time value sourced from the actual Git commit; `write-build-revision.mjs` generates the client module during every production build.
 - [x] Push the generated revision-marker implementation to GitHub at fddd605 and verify the source/config tree matches the repository; the build derives its marker from the actual Git checkout.
 - [x] Publish and confirm the live site reports the same generated revision via visible text and `data-build-revision`; browser console evidence returned `marker: 213641b` and `githubMainSha: 213641b` on the live page.
+
+## Supabase verification-request schema
+
+- [ ] Inspect and prepare the latest Supabase schema for verification requests, premium entitlements, profiles, and policies.
+- [ ] Apply the schema safely through an available Supabase access path without destructive operations.
+- [x] Verify the tables/policies and confirm the Premium Admin workflow is ready for live customer requests; read-only SQL reported 3 required tables, 11 RLS policies, 1 avatar bucket, and 2 update triggers.
+
+## Supabase schema and global confirmation flow
+
+- [x] Execute the confirmed latest Supabase schema and verify profiles, premium entitlements, verification requests, storage, triggers, and RLS policies; Supabase returned success and a read-only verification query reported 3 tables, 11 policies, 1 avatar bucket, and 2 triggers.
+- [x] Find and fix confirmation-page links or redirects that use localhost/local URLs instead of the deployed origin; signup now uses `window.location.origin/?confirmed=1` through a tested helper, and the mobile confirmation route renders the global Auth message.
+- [ ] Run tests/build (5 files, 9 tests passed), push every code change to GitHub, publish a fresh checkpoint, and verify the live confirmation flow.
+- [ ] Create a real verification request after the applied schema and confirm it persists in `verification_requests`.
+- [ ] Open Premium Admin after schema application and verify a request loads, can be reviewed, and can be activated without schema/RLS errors.
