@@ -1,5 +1,13 @@
+export const PRODUCTION_APP_ORIGIN = "https://a-test-ten.vercel.app";
+
+function isNonPublicOrigin(origin: string): boolean {
+  return /(?:localhost|127\.0\.0\.1|0\.0\.0\.0|\.manus(?:pre)?\.computer|\.manus\.space)(?::\d+)?$/i.test(origin.replace(/\/$/, ""));
+}
+
 export function getConfirmationRedirect(origin: string): string {
-  return `${origin.replace(/\/$/, "")}/?confirmed=1`;
+  const normalized = origin.replace(/\/$/, "");
+  const target = isNonPublicOrigin(normalized) ? PRODUCTION_APP_ORIGIN : normalized;
+  return `${target}/?confirmed=1`;
 }
 
 export function hasConfirmedEmail(search: string): boolean {
