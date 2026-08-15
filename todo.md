@@ -240,7 +240,20 @@
 - [x] Accept TikTok `/t/`, `vm.tiktok.com`, and other valid mobile short-link formats in the Premium TikTok workflow; the live validator now accepts `https://www.tiktok.com/t/...` links like the screenshot.
 - [x] Add five distinct Premium functional API workspaces with guided inputs and exact results, not a copied Multi-tools list: TikTok Save Lab, YouTube Export, APK Vault, Universal Save Desk, and Web Capture.
 - [x] Verify Premium gating/mobile UX through the protected route and live bundle, run 11 test files / 24 tests and production build, push GitHub at `0e7284a`, and save a recoverable checkpoint.
-- [ ] Repair duplicated/overlapping Premium launcher content and verify mobile spacing/stacking.
-- [ ] Add a Premium conversational AI workspace with selectable catalog AI models, prompt input, chat history, loading/error states, and readable replies instead of raw JSON.
-- [ ] Update video downloader workspaces to extract actual returned media URLs, render in-page video/audio previews, and provide save actions when the API returns usable files.
-- [ ] Add tests, verify Premium gating/mobile UX, run production build, push GitHub changes, and save a recoverable checkpoint.
+- [x] Repair duplicated/overlapping Premium launcher content with defensive stacking, overflow, isolation, and containment rules; the live bundle contains the stability styles.
+- [x] Add a Premium conversational AI workspace with five selectable catalog models, prompt input, chat history, loading/error states, and readable replies extracted from API responses instead of raw JSON.
+- [x] Update Premium downloader workspaces to extract actual returned media URLs, render in-page video/audio previews, and provide open/save actions when the API returns usable files; exact JSON remains available below the media result.
+- [x] Add Premium AI tests, verify Premium gating/mobile UX through the live bundle, run 12 test files / 26 tests and production build, push GitHub at `0755402`, and save a recoverable checkpoint.
+- [x] Remove XVideo from the Premium Room and current homepage flow, leaving a clear replacement-video slot for the API the user will provide.
+- [x] Inspect TikTok/YouTube booster responses for task IDs or status fields and implement confirmed progress/status handling without claiming a boost from JSON acceptance alone.
+- [x] Add tests, verify mobile behavior, and run production build. GitHub push and checkpoint remain for delivery.
+- [x] Make the Premium AI model switcher fit cleanly on narrow mobile screens without oversized horizontal overflow.
+- [x] Redesign TikTok and YouTube booster feedback with visible loading animation and distinct pending, confirmed, and failed status cards.
+- [x] Add/update tests, verify the mobile Premium screenshot, run the production build, and save a published checkpoint.
+- [x] Remove the homepage playback section and its obsolete video-feed state/copy.
+- [x] Remove the Premium playback/lounge section and obsolete playback references while preserving Premium tools.
+- [x] Run tests/build, verify mobile layout, and publish a checkpoint for the removal.
+- [x] Restore a Premium Video Lounge launcher/presentation and make the Premium page use the requested desktop-style composition without mobile clipping or unintended horizontal overflow.
+- [x] Ensure downloader results expose the exact returned media file with native preview and direct download/save actions, not only response JSON.
+- [x] Make TikTok and YouTube booster workflows visibly process returned jobs, poll available status, and clearly report pending, confirmed, or failed outcomes.
+- [ ] Add/update tests, verify mobile and desktop layouts, run the production build, save a checkpoint, and sync GitHub.

@@ -257,3 +257,55 @@ button:focus-visible, a:focus-visible { outline: 3px solid rgba(22,119,255,.35);
 .premium-app-launcher,.premium-api-board,.premium-ai-chat { position:relative; display:block; isolation:isolate; overflow:hidden; contain:layout paint; }.premium-app-launcher__intro,.premium-app-grid,.premium-api-board__heading,.premium-api-tabs,.premium-api-workspace { position:relative; z-index:1; }.premium-app-launcher__intro p,.premium-api-board__heading p { max-width:100%; overflow-wrap:anywhere; }.premium-app-grid { min-width:0; }.premium-app-tile { min-width:0; overflow:hidden; transform:none; }.premium-app-tile:hover,.premium-app-tile:focus-visible { transform:translateY(-2px); }
 .premium-ai-chat { margin-bottom:1rem; padding:1rem; color:#fff; background:linear-gradient(145deg,#101d3d,#173f78 65%,#7f292d); border:1px solid rgba(255,255,255,.16); border-radius:1.15rem; box-shadow:0 18px 44px rgba(18,45,91,.18); }.premium-ai-chat__heading { display:flex; justify-content:space-between; gap:1rem; align-items:flex-start; }.premium-ai-chat__heading h2 { margin:.45rem 0 .35rem; color:#fff; font:800 clamp(1.45rem,4vw,2.15rem)/1.05 "Space Grotesk",sans-serif; letter-spacing:-.06em; }.premium-ai-chat__heading p { max-width:38rem; margin:0; color:#c9d8eb; font-size:.8rem; line-height:1.55; }.premium-ai-models { display:flex; gap:.45rem; overflow-x:auto; margin:1rem 0 .75rem; padding-bottom:.25rem; }.premium-ai-models button { display:grid; gap:.18rem; flex:0 0 auto; min-width:8.6rem; padding:.65rem .75rem; text-align:left; color:#d6e2f2; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.18); border-radius:.7rem; font-size:.72rem; font-weight:800; }.premium-ai-models button small { color:#a9bed9; font-size:.62rem; font-weight:600; }.premium-ai-models button.is-active { color:#fff; background:#d94a45; border-color:#ffaaa3; }.premium-ai-thread { display:grid; gap:.55rem; min-height:12rem; max-height:25rem; overflow:auto; padding:.75rem; background:rgba(5,18,42,.3); border:1px solid rgba(255,255,255,.14); border-radius:.85rem; }.premium-ai-empty { display:grid; place-items:center; gap:.35rem; min-height:10rem; color:#c9d8eb; text-align:center; }.premium-ai-empty strong { color:#fff; font:800 1rem/1.1 "Space Grotesk",sans-serif; }.premium-ai-empty span { font-size:.72rem; }.premium-ai-message { max-width:88%; padding:.65rem .75rem; border-radius:.75rem; }.premium-ai-message span { display:block; margin-bottom:.25rem; color:#ffb0aa; font-size:.6rem; font-weight:900; letter-spacing:.08em; }.premium-ai-message p { margin:0; white-space:pre-wrap; overflow-wrap:anywhere; font-size:.8rem; line-height:1.5; }.premium-ai-message--user { justify-self:end; color:#fff; background:#d94a45; }.premium-ai-message--assistant { justify-self:start; color:#e5eef9; background:rgba(255,255,255,.11); }.ai-thinking { opacity:.75; }.premium-ai-composer { display:grid; grid-template-columns:1fr auto; gap:.55rem; margin-top:.75rem; }.premium-ai-composer textarea { width:100%; min-width:0; resize:vertical; padding:.75rem; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); border-radius:.7rem; outline:none; font:500 .8rem/1.45 inherit; }.premium-ai-composer textarea::placeholder { color:#b7c8dd; }.premium-ai-composer textarea:focus { border-color:#ffaaa3; box-shadow:0 0 0 3px rgba(255,170,163,.12); }.premium-returned-media { display:grid; gap:.5rem; margin:.75rem 0; }.premium-returned-media video,.premium-returned-media audio { width:100%; border-radius:.65rem; }.premium-returned-media .tool-download { justify-self:start; padding:.5rem .7rem; color:#b33b35; background:#fff4f2; border:1px solid #efc4bf; border-radius:.55rem; text-decoration:none; font-size:.7rem; font-weight:800; }
 @media (max-width:560px) { .premium-ai-chat { padding:.85rem; }.premium-ai-chat__heading { display:block; }.premium-ai-chat__heading .premium-api-board__count { display:inline-block; margin-top:.7rem; }.premium-ai-composer { grid-template-columns:1fr; }.premium-ai-composer .red-button { width:100%; justify-content:center; }.premium-ai-message { max-width:94%; } }
+
+/* Premium mobile refinement: keep model controls inside the viewport and make booster states scannable. */
+.premium-boost-status { display:flex; align-items:flex-start; gap:.75rem; margin-top:.75rem; padding:.8rem .85rem; border:1px solid rgba(255,255,255,.16); border-radius:.75rem; background:rgba(255,255,255,.08); }
+.premium-boost-status__icon { display:grid; place-items:center; flex:0 0 2rem; width:2rem; height:2rem; border-radius:50%; color:#fff; background:#274d85; }
+.premium-boost-status strong { display:block; color:#fff; font-size:.78rem; font-weight:900; }
+.premium-boost-status p { margin:.2rem 0 0; color:#c9d8eb; font-size:.7rem; line-height:1.45; }
+.premium-boost-status--loading { border-color:rgba(255,170,163,.5); background:linear-gradient(120deg,rgba(217,74,69,.2),rgba(255,255,255,.08)); }
+.premium-boost-status--loading .premium-boost-status__icon { background:#d94a45; }
+.premium-boost-status--pending { border-color:#e4bd68; background:#fff8e6; }
+.premium-boost-status--pending strong,.premium-boost-status--pending p { color:#795719; }
+.premium-boost-status--pending .premium-boost-status__icon { color:#795719; background:#ffe4a3; }
+.premium-boost-status--confirmed { border-color:#9bd5bb; background:#effbf4; }
+.premium-boost-status--confirmed strong,.premium-boost-status--confirmed p { color:#17633e; }
+.premium-boost-status--confirmed .premium-boost-status__icon { background:#2a9d67; }
+.premium-boost-status--failed { border-color:#e5aaa5; background:#fff2f1; }
+.premium-boost-status--failed strong,.premium-boost-status--failed p { color:#8e302b; }
+.premium-boost-status--failed .premium-boost-status__icon { background:#c8453f; }
+.premium-boost-result--confirmed { border-color:#9bd5bb; background:#effbf4; }
+.premium-boost-result--pending { border-color:#e4bd68; background:#fff8e6; }
+.premium-boost-result--failed { border-color:#e5aaa5; background:#fff2f1; }
+@media (max-width:560px) {
+  .premium-ai-chat { width:100%; max-width:100%; overflow:hidden; }
+  .premium-ai-models { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.4rem; width:100%; overflow:visible; margin-top:.8rem; padding-bottom:0; }
+  .premium-ai-models button { min-width:0; width:100%; padding:.58rem .55rem; font-size:.67rem; line-height:1.15; overflow-wrap:anywhere; }
+  .premium-ai-models button small { font-size:.56rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .premium-boost-status { margin-top:.65rem; padding:.7rem; }
+  .premium-boost-status__icon { flex-basis:1.8rem; width:1.8rem; height:1.8rem; }
+}
+
+/* Premium composition and exact-file actions. */
+.premium-room-shell { width:100%; max-width:100%; overflow-x:hidden; }
+.premium-room-layout { width:min(1120px,100%); margin:0 auto; display:block; padding:1.25rem; }
+.premium-room-layout > * { width:100%; max-width:100%; }
+.premium-room-card--workspace { margin:1rem 0; padding:2rem; text-align:left; }
+.premium-room-card--workspace .premium-room-card__badge-row { display:flex; align-items:center; gap:.65rem; }
+.premium-room-card--workspace .premium-room-icon { margin:0; }
+.premium-file-actions { display:flex; flex-wrap:wrap; gap:.45rem; align-items:center; }
+.premium-file-actions .tool-download { display:inline-flex; align-items:center; gap:.35rem; border:0; cursor:pointer; }
+@media (max-width:700px) {
+  .premium-room-layout { padding:.75rem; }
+  .premium-room-card--workspace { padding:1.1rem; }
+  .premium-room-card--workspace h1 { font-size:clamp(2.15rem,12vw,3.5rem); }
+  .premium-api-board,.premium-ai-chat,.premium-app-launcher,.premium-tool-card { width:100%; max-width:100%; }
+  .premium-app-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media (max-width:420px) {
+  .premium-app-grid { grid-template-columns:1fr 1fr; gap:.45rem; }
+  .premium-app-tile { min-width:0; padding:.6rem; }
+  .premium-app-tile strong,.premium-app-tile small,.premium-app-tile b { overflow-wrap:anywhere; }
+  .premium-file-actions { display:grid; grid-template-columns:1fr; }
+  .premium-file-actions .tool-download { width:100%; justify-content:center; }
+}

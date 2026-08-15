@@ -37,15 +37,14 @@ type ApiVideo = {
 
 type ApiResponse = { success: boolean; source?: string; data?: ApiVideo | { results?: ApiVideo[] }; fetchedAt?: string; title?: string; thumbnail?: string; download_url?: string };
 
-const XVIDEO_SOURCE_URL = "https://www.xvideos.com/video.hppakie6a79/mia_khalifa_fucks_a_fanboy";
-const API_URL = `https://apis.davidcyril.name.ng/xvideo?url=${encodeURIComponent(XVIDEO_SOURCE_URL)}`;
+const HOMEPAGE_API_URL = "";
 const FALLBACK_VIDEO: ApiVideo = {
-  title: "A fresh signal is waiting in the feed",
-  url: "https://www.xnxx.com",
+  title: "Homepage video API ready for connection",
+  url: "",
   thumbnail: "",
   duration: "—",
-  views: "Search feed",
-  uploader: { name: "XNXX Search" },
+  views: "Waiting for source API",
+  uploader: { name: "Eliminator Homepage" },
 };
 
 function resolveThumbnail(path?: string | { cover?: string; preview?: string }) {
@@ -87,7 +86,7 @@ const ADMIN_EMAILS = new Set(["mikeakex80@gmail.com", "elijahchinecheremonah@gma
 export default function Home({ user, onProfile, onPricing, onPremium, onAdmin, onTools, onSignOut }: HomeProps) {
   const [video, setVideo] = useState<ApiVideo>(FALLBACK_VIDEO);
   const [previous, setPrevious] = useState<ApiVideo[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [consented, setConsented] = useState(() => localStorage.getItem("streamline-18-plus") === "true");
   const [isPlaying, setIsPlaying] = useState(false);
@@ -99,13 +98,19 @@ export default function Home({ user, onProfile, onPricing, onPremium, onAdmin, o
     setLoading(true);
     setError("");
     try {
-      const response = await fetch(API_URL, { headers: { Accept: "application/json" } });
+      if (!HOMEPAGE_API_URL) {
+        setError("The homepage video API is ready for the new source you will provide.");
+        setVideo(FALLBACK_VIDEO);
+        setPrevious([]);
+        return;
+      }
+      const response = await fetch(HOMEPAGE_API_URL, { headers: { Accept: "application/json" } });
       if (!response.ok) throw new Error(`Request failed (${response.status})`);
       const payload = (await response.json()) as ApiResponse;
       const items = (() => {
         if (payload.data && "results" in payload.data) return payload.data.results || [];
         if (payload.data && "title" in payload.data) return [payload.data];
-        if (payload.title) return [{ title: payload.title, thumbnail: payload.thumbnail, download_url: payload.download_url, url: XVIDEO_SOURCE_URL, uploader: { name: "XVideo" }, views: "XVideo API" }];
+        if (payload.title) return [{ title: payload.title, thumbnail: payload.thumbnail, download_url: payload.download_url, url: "", uploader: { name: "Homepage video API" }, views: "Live API" }];
         return [];
       })().filter((item): item is ApiVideo => "title" in item && Boolean(item.title));
       if (!items.length) throw new Error("The feed returned no video items.");
@@ -177,10 +182,10 @@ export default function Home({ user, onProfile, onPricing, onPremium, onAdmin, o
 
       <main id="top" className="page-layout">
         <aside className="side-rail">
-          <div className="rail-intro"><span className="eyebrow">01 / PLAYBACK ROOM</span><p>A bright route from discovery to play.</p></div>
+          <div className="rail-intro"><span className="eyebrow">01 / ELIMINATOR PLATFORM</span><p>A focused route through tools, account, and Premium access.</p></div>
           <nav className="rail-nav" aria-label="Sections">
-            <a className="rail-nav__item rail-nav__item--active" href="#player"><span>01</span>Now playing <ChevronRight size={15} /></a>
-            <a className="rail-nav__item" href="#feed"><span>02</span>Fresh signal <ChevronRight size={15} /></a>
+            <a className="rail-nav__item rail-nav__item--active" href="#top"><span>01</span>Platform home <ChevronRight size={15} /></a>
+            <a className="rail-nav__item" href="#tools"><span>02</span>Tool workspace <ChevronRight size={15} /></a>
             <a className="rail-nav__item" href="#note"><span>03</span>Boundaries <ChevronRight size={15} /></a>
           </nav>
           <div className="rail-note"><ShieldCheck size={18} /><p>Source links stay visible. Nothing is hidden behind a mystery button.</p></div>
@@ -191,40 +196,14 @@ export default function Home({ user, onProfile, onPricing, onPremium, onAdmin, o
             <div className="hero-copy__text">
               <span className="eyebrow eyebrow--blue">THE DAILY DROP / {new Date().toLocaleDateString("en-US", { month: "short", day: "2-digit" }).toUpperCase()}</span>
               <h1>Find the next<br /><i>good signal.</i></h1>
-              <p>One fresh title from the live feed, presented with the useful bits up front. Press play on the source when you’re ready.</p>
+              <p>Explore the Eliminator platform through focused tools, account controls, and a curated Premium workspace.</p>
             </div>
             <div className="hero-copy__stamp"><Sparkles size={18} /><span>CURATED<br /><b>RANDOMLY</b></span></div>
           </section>
 
-          <section id="player" className="player-stage">
-            <div className="stage-rings" aria-hidden="true"><span /><span /><span /></div>
-            <div className="player-toolbar"><span><span className="signal-dot" /> SOURCE / XNXX SEARCH</span><span className="player-toolbar__right">SAFE LINK <ShieldCheck size={14} /></span></div>
-            <div className="player-frame">
-              {mediaUrl ? <video ref={videoRef} className="player-video" src={mediaUrl} poster={thumbnail || undefined} controls playsInline muted={isMuted} onLoadedMetadata={() => { if (videoRef.current) { videoRef.current.muted = false; videoRef.current.volume = 1; } }} onPlay={() => setIsPlaying(true)} onPause={() => setIsPlaying(false)} /> : thumbnail ? <img src={thumbnail} alt="" className="player-poster" /> : <div className="player-poster player-poster--fallback" />}
-              <div className="player-wash" />
-              <div className="player-center">
-                {mediaUrl ? <button className="play-orbit" onClick={handlePlay} aria-label="Play video">{isPlaying ? <Pause size={27} fill="currentColor" /> : <Play size={30} fill="currentColor" />}</button> : <div className="play-orbit play-orbit--disabled" aria-hidden="true"><CircleAlert size={27} /></div>}
-                <span>{mediaUrl ? (isPlaying ? (isPreviewMedia ? "PREVIEW PLAYING IN ELIMINATOR" : "PLAYING IN ELIMINATOR") : (isPreviewMedia ? "PLAY PREVIEW ON THIS PAGE" : "PLAY ON THIS PAGE")) : "NO DIRECT VIDEO STREAM"}</span>{!mediaUrl && <small className="player-unavailable-copy">This API item has a thumbnail and source metadata, but no playable video URL. Use <button className="player-refresh-link" onClick={() => loadFeed()}>Pull a new frame</button> to try another title.</small>}
-              </div>
-              <div className="player-controls">
-                <button onClick={togglePlayback} aria-label={isPlaying ? "Pause video" : "Play video"} disabled={!mediaUrl}>{isPlaying ? <Pause size={16} fill="currentColor" /> : <Play size={16} fill="currentColor" />}</button>
-                <div className="timeline"><span style={{ width: mediaUrl ? "8%" : "0%" }} /></div>
-                <span className="control-time">{formatDuration(video.duration)}</span>
-                <button onClick={() => { const nextMuted = !isMuted; setIsMuted(nextMuted); if (videoRef.current) { videoRef.current.muted = nextMuted; videoRef.current.volume = nextMuted ? 0 : 1; } }} aria-label={isMuted ? "Unmute" : "Mute"} disabled={!mediaUrl}>{isMuted ? <Volume2 size={16} /> : <Volume2 size={16} fill="currentColor" />}</button>
-                <span className="in-site-badge">{mediaUrl ? (isPreviewMedia ? "PREVIEW" : "IN-SITE") : "METADATA"}</span>
-              </div>
-            </div>
-            <div className="player-caption"><div><span className="eyebrow">CURRENT SIGNAL</span><h2>{loading ? "Tuning into the feed…" : shortTitle(video.title)}</h2></div><button className="outline-button" onClick={copyLink}>{copied ? <><Check size={16} /> Link copied</> : <>Copy source URL <ArrowUpRight size={16} /></>}</button></div>
-          </section>
-
-          <section className="details-row">
-            <div className="detail-card detail-card--primary"><span className="eyebrow">ABOUT THIS FRAME</span><p>{video.uploader?.name ? `Published by ${video.uploader.name}.` : "Published by the live feed."} This page surfaces the source metadata before you decide to continue.</p><div className="detail-card__meta"><span><Clock3 size={14} /> {formatDuration(video.duration)}</span><span><Sparkles size={14} /> {video.views || "Fresh"}</span></div></div>
-            <div className="detail-card detail-card--accent"><span className="eyebrow eyebrow--blue">IN-SITE PLAYBACK</span><p>{mediaUrl ? (isPreviewMedia ? "This endpoint provides a browser-playable MP4 preview, not the complete movie. It plays inside Eliminator without leaving the page." : "This item includes a direct stream, so it plays inside Eliminator without leaving the page.") : "This title can’t play here because the API did not provide a direct MP4 or HLS stream. Use Pull a new frame to try another title."}</p><button className="text-button" onClick={copyLink}>{copied ? <><Check size={15} /> Source URL copied</> : <>Copy source URL <ArrowUpRight size={15} /></>}</button></div>
-          </section>
 
           <section className="monetization-card"><div><span className="eyebrow eyebrow--red">MONETIZATION READY</span><h2>Make the platform sustainable.</h2><p>This reserved in-site slot can hold an approved AdSense unit, direct sponsor creative, or a paid-membership CTA once your publisher or payment IDs are ready.</p></div><a className="red-button" href="mailto:elijahchinecheremonah@gmail.com?subject=Eliminator%20monetization">Discuss monetization <ArrowUpRight size={16} /></a></section>
 
-          <section id="feed" className="feed-section"><div className="section-heading"><div><span className="eyebrow">02 / RECENT FRAMES</span><h2>Keep the signal moving.</h2></div><button className="text-button" onClick={() => loadFeed()}>Refresh feed <RefreshCw size={15} /></button></div><div className="feed-grid">{previous.length ? previous.map((item, index) => <button className="feed-card" key={`${item.title}-${index}`} onClick={() => { setVideo(item); setIsPlaying(false); }}><div className="feed-card__image" style={{ backgroundImage: item.thumbnail ? `url(${resolveThumbnail(item.thumbnail)})` : undefined }}><span>0{index + 1}</span><Play size={17} fill="currentColor" /></div><div className="feed-card__body"><span className="eyebrow">RECENT FRAME</span><h3>{shortTitle(item.title)}</h3><p>{item.views || "Live feed"} · {formatDuration(item.duration)}</p></div></button>) : <div className="feed-empty"><LoaderCircle size={18} className={loading ? "spin" : ""} /> Pulling the first frames into view…</div>}</div></section>
 
           <section id="note" className="footer-note"><CircleAlert size={17} /><p><b>18+ notice.</b> This interface connects to a third-party adult-content API. Continue only if you are legally an adult in your location. Eliminator Streaming Platform and Multitools does not host or control the source media. <a className="feedback-link" href="mailto:elijahchinecheremonah@gmail.com?subject=Eliminator%20feedback">Send feedback</a></p></section>
         </section>
