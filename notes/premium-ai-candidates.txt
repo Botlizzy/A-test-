@@ -1,0 +1,12 @@
+{"alias":"Blackbox AI","path":"/blackbox","method":"GET","tags":["json response","search","chat"],"text":"expand_more Blackbox AI JSON Response Search Chat"}
+{"alias":"Claude Fable 5","path":"/ai/claude-fable-5","method":"GET","tags":["json response","ai","anthropic"],"text":"expand_more Claude Fable 5 JSON Response Ai Anthropic"}
+{"alias":"Claude Haiku 4.5","path":"/ai/claude-haiku-4.5","method":"GET","tags":["json response","ai","anthropic"],"text":"expand_more Claude Haiku 4.5 JSON Response Ai Anthropic"}
+{"alias":"Claude Opus 4.5","path":"/ai/claude-opus-4.5","method":"GET","tags":["json response","ai","anthropic"],"text":"expand_more Claude Opus 4.5 JSON Response Ai Anthropic"}
+{"alias":"Claude Opus 4.6","path":"/ai/claude-opus-4.6","method":"GET","tags":["json response","ai","anthropic"],"text":"expand_more Claude Opus 4.6 JSON Response Ai Anthropic"}
+{"alias":"Claude Opus 4.7","path":"/ai/claude-opus-4.7","method":"GET","tags":["json response","ai","anthropic"],"text":"expand_more Claude Opus 4.7 JSON Response Ai Anthropic"}
+{"alias":"Claude Opus 4.8","path":"/ai/claude-opus-4.8","method":"GET","tags":["json response","ai","anthropic"],"text":"expand_more Claude Opus 4.8 JSON Response Ai Anthropic"}
+{"alias":"Claude Sonnet 4.6","path":"/ai/claude-sonnet-4.6","method":"GET","tags":["json response","ai","anthropic"],"text":"expand_more Claude Sonnet 4.6 JSON Response Ai Anthropic"}
+{"alias":"Deepseek V3.2 Thinking","path":"/ai/deepseek-v3.2-thinking","method":"GET","tags":["json response","ai","deepseek"],"text":"expand_more Deepseek V3.2 Thinking JSON Response Ai Deepseek"}
+{"alias":"Deepseek V4 Flash","path":"/ai/deepseek-v4-flash","method":"GET","tags":["json response","ai","deepseek"],"text":"expand_more Deepseek V4 Flash JSON Response Ai Deepseek"}
+{"alias":"Deepseek V4 Pro","path":"/ai/deepseek-v4-pro","method":"GET","tags":["json response","ai","deepseek"],"text":"expand_more Deepseek V4 Pro JSON Response Ai Deepseek"}
+{"alias":"Gemini 3 Pro","path":"/ai/gemini-3-pro","method":"GET","tags":["json response","ai","google"],"text":"expand_more Gemini 3 Pro JSON Response Ai Google"}
