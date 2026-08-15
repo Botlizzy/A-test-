@@ -4,6 +4,7 @@ import type { User } from "@supabase/supabase-js";
 import PremiumBadge from "@/components/PremiumBadge";
 import { hasPermanentPremiumAccess } from "@/lib/premiumAccess";
 import { getTikTokBoostUrl, isTikTokTarget, type TikTokBoostType } from "@/lib/tiktokBoost";
+import { getYouTubeBoostUrl, isYouTubeTarget, type YouTubeBoostType } from "@/lib/youtubeBoost";
 
 type PremiumRoomProps = { user: User; isPremium: boolean; onBack: () => void; onPricing: () => void; onSignOut: () => Promise<void> };
 type PremiumVideo = { title: string; thumbnail?: string; download_url?: string };
@@ -21,6 +22,11 @@ export default function PremiumRoom({ user, isPremium, onBack, onPricing, onSign
   const [boostLoading, setBoostLoading] = useState(false);
   const [boostResult, setBoostResult] = useState<BoostResult | null>(null);
   const [boostError, setBoostError] = useState("");
+  const [youtubeTarget, setYoutubeTarget] = useState("");
+  const [youtubeType, setYoutubeType] = useState<YouTubeBoostType>("views");
+  const [youtubeLoading, setYoutubeLoading] = useState(false);
+  const [youtubeResult, setYoutubeResult] = useState<BoostResult | null>(null);
+  const [youtubeError, setYoutubeError] = useState("");
 
   const loadPremiumVideo = async () => {
     setLoading(true);
@@ -61,6 +67,27 @@ export default function PremiumRoom({ user, isPremium, onBack, onPricing, onSign
     }
   };
 
+  const submitYouTubeBoost = async (event: FormEvent) => {
+    event.preventDefault();
+    setYoutubeError("");
+    setYoutubeResult(null);
+    if (!isYouTubeTarget(youtubeTarget, youtubeType)) {
+      setYoutubeError(youtubeType === "subscribers" ? "Enter a YouTube channel URL or @handle for subscribers." : "Enter a full YouTube video URL for this service.");
+      return;
+    }
+    setYoutubeLoading(true);
+    try {
+      const response = await fetch(getYouTubeBoostUrl(youtubeTarget, youtubeType), { headers: { Accept: "application/json" } });
+      const payload = (await response.json().catch(() => ({ success: false, message: `The service returned HTTP ${response.status}.` }))) as BoostResult;
+      setYoutubeResult(payload);
+      if (!response.ok) setYoutubeError(`The YouTube boost service returned HTTP ${response.status}.`);
+    } catch (cause) {
+      setYoutubeError(cause instanceof Error ? cause.message : "The YouTube Boost service is unavailable.");
+    } finally {
+      setYoutubeLoading(false);
+    }
+  };
+
   const activeContent = (
     <>
       <section className="premium-room-card premium-room-card--active">
@@ -85,7 +112,7 @@ export default function PremiumRoom({ user, isPremium, onBack, onPricing, onSign
         {boostError && <div className="premium-boost-result premium-boost-result--error"><CircleAlert size={17} /><span>{boostError}</span></div>}
         {boostResult && <div className={`premium-boost-result ${boostResult.success === true ? "premium-boost-result--success" : "premium-boost-result--notice"}`}><div><strong>{boostResult.success === true ? "Service accepted the request" : "Service response"}</strong><p>{String(boostResult.message || (boostResult.success === true ? "The API reported success." : "The API did not report a successful boost."))}</p></div><pre>{JSON.stringify(boostResult, null, 2)}</pre></div>}
       </section>
-      <section className="premium-tool-card premium-tool-card--future"><span className="eyebrow">PREMIUM TOOLKIT</span><h2>More premium functions coming here.</h2><p>This room is ready for additional approved API workspaces without changing the protected layout.</p></section>
+      <section className="premium-tool-card premium-tool-card--youtube"><div className="premium-tool-card__heading"><div><span className="eyebrow eyebrow--red">PREMIUM TOOL / SOCIAL BOOST</span><h2>YouTube View Booster</h2></div><Zap size={22} /></div><p className="premium-tool-card__lead">Submit a YouTube video or channel target to the connected service and see the exact accepted amount, message, and JSON response. A successful API response means the service accepted the request; it does not promise an immediate YouTube metric change.</p><form className="premium-boost-form" onSubmit={submitYouTubeBoost}><label>Target URL<input value={youtubeTarget} onChange={(event) => setYoutubeTarget(event.target.value)} placeholder={youtubeType === "subscribers" ? "https://www.youtube.com/@channel" : "https://www.youtube.com/watch?v=..."} inputMode="url" /></label><label>Service<select value={youtubeType} onChange={(event) => setYoutubeType(event.target.value as YouTubeBoostType)}><option value="views">Video views</option><option value="likes">Likes</option><option value="subscribers">Subscribers</option></select></label><button className="red-button premium-boost-submit" type="submit" disabled={youtubeLoading}>{youtubeLoading ? <RefreshCw size={16} className="spin" /> : <Zap size={16} />}{youtubeLoading ? "Checking service…" : "Run YouTube Boost"}</button></form>{youtubeError && <div className="premium-boost-result premium-boost-result--error"><CircleAlert size={17} /><span>{youtubeError}</span></div>}{youtubeResult && <div className={`premium-boost-result ${youtubeResult.success === true ? "premium-boost-result--success" : "premium-boost-result--notice"}`}><div><strong>{youtubeResult.success === true ? "Service accepted the request" : "Service response"}</strong><p>{String(youtubeResult.message || (youtubeResult.success === true ? "The API reported success." : "The API did not report a successful request."))}</p>{youtubeResult.amount !== undefined && <small>Reported amount: {String(youtubeResult.amount)} · Type: {String(youtubeResult.type || youtubeType)}</small>}</div><pre>{JSON.stringify(youtubeResult, null, 2)}</pre></div>}</section><section className="premium-tool-card premium-tool-card--future"><span className="eyebrow">PREMIUM TOOLKIT</span><h2>More premium functions coming here.</h2><p>This room is ready for additional approved API workspaces without changing the protected layout.</p></section>
     </>
   );
 
