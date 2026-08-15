@@ -204,3 +204,6 @@
 - [x] Customize Suno/music tool result handling to detect full audio URLs, render an in-page audio player with duration/controls, provide a `Save full track` action, and guide async Suno task IDs to Suno Status when no track URL is returned yet.
 - [x] Add tests for audio URL classification and Suno complete-track task copy; 6 test files / 11 tests pass.
 - [x] Run tests/build, verify the live mobile homepage and Suno workspace, push GitHub at c8fbe02, and verify the live Vercel and GitHub Pages bundles expose the audio/Suno changes; a fresh recoverable checkpoint remains to be saved.
+- [x] Fix signup email confirmation redirects so deployed Vercel links never use localhost and preserve the live origin across query/hash/proxy cases; non-public origins now resolve to `https://a-test-ten.vercel.app/?confirmed=1`.
+- [x] Fix the production Supabase configuration warning shown on Vercel by deploying the current root project with its browser-safe Supabase configuration; the live signup route no longer displays the warning, while the explicit fallback error remains available for genuinely missing configuration.
+- [x] Add/update auth redirect tests, run the production build, verify the live mobile signup route, push GitHub at `8e17cab`, and confirm the GitHub deployment succeeded; a fresh recoverable checkpoint remains to be saved.
