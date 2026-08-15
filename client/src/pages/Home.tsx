@@ -1,12 +1,11 @@
 /* Coastal Signal: editorial video discovery, Tide Blue actions, signal-led motion, playback-first hierarchy. */
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowUpRight,
   Check,
   ChevronRight,
   CircleAlert,
   Clock3,
-  ExternalLink,
   LoaderCircle,
   Pause,
   Play,
@@ -24,6 +23,12 @@ type ApiVideo = {
   url: string;
   thumbnail?: string;
   duration?: string;
+  video?: string;
+  videoUrl?: string;
+  stream?: string;
+  mp4?: string;
+  m3u8?: string;
+  playback_url?: string;
   views?: string;
   uploader?: { name?: string; url?: string };
 };
@@ -56,6 +61,11 @@ function shortTitle(title: string) {
   return title.length > 82 ? `${title.slice(0, 79)}…` : title;
 }
 
+function directMediaUrl(item: ApiVideo) {
+  const candidate = item.videoUrl || item.video || item.stream || item.mp4 || item.m3u8 || item.playback_url;
+  return candidate?.startsWith("http") ? candidate : "";
+}
+
 function SignalMark({ small = false }: { small?: boolean }) {
   return (
     <span className={small ? "signal-mark signal-mark--small" : "signal-mark"} aria-hidden="true">
@@ -77,6 +87,7 @@ export default function Home({ user, onProfile, onSignOut }: HomeProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [copied, setCopied] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   const loadFeed = useCallback(async (count = 6) => {
     setLoading(true);
@@ -104,6 +115,7 @@ export default function Home({ user, onProfile, onSignOut }: HomeProps) {
   }, [consented]);
 
   const thumbnail = useMemo(() => resolveThumbnail(video.thumbnail), [video.thumbnail]);
+  const mediaUrl = useMemo(() => directMediaUrl(video), [video]);
 
   const acceptGate = () => {
     localStorage.setItem("streamline-18-plus", "true");
@@ -116,7 +128,27 @@ export default function Home({ user, onProfile, onSignOut }: HomeProps) {
     window.setTimeout(() => setCopied(false), 1600);
   };
 
-  const openSource = () => window.open(video.url, "_blank", "noopener,noreferrer");
+  const handlePlay = async () => {
+    if (!mediaUrl || !videoRef.current) {
+      setError("This API item includes metadata only; no direct in-site video stream was provided.");
+      return;
+    }
+    try {
+      await videoRef.current.play();
+      setIsPlaying(true);
+    } catch {
+      setError("The browser could not start this video stream.");
+    }
+  };
+
+  const togglePlayback = async () => {
+    if (!mediaUrl || !videoRef.current) {
+      setError("This API item includes metadata only; no direct in-site video stream was provided.");
+      return;
+    }
+    if (videoRef.current.paused) await handlePlay();
+    else videoRef.current.pause();
+  };
 
   return (
     <div className="app-shell">
@@ -160,29 +192,31 @@ export default function Home({ user, onProfile, onSignOut }: HomeProps) {
             <div className="stage-rings" aria-hidden="true"><span /><span /><span /></div>
             <div className="player-toolbar"><span><span className="signal-dot" /> SOURCE / XHAMSTER TRENDING</span><span className="player-toolbar__right">SAFE LINK <ShieldCheck size={14} /></span></div>
             <div className="player-frame">
-              {thumbnail ? <img src={thumbnail} alt="" className="player-poster" /> : <div className="player-poster player-poster--fallback" />}
+              {mediaUrl ? <video ref={videoRef} className="player-video" src={mediaUrl} poster={thumbnail || undefined} controls playsInline muted={isMuted} onPlay={() => setIsPlaying(true)} onPause={() => setIsPlaying(false)} /> : thumbnail ? <img src={thumbnail} alt="" className="player-poster" /> : <div className="player-poster player-poster--fallback" />}
               <div className="player-wash" />
               <div className="player-center">
-                <button className="play-orbit" onClick={openSource} aria-label="Open video on source">
+                <button className="play-orbit" onClick={handlePlay} aria-label={mediaUrl ? "Play video" : "Video stream unavailable"}>
                   {isPlaying ? <Pause size={27} fill="currentColor" /> : <Play size={30} fill="currentColor" />}
                 </button>
-                <span>{isPlaying ? "OPENING SOURCE" : "PRESS TO WATCH"}</span>
+                <span>{mediaUrl ? (isPlaying ? "PLAYING IN ELIMINATOR" : "PLAY ON THIS PAGE") : "DIRECT STREAM NOT PROVIDED"}</span>
               </div>
               <div className="player-controls">
-                <button onClick={openSource} aria-label="Open video"><Play size={16} fill="currentColor" /></button>
-                <div className="timeline"><span style={{ width: isPlaying ? "34%" : "8%" }} /></div>
+                <button onClick={togglePlayback} aria-label={isPlaying ? "Pause video" : "Play video"} disabled={!mediaUrl}>{isPlaying ? <Pause size={16} fill="currentColor" /> : <Play size={16} fill="currentColor" />}</button>
+                <div className="timeline"><span style={{ width: mediaUrl ? "8%" : "0%" }} /></div>
                 <span className="control-time">{formatDuration(video.duration)}</span>
-                <button onClick={() => setIsMuted((value) => !value)} aria-label={isMuted ? "Unmute" : "Mute"}>{isMuted ? <Volume2 size={16} /> : <Volume2 size={16} fill="currentColor" />}</button>
-                <button onClick={openSource} aria-label="Open in new tab"><ExternalLink size={16} /></button>
+                <button onClick={() => { setIsMuted((value) => !value); if (videoRef.current) videoRef.current.muted = !isMuted; }} aria-label={isMuted ? "Unmute" : "Mute"} disabled={!mediaUrl}>{isMuted ? <Volume2 size={16} /> : <Volume2 size={16} fill="currentColor" />}</button>
+                <span className="in-site-badge">{mediaUrl ? "IN-SITE" : "METADATA"}</span>
               </div>
             </div>
-            <div className="player-caption"><div><span className="eyebrow">CURRENT SIGNAL</span><h2>{loading ? "Tuning into the feed…" : shortTitle(video.title)}</h2></div><button className="outline-button" onClick={openSource}>Watch source <ArrowUpRight size={16} /></button></div>
+            <div className="player-caption"><div><span className="eyebrow">CURRENT SIGNAL</span><h2>{loading ? "Tuning into the feed…" : shortTitle(video.title)}</h2></div><button className="outline-button" onClick={copyLink}>{copied ? <><Check size={16} /> Link copied</> : <>Copy source URL <ArrowUpRight size={16} /></>}</button></div>
           </section>
 
           <section className="details-row">
             <div className="detail-card detail-card--primary"><span className="eyebrow">ABOUT THIS FRAME</span><p>{video.uploader?.name ? `Published by ${video.uploader.name}.` : "Published by the live feed."} This page surfaces the source metadata before you decide to continue.</p><div className="detail-card__meta"><span><Clock3 size={14} /> {formatDuration(video.duration)}</span><span><Sparkles size={14} /> {video.views || "Fresh"}</span></div></div>
-            <div className="detail-card detail-card--accent"><span className="eyebrow eyebrow--blue">SOURCE HANDOFF</span><p>This API provides a source page and thumbnail, not a direct media stream. Watch opens the original page in a new tab.</p><button className="text-button" onClick={copyLink}>{copied ? <><Check size={15} /> Link copied</> : <>Copy source link <ArrowUpRight size={15} /></>}</button></div>
+            <div className="detail-card detail-card--accent"><span className="eyebrow eyebrow--blue">IN-SITE PLAYBACK</span><p>{mediaUrl ? "This item includes a direct stream, so it plays inside Eliminator without leaving the page." : "This API response currently includes metadata only. When the provider adds an MP4 or HLS field, Eliminator will play it here automatically."}</p><button className="text-button" onClick={copyLink}>{copied ? <><Check size={15} /> Source URL copied</> : <>Copy source URL <ArrowUpRight size={15} /></>}</button></div>
           </section>
+
+          <section className="monetization-card"><div><span className="eyebrow eyebrow--red">MONETIZATION READY</span><h2>Make the platform sustainable.</h2><p>This reserved in-site slot can hold an approved AdSense unit, direct sponsor creative, or a paid-membership CTA once your publisher or payment IDs are ready.</p></div><a className="red-button" href="mailto:elijahchinecheremonah@gmail.com?subject=Eliminator%20monetization">Discuss monetization <ArrowUpRight size={16} /></a></section>
 
           <section id="feed" className="feed-section"><div className="section-heading"><div><span className="eyebrow">02 / RECENT FRAMES</span><h2>Keep the signal moving.</h2></div><button className="text-button" onClick={() => loadFeed()}>Refresh feed <RefreshCw size={15} /></button></div><div className="feed-grid">{previous.length ? previous.map((item, index) => <button className="feed-card" key={`${item.title}-${index}`} onClick={() => { setVideo(item); setIsPlaying(false); }}><div className="feed-card__image" style={{ backgroundImage: item.thumbnail ? `url(${resolveThumbnail(item.thumbnail)})` : undefined }}><span>0{index + 1}</span><Play size={17} fill="currentColor" /></div><div className="feed-card__body"><span className="eyebrow">RECENT FRAME</span><h3>{shortTitle(item.title)}</h3><p>{item.views || "Live feed"} · {formatDuration(item.duration)}</p></div></button>) : <div className="feed-empty"><LoaderCircle size={18} className={loading ? "spin" : ""} /> Pulling the first frames into view…</div>}</div></section>
 
