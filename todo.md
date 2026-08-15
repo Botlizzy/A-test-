@@ -264,4 +264,7 @@
 - [x] Push the complete current project to Botlizzy/A-test- at commit `951d84f` and save a redeployable checkpoint.
 - [x] Wire Facebook Video V3 to `/facebook3?url=...`, TikTok V4 to `/download/tiktokv4`, and YouTube MP4 V2 to `/download/ytmp444`.
 - [x] Normalize direct media URLs from each response and render native previews plus direct download/save controls instead of only JSON.
-- [ ] Add/update tests, verify mobile downloader UI, run build, push GitHub, and save a checkpoint.
+- [x] Add/update tests, verify mobile downloader UI, run build, push GitHub at commit `08aebaa`, and save a checkpoint.
+- [x] Filter API/service URLs and source-page URLs out of user-facing downloader media links and download actions.
+- [x] Require a direct media-file candidate before rendering preview/download controls; otherwise show a clear no-file-supplied state.
+- [ ] Add tests, verify mobile downloader UI, run build, push GitHub, and publish a checkpoint.
