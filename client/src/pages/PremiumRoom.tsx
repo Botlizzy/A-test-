@@ -53,15 +53,33 @@ async function followBoostStatus(initial: BoostResult, onProgress: (result: Boos
   return { ...latest, status: latest.status || "pending", message: latest.message || "The provider has not reported a terminal result yet. Keep the target under review in the provider dashboard." };
 }
 type PremiumAppConfig = { id: string; name: string; eyebrow: string; description: string; path: string; field: "url" | "text"; placeholder: string; action: string };
+export const PREMIUM_DOWNLOADER_PATHS = { facebook: "/facebook3", tiktok: "/download/tiktokv4", youtube: "/download/ytmp444" } as const;
 const PREMIUM_APPS: PremiumAppConfig[] = [
-  { id: "tiktok-download", name: "TikTok Save Lab", eyebrow: "VIDEO SAVER", description: "Turn a TikTok link into the exact returned media result with save actions.", path: "/download/tiktok", field: "url", placeholder: "https://www.tiktok.com/t/...", action: "Fetch TikTok video" },
-  { id: "youtube-download", name: "YouTube Export", eyebrow: "VIDEO EXPORT", description: "Request a YouTube media result without opening the raw API catalog.", path: "/download/ytmp4", field: "url", placeholder: "https://www.youtube.com/watch?v=...", action: "Prepare YouTube file" },
+  { id: "facebook-download", name: "Facebook Save Lab", eyebrow: "FACEBOOK VIDEO", description: "Paste a Facebook video link and receive the exact returned video file with preview and download actions.", path: PREMIUM_DOWNLOADER_PATHS.facebook, field: "url", placeholder: "https://www.facebook.com/share/v/...", action: "Fetch Facebook video" },
+  { id: "tiktok-download", name: "TikTok Save Lab", eyebrow: "TIKTOK VIDEO", description: "Use the documented TikTok V4 endpoint to return the exact media file when the provider supplies one.", path: PREMIUM_DOWNLOADER_PATHS.tiktok, field: "url", placeholder: "https://www.tiktok.com/@name/video/...", action: "Fetch TikTok video" },
+  { id: "youtube-download", name: "YouTube Export", eyebrow: "YOUTUBE MP4", description: "Use YouTube MP4 V2 and expose the exact returned file with native preview and download actions.", path: PREMIUM_DOWNLOADER_PATHS.youtube, field: "url", placeholder: "https://www.youtube.com/watch?v=...", action: "Prepare YouTube file" },
   { id: "apk-vault", name: "APK Vault", eyebrow: "APP FINDER", description: "Search an app name and review package information plus returned download links.", path: "/download/apk", field: "text", placeholder: "WhatsApp, Telegram, Spotify…", action: "Find app package" },
   { id: "aio-download", name: "Universal Save Desk", eyebrow: "ALL-IN-ONE", description: "Use one guided URL input for supported media sources.", path: "/download/aio", field: "url", placeholder: "Paste a supported media URL…", action: "Run save desk" },
   { id: "website-download", name: "Web Capture", eyebrow: "WEB UTILITY", description: "Submit a public page URL and review the exact returned capture metadata.", path: "/tools/downloadweb", field: "url", placeholder: "https://example.com/page", action: "Capture page" },
 ];
 
-function findReturnedMediaLinks(value: unknown): string[] { const text = JSON.stringify(value); return Array.from(new Set((text.match(/https?:\/\/[^\s"'\\]+/g) || []).map((url) => url.replace(/[),.;]+$/, "")))).filter((url) => !url.includes("apis.davidcyril.name.ng") && /\.(mp4|webm|mov|m4v|mp3|wav|m4a|ogg)(?:$|[?#])/i.test(url)).slice(0, 8); }
+export function findReturnedMediaLinks(value: unknown): string[] {
+  const found: string[] = [];
+  const visit = (node: unknown, keyHint = "") => {
+    if (typeof node === "string") {
+      const urls = node.match(/https?:\/\/[^\s"'\\]+/g) || [];
+      urls.forEach((raw) => {
+        const url = raw.replace(/[),.;]+$/, "");
+        if (!url.includes("apis.davidcyril.name.ng") && (/\.(mp4|webm|mov|m4v|mp3|wav|m4a|ogg)(?:$|[?#])/i.test(url) || /download|media|video|audio|stream|source|url|link/i.test(keyHint))) found.push(url);
+      });
+      return;
+    }
+    if (Array.isArray(node)) { node.forEach((item) => visit(item, keyHint)); return; }
+    if (node && typeof node === "object") Object.entries(node).forEach(([key, child]) => visit(child, key));
+  };
+  visit(value);
+  return Array.from(new Set(found)).slice(0, 8);
+}
 
 function safeReturnedFileName(url: string): string { try { const name = new URL(url).pathname.split("/").pop() || "eliminator-file"; return name.replace(/[^a-z0-9._-]+/gi, "-").slice(0, 96); } catch { return "eliminator-file"; } }
 
