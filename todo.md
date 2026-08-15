@@ -301,3 +301,6 @@
 - [x] Give each migrated API a custom form, action, loading state, and result presentation based on its actual output type.
 - [x] Make direct media files the primary result with native preview/download controls, while keeping non-file outputs readable and hiding raw JSON from the main UI.
 - [x] Add/update representative tests, verify mobile/desktop UI, run build, push GitHub, and publish a checkpoint.
+- [x] Add a customized Premium Suno Music Studio with song-generation controls and clear task progress.
+- [x] Extract complete Suno audio tracks, render native playback, and provide a direct download button only when a real audio file is returned.
+- [ ] Add/update tests, verify responsive Premium UI, run build, push GitHub, and publish a checkpoint.
