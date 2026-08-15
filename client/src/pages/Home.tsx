@@ -30,13 +30,15 @@ type ApiVideo = {
   mp4?: string;
   m3u8?: string;
   playback_url?: string;
+  download_url?: string;
   views?: string;
   uploader?: { name?: string; url?: string };
 };
 
-type ApiResponse = { success: boolean; source?: string; data?: ApiVideo | { results?: ApiVideo[] }; fetchedAt?: string };
+type ApiResponse = { success: boolean; source?: string; data?: ApiVideo | { results?: ApiVideo[] }; fetchedAt?: string; title?: string; thumbnail?: string; download_url?: string };
 
-const API_URL = "https://apis.davidcyril.name.ng/xxx/xnxx?q=asmr";
+const XVIDEO_SOURCE_URL = "https://www.xvideos.com/video.hppakie6a79/mia_khalifa_fucks_a_fanboy";
+const API_URL = `https://apis.davidcyril.name.ng/xvideo?url=${encodeURIComponent(XVIDEO_SOURCE_URL)}`;
 const FALLBACK_VIDEO: ApiVideo = {
   title: "A fresh signal is waiting in the feed",
   url: "https://www.xnxx.com",
@@ -65,7 +67,7 @@ function shortTitle(title: string) {
 
 function directMediaUrl(item: ApiVideo) {
   const preview = typeof item.thumbnail === "object" ? item.thumbnail.preview : "";
-  const candidate = item.videoUrl || item.video || item.stream || item.mp4 || item.m3u8 || item.playback_url || preview;
+  const candidate = item.videoUrl || item.video || item.stream || item.mp4 || item.m3u8 || item.playback_url || item.download_url || preview;
   return candidate?.startsWith("http") ? candidate : "";
 }
 
@@ -97,16 +99,15 @@ export default function Home({ user, onProfile, onPricing, onPremium, onAdmin, o
     setLoading(true);
     setError("");
     try {
-      const payloads = await Promise.all(Array.from({ length: count }, async () => {
-        const response = await fetch(API_URL, { headers: { Accept: "application/json" } });
-        if (!response.ok) throw new Error(`Request failed (${response.status})`);
-        return (await response.json()) as ApiResponse;
-      }));
-      const items = payloads.flatMap((payload) => {
-        if (!payload.data) return [];
-        if ("results" in payload.data) return payload.data.results || [];
-        return [payload.data];
-      }).filter((item): item is ApiVideo => "title" in item && Boolean(item.title));
+      const response = await fetch(API_URL, { headers: { Accept: "application/json" } });
+      if (!response.ok) throw new Error(`Request failed (${response.status})`);
+      const payload = (await response.json()) as ApiResponse;
+      const items = (() => {
+        if (payload.data && "results" in payload.data) return payload.data.results || [];
+        if (payload.data && "title" in payload.data) return [payload.data];
+        if (payload.title) return [{ title: payload.title, thumbnail: payload.thumbnail, download_url: payload.download_url, url: XVIDEO_SOURCE_URL, uploader: { name: "XVideo" }, views: "XVideo API" }];
+        return [];
+      })().filter((item): item is ApiVideo => "title" in item && Boolean(item.title));
       if (!items.length) throw new Error("The feed returned no video items.");
       setVideo(items[0]);
       setPrevious(items.slice(1).filter((item, index, all) => all.findIndex((candidate) => candidate.title === item.title) === index).slice(0, 5));
