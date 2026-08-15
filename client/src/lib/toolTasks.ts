@@ -25,7 +25,7 @@ export function taskTitle(endpoint: ToolEndpointLike): string {
     case "imageToImage": return "Transform an image";
     case "anime": return "Create an anime-style result";
     case "ai": return "Create with AI";
-    case "aimusic": return "Create music with AI";
+    case "aimusic": return "Create a complete track with AI";
     case "search": return "Search the web service";
     case "news": return "Find the latest news";
     case "movies": return "Find a movie or show";
@@ -41,6 +41,7 @@ export function taskTitle(endpoint: ToolEndpointLike): string {
 }
 
 export function taskDescription(endpoint: ToolEndpointLike): string {
+  if (endpoint.category === "aimusic") return "Describe the track you want. When the service returns a complete audio URL, Eliminator plays the full track here and gives you a Save full track action.";
   switch (functionalMode(endpoint)) {
     case "downloader": return "Paste the link or file input below and get the result here, with preview and save actions when the service returns a usable file.";
     case "search": return "Enter what you want to find and receive the result in this workspace instead of leaving Eliminator.";
@@ -64,6 +65,10 @@ export function fieldLabel(field: string, mode: FunctionalMode): string {
   if (field === "model") return "Model (optional)";
   if (field === "sessionId") return "Session (optional)";
   return field;
+}
+
+export function isAudioUrl(url: string): boolean {
+  return /\.(mp3|wav|m4a|aac|ogg|opus|flac)(?:$|[?#])/i.test(url) || /(?:audio|music|song|track|sound|tts)/i.test(url);
 }
 
 export function isVideoUrl(url: string): boolean {

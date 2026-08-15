@@ -89,7 +89,7 @@ export default function Home({ user, onProfile, onPricing, onPremium, onAdmin, o
   const [error, setError] = useState("");
   const [consented, setConsented] = useState(() => localStorage.getItem("streamline-18-plus") === "true");
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
   const [copied, setCopied] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -195,7 +195,7 @@ export default function Home({ user, onProfile, onPricing, onPremium, onAdmin, o
             <div className="stage-rings" aria-hidden="true"><span /><span /><span /></div>
             <div className="player-toolbar"><span><span className="signal-dot" /> SOURCE / XNXX SEARCH</span><span className="player-toolbar__right">SAFE LINK <ShieldCheck size={14} /></span></div>
             <div className="player-frame">
-              {mediaUrl ? <video ref={videoRef} className="player-video" src={mediaUrl} poster={thumbnail || undefined} controls playsInline muted={isMuted} onPlay={() => setIsPlaying(true)} onPause={() => setIsPlaying(false)} /> : thumbnail ? <img src={thumbnail} alt="" className="player-poster" /> : <div className="player-poster player-poster--fallback" />}
+              {mediaUrl ? <video ref={videoRef} className="player-video" src={mediaUrl} poster={thumbnail || undefined} controls playsInline muted={isMuted} onLoadedMetadata={() => { if (videoRef.current) { videoRef.current.muted = false; videoRef.current.volume = 1; } }} onPlay={() => setIsPlaying(true)} onPause={() => setIsPlaying(false)} /> : thumbnail ? <img src={thumbnail} alt="" className="player-poster" /> : <div className="player-poster player-poster--fallback" />}
               <div className="player-wash" />
               <div className="player-center">
                 {mediaUrl ? <button className="play-orbit" onClick={handlePlay} aria-label="Play video">{isPlaying ? <Pause size={27} fill="currentColor" /> : <Play size={30} fill="currentColor" />}</button> : <div className="play-orbit play-orbit--disabled" aria-hidden="true"><CircleAlert size={27} /></div>}

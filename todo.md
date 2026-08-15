@@ -200,3 +200,7 @@
 - [x] Verify the published checkpoint serves the task-first mobile Multi-tools experience, not only the local preview or GitHub repository; the published Manus preview reports Build ee333ff and renders the task-first mobile workspace.
 - [x] Repair the selected repository root deployment layout: synchronized the current task-first project into the repository root, validated 6 test files / 11 tests and production build, and pushed commit a042268.
 - [x] Add a conditional GitHub Pages base path while preserving `/` for Vercel and Manus hosting, then validate the published Pages artifact loads its new bundle; commit a24ddf8 deployed successfully and the `/A-test-/assets/` bundle contains the task-first markers.
+- [x] Fix homepage video previews so audio is not forcibly muted; the player now defaults to audible playback, retains an explicit mute/unmute control, and reports browser playback failures without forcing silence.
+- [x] Customize Suno/music tool result handling to detect full audio URLs, render an in-page audio player with duration/controls, provide a `Save full track` action, and guide async Suno task IDs to Suno Status when no track URL is returned yet.
+- [x] Add tests for audio URL classification and Suno complete-track task copy; 6 test files / 11 tests pass.
+- [x] Run tests/build, verify the live mobile homepage and Suno workspace, push GitHub at c8fbe02, and verify the live Vercel and GitHub Pages bundles expose the audio/Suno changes; a fresh recoverable checkpoint remains to be saved.

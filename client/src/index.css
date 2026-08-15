@@ -196,6 +196,11 @@ button:focus-visible, a:focus-visible { outline: 3px solid rgba(22,119,255,.35);
 
 /* Functional task workspace presentation */
 .tool-result__media { display: grid; gap: .75rem; padding: 0 1rem 1rem; }
+.tool-result__audio { display: grid; gap: .6rem; margin: 0 1rem 1rem; padding: .85rem; border: 1px solid rgba(169,210,255,.25); border-radius: .85rem; background: rgba(7,20,38,.58); }
+.tool-result__audio-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: .7rem; }
+.tool-result__audio audio { width: 100%; min-width: 0; height: 2.5rem; }
+.tool-result__note { margin: 0 1rem 1rem; padding: .7rem .85rem; border-left: 3px solid #f0b45e; color: #dcecff !important; background: rgba(240,180,94,.1); font-size: .78rem; line-height: 1.5; }
+@media (max-width: 600px) { .tool-result__audio-row { grid-template-columns: 1fr; } .tool-result__audio-row .tool-download { justify-self: start; } }
 .tool-result__media video, .tool-result__media img { display: block; width: 100%; max-height: 24rem; object-fit: contain; border-radius: .8rem; background: #071426; }
 @media (max-width: 600px) {
   .tools-body { display: flex; flex-direction: column; }
