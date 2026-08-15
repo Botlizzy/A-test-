@@ -1,11 +1,22 @@
 # Update checklist
 
+## Eliminator multi-tool hub
+
+- [x] Inventory the API directory, endpoints, parameters, and content boundaries; cataloged 445 unique paths across 20 extracted categories from the 22-category documentation index.
+- [x] Add clearly scoped workspace variants for downloader, search, AI/media, utility, and adult endpoint families.
+- [x] Add explicit download states for result URLs/files: preparing, success, disabled, and failure feedback.
+- [x] Add dedicated spaces for downloader, search, media, social, image, utility, and adult endpoints where supported through catalog-driven tool workspaces and an 18+ gate.
+- [x] Open the Multi-tools route and verify representative downloader workspace, desktop/mobile layout, isolated 18+ gate, and request-error handling; executed Random Quotes through a safe auto-run deep link and confirmed the downloader invalid-input state visibly reports `Request failed (500)`.
+- [x] Push all changes to GitHub; remote main now points to e585fb3 after reconciling the deployment workflow merge.
+- [ ] Save a new project checkpoint/publish the completed Multi-tools hub.
+- [ ] Open the live `/?tools=1` route and confirm the published deployment matches GitHub e585fb3.
+
 ## xnxx-search endpoint evaluation
 
 - [x] Inspect the endpoint documentation and live response for direct MP4/HLS fields; the response provides browser-playable `thumbnail.preview` MP4 clips, not full movie streams.
 - [x] Confirm browser playback compatibility and avoid unsupported external-page scraping; the preview URL returned `video/mp4`, CORS `*`, and byte-range support.
 - [x] Integrate the endpoint using the returned short MP4 preview URLs and label them as previews rather than full movies.
-- [ ] Validate the result and push any code changes to GitHub.
+- [x] Validate the result and push any code changes to GitHub; published route opened and origin/main confirmed at dc3e7ff. The authenticated player requires a signed-in session for final browser click-to-play testing.
 
 ## Stale playback-state repair
 

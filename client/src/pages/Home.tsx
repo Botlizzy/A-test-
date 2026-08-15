@@ -15,6 +15,7 @@ import {
   Volume2,
   LogOut,
   UserRound,
+  Wrench,
 } from "lucide-react";
 import type { User } from "@supabase/supabase-js";
 
@@ -78,10 +79,10 @@ function SignalMark({ small = false }: { small?: boolean }) {
   );
 }
 
-type HomeProps = { user: User; onProfile: () => void; onPricing: () => void; onPremium: () => void; onAdmin: () => void; onSignOut: () => Promise<void> };
+type HomeProps = { user: User; onProfile: () => void; onPricing: () => void; onPremium: () => void; onAdmin: () => void; onTools: () => void; onSignOut: () => Promise<void> };
 const ADMIN_EMAILS = new Set(["mikeakex80@gmail.com", "elijahchinecheremonah@gmail.com"]);
 
-export default function Home({ user, onProfile, onPricing, onPremium, onAdmin, onSignOut }: HomeProps) {
+export default function Home({ user, onProfile, onPricing, onPremium, onAdmin, onTools, onSignOut }: HomeProps) {
   const [video, setVideo] = useState<ApiVideo>(FALLBACK_VIDEO);
   const [previous, setPrevious] = useState<ApiVideo[]>([]);
   const [loading, setLoading] = useState(true);
@@ -162,7 +163,7 @@ export default function Home({ user, onProfile, onPricing, onPremium, onAdmin, o
           <span><strong>eliminator</strong><em>streaming</em></span>
         </a>
         <div className="topbar__status"><span className="status-dot" /> LIVE FEED <span className="topbar__divider" /> 18+ ONLY</div>
-        <div className="topbar__account"><button className="refresh-button" onClick={onPricing}><Sparkles size={15} /><span>Plans</span></button><button className="refresh-button refresh-button--admin" onClick={onPremium}><Sparkles size={15} /><span>Premium room</span></button>{ADMIN_EMAILS.has((user.email || "").toLowerCase()) && <button className="refresh-button refresh-button--admin" onClick={onAdmin}><ShieldCheck size={15} /><span>Verify</span></button>}<button className="profile-chip" onClick={onProfile}><span className="profile-chip__avatar"><UserRound size={13} /></span><span>{user.user_metadata?.full_name || user.email?.split("@")[0] || "Viewer"}</span></button><button className="refresh-button" onClick={onSignOut}><LogOut size={16} /><span>Sign out</span></button></div>
+        <div className="topbar__account"><button className="refresh-button" onClick={onTools}><Wrench size={15} /><span>Multitools</span></button><button className="refresh-button" onClick={onPricing}><Sparkles size={15} /><span>Plans</span></button><button className="refresh-button refresh-button--admin" onClick={onPremium}><Sparkles size={15} /><span>Premium room</span></button>{ADMIN_EMAILS.has((user.email || "").toLowerCase()) && <button className="refresh-button refresh-button--admin" onClick={onAdmin}><ShieldCheck size={15} /><span>Verify</span></button>}<button className="profile-chip" onClick={onProfile}><span className="profile-chip__avatar"><UserRound size={13} /></span><span>{user.user_metadata?.full_name || user.email?.split("@")[0] || "Viewer"}</span></button><button className="refresh-button" onClick={onSignOut}><LogOut size={16} /><span>Sign out</span></button></div>
         <button className="refresh-button" onClick={() => loadFeed()} disabled={loading}>
           <RefreshCw size={16} className={loading ? "spin" : ""} />
           <span>Pull a new frame</span>
