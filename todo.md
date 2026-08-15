@@ -253,3 +253,7 @@
 - [x] Remove the homepage playback section and its obsolete video-feed state/copy.
 - [x] Remove the Premium playback/lounge section and obsolete playback references while preserving Premium tools.
 - [x] Run tests/build, verify mobile layout, and publish a checkpoint for the removal.
+- [x] Restore a Premium Video Lounge launcher/presentation and make the Premium page use the requested desktop-style composition without mobile clipping or unintended horizontal overflow.
+- [x] Ensure downloader results expose the exact returned media file with native preview and direct download/save actions, not only response JSON.
+- [x] Make TikTok and YouTube booster workflows visibly process returned jobs, poll available status, and clearly report pending, confirmed, or failed outcomes.
+- [ ] Add/update tests, verify mobile and desktop layouts, run the production build, save a checkpoint, and sync GitHub.
