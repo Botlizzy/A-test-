@@ -123,9 +123,9 @@ export default function Home({ user, onProfile, onSignOut }: HomeProps) {
       <div className="ambient ambient--one" />
       <div className="ambient ambient--two" />
       <header className="topbar">
-        <a className="brand" href="#top" aria-label="Streamline Video home">
+        <a className="brand" href="#top" aria-label="Eliminator Streaming Platform and Multitools home">
           <span className="brand-mark"><SignalMark /></span>
-          <span><strong>streamline</strong><em>video</em></span>
+          <span><strong>eliminator</strong><em>streaming</em></span>
         </a>
         <div className="topbar__status"><span className="status-dot" /> LIVE FEED <span className="topbar__divider" /> 18+ ONLY</div>
         <div className="topbar__account"><button className="profile-chip" onClick={onProfile}><span className="profile-chip__avatar"><UserRound size={13} /></span><span>{user.user_metadata?.full_name || user.email?.split("@")[0] || "Viewer"}</span></button><button className="refresh-button" onClick={onSignOut}><LogOut size={16} /><span>Sign out</span></button></div>
@@ -186,7 +186,7 @@ export default function Home({ user, onProfile, onSignOut }: HomeProps) {
 
           <section id="feed" className="feed-section"><div className="section-heading"><div><span className="eyebrow">02 / RECENT FRAMES</span><h2>Keep the signal moving.</h2></div><button className="text-button" onClick={() => loadFeed()}>Refresh feed <RefreshCw size={15} /></button></div><div className="feed-grid">{previous.length ? previous.map((item, index) => <button className="feed-card" key={`${item.title}-${index}`} onClick={() => { setVideo(item); setIsPlaying(false); }}><div className="feed-card__image" style={{ backgroundImage: item.thumbnail ? `url(${resolveThumbnail(item.thumbnail)})` : undefined }}><span>0{index + 1}</span><Play size={17} fill="currentColor" /></div><div className="feed-card__body"><span className="eyebrow">RECENT FRAME</span><h3>{shortTitle(item.title)}</h3><p>{item.views || "Live feed"} · {formatDuration(item.duration)}</p></div></button>) : <div className="feed-empty"><LoaderCircle size={18} className={loading ? "spin" : ""} /> Pulling the first frames into view…</div>}</div></section>
 
-          <section id="note" className="footer-note"><CircleAlert size={17} /><p><b>18+ notice.</b> This interface connects to a third-party adult-content API. Continue only if you are legally an adult in your location. Streamline Video does not host or control the source media.</p></section>
+          <section id="note" className="footer-note"><CircleAlert size={17} /><p><b>18+ notice.</b> This interface connects to a third-party adult-content API. Continue only if you are legally an adult in your location. Eliminator Streaming Platform and Multitools does not host or control the source media. <a className="feedback-link" href="mailto:elijahchinecheremonah@gmail.com?subject=Eliminator%20feedback">Send feedback</a></p></section>
         </section>
       </main>
 
