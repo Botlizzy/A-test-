@@ -219,3 +219,6 @@
 - [x] Verify the navigation visually, run tests/build, push GitHub at `428deab`, and save a recoverable checkpoint.
 - [x] Ensure the WhatsApp Premium message always appends the authenticated Customer/User ID immediately after `My Customer ID is:`; the live bundle contains the exact prefix and appends the signed-in UUID at runtime.
 - [x] Add/adjust message-format tests, run the build, verify the live bundle, push GitHub at `8f95923`, and save a recoverable checkpoint.
+- [x] Inspect the documented XVideo endpoint and live response for direct MP4/HLS media fields, thumbnails, and response shape; the endpoint returns top-level `title`, `thumbnail`, and a browser-playable `download_url` MP4.
+- [x] Switch the homepage feed to XVideo, normalize its top-level response, use `download_url` for in-site playback, and preserve explicit-play audible video behavior with the existing metadata-only fallback.
+- [x] Run the existing media/auth test suite (8 files / 15 tests), production build, mobile preview, live bundle verification, and push GitHub at `f86b9fb`; save a recoverable checkpoint.
