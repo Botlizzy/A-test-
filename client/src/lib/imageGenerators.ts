@@ -4,9 +4,14 @@ export const ANIMAGINE_IMAGE_ENDPOINT = "https://apis.davidcyril.name.ng/animagi
 export type ImageGeneratorKind = "writecream" | "animagine";
 export type ImageGeneratorResult = { url: string; objectUrl: boolean };
 
+export function prepareImagePrompt(prompt: string): string {
+  const cleaned = prompt.trim();
+  return `Follow this image brief exactly. Include every named subject, action, color, and setting. Do not substitute unrelated content. Brief: ${cleaned}`;
+}
+
 export function getImageGeneratorUrl(kind: ImageGeneratorKind, prompt: string, ratio = "1:1"): string {
   const url = new URL(kind === "writecream" ? WRITECREAM_IMAGE_ENDPOINT : ANIMAGINE_IMAGE_ENDPOINT);
-  url.searchParams.set("prompt", prompt.trim());
+  url.searchParams.set("prompt", prepareImagePrompt(prompt));
   if (kind === "writecream") url.searchParams.set("ratio", ratio);
   return url.toString();
 }

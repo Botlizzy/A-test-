@@ -2,12 +2,16 @@ import { describe, expect, it } from "vitest";
 import { getImageGeneratorUrl, parseImageGeneratorResponse } from "./imageGenerators";
 
 describe("image generator providers", () => {
-  it("builds the documented Writecream URL with prompt and ratio", () => {
-    expect(getImageGeneratorUrl("writecream", "sunset", "16:9")).toBe("https://apis.davidcyril.name.ng/ai/writecream/image?prompt=sunset&ratio=16%3A9");
+    it("builds the documented Writecream URL with prompt lock and ratio", () => {
+    const url = new URL(getImageGeneratorUrl("writecream", "sunset", "16:9"));
+    expect(url.origin + url.pathname).toBe("https://apis.davidcyril.name.ng/ai/writecream/image");
+    expect(url.searchParams.get("prompt")).toContain("Brief: sunset");
+    expect(url.searchParams.get("ratio")).toBe("16:9");
   });
-
-  it("builds the documented Animagine URL with prompt only", () => {
-    expect(getImageGeneratorUrl("animagine", "anime hero")).toBe("https://apis.davidcyril.name.ng/animagine?prompt=anime+hero");
+  it("builds the documented Animagine URL with prompt lock", () => {
+    const url = new URL(getImageGeneratorUrl("animagine", "anime hero"));
+    expect(url.origin + url.pathname).toBe("https://apis.davidcyril.name.ng/animagine");
+    expect(url.searchParams.get("prompt")).toContain("Brief: anime hero");
   });
 
   it("accepts Writecream's documented image_url success field", async () => {
