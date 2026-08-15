@@ -276,3 +276,6 @@
 - [x] Add/update tests, verify mobile UI, run build, push GitHub at remote commit `9a1894c`, and publish a checkpoint.
 - [x] Add app icons, ratings, and brief descriptions to APK Vault results with safe fallbacks for missing provider fields.
 - [x] Add/update tests, verify responsive UI, run build, push GitHub at remote commit `beb8b5e`, and publish a checkpoint.
+- [x] Replace the current image generator with the documented Writecream Image API and add a separate Animagine anime generator.
+- [x] Normalize provider image responses and show robust loading, preview, download, and readable error states without raw parse failures.
+- [x] Add/update tests, verify responsive UI, run build, push GitHub at remote commit `a16c45e`, and publish a checkpoint.
