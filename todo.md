@@ -1,11 +1,20 @@
 # Update checklist
 
+## WhatsApp verification notifications
+
+- [x] Add Supabase verification-request table, RLS, and status fields.
+- [x] Create a request record when a customer opens WhatsApp Premium verification.
+- [x] Show unread request count and request details to approved admins.
+- [x] Preserve selected requests through customer lookup, prevent cross-customer linking, and allow transaction-reference entry before activation.
+- [x] Verify the selected request belongs to the currently loaded customer before activation or revocation.
+- [ ] Run tests/build, push all changes to GitHub, and publish the workflow.
+
 ## Playback and premium status polish
 
 - [x] Replace the metadata-only play error with a clear, non-alarming in-page explanation and next action; the notice now renders in the player with a Refresh feed action.
 - [x] Add active/inactive/verification-pending Premium status to the user profile; revoked records are now distinguished using the admin audit field.
 - [x] Validate responsive presentation, entitlement lookup, tests, and production build; mobile screenshots were reviewed.
-- [ ] Sync and publish the polish update.
+- [x] Sync and publish the polish update.
 
 ## Manual premium verification
 

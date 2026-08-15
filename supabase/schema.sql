@@ -107,3 +107,37 @@ $$;
 drop trigger if exists premium_entitlements_updated_at on public.premium_entitlements;
 create trigger premium_entitlements_updated_at before update on public.premium_entitlements
 for each row execute function public.set_premium_updated_at();
+
+
+-- WhatsApp verification notifications. Run this section once in Supabase SQL Editor.
+create table if not exists public.verification_requests (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  customer_email text not null,
+  customer_name text,
+  transaction_reference text,
+  message text,
+  status text not null default 'pending' check (status in ('pending', 'reviewed', 'activated', 'declined')),
+  created_at timestamptz not null default now(),
+  reviewed_at timestamptz,
+  reviewed_by text
+);
+
+alter table public.verification_requests enable row level security;
+
+drop policy if exists "Users can create their own verification requests" on public.verification_requests;
+create policy "Users can create their own verification requests" on public.verification_requests
+  for insert with check (auth.uid() = user_id and lower(customer_email) = lower(coalesce(auth.jwt() ->> 'email', '')));
+
+drop policy if exists "Users can read their own verification requests" on public.verification_requests;
+create policy "Users can read their own verification requests" on public.verification_requests
+  for select using (auth.uid() = user_id);
+
+drop policy if exists "Approved admins can read verification requests" on public.verification_requests;
+create policy "Approved admins can read verification requests" on public.verification_requests
+  for select using (lower(coalesce(auth.jwt() ->> 'email', '')) in ('mikeakex80@gmail.com', 'elijahchinecheremonah@gmail.com'));
+
+drop policy if exists "Approved admins can update verification requests" on public.verification_requests;
+create policy "Approved admins can update verification requests" on public.verification_requests
+  for update using (lower(coalesce(auth.jwt() ->> 'email', '')) in ('mikeakex80@gmail.com', 'elijahchinecheremonah@gmail.com'))
+  with check (lower(coalesce(auth.jwt() ->> 'email', '')) in ('mikeakex80@gmail.com', 'elijahchinecheremonah@gmail.com'));
