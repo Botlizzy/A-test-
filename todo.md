@@ -216,4 +216,6 @@
 - [x] Add tests, run production/mobile verification, push GitHub at `986ae7e`, and save recoverable checkpoint `2b4b9ad8`.
 - [x] Make the homepage shortcut labels bold, correctly named, and clearly visible: Multi-tools, Premium Plans, Premium Room, Admin Verify, Profile, and Sign out.
 - [x] Apply prominent red shortcut colors with responsive mobile spacing and contrast; mobile shortcuts remain visible in a horizontally scrollable header row instead of disappearing.
-- [ ] Verify the navigation visually, run tests/build, push GitHub changes, and save a recoverable checkpoint.
+- [x] Verify the navigation visually, run tests/build, push GitHub at `428deab`, and save a recoverable checkpoint.
+- [ ] Ensure the WhatsApp Premium message always appends the authenticated Customer/User ID immediately after `My Customer ID is:`.
+- [ ] Add/adjust message-format tests, run the build, push the refinement, and save a recoverable checkpoint.
