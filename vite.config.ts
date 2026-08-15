@@ -153,6 +153,9 @@ function vitePluginManusDebugCollector(): Plugin {
 const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector()];
 
 export default defineConfig({
+  // GitHub Pages serves project sites from /<repository-name>/ while local and
+  // server deployments continue to use the root path.
+  base: process.env.GITHUB_PAGES === "true" ? "/A-test-/" : "/",
   plugins,
   resolve: {
     alias: {
