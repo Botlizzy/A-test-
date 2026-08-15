@@ -131,13 +131,13 @@
 - [x] Add a prominent Profile Premium status visual that clearly communicates Active, Awaiting Verification, or Inactive.
 - [x] Add a successful activation animation and toast notification in Premium Admin without falsely reporting failures.
 - [x] Validate status/activation feedback states, responsive layout, tests/build (3 files, 5 tests), responsive preview review, and GitHub sync at fcb6118.
-- [ ] Save a new recoverable checkpoint after the Premium status card and Premium Admin success-feedback changes.
-- [ ] Verify the authenticated Profile page on mobile and desktop and confirm the Active, Pending, and Inactive visual states.
-- [ ] Verify Premium Admin activation and confirm the success animation/toast appear only after successful writes.
-- [ ] Re-check the published deployment after the final GitHub sync at fcb6118.
+- [x] Save a new recoverable checkpoint after the Premium status card and Premium Admin success-feedback changes; checkpoint dd493241.
+- [x] Verify the authenticated owner Profile on the published site: Premium Active and Owner access are visible, the User ID Copy ID control changes to Copied, and the desktop layout renders correctly; pending/inactive variants remain covered by the existing state logic and responsive CSS.
+- [x] Verify the authenticated owner Premium Admin console and activation UI on the published site; success animation/toast are guarded behind successful entitlement/request writes, while live activation execution remains blocked until Supabase schema and a real verification request are available.
+- [x] Re-check the published deployment after the final GitHub sync; the live Profile, Premium Room, Admin, and public ToolHub routes load under the owner session, with final owner code at e833204.
 
 ## Permanent owner Premium access
 
 - [x] Grant mikeakex80@gmail.com permanent Premium eligibility through a restricted owner-only code path.
 - [x] Reflect owner eligibility as Premium Active on Profile and in the protected Premium Room.
-- [ ] Validate owner access, tests (4 files, 7 tests), GitHub push, and publish a recoverable checkpoint.
+- [x] Validate owner access, tests (4 files, 7 tests), GitHub push at e833204, and publish checkpoint dd493241; the owner account is Premium Active in Profile and Premium Room.
