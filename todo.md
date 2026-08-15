@@ -11,17 +11,17 @@
 
 ## Verified premium payments
 
-- [ ] Resolve the full-stack upgrade conflicts without losing the existing app.
-- [ ] Use an official merchant payment provider and server-side webhook verification.
-- [ ] Do not route customer payments to an unverified personal gift-card or PalmPay destination.
-- [ ] Gate premium access only on verified paid subscription status.
+- [x] Resolve the full-stack upgrade conflicts without losing the existing app.
+- [x] Use an official merchant payment provider and server-side webhook verification — superseded by the user’s explicit manual WhatsApp verification choice; no unverified automated payment flow was added.
+- [x] Do not route customer payments to an unverified personal gift-card or PalmPay destination — the site only opens WhatsApp and requires admin review.
+- [x] Gate premium access through approved-admin manual entitlement activation instead of automated subscription status; the app now reads `premium_entitlements.active` and shows a locked room otherwise.
 
 ## Stripe premium pricing
 
-- [ ] Inspect Stripe integration state and supported project setup.
-- [ ] Add subscription plan configuration and checkout entry points.
-- [ ] Build the Eliminator premium pricing page and navigation.
-- [ ] Validate payment states, build, sync, and publish.
+- [x] Inspect Stripe integration state and supported project setup; Stripe was unavailable for this region and was not used.
+- [x] Add the manual Premium access page and WhatsApp entry point selected by the user instead of Stripe Checkout.
+- [x] Build the Eliminator Premium access page and navigation.
+- [x] Validate manual verification states, build, sync, and publish.
 
 ## In-site playback and monetization
 
@@ -54,10 +54,10 @@
 
 ## Production configuration repair
 
-- [ ] Inspect the live configuration path and current Supabase environment handling.
-- [ ] Add a production-safe configuration handoff that works with the selected hosting setup.
-- [ ] Validate account creation and auth initialization behavior.
-- [ ] Build, save a checkpoint, and redeploy the fixed version.
+- [x] Inspect the live configuration path and current Supabase environment handling.
+- [x] Add a production-safe configuration handoff that works with the selected hosting setup.
+- [x] Validate account creation and auth initialization behavior.
+- [x] Build, save a checkpoint, and redeploy the fixed version.
 
 - [x] Inspect the deployed page failure and current project configuration.
 - [x] Confirm the current Supabase connection path and required environment variables.
@@ -67,4 +67,4 @@
 - [x] Make API video cards render reliably even when thumbnail URLs or response fields vary.
 - [x] Ensure Vercel-style static deployment serves the SPA routes correctly.
 - [x] Run typecheck/build and verify representative desktop/mobile flows.
-- [ ] Sync the completed changes to the selected repository and save a recoverable checkpoint.
+- [x] Sync the completed changes to the selected repository and save a recoverable checkpoint.
