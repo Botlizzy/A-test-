@@ -214,3 +214,6 @@
 - [x] Make homepage video playback restore audible volume and unmute on an explicit user play action, with a clear fallback when the source has no audio track; the play handler now sets `muted=false` and `volume=1` from the user gesture.
 - [x] Include the authenticated customer’s Customer/User ID automatically in the WhatsApp Premium request message and preserve it in the verification request record; the live bundle contains the generated Customer/User ID message and the URL helper has unit coverage.
 - [x] Add tests, run production/mobile verification, push GitHub at `986ae7e`, and save recoverable checkpoint `2b4b9ad8`.
+- [x] Make the homepage shortcut labels bold, correctly named, and clearly visible: Multi-tools, Premium Plans, Premium Room, Admin Verify, Profile, and Sign out.
+- [x] Apply prominent red shortcut colors with responsive mobile spacing and contrast; mobile shortcuts remain visible in a horizontally scrollable header row instead of disappearing.
+- [ ] Verify the navigation visually, run tests/build, push GitHub changes, and save a recoverable checkpoint.

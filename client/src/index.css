@@ -211,3 +211,19 @@ button:focus-visible, a:focus-visible { outline: 3px solid rgba(22,119,255,.35);
 .tools-featured { display: grid; gap: .45rem; margin: 1rem 0; padding: .8rem; border: 1px solid rgba(16,35,63,.1); border-radius: 1rem; background: rgba(255,255,255,.7); }
 .tools-featured button { padding: .55rem .65rem; border: 0; border-radius: .65rem; color: #18324f; background: transparent; text-align: left; font-size: .8rem; font-weight: 700; cursor: pointer; }
 .tools-featured button:hover { color: #1978ea; background: #eaf5ff; }
+
+/* Bold shortcut navigation: clear labels and red priority actions on every screen size. */
+.topbar__account { display: flex; align-items: center; justify-content: flex-end; gap: .45rem; min-width: 0; overflow-x: auto; scrollbar-width: none; }
+.topbar__account::-webkit-scrollbar { display: none; }
+.shortcut-button { display: inline-flex; align-items: center; justify-content: center; gap: .38rem; flex: 0 0 auto; min-height: 38px; padding: .55rem .75rem; border: 1px solid #efb6b2; border-radius: .7rem; color: #a8322e; background: #fff5f4; cursor: pointer; font-size: .72rem; font-weight: 950; letter-spacing: -.01em; white-space: nowrap; box-shadow: 0 5px 14px rgba(217,74,69,.1); transition: transform .16s cubic-bezier(.23,1,.32,1), color .16s ease, background .16s ease, box-shadow .16s ease; }
+.shortcut-button svg { flex: 0 0 auto; stroke-width: 2.6; }
+.shortcut-button:hover, .shortcut-button:focus-visible { color: white; background: var(--signal-red); border-color: var(--signal-red); box-shadow: 0 8px 18px rgba(217,74,69,.24); transform: translateY(-2px); }
+.shortcut-button--tools, .shortcut-button--premium { color: white; background: var(--signal-red); border-color: var(--signal-red); }
+.shortcut-button--tools:hover, .shortcut-button--premium:hover { background: #b93733; }
+.shortcut-button--plans { background: #fff0ef; }
+.shortcut-button--admin { color: #7f2926; background: #ffe3e1; border-color: #e98e88; }
+.shortcut-button--profile { color: var(--ink); background: white; border-color: #c7dbea; }
+.shortcut-button--signout { color: #6f7f89; background: white; border-color: #d4e2ec; }
+.shortcut-button--profile .profile-chip__avatar { width: 22px; height: 22px; color: var(--signal-red); background: #fff0ef; }
+@media (max-width: 1100px) { .topbar { gap: .7rem; } .topbar__account { justify-content: flex-start; } .shortcut-button { min-height: 36px; padding: .5rem .65rem; } }
+@media (max-width: 620px) { .topbar { height: auto; min-height: 68px; padding: .7rem 1rem; flex-wrap: wrap; gap: .6rem; } .topbar .brand { flex: 0 0 auto; } .topbar__account { order: 3; flex: 1 1 100%; justify-content: flex-start; width: 100%; padding-bottom: .1rem; } .shortcut-button { min-height: 40px; padding: .58rem .72rem; font-size: .7rem; } .topbar > .refresh-button { margin-left: auto; } }
