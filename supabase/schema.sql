@@ -16,6 +16,10 @@ drop policy if exists "Users can read their own profile" on public.profiles;
 create policy "Users can read their own profile" on public.profiles
   for select using (auth.uid() = id);
 
+drop policy if exists "Approved admins can read profiles" on public.profiles;
+create policy "Approved admins can read profiles" on public.profiles
+  for select using (lower(coalesce(auth.jwt() ->> 'email', '')) in ('mikeakex80@gmail.com', 'elijahchinecheremonah@gmail.com'));
+
 drop policy if exists "Users can create their own profile" on public.profiles;
 create policy "Users can create their own profile" on public.profiles
   for insert with check (auth.uid() = id);

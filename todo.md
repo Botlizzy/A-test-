@@ -207,3 +207,5 @@
 - [x] Fix signup email confirmation redirects so deployed Vercel links never use localhost and preserve the live origin across query/hash/proxy cases; non-public origins now resolve to `https://a-test-ten.vercel.app/?confirmed=1`.
 - [x] Fix the production Supabase configuration warning shown on Vercel by deploying the current root project with its browser-safe Supabase configuration; the live signup route no longer displays the warning, while the explicit fallback error remains available for genuinely missing configuration.
 - [x] Add/update auth redirect tests, run the production build, verify the live mobile signup route, push GitHub at `8e17cab`, and confirm the GitHub deployment succeeded; a fresh recoverable checkpoint remains to be saved.
+- [ ] Fix Premium Admin lookup so a valid Customer / User ID copied from Profile finds the corresponding Supabase customer reliably on mobile.
+- [ ] Add lookup normalization/error-state tests, run the production build, verify the live admin lookup path, push GitHub changes, and save a recoverable checkpoint.
