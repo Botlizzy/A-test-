@@ -88,13 +88,11 @@ export default function Home({ user, onProfile, onPricing, onPremium, onAdmin, o
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [copied, setCopied] = useState(false);
-  const [playbackNotice, setPlaybackNotice] = useState("");
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const loadFeed = useCallback(async (count = 6) => {
     setLoading(true);
     setError("");
-    setPlaybackNotice("");
     try {
       const payloads = await Promise.all(Array.from({ length: count }, async () => {
         const response = await fetch(API_URL, { headers: { Accept: "application/json" } });
@@ -132,10 +130,7 @@ export default function Home({ user, onProfile, onPricing, onPremium, onAdmin, o
   };
 
   const handlePlay = async () => {
-    if (!mediaUrl || !videoRef.current) {
-      setPlaybackNotice("This title has no playable video stream. Eliminator kept you on this page — refresh the feed to try another title.");
-      return;
-    }
+    if (!mediaUrl || !videoRef.current) return;
     try {
       await videoRef.current.play();
       setIsPlaying(true);
@@ -145,10 +140,7 @@ export default function Home({ user, onProfile, onPricing, onPremium, onAdmin, o
   };
 
   const togglePlayback = async () => {
-    if (!mediaUrl || !videoRef.current) {
-      setPlaybackNotice("This title has no playable video stream. Eliminator kept you on this page — refresh the feed to try another title.");
-      return;
-    }
+    if (!mediaUrl || !videoRef.current) return;
     if (videoRef.current.paused) await handlePlay();
     else videoRef.current.pause();
   };
@@ -198,10 +190,8 @@ export default function Home({ user, onProfile, onPricing, onPremium, onAdmin, o
               {mediaUrl ? <video ref={videoRef} className="player-video" src={mediaUrl} poster={thumbnail || undefined} controls playsInline muted={isMuted} onPlay={() => setIsPlaying(true)} onPause={() => setIsPlaying(false)} /> : thumbnail ? <img src={thumbnail} alt="" className="player-poster" /> : <div className="player-poster player-poster--fallback" />}
               <div className="player-wash" />
               <div className="player-center">
-                <button className="play-orbit" onClick={handlePlay} aria-label={mediaUrl ? "Play video" : "Video stream unavailable"}>
-                  {isPlaying ? <Pause size={27} fill="currentColor" /> : <Play size={30} fill="currentColor" />}
-                </button>
-                <span>{mediaUrl ? (isPlaying ? "PLAYING IN ELIMINATOR" : "PLAY ON THIS PAGE") : "PLAYBACK UNAVAILABLE"}</span>{!mediaUrl && <small className="player-unavailable-copy">This feed item includes a thumbnail and source metadata, but no playable media URL.</small>}{playbackNotice && <small className="player-unavailable-copy player-unavailable-copy--notice">{playbackNotice} <button className="player-refresh-link" onClick={() => loadFeed()}>Refresh feed</button></small>}
+                {mediaUrl ? <button className="play-orbit" onClick={handlePlay} aria-label="Play video">{isPlaying ? <Pause size={27} fill="currentColor" /> : <Play size={30} fill="currentColor" />}</button> : <div className="play-orbit play-orbit--disabled" aria-hidden="true"><CircleAlert size={27} /></div>}
+                <span>{mediaUrl ? (isPlaying ? "PLAYING IN ELIMINATOR" : "PLAY ON THIS PAGE") : "NO DIRECT VIDEO STREAM"}</span>{!mediaUrl && <small className="player-unavailable-copy">This API item has a thumbnail and source metadata, but no playable video URL. Use <button className="player-refresh-link" onClick={() => loadFeed()}>Pull a new frame</button> to try another title.</small>}
               </div>
               <div className="player-controls">
                 <button onClick={togglePlayback} aria-label={isPlaying ? "Pause video" : "Play video"} disabled={!mediaUrl}>{isPlaying ? <Pause size={16} fill="currentColor" /> : <Play size={16} fill="currentColor" />}</button>
@@ -216,7 +206,7 @@ export default function Home({ user, onProfile, onPricing, onPremium, onAdmin, o
 
           <section className="details-row">
             <div className="detail-card detail-card--primary"><span className="eyebrow">ABOUT THIS FRAME</span><p>{video.uploader?.name ? `Published by ${video.uploader.name}.` : "Published by the live feed."} This page surfaces the source metadata before you decide to continue.</p><div className="detail-card__meta"><span><Clock3 size={14} /> {formatDuration(video.duration)}</span><span><Sparkles size={14} /> {video.views || "Fresh"}</span></div></div>
-            <div className="detail-card detail-card--accent"><span className="eyebrow eyebrow--blue">IN-SITE PLAYBACK</span><p>{mediaUrl ? "This item includes a direct stream, so it plays inside Eliminator without leaving the page." : "This API response currently includes metadata only. When the provider adds an MP4 or HLS field, Eliminator will play it here automatically."}</p><button className="text-button" onClick={copyLink}>{copied ? <><Check size={15} /> Source URL copied</> : <>Copy source URL <ArrowUpRight size={15} /></>}</button></div>
+            <div className="detail-card detail-card--accent"><span className="eyebrow eyebrow--blue">IN-SITE PLAYBACK</span><p>{mediaUrl ? "This item includes a direct stream, so it plays inside Eliminator without leaving the page." : "This title can’t play here because the API did not provide a direct MP4 or HLS stream. Use Pull a new frame to try another title."}</p><button className="text-button" onClick={copyLink}>{copied ? <><Check size={15} /> Source URL copied</> : <>Copy source URL <ArrowUpRight size={15} /></>}</button></div>
           </section>
 
           <section className="monetization-card"><div><span className="eyebrow eyebrow--red">MONETIZATION READY</span><h2>Make the platform sustainable.</h2><p>This reserved in-site slot can hold an approved AdSense unit, direct sponsor creative, or a paid-membership CTA once your publisher or payment IDs are ready.</p></div><a className="red-button" href="mailto:elijahchinecheremonah@gmail.com?subject=Eliminator%20monetization">Discuss monetization <ArrowUpRight size={16} /></a></section>
