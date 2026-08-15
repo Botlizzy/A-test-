@@ -29,4 +29,13 @@ describe("Premium downloader integrations", () => {
     const links = findReturnedMediaLinks({ url: "https://dl.snapcdn.app/download?token=abc", cover: "https://cdn.example.com/cover.jpg" });
     expect(links).toEqual(["https://dl.snapcdn.app/download?token=abc"]);
   });
+
+  it("never exposes API endpoints or original social-page URLs as downloadable files", () => {
+    const links = findReturnedMediaLinks({
+      api: "https://apis.davidcyril.name.ng/download/tiktokv4?url=source",
+      source: "https://www.tiktok.com/@creator/video/123",
+      download_url: "https://cdn.example.com/media/result.mp4"
+    });
+    expect(links).toEqual(["https://cdn.example.com/media/result.mp4"]);
+  });
 });

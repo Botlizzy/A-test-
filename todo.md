@@ -265,3 +265,6 @@
 - [x] Wire Facebook Video V3 to `/facebook3?url=...`, TikTok V4 to `/download/tiktokv4`, and YouTube MP4 V2 to `/download/ytmp444`.
 - [x] Normalize direct media URLs from each response and render native previews plus direct download/save controls instead of only JSON.
 - [x] Add/update tests, verify mobile downloader UI, run build, push GitHub at commit `08aebaa`, and save a checkpoint.
+- [x] Filter API/service URLs and source-page URLs out of user-facing downloader media links and download actions.
+- [x] Require a direct media-file candidate before rendering preview/download controls; otherwise show a clear no-file-supplied state.
+- [x] Add tests, verify mobile downloader UI, run build, push GitHub at remote commit `77bac67`, and publish a checkpoint.
