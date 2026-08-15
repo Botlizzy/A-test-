@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { getBoostStatusUrl, isTerminalBoostStatus } from "./PremiumRoom";
+import { findReturnedMediaLinks, getBoostStatusUrl, isTerminalBoostStatus, PREMIUM_DOWNLOADER_PATHS } from "./PremiumRoom";
 
 describe("Premium booster status helpers", () => {
   it("accepts supported status URL fields", () => {
@@ -17,5 +17,16 @@ describe("Premium booster status helpers", () => {
     expect(isTerminalBoostStatus({ status: "completed" })).toBe(true);
     expect(isTerminalBoostStatus({ success: true })).toBe(true);
     expect(isTerminalBoostStatus({ success: false })).toBe(true);
+  });
+});
+
+describe("Premium downloader integrations", () => {
+  it("uses the documented Facebook, TikTok V4, and YouTube MP4 V2 paths", () => {
+    expect(PREMIUM_DOWNLOADER_PATHS).toEqual({ facebook: "/facebook3", tiktok: "/download/tiktokv4", youtube: "/download/ytmp444" });
+  });
+
+  it("extracts extensionless direct media URLs returned under downloader keys", () => {
+    const links = findReturnedMediaLinks({ url: "https://dl.snapcdn.app/download?token=abc", cover: "https://cdn.example.com/cover.jpg" });
+    expect(links).toEqual(["https://dl.snapcdn.app/download?token=abc"]);
   });
 });

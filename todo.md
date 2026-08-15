@@ -261,4 +261,7 @@
 - [x] Scan source and production output, run tests/build, and publish the cleanup checkpoint.
 - [x] Remove the stale provider-specific launcher label and any remaining named-video/source references from the current project and synchronized repository tree.
 - [x] Rebuild and scan the production bundle to confirm the stale label is absent.
-- [ ] Push the complete current project to Botlizzy/A-test- and save a redeployable checkpoint.
+- [x] Push the complete current project to Botlizzy/A-test- at commit `951d84f` and save a redeployable checkpoint.
+- [x] Wire Facebook Video V3 to `/facebook3?url=...`, TikTok V4 to `/download/tiktokv4`, and YouTube MP4 V2 to `/download/ytmp444`.
+- [x] Normalize direct media URLs from each response and render native previews plus direct download/save controls instead of only JSON.
+- [ ] Add/update tests, verify mobile downloader UI, run build, push GitHub, and save a checkpoint.
