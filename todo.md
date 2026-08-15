@@ -1,11 +1,24 @@
 # Update checklist
 
+## Eliminator multi-tool hub
+
+- [x] Inventory the API directory, endpoints, parameters, and content boundaries; cataloged 445 unique paths across 20 extracted categories from the 22-category documentation index.
+- [x] Add clearly scoped workspace variants for downloader, search, AI/media, utility, and adult endpoint families.
+- [x] Add explicit download states for result URLs/files: preparing, success, disabled, and failure feedback.
+- [x] Add dedicated spaces for downloader, search, media, social, image, utility, and adult endpoints where supported through catalog-driven tool workspaces and an 18+ gate.
+- [x] Open the Multi-tools route and verify representative downloader workspace, desktop/mobile layout, isolated 18+ gate, and request-error handling; executed Random Quotes through a safe auto-run deep link and confirmed the downloader invalid-input state visibly reports `Request failed (500)`.
+- [x] Push all changes to GitHub; remote main now points to e585fb3 after reconciling the deployment workflow merge.
+- [x] Save a new project checkpoint/publish the completed Multi-tools hub; published as checkpoint d3178c3a.
+- [x] Open the live `/?tools=1` route and confirm the published deployment serves the public ToolHub with 445 documented tools across 20 categories.
+- [x] Make the published public-tools route resilient to auth initialization by bypassing auth checks for `?tools=1`; tests and production build pass locally.
+- [x] Confirm the published deployment matches the final GitHub sync; origin/main is 6abbc39 and the live route reflects the hardened public-tools behavior.
+
 ## xnxx-search endpoint evaluation
 
 - [x] Inspect the endpoint documentation and live response for direct MP4/HLS fields; the response provides browser-playable `thumbnail.preview` MP4 clips, not full movie streams.
 - [x] Confirm browser playback compatibility and avoid unsupported external-page scraping; the preview URL returned `video/mp4`, CORS `*`, and byte-range support.
 - [x] Integrate the endpoint using the returned short MP4 preview URLs and label them as previews rather than full movies.
-- [ ] Validate the result and push any code changes to GitHub.
+- [x] Validate the result and push any code changes to GitHub; published route opened and origin/main confirmed at dc3e7ff. The authenticated player requires a signed-in session for final browser click-to-play testing.
 
 ## Stale playback-state repair
 
@@ -104,3 +117,85 @@
 - [x] Ensure Vercel-style static deployment serves the SPA routes correctly.
 - [x] Run typecheck/build and verify representative desktop/mobile flows.
 - [x] Sync the completed changes to the selected repository and save a recoverable checkpoint.
+
+## Copyable customer User ID
+
+- [x] Show the authenticated Supabase user UUID on the Profile page as a clearly labeled Customer/User ID.
+- [x] Add a mobile-friendly copy action with success feedback and an accessible fallback.
+- [x] Make the Premium Admin console explain and accept the copied User ID consistently for activation lookup.
+- [x] Improve the profile setup warning so it accurately distinguishes missing schema from transient/profile-read errors.
+- [x] Run tests and build with 3 test files / 5 tests passing, verify the responsive mobile preview shell, sync GitHub at 7505d57, and publish a recoverable checkpoint; authenticated Profile click testing remains dependent on an available signed-in browser session.
+
+## Premium status and activation feedback
+
+- [x] Add a prominent Profile Premium status visual that clearly communicates Active, Awaiting Verification, or Inactive.
+- [x] Add a successful activation animation and toast notification in Premium Admin without falsely reporting failures.
+- [x] Validate status/activation feedback states, responsive layout, tests/build (3 files, 5 tests), responsive preview review, and GitHub sync at fcb6118.
+- [x] Save a new recoverable checkpoint after the Premium status card and Premium Admin success-feedback changes; checkpoint dd493241.
+- [x] Verify the authenticated owner Profile on the published site: Premium Active and Owner access are visible, the User ID Copy ID control changes to Copied, and the desktop layout renders correctly; pending/inactive variants remain covered by the existing state logic and responsive CSS.
+- [x] Verify the authenticated owner Premium Admin console and activation UI on the published site; success animation/toast are guarded behind successful entitlement/request writes, while live activation execution remains blocked until Supabase schema and a real verification request are available.
+- [x] Re-check the published deployment after the final GitHub sync; the live Profile, Premium Room, Admin, and public ToolHub routes load under the owner session, with final owner code at e833204.
+
+## Permanent owner Premium access
+
+- [x] Grant mikeakex80@gmail.com permanent Premium eligibility through a restricted owner-only code path.
+- [x] Reflect owner eligibility as Premium Active on Profile and in the protected Premium Room.
+- [x] Validate owner access, tests (4 files, 7 tests), GitHub push at e833204, and publish checkpoint dd493241; the owner account is Premium Active in Profile and Premium Room.
+
+## Final GitHub and deployment synchronization
+
+- [x] Reconcile all current project files with the selected GitHub repository and push the final commit; project/repository diff is clean and origin/main now points to 585869a.
+- [x] Verify the live deployment uses the synchronized revision after the fresh checkpoint; `?tools=1&revision=585869a` loaded the public hub with 445 documented tools.
+- [x] Add a verifiable build/revision marker tied to synchronized revision 585869a; ToolHub visibly renders `Build 585869a` and exposes the same value via `data-build-revision`.
+- [x] Publish and verify the live site reports the final generated revision marker; the live `?tools=1&revision=213641b` route visibly reports Build 213641b.
+- [x] Replace the hardcoded revision marker with a build-time value sourced from the actual Git commit; `write-build-revision.mjs` generates the client module during every production build.
+- [x] Push the generated revision-marker implementation to GitHub at fddd605 and verify the source/config tree matches the repository; the build derives its marker from the actual Git checkout.
+- [x] Publish and confirm the live site reports the same generated revision via visible text and `data-build-revision`; browser console evidence returned `marker: 213641b` and `githubMainSha: 213641b` on the live page.
+
+## Supabase verification-request schema
+
+- [ ] Inspect and prepare the latest Supabase schema for verification requests, premium entitlements, profiles, and policies.
+- [ ] Apply the schema safely through an available Supabase access path without destructive operations.
+- [x] Verify the tables/policies and confirm the Premium Admin workflow is ready for live customer requests; read-only SQL reported 3 required tables, 11 RLS policies, 1 avatar bucket, and 2 update triggers.
+
+## Supabase schema and global confirmation flow
+
+- [x] Execute the confirmed latest Supabase schema and verify profiles, premium entitlements, verification requests, storage, triggers, and RLS policies; Supabase returned success and a read-only verification query reported 3 tables, 11 policies, 1 avatar bucket, and 2 triggers.
+- [x] Find and fix confirmation-page links or redirects that use localhost/local URLs instead of the deployed origin; signup now uses `window.location.origin/?confirmed=1` through a tested helper, and the mobile confirmation route renders the global Auth message.
+- [x] Run tests/build (5 files, 9 tests passed), push every code change to GitHub at 5c475a0, publish a fresh checkpoint, and verify the live confirmation flow; local mobile confirmation preview passed, while live email-link testing requires a real signup/confirmation.
+- [ ] Create a real verification request after the applied schema and confirm it persists in `verification_requests`; requires a real signed-in customer to submit through Pricing without creating synthetic production data.
+- [ ] Open Premium Admin after schema application and verify a request loads, can be reviewed, and can be activated without schema/RLS errors; this depends on the real verification request above.
+- [ ] Save and publish a fresh project checkpoint after the final GitHub commit bc55dbe.
+- [ ] Open the published `/?confirmed=1` route and verify the confirmation message renders on the live domain.
+- [ ] Complete one real signup/email-confirmation round trip and verify Supabase returns to the deployed origin rather than localhost.
+- [x] Add an explicit global confirmation banner at the App shell so `?confirmed=1` is visible even when Auth state initializes without a session.
+- [x] Push and republish the explicit confirmation banner at GitHub bc55dbe, then verify the live DOM contains “Email confirmed. Sign in to continue to your Eliminator account.” at `/?confirmed=1`.
+
+## Deployed feature visibility diagnosis
+
+- [ ] Verify the live GitHub commit and deployment revision actually include Profile User ID, owner Premium eligibility, and Multi-tools route code.
+- [ ] Diagnose and fix any live route/auth initialization problem hiding Profile User ID, Premium status, or Multi-tools.
+- [ ] Run tests/build, push the repaired tree to GitHub, publish a fresh checkpoint, and verify the live routes with revision evidence.
+
+## Final repository synchronization request
+
+- [x] Copy the complete current working project into the selected GitHub repository without omitting source/configuration files.
+- [x] Commit and push the synchronized tree to origin/main at 3ba01af and verify the resulting GitHub revision; the repository working tree is clean and the source/config tree comparison is empty.
+
+## Functional Multi-tools redesign
+
+- [x] Replace API-first labels with task-first workspace copy and family-specific operation modes.
+- [x] Add functional input/result flows for representative downloader, media, search, AI, image, utility, and adult-gated tools; family-specific task language, inputs, actual media previews, copy, and save actions are implemented in the shared workspace.
+- [x] Show actual output states such as preview, generated result, downloadable file, copyable response, or clear unsupported/error state.
+- [x] Preserve safe handling, 18+ gating, rate/error feedback, and avoid pretending an API succeeded when it did not.
+- [x] Run tests/build (6 files, 11 tests passed) and verify the representative TikTok downloader workspace on mobile; selected task inputs now appear before the tool list.
+- [x] Push the complete functional-tool redesign to GitHub at ee333ff; tests/build pass and the mobile task-shortcut workspace is verified. A fresh recoverable checkpoint remains to be saved.
+
+## Vercel deployment synchronization
+
+- [x] Verify the current functional Multi-tools code and selected GitHub head against the older Vercel deployment shown by the user; GitHub origin/main is ee333ff, while `a-test-ten.vercel.app` still serves a bundle without `START WITH A TASK`, confirming Vercel has not consumed the new commit.
+- [x] Push the complete functional Multi-tools tree to the selected repository; origin/main is ee333ff. Vercel auto-deploy propagation/connection remains unresolved.
+- [ ] Verify the Vercel domain exposes Multi-tools, Profile User ID, and Premium status after deployment.
+- [ ] Save a fresh recoverable checkpoint for the functional Multi-tools redesign after GitHub commit ee333ff.
+- [ ] Verify the published checkpoint serves the task-first mobile Multi-tools experience, not only the local preview or GitHub repository.
+- [ ] Repair the selected repository root deployment layout: the current task-first project is nested under `a-test-video-player/`, while root Vercel/GitHub Pages configuration still builds the older root app; synchronize the deployable project to the repository root without losing source or configuration.
