@@ -1,5 +1,5 @@
 import { execFileSync } from "node:child_process";
-import { mkdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 
 const projectRoot = resolve(import.meta.dirname, "..");
@@ -17,6 +17,10 @@ try {
 }
 
 const output = resolve(projectRoot, "client/src/generated/buildRevision.ts");
+if (revision === "development" && existsSync(output)) {
+  const existing = readFileSync(output, "utf8").match(/BUILD_REVISION = "([^"]+)"/);
+  revision = existing?.[1] || revision;
+}
 mkdirSync(dirname(output), { recursive: true });
 writeFileSync(output, `export const BUILD_REVISION = ${JSON.stringify(revision)} as const;\n`, "utf8");
 console.log(`[build-revision] ${revision}`);
