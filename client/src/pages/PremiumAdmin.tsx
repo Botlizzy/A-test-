@@ -3,6 +3,7 @@ import { toast } from "sonner";
 import { ArrowLeft, Bell, Check, CircleAlert, LoaderCircle, LockKeyhole, LogOut, RefreshCw, Search, ShieldCheck, UserRound, X } from "lucide-react";
 import type { User } from "@supabase/supabase-js";
 import { supabase } from "@/lib/supabase";
+import { isCustomerId, normalizeCustomerId } from "@/lib/adminLookup";
 
 const ADMIN_EMAILS = new Set(["mikeakex80@gmail.com", "elijahchinecheremonah@gmail.com"]);
 type PremiumAdminProps = { user: User; onBack: () => void; onSignOut: () => Promise<void> };
@@ -56,17 +57,27 @@ export default function PremiumAdmin({ user, onBack, onSignOut }: PremiumAdminPr
     event.preventDefault();
     setError(""); setMessage(""); setCustomer(null); setEntitlement(null);
     if (!isAdmin || !supabase) return;
+    const normalizedId = normalizeCustomerId(customerId);
     const linkedRequest = selectedRequestId ? requests.find((request) => request.id === selectedRequestId) : null;
-    if (linkedRequest && linkedRequest.user_id !== customerId.trim()) { setError("The selected verification request belongs to a different Customer ID. Use that request’s ID or clear the request selection."); return; }
-    if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(customerId.trim())) { setError("Paste the customer's Customer / User ID from their Profile page."); return; }
+    if (linkedRequest && normalizeCustomerId(linkedRequest.user_id) !== normalizedId) { setError("The selected verification request belongs to a different Customer ID. Tap Use for activation on the matching request or clear the request selection."); return; }
+    if (!isCustomerId(normalizedId)) { setError("Paste the customer's Customer / User ID from their Profile page."); return; }
+    setCustomerId(normalizedId);
     setLoading(true);
     const [{ data: profile, error: profileError }, { data: status, error: statusError }] = await Promise.all([
-      supabase.from("profiles").select("id, full_name, email, avatar_url").eq("id", customerId.trim()).maybeSingle(),
-      supabase.from("premium_entitlements").select("active, transaction_reference, notes, activated_at, activated_by").eq("user_id", customerId.trim()).maybeSingle(),
+      supabase.from("profiles").select("id, full_name, email, avatar_url").eq("id", normalizedId).maybeSingle(),
+      supabase.from("premium_entitlements").select("active, transaction_reference, notes, activated_at, activated_by").eq("user_id", normalizedId).maybeSingle(),
     ]);
-    if (profileError) setError(profileError.message.includes("profiles") ? "The profiles table is not ready. Run supabase/schema.sql first." : profileError.message);
-    else if (!profile) setError("No customer was found for that Customer / User ID.");
-    else { setCustomer(profile as Customer); setEntitlement((statusError ? null : status) as Entitlement | null); setReference(status?.transaction_reference || ""); setNotes(status?.notes || ""); }
+    if (profileError) setError(profileError.message.includes("permission") || profileError.message.includes("row-level") ? "Admin profile access is blocked by Supabase RLS. Run the latest supabase/schema.sql so approved admins can read profiles." : profileError.message.includes("profiles") ? "The profiles table is not ready. Run supabase/schema.sql first." : profileError.message);
+    else if (!profile) {
+      const requestIdentity = requests.find((request) => normalizeCustomerId(request.user_id) === normalizedId);
+      if (requestIdentity) {
+        setCustomer({ id: normalizedId, full_name: requestIdentity.customer_name || "Unnamed viewer", email: requestIdentity.customer_email });
+        setMessage("Profile row not available yet; loaded the matching verification request. Confirm the transaction reference before continuing.");
+        setEntitlement((statusError ? null : status) as Entitlement | null);
+        setReference(status?.transaction_reference || requestIdentity.transaction_reference || "");
+        setNotes(status?.notes || "");
+      } else setError("No customer was found for that Customer / User ID. Confirm that the ID matches the customer’s Profile page exactly.");
+    } else { setCustomer(profile as Customer); setEntitlement((statusError ? null : status) as Entitlement | null); setReference(status?.transaction_reference || ""); setNotes(status?.notes || ""); }
     setLoading(false);
   };
 
