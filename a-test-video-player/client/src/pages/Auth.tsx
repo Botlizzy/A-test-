@@ -2,7 +2,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import { ArrowLeft, ArrowRight, CircleAlert, Eye, EyeOff, LoaderCircle, ShieldCheck, UserRound } from "lucide-react";
 import { isSupabaseConfigured, supabase, supabaseConfigMessage } from "@/lib/supabase";
-import { getConfirmationMessage, getConfirmationRedirect } from "@/lib/authRedirect";
+import { getConfirmationMessage, getConfirmationRedirect, hasConfirmedEmail } from "@/lib/authRedirect";
 
 type AuthMode = "login" | "signup";
 
@@ -18,6 +18,7 @@ export default function Auth({ mode, onModeChange }: AuthProps) {
   const [error, setError] = useState("");
   const [cooldownSeconds, setCooldownSeconds] = useState(0);
   const [rateLimited, setRateLimited] = useState(false);
+  const confirmationRequested = hasConfirmedEmail(window.location.search);
 
   useEffect(() => {
     if (cooldownSeconds <= 0) return;
@@ -90,6 +91,7 @@ export default function Auth({ mode, onModeChange }: AuthProps) {
         <section className="auth-card">
           <div className="auth-card__top"><span className="auth-card__icon"><UserRound size={19} /></span><span className="eyebrow">{mode === "login" ? "RETURNING VIEWER" : "NEW VIEWER"}</span></div>
           <h2>{mode === "login" ? "Welcome back." : "Create your account."}</h2><p className="auth-card__lead">{mode === "login" ? "Sign in to continue to the live video feed." : "A few details, then your private viewing room is ready."}</p>
+          {confirmationRequested && <div className="auth-message auth-message--success" role="status"><ShieldCheck size={16} /><span>Email confirmed. Sign in to continue to your Eliminator account.</span></div>}
           <form onSubmit={submit} className="auth-form">
             {mode === "signup" && <label>Full name<input value={fullName} onChange={(event) => setFullName(event.target.value)} placeholder="Ada Lovelace" autoComplete="name" required /></label>}
             <label>Email address<input type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@example.com" autoComplete="email" required /></label>

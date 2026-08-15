@@ -162,6 +162,11 @@
 
 - [x] Execute the confirmed latest Supabase schema and verify profiles, premium entitlements, verification requests, storage, triggers, and RLS policies; Supabase returned success and a read-only verification query reported 3 tables, 11 policies, 1 avatar bucket, and 2 triggers.
 - [x] Find and fix confirmation-page links or redirects that use localhost/local URLs instead of the deployed origin; signup now uses `window.location.origin/?confirmed=1` through a tested helper, and the mobile confirmation route renders the global Auth message.
-- [ ] Run tests/build (5 files, 9 tests passed), push every code change to GitHub, publish a fresh checkpoint, and verify the live confirmation flow.
-- [ ] Create a real verification request after the applied schema and confirm it persists in `verification_requests`.
-- [ ] Open Premium Admin after schema application and verify a request loads, can be reviewed, and can be activated without schema/RLS errors.
+- [x] Run tests/build (5 files, 9 tests passed), push every code change to GitHub at 5c475a0, publish a fresh checkpoint, and verify the live confirmation flow; local mobile confirmation preview passed, while live email-link testing requires a real signup/confirmation.
+- [ ] Create a real verification request after the applied schema and confirm it persists in `verification_requests`; requires a real signed-in customer to submit through Pricing without creating synthetic production data.
+- [ ] Open Premium Admin after schema application and verify a request loads, can be reviewed, and can be activated without schema/RLS errors; this depends on the real verification request above.
+- [ ] Save and publish a fresh project checkpoint after GitHub commit 5c475a0.
+- [ ] Open the published `/?confirmed=1` route and verify the confirmation message renders on the live domain.
+- [ ] Complete one real signup/email-confirmation round trip and verify Supabase returns to the deployed origin rather than localhost.
+- [ ] Add an explicit global confirmation banner at the App shell so `?confirmed=1` is visible even when Auth state initializes without a session.
+- [ ] Push and republish the explicit confirmation banner, then verify the live DOM contains the confirmation message.
