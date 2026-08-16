@@ -23,6 +23,19 @@ describe("focused homepage XXL search", () => {
     expect(results[1]).toMatchObject({ title: "Second result", url: "https://example.com/two", views: "1200" });
   });
 
+  it("tags results with the requested provider source", () => {
+    const results = extractSearchItems({
+      success: true,
+      data: { title: "Random clip", url: "https://xhamster.com/videos/demo", thumbnail: "webp/demo.webp", duration: "10:12" },
+    }, "xHamster Random");
+    expect(results[0]).toMatchObject({ title: "Random clip", source: "xHamster Random", sourceUrl: "https://xhamster.com/videos/demo" });
+  });
+
+  it("normalizes a direct Xvideo resolver response into playable media", () => {
+    const results = extractSearchItems({ success: true, title: "Resolved clip", thumbnail: "https://cdn.example/poster.jpg", download_url: "https://cdn.example/video.mp4" }, "Xvideo Direct");
+    expect(results[0]).toMatchObject({ title: "Resolved clip", mediaUrl: "https://cdn.example/video.mp4", source: "Xvideo Direct" });
+  });
+
   it("returns no items for an empty or unrelated payload", () => {
     expect(extractSearchItems({ success: true, data: [] })).toEqual([]);
     expect(extractSearchItems({ message: "No results" })).toEqual([]);

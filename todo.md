@@ -399,3 +399,6 @@
 - [x] Add Copy answer controls to generated AI responses on the homepage and Premium Room.
 - [x] Provide accessible copied/fallback feedback and mobile-safe button styling.
 - [x] Add/update tests, verify mobile AI cards, build, publish, and push the update to GitHub.
+- [x] Add the documented Xvideos, Xvideo, and XHamster Random sources to the XXL workspace without external redirects.
+- [x] Normalize all three source responses into one in-page result list with Play controls and unmuted native playback.
+- [x] Add/update tests, verify mobile playback and source states, publish, and push the multi-source XXL update to GitHub.
