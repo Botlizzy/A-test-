@@ -23,3 +23,12 @@ describe("focused homepage XXL search", () => {
     expect(extractSearchItems({ message: "No results" })).toEqual([]);
   });
 });
+
+
+describe("focused homepage Xvideo playback", () => {
+  it("extracts direct video files from nested API results", async () => {
+    const { extractVideoItems } = await import("./Home");
+    const results = extractVideoItems({ data: [{ title: "Demo clip", videoUrl: "https://cdn.example/demo.mp4", thumbnail: "https://cdn.example/demo.jpg" }, { title: "Page only", url: "https://example.com/watch" }] });
+    expect(results).toEqual([{ title: "Demo clip", mediaUrl: "https://cdn.example/demo.mp4", thumbnail: "https://cdn.example/demo.jpg", duration: undefined }]);
+  });
+});

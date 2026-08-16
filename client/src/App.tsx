@@ -10,7 +10,6 @@ import Profile from "./pages/Profile";
 import Pricing from "./pages/Pricing";
 import PremiumAdmin from "./pages/PremiumAdmin";
 import PremiumRoom from "./pages/PremiumRoom";
-import ToolHub from "./pages/ToolHub";
 import Auth from "./pages/Auth";
 import Maintenance from "./pages/Maintenance";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
@@ -58,17 +57,11 @@ export default function App() {
   const [showPricing, setShowPricing] = useState(() => new URLSearchParams(window.location.search).get("pricing") === "1");
   const [showAdmin, setShowAdmin] = useState(() => new URLSearchParams(window.location.search).get("admin") === "1");
   const [showPremium, setShowPremium] = useState(() => new URLSearchParams(window.location.search).get("premium") === "1");
-  const [showTools, setShowTools] = useState(() => new URLSearchParams(window.location.search).get("tools") === "1");
   const [premiumActive, setPremiumActive] = useState(false);
-  const publicToolsRequested = new URLSearchParams(window.location.search).get("tools") === "1";
   const confirmedEmailReturn = hasConfirmedEmail(window.location.search);
   const maintenanceMode = false;
 
   useEffect(() => {
-    if (publicToolsRequested) {
-      setCheckingAuth(false);
-      return;
-    }
     if (!supabase || !isSupabaseConfigured) {
       setCheckingAuth(false);
       return;
@@ -100,32 +93,27 @@ export default function App() {
 
   const goToProfile = () => {
     window.history.pushState({}, "", "/?profile=1");
-    setShowProfile(true); setShowPricing(false); setShowAdmin(false); setShowPremium(false); setShowTools(false);
+    setShowProfile(true); setShowPricing(false); setShowAdmin(false); setShowPremium(false);
   };
 
   const goToPricing = () => {
     window.history.pushState({}, "", "/?pricing=1");
-    setShowPricing(true); setShowProfile(false); setShowAdmin(false); setShowTools(false);
+    setShowPricing(true); setShowProfile(false); setShowAdmin(false);
   };
 
   const goToAdmin = () => {
     window.history.pushState({}, "", "/?admin=1");
-    setShowAdmin(true); setShowPricing(false); setShowProfile(false); setShowPremium(false); setShowTools(false);
+    setShowAdmin(true); setShowPricing(false); setShowProfile(false); setShowPremium(false);
   };
 
   const goToPremium = () => {
     window.history.pushState({}, "", "/?premium=1");
-    setShowPremium(true); setShowAdmin(false); setShowPricing(false); setShowProfile(false); setShowTools(false);
-  };
-
-  const goToTools = () => {
-    window.history.pushState({}, "", "/?tools=1");
-    setShowTools(true); setShowProfile(false); setShowPricing(false); setShowAdmin(false); setShowPremium(false);
+    setShowPremium(true); setShowAdmin(false); setShowPricing(false); setShowProfile(false);
   };
 
   const goToFeed = () => {
     window.history.pushState({}, "", "/");
-    setShowProfile(false); setShowPricing(false); setShowAdmin(false); setShowPremium(false); setShowTools(false);
+    setShowProfile(false); setShowPricing(false); setShowAdmin(false); setShowPremium(false);
   };
 
   if (maintenanceMode) return <Maintenance />;
@@ -145,7 +133,7 @@ export default function App() {
     return <VerificationReturn status="success" authenticated={Boolean(session?.user)} onContinue={continueAfterVerification} />;
   }
 
-  return <ErrorBoundary><ThemeProvider defaultTheme="light"><TooltipProvider><Toaster />{showPricing ? <Pricing user={session?.user} onBack={goToFeed} /> : (showTools || publicToolsRequested) ? <ToolHub user={session?.user} onBack={goToFeed} onSignOut={signOut} /> : session?.user ? (showAdmin ? <PremiumAdmin user={session.user} onBack={goToFeed} onSignOut={signOut} /> : showPremium ? <PremiumRoom user={session.user} isPremium={premiumActive} onBack={goToFeed} onPricing={goToPricing} onSignOut={signOut} /> : showProfile ? <Profile user={session.user} onBack={goToFeed} onSignOut={signOut} /> : <Home user={session.user} onProfile={goToProfile} onPricing={goToPricing} onPremium={goToPremium} onAdmin={goToAdmin} onTools={goToTools} onSignOut={signOut} />) : <Auth mode={authMode} onModeChange={(mode) => { setAuthMode(mode); window.history.replaceState({}, "", `/?mode=${mode}`); }} />}</TooltipProvider></ThemeProvider></ErrorBoundary>;
+  return <ErrorBoundary><ThemeProvider defaultTheme="light"><TooltipProvider><Toaster />{showPricing ? <Pricing user={session?.user} onBack={goToFeed} /> : session?.user ? (showAdmin ? <PremiumAdmin user={session.user} onBack={goToFeed} onSignOut={signOut} /> : showPremium ? <PremiumRoom user={session.user} isPremium={premiumActive} onBack={goToFeed} onPricing={goToPricing} onSignOut={signOut} /> : showProfile ? <Profile user={session.user} onBack={goToFeed} onSignOut={signOut} /> : <Home user={session.user} onProfile={goToProfile} onPricing={goToPricing} onPremium={goToPremium} onAdmin={goToAdmin} onSignOut={signOut} />) : <Auth mode={authMode} onModeChange={(mode) => { setAuthMode(mode); window.history.replaceState({}, "", `/?mode=${mode}`); }} />}</TooltipProvider></ThemeProvider></ErrorBoundary>;
 }
 
 export type AppUser = User;

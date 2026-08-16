@@ -352,3 +352,6 @@
 - [x] Replace the homepage content with only Football LiveScore, XXL search, and five or six selected Premium AI workspaces.
 - [x] Preserve Premium Room and existing functional tools while adapting the selected homepage workspaces for mobile use.
 - [x] Verify homepage loading/error states, responsive layout, tests, production build, and publish the redesign.
+- [x] Restrict the homepage to six AI tools, image generation, XXL search, and a playable unmuted API video feed.
+- [x] Remove the Multi-tools route and its visible navigation while preserving Premium Room functionality.
+- [x] Validate mobile video playback, loading/error states, tests, production build, and publish the revised homepage.
