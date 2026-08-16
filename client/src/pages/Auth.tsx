@@ -3,55 +3,48 @@ import { FormEvent, useState } from "react";
 import { ArrowLeft, ArrowRight, CircleAlert, Eye, EyeOff, LoaderCircle, ShieldCheck, UserRound } from "lucide-react";
 import { isSupabaseConfigured, supabase, supabaseConfigMessage } from "@/lib/supabase";
 import { getConfirmationMessage, getConfirmationRedirect, hasConfirmedEmail } from "@/lib/authRedirect";
-import { formatAuthError, formatSignupSuccess } from "@/lib/authErrors";
+import { formatAuthError } from "@/lib/authErrors";
 
 type AuthMode = "login" | "signup";
 
 type AuthProps = { mode: AuthMode; onModeChange: (mode: AuthMode) => void };
 
 export default function Auth({ mode, onModeChange }: AuthProps) {
-  const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState(() => getConfirmationMessage(window.location.search));
   const [error, setError] = useState("");
-  const [emailDeliveryLimited, setEmailDeliveryLimited] = useState(false);
-  const [signupSuccess, setSignupSuccess] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const confirmationRequested = hasConfirmedEmail(window.location.search);
 
   const signInWithGoogle = async () => {
     setError("");
     setMessage("");
-    setEmailDeliveryLimited(false);
-    setSignupSuccess(false);
     if (!supabase || !isSupabaseConfigured) {
       setError(supabaseConfigMessage);
       return;
     }
     setGoogleLoading(true);
-    const { error: googleError } = await supabase.auth.signInWithOAuth({
+    const { data, error: googleError } = await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: { redirectTo: getConfirmationRedirect(window.location.origin) },
+      options: { redirectTo: getConfirmationRedirect(window.location.origin), skipBrowserRedirect: true },
     });
-    if (googleError) setError("Google sign-in is not enabled yet. Enable Google under Supabase Authentication → Providers, then try again.");
-    setGoogleLoading(false);
+    if (googleError || !data?.url) {
+      setError("Google sign-in is not enabled in Supabase yet. In Supabase, open Authentication → Providers → Google, enable it, save the provider settings, and try again.");
+      setGoogleLoading(false);
+      return;
+    }
+    window.location.assign(data.url);
   };
 
   const submit = async (event: FormEvent) => {
     event.preventDefault();
     setError("");
     setMessage("");
-    setEmailDeliveryLimited(false);
-    setSignupSuccess(false);
     if (!supabase || !isSupabaseConfigured) {
       setError(supabaseConfigMessage);
-      return;
-    }
-    if (mode === "signup" && fullName.trim().length < 2) {
-      setError("Please enter your full name.");
       return;
     }
     if (password.length < 6) {
@@ -60,36 +53,16 @@ export default function Auth({ mode, onModeChange }: AuthProps) {
     }
     setBusy(true);
     try {
-      if (mode === "signup") {
-        const confirmationRedirect = getConfirmationRedirect(window.location.origin);
-        const { data, error: signUpError } = await supabase.auth.signUp({
-          email: email.trim(),
-          password,
-          options: {
-            emailRedirectTo: confirmationRedirect,
-            data: { full_name: fullName.trim() },
-          },
-        });
-        if (signUpError) throw signUpError;
-        if (data.user) {
-          await supabase.from("profiles").upsert({ id: data.user.id, full_name: fullName.trim(), email: email.trim() });
-        }
-        setSignupSuccess(true);
-        setMessage(formatSignupSuccess(Boolean(data.session)));
-        setPassword("");
-      } else {
-        const credentials = { email: email.trim(), password };
-        let { error: signInError } = await supabase.auth.signInWithPassword(credentials);
-        if (signInError && /failed to fetch|networkerror|load failed/i.test(signInError.message)) {
-          await new Promise((resolve) => window.setTimeout(resolve, 700));
-          ({ error: signInError } = await supabase.auth.signInWithPassword(credentials));
-        }
-        if (signInError) throw signInError;
+      const credentials = { email: email.trim(), password };
+      let { error: signInError } = await supabase.auth.signInWithPassword(credentials);
+      if (signInError && /failed to fetch|networkerror|load failed/i.test(signInError.message)) {
+        await new Promise((resolve) => window.setTimeout(resolve, 700));
+        ({ error: signInError } = await supabase.auth.signInWithPassword(credentials));
       }
+      if (signInError) throw signInError;
     } catch (cause) {
       const rawMessage = cause instanceof Error ? cause.message : "We could not complete that request.";
-      setEmailDeliveryLimited(mode === "signup" && /rate limit|too many requests|over_email_send_rate_limit|429/i.test(rawMessage));
-      setError(formatAuthError(rawMessage, mode));
+      setError(formatAuthError(rawMessage, "login"));
     } finally {
       setBusy(false);
     }
@@ -117,7 +90,7 @@ export default function Auth({ mode, onModeChange }: AuthProps) {
             <button className="primary-button auth-google-button" type="button" onClick={() => void signInWithGoogle()} disabled={googleLoading}>{googleLoading ? <LoaderCircle size={17} className="spin" /> : <span className="auth-google-mark">G</span>}{googleLoading ? "Connecting to Google…" : "Continue with Google"}</button>
             <p className="auth-google-panel__note">Google sign-in uses Supabase OAuth and keeps your existing profile and Premium access records.</p>
           </section>}
-          <div className="auth-switch"><span>{mode === "login" ? "New to ELIZZY DOMAIN?" : "Already have an account?"}</span><button onClick={() => { setError(""); setMessage(""); setEmailDeliveryLimited(false); setSignupSuccess(false); onModeChange(mode === "login" ? "signup" : "login"); }}>{mode === "login" ? "Create account" : "Sign in"}</button></div>
+          <div className="auth-switch"><span>{mode === "login" ? "New to ELIZZY DOMAIN?" : "Already have an account?"}</span><button onClick={() => { setError(""); setMessage(""); onModeChange(mode === "login" ? "signup" : "login"); }}>{mode === "login" ? "Create account" : "Sign in"}</button></div>
           <a className="auth-back" href="/"><ArrowLeft size={14} /> Back to feed</a><a className="auth-feedback" href="mailto:elijahchinecheremonah@gmail.com?subject=Eliminator%20feedback">Feedback: elijahchinecheremonah@gmail.com</a>
         </section>
       </main>

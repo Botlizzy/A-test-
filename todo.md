@@ -438,3 +438,12 @@
 - [x] Add a Sign in with Google button to the existing login panel using Supabase OAuth.
 - [x] Preserve email/password login and shared Google loading/error behavior.
 - [x] Add/update tests, verify both mobile auth modes, build, publish, and push the update to GitHub.
+- [x] Inspect the supplied archive for the requested login/signup presentation without copying credentials or secrets.
+- [x] Restore compatible auth presentation and handle Supabase disabled-provider errors inside the app.
+- [x] Add/update tests, verify login/signup and Google error states, build, publish, and push the update to GitHub.
+- [x] Restore the supplied archive’s login/signup visual style inside the current ELIZZY DOMAIN auth page.
+- [x] Preserve Google OAuth safeguards and exclude archive credentials, localhost redirects, and obsolete cooldown logic.
+- [x] Add/update tests, verify mobile auth styling and provider-error handling, build, publish, and push the update to GitHub.
+- [x] Adapt the supplied archive’s working auth implementation into the current Auth.tsx without importing secrets or obsolete redirects.
+- [x] Keep disabled Google-provider errors inside the app with a clear setup message instead of raw Supabase JSON.
+- [x] Add/update tests, verify mobile auth behavior, build, publish, and push the archive-derived auth fix to GitHub.
