@@ -393,3 +393,6 @@
 - [x] Keep selected XXL search videos inside Eliminator with direct-media resolution and native playback where the API supports it.
 - [x] Preserve the adult-content gate and show clear unsupported-media states instead of redirecting metadata-only results.
 - [x] Add XXL media extraction tests, verify mobile playback, build, publish, and push the update to GitHub.
+- [x] Display the complete XXL video result list with a Play button for each result inside Eliminator.
+- [x] Broaden direct-media extraction and replace generic no-playable-file errors with precise per-result states while keeping playback unmuted.
+- [x] Validate the full XXL list and mobile player, tests, build, publish, and GitHub synchronization.
