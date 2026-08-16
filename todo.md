@@ -321,3 +321,4 @@
 - [x] Return a real speech audio file with native playback, progress/loading feedback, and direct download.
 - [x] Add tests, verify mobile UI, run build, synchronize GitHub at remote commit `c199aa6`, and publish the TTS migration.
 - [x] Add documented Text2Speech V3 pitch and rate controls to the Premium TTS form and request query.
+- [x] Run a live Text2Speech V3 request and verify the returned audio is playable and downloadable through the Premium workflow; live response was HTTP 200, audio/mpeg, 18,576 bytes, valid MP3, 3.096 seconds.
