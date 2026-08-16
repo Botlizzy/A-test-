@@ -853,3 +853,6 @@ button:focus-visible, a:focus-visible { outline: 3px solid rgba(22,119,255,.35);
 
 
 .auth-progress{display:flex;align-items:center;gap:.55rem;margin:.15rem 0;color:var(--blue);background:#eef6ff;border:1px solid #cfe2ff;border-radius:.7rem;padding:.75rem .8rem;font-size:.72rem;font-weight:800}.auth-progress .spin{flex:0 0 auto}.auth-message--signup-success{box-shadow:0 8px 20px rgba(37,184,100,.12);border-color:#a8e0bd}.auth-message--signup-success strong{font-weight:950;color:#16864a}
+
+
+.auth-google-panel{display:grid;gap:.8rem;margin-top:.25rem}.auth-google-panel__lead{margin:0;color:var(--muted);font-size:.82rem;line-height:1.55}.auth-google-panel__note{margin:0;color:var(--muted);font-size:.68rem;line-height:1.5}.auth-google-button{justify-content:center;gap:.6rem;background:#fff;color:#173052;border:1px solid #d8e4ef;box-shadow:0 10px 22px rgba(16,35,63,.08)}.auth-google-button:hover{background:#f7fbff;color:#173052}.auth-google-mark{display:grid;place-items:center;width:1.35rem;height:1.35rem;border-radius:50%;background:conic-gradient(#4285f4 0 25%,#34a853 25% 50%,#fbbc05 50% 75%,#ea4335 75%);color:#fff;font-weight:950;font-size:.82rem}

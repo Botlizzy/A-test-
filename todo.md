@@ -429,3 +429,9 @@
 - [x] Add a visible signup loading spinner while Supabase processes account creation.
 - [x] Add a clear success message after signup is accepted, including the email-confirmation next step.
 - [x] Add/update tests, verify mobile auth feedback, build, publish, and push the update to GitHub.
+- [x] Remove the blocked email/password signup path from the user-facing auth flow.
+- [x] Evaluate and prepare Google authentication, choosing Firebase Auth or Supabase Google OAuth without breaking existing account data.
+- [x] Add/update tests, verify mobile auth behavior, build, publish, and push the auth-provider update to GitHub.
+- [x] Remove the email/password signup form entry and its provider-delivery error path.
+- [x] Add Supabase Google OAuth sign-in while preserving existing Supabase profiles and Premium records.
+- [x] Add/update tests, verify OAuth redirect and mobile auth UI, build, publish, and push the update to GitHub.

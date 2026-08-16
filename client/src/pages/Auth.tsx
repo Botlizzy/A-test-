@@ -19,7 +19,26 @@ export default function Auth({ mode, onModeChange }: AuthProps) {
   const [error, setError] = useState("");
   const [emailDeliveryLimited, setEmailDeliveryLimited] = useState(false);
   const [signupSuccess, setSignupSuccess] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
   const confirmationRequested = hasConfirmedEmail(window.location.search);
+
+  const signInWithGoogle = async () => {
+    setError("");
+    setMessage("");
+    setEmailDeliveryLimited(false);
+    setSignupSuccess(false);
+    if (!supabase || !isSupabaseConfigured) {
+      setError(supabaseConfigMessage);
+      return;
+    }
+    setGoogleLoading(true);
+    const { error: googleError } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: getConfirmationRedirect(window.location.origin) },
+    });
+    if (googleError) setError("Google sign-in is not enabled yet. Enable Google under Supabase Authentication → Providers, then try again.");
+    setGoogleLoading(false);
+  };
 
   const submit = async (event: FormEvent) => {
     event.preventDefault();
@@ -86,17 +105,19 @@ export default function Auth({ mode, onModeChange }: AuthProps) {
           <div className="auth-card__top"><span className="auth-card__icon"><UserRound size={19} /></span><span className="eyebrow">{mode === "login" ? "RETURNING VIEWER" : "NEW VIEWER"}</span></div>
           <h2>{mode === "login" ? "Welcome back." : "Create your account."}</h2><p className="auth-card__lead">{mode === "login" ? "Sign in to continue to the live video feed." : "A few details, then your private viewing room is ready."}</p>
           {confirmationRequested && <div className="auth-message auth-message--success" role="status"><ShieldCheck size={16} /><span>Email confirmed. Sign in to continue to your ELIZZY DOMAIN account.</span></div>}
-          <form onSubmit={submit} className="auth-form">
-            {mode === "signup" && <label>Full name<input value={fullName} onChange={(event) => setFullName(event.target.value)} placeholder="Ada Lovelace" autoComplete="name" required /></label>}
+          {mode === "login" ? <form onSubmit={submit} className="auth-form">
             <label>Email address<input type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@example.com" autoComplete="email" required /></label>
-            <label>Password<div className="password-field"><input type={showPassword ? "text" : "password"} value={password} onChange={(event) => setPassword(event.target.value)} placeholder="At least 6 characters" autoComplete={mode === "login" ? "current-password" : "new-password"} required /><button type="button" onClick={() => setShowPassword((value) => !value)} aria-label={showPassword ? "Hide password" : "Show password"}>{showPassword ? <EyeOff size={17} /> : <Eye size={17} />}</button></div></label>
-            {error && <div className="auth-message auth-message--error"><CircleAlert size={16} /><span>{error}</span>{emailDeliveryLimited && <button className="auth-message__action" type="button" onClick={() => { setError(""); setMessage(""); setEmailDeliveryLimited(false); onModeChange("login"); }}>Go to Sign in</button>}</div>}
-            {busy && mode === "signup" && <div className="auth-progress" role="status" aria-live="polite"><LoaderCircle size={17} className="spin" /><span>Creating your account and preparing confirmation…</span></div>}
-            {message && <div className={`auth-message auth-message--success${signupSuccess ? " auth-message--signup-success" : ""}`} role="status"><ShieldCheck size={16} /><span>{signupSuccess && <strong>Signup successful. </strong>}{message.replace(/^Signup successful\.\s*/, "")}</span></div>}
-            {mode === "signup" && <p className="auth-scale-note">Unlimited member records are supported by the app. Email confirmation delivery is controlled by your Supabase plan and SMTP provider.</p>}
-            <button className="primary-button auth-submit" type="submit" disabled={busy}>{busy ? <LoaderCircle size={17} className="spin" /> : <ArrowRight size={17} />}{busy ? (mode === "signup" ? "Creating account…" : "Working…") : mode === "login" ? "Enter playback room" : "Create account"}</button>
-          </form>
-          <div className="auth-switch"><span>{mode === "login" ? "New to Eliminator?" : "Already have an account?"}</span><button onClick={() => { setError(""); setMessage(""); setEmailDeliveryLimited(false); setSignupSuccess(false); onModeChange(mode === "login" ? "signup" : "login"); }}>{mode === "login" ? "Create account" : "Sign in"}</button></div>
+            <label>Password<div className="password-field"><input type={showPassword ? "text" : "password"} value={password} onChange={(event) => setPassword(event.target.value)} placeholder="At least 6 characters" autoComplete="current-password" required /><button type="button" onClick={() => setShowPassword((value) => !value)} aria-label={showPassword ? "Hide password" : "Show password"}>{showPassword ? <EyeOff size={17} /> : <Eye size={17} />}</button></div></label>
+            {error && <div className="auth-message auth-message--error"><CircleAlert size={16} /><span>{error}</span></div>}
+            {message && <div className="auth-message auth-message--success" role="status"><ShieldCheck size={16} /><span>{message}</span></div>}
+            <button className="primary-button auth-submit" type="submit" disabled={busy}>{busy ? <LoaderCircle size={17} className="spin" /> : <ArrowRight size={17} />}{busy ? "Working…" : "Enter playback room"}</button>
+          </form> : <section className="auth-google-panel" aria-live="polite">
+            <p className="auth-google-panel__lead">Create or continue your ELIZZY DOMAIN account with Google. No email-delivery confirmation is required.</p>
+            {error && <div className="auth-message auth-message--error"><CircleAlert size={16} /><span>{error}</span></div>}
+            <button className="primary-button auth-google-button" type="button" onClick={() => void signInWithGoogle()} disabled={googleLoading}>{googleLoading ? <LoaderCircle size={17} className="spin" /> : <span className="auth-google-mark">G</span>}{googleLoading ? "Connecting to Google…" : "Continue with Google"}</button>
+            <p className="auth-google-panel__note">Google sign-in uses Supabase OAuth and keeps your existing profile and Premium access records.</p>
+          </section>}
+          <div className="auth-switch"><span>{mode === "login" ? "New to ELIZZY DOMAIN?" : "Already have an account?"}</span><button onClick={() => { setError(""); setMessage(""); setEmailDeliveryLimited(false); setSignupSuccess(false); onModeChange(mode === "login" ? "signup" : "login"); }}>{mode === "login" ? "Create account" : "Sign in"}</button></div>
           <a className="auth-back" href="/"><ArrowLeft size={14} /> Back to feed</a><a className="auth-feedback" href="mailto:elijahchinecheremonah@gmail.com?subject=Eliminator%20feedback">Feedback: elijahchinecheremonah@gmail.com</a>
         </section>
       </main>
