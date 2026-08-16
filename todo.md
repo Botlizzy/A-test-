@@ -411,3 +411,6 @@
 - [x] Generate a red-and-blue ELIMINATOR STREAMING logo suitable for auth-screen branding.
 - [x] Upload the logo and use it as the login and sign-up page background with readable overlays.
 - [x] Validate auth backgrounds, build, publish, and push the logo update to GitHub.
+- [x] Rename the visible website brand to ELIZZY DOMAIN across branded page surfaces and document metadata.
+- [x] Add a bold red, blue, yellow, and green decorative brand treatment with tasteful floral/spark accents.
+- [x] Validate responsive brand rendering, build, publish, and push the update to GitHub.
