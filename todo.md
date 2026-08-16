@@ -364,3 +364,5 @@
 - [x] Diagnose the reported live login failure and identify whether it is caused by credentials, Supabase configuration, redirect/session handling, or runtime errors.
 - [x] Fix the login failure and provide actionable recovery feedback without hiding the underlying provider error.
 - [x] Validate mobile login behavior, tests, build, checkpoint, and publish the correction.
+- [x] Restore a clear approved-admin entry point to the Premium Admin activation page and preserve regular-user protection.
+- [x] Validate the mobile Premium Admin route, activation lookup controls, tests, build, checkpoint, and selected-repository synchronization.

@@ -751,3 +751,6 @@ button:focus-visible, a:focus-visible { outline: 3px solid rgba(22,119,255,.35);
   .premium-app-grid { grid-template-columns:1fr 1fr; }
   .premium-room-card--workspace { padding:.72rem; }
 }
+
+.shortcut-button--admin { color:#fff; background:#9f2f2b; border-color:#9f2f2b; }
+.shortcut-button--admin:hover { background:#7f2522; border-color:#7f2522; }
