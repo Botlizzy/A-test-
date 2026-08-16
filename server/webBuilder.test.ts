@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { renderWebDraftHtml, WebDraftSchema } from "./webBuilder";
+import { parseWebDraftContent, renderWebDraftHtml, WebDraftSchema } from "./webBuilder";
 
 const draft = {
   title: "Studio <One>",
@@ -21,5 +21,15 @@ describe("AI web builder draft contract", () => {
     expect(html).toContain("Services");
     expect(html).not.toContain("<script");
     expect(html).not.toContain("javascript:");
+  });
+
+  it("accepts fenced JSON and structured object content", () => {
+    expect(parseWebDraftContent("```json\n" + JSON.stringify(draft) + "\n```").title).toBe("Studio <One>");
+    expect(parseWebDraftContent(draft).footer).toContain("ELIZZY");
+  });
+
+  it("turns empty or truncated responses into actionable errors", () => {
+    expect(() => parseWebDraftContent("")).toThrow("empty website draft");
+    expect(() => parseWebDraftContent('{"title":"Incomplete')).toThrow("incomplete website draft");
   });
 });

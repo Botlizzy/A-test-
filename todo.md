@@ -510,3 +510,4 @@
 - [x] Keep Supabase recovery links on the new-password page, preserve the temporary session, and prevent session-expired errors after logout
 - [x] Create and verify a sanitized full-project ZIP archive containing frontend, backend, schema, tests, and configuration without credentials or generated artifacts
 - [x] Add a Premium-only AI Web Builder with prompt-to-draft generation, safe live preview, and guarded publish workflow
+- [x] Fix Premium AI Web Builder Unexpected end of JSON input errors with defensive Manus AI parsing and publisher verification
