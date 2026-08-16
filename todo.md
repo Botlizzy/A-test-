@@ -471,3 +471,7 @@
 - [x] Add a protected admin warning flag that does not suspend an account
 - [x] Show warning state and clear-warning action in Member Management with mobile feedback
 - [x] Add tests and apply the warning-state Supabase migration
+
+- [x] Fix admin suspension for registered members returning Customer not found
+- [x] Add confirmation dialog before admin suspend/reactivate and permanent self-delete actions
+- [x] Add regression tests, verify mobile destructive-action feedback, and synchronize GitHub

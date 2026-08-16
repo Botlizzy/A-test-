@@ -71,6 +71,10 @@ begin
   if next_status not in ('active', 'suspended') then
     raise exception 'Invalid account status';
   end if;
+  insert into public.profiles (id, full_name, email, account_status)
+  select id, coalesce(raw_user_meta_data ->> 'full_name', split_part(email, '@', 1)), email, 'active'
+  from auth.users where id = target_user_id
+  on conflict (id) do nothing;
   update public.profiles set account_status = next_status where id = target_user_id returning * into updated_profile;
   if updated_profile.id is null then raise exception 'Customer not found'; end if;
   return updated_profile;
@@ -86,6 +90,10 @@ begin
   if lower(coalesce(auth.jwt() ->> 'email', '')) not in ('mikeakex80@gmail.com', 'elijahchinecheremonah@gmail.com') then
     raise exception 'Only approved administrators can flag accounts';
   end if;
+  insert into public.profiles (id, full_name, email, account_status)
+  select id, coalesce(raw_user_meta_data ->> 'full_name', split_part(email, '@', 1)), email, 'active'
+  from auth.users where id = target_user_id
+  on conflict (id) do nothing;
   update public.profiles set account_warning = flagged where id = target_user_id returning * into updated_profile;
   if updated_profile.id is null then raise exception 'Customer not found'; end if;
   return updated_profile;
