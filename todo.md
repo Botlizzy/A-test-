@@ -332,3 +332,6 @@
 - [x] Deliver the scripts as readable source files and explain how to configure them safely.
 - [x] Verify why Nano Banana is not visible in the deployed Premium page and fix any implementation or deployment issue; added direct Nano Banana Lab, AI Lab, and Lyrics Search launcher tiles to Premium Room.
 - [x] Push all current updates to GitHub, run tests/build, publish a fresh checkpoint, and verify Nano Banana in the live Premium workspace; tests, TypeScript, and production build pass.
+- [x] Fix the Supabase signup confirmation-rate-limit experience and prevent repeated submissions from trapping users with a persisted five-minute cooldown and sign-in recovery.
+- [x] Make the membership flow scale to unlimited application members while clearly respecting Supabase account and email-provider limits; the app has no member-count cap, while confirmation email quotas remain provider-controlled.
+- [ ] Add/update auth tests, verify mobile signup recovery, run build, synchronize GitHub, and publish the fix.

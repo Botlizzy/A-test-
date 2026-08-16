@@ -568,3 +568,5 @@ button:focus-visible, a:focus-visible { outline: 3px solid rgba(22,119,255,.35);
 .premium-lyrics-result > pre { max-height:22rem; overflow:auto; margin:0; padding:.9rem; color:#263650; background:#f8fbff; border:1px solid #dbe6f1; border-radius:.7rem; white-space:pre-wrap; overflow-wrap:anywhere; font:500 .82rem/1.6 "DM Sans",sans-serif; }
 .premium-tool-card--lyrics .premium-boost-form input:focus,.premium-tool-card--lyrics .premium-boost-form select:focus { border-color:#c94a43; box-shadow:0 0 0 3px rgba(201,74,67,.12); }
 @media (max-width:560px) { .premium-tool-card--nano,.premium-tool-card--lyrics { padding:.85rem; }.premium-lyrics-result { padding:.75rem; }.premium-lyrics-result__heading h3 { font-size:1.05rem; } }
+
+.auth-scale-note { margin:-.2rem 0 .2rem; color:#6d7f95; font-size:.72rem; line-height:1.45; }
