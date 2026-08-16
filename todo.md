@@ -340,3 +340,6 @@
 - [x] Keep all functional tool execution in Premium Room and preserve Premium access boundaries.
 - [x] Add/update tests, verify mobile public directory and Premium functionality, synchronize GitHub, and publish.
 - [x] Make every homepage model/tool selection show its endpoint, method, parameters, and a copyable API request snippet without executing it.
+- [x] Fix Supabase confirmation links that redirect to localhost:3000 instead of the live deployed URL; signup now derives the current origin and safely falls back to the live Vercel origin.
+- [x] Validate live-origin confirmation handling without exposing auth tokens, then run tests/build and mobile verification; 19 test files/65 tests pass and the mobile `?confirmed=1` route renders the confirmation banner.
+- [x] Synchronize the redirect fix to GitHub and publish the corrected deployment; Supabase must allow `https://a-test-ten.vercel.app/**` and use that live URL as the Site URL.
