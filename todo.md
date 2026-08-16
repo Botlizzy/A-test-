@@ -453,3 +453,6 @@
 - [x] Audit and remove any remaining stale Google OAuth route or redirect that can expose the disabled-provider error.
 - [x] Add a secure Forgot password request and password-reset form using Supabase Auth.
 - [x] Add/update tests, verify unlimited signup behavior and reset states, build, publish, and push the update to GitHub.
+- [x] Remove Supabase email-delivery-limit wording from all user-facing signup errors.
+- [x] Replace it with neutral recovery messaging and preserve a direct Sign in path.
+- [x] Add/update tests, verify no stale copy remains, build, publish, and push the update to GitHub.

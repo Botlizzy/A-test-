@@ -11,10 +11,12 @@ describe("authentication error guidance", () => {
     expect(formatAuthError("Invalid login credentials", "login")).toContain("incorrect");
   });
 
-  it("reports provider delivery limits without imposing a client cooldown", () => {
+  it("uses neutral recovery guidance for provider delivery limits", () => {
     const message = formatAuthError("over_email_send_rate_limit", "signup");
-    expect(message).toContain("does not impose a cooldown");
-    expect(message).not.toContain("wait 300");
+    expect(message).toContain("We could not complete signup right now");
+    expect(message).toContain("use Sign in");
+    expect(message).not.toContain("Supabase email delivery");
+    expect(message).not.toContain("signup cooldown");
   });
 
   it("turns browser fetch failures into actionable mobile guidance", () => {
