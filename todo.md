@@ -361,3 +361,6 @@
 - [x] Refine public homepage and Auth layouts to match the compact Premium Room mobile style.
 - [x] Improve Premium Room mobile navigation, cards, forms, buttons, and horizontal tool selectors without breaking desktop fallback.
 - [x] Verify phone-width screenshots, tests, build, checkpoint, and publish the mobile UI revision.
+- [x] Diagnose the reported live login failure and identify whether it is caused by credentials, Supabase configuration, redirect/session handling, or runtime errors.
+- [x] Fix the login failure and provide actionable recovery feedback without hiding the underlying provider error.
+- [x] Validate mobile login behavior, tests, build, checkpoint, and publish the correction.
