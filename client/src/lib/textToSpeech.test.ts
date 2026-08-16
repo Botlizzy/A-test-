@@ -3,10 +3,12 @@ import { buildTextToSpeechQuery, extractBase64Audio, extractSpeechAudioLinks, is
 
 describe("Text2Speech V3 helpers", () => {
   it("builds text, language, and voice query parameters", () => {
-    const query = buildTextToSpeechQuery({ text: " Hello world ", language: "en-US", voice: "narrator" });
+    const query = buildTextToSpeechQuery({ text: " Hello world ", language: "en-US", voice: "narrator", pitch: "2", rate: "1.2" });
     expect(query.get("text")).toBe("Hello world");
     expect(query.get("lang")).toBe("en-US");
     expect(query.get("voice")).toBe("narrator");
+    expect(query.get("pitch")).toBe("2");
+    expect(query.get("rate")).toBe("1.2");
   });
   it("recognizes binary audio responses", () => {
     expect(isAudioContentType("audio/mpeg")).toBe(true);

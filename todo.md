@@ -320,3 +320,4 @@
 - [x] Replace the Premium Mureka Music Studio with a Text-to-Speech Studio using text2speech-v3.
 - [x] Return a real speech audio file with native playback, progress/loading feedback, and direct download.
 - [x] Add tests, verify mobile UI, run build, synchronize GitHub at remote commit `c199aa6`, and publish the TTS migration.
+- [x] Add documented Text2Speech V3 pitch and rate controls to the Premium TTS form and request query.
