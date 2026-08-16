@@ -378,3 +378,9 @@
 - [x] Use the provided aggregated Live Scores API to include every available live football match across leagues, not only Premier League.
 - [x] Add multi-league live filtering/normalization tests and verify mobile scoreboard behavior.
 - [x] Publish the LiveScore correction and push the resulting commit to the selected GitHub repository.
+- [x] Investigate why LiveScore.com shows live football while the provided API returns no live fixtures, without scraping the consumer webpage.
+- [x] Connect the homepage to a legitimate structured live-football source or documented provider endpoint and preserve mobile score rendering.
+- [x] Validate the live scoreboard, tests, build, publish, and GitHub synchronization.
+- [x] Test whether LiveScore.com permits a safe iframe/embed view without automated scraping.
+- [x] If embedding is supported, add a clear mobile link/embed; otherwise preserve an honest provider-empty fallback.
+- [x] Validate the fallback, tests, build, checkpoint, and GitHub synchronization.
