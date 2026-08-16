@@ -3,6 +3,7 @@ import { FormEvent, useEffect, useState } from "react";
 import { ArrowLeft, ArrowRight, CircleAlert, Eye, EyeOff, LoaderCircle, ShieldCheck, UserRound } from "lucide-react";
 import { isSupabaseConfigured, supabase, supabaseConfigMessage } from "@/lib/supabase";
 import { getConfirmationMessage, getConfirmationRedirect, hasConfirmedEmail, PRODUCTION_APP_ORIGIN } from "@/lib/authRedirect";
+import { clearSignupCooldown, readSignupCooldown, SIGNUP_COOLDOWN_MS, writeSignupCooldown } from "@/lib/signupCooldown";
 
 type AuthMode = "login" | "signup";
 
@@ -16,12 +17,12 @@ export default function Auth({ mode, onModeChange }: AuthProps) {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState(() => getConfirmationMessage(window.location.search));
   const [error, setError] = useState("");
-  const [cooldownSeconds, setCooldownSeconds] = useState(0);
+  const [cooldownSeconds, setCooldownSeconds] = useState(() => readSignupCooldown());
   const [rateLimited, setRateLimited] = useState(false);
   const confirmationRequested = hasConfirmedEmail(window.location.search);
 
   useEffect(() => {
-    if (cooldownSeconds <= 0) return;
+    if (cooldownSeconds <= 0) { clearSignupCooldown(); return; }
     const timer = window.setInterval(() => setCooldownSeconds((seconds) => Math.max(0, seconds - 1)), 1000);
     return () => window.clearInterval(timer);
   }, [cooldownSeconds]);
@@ -63,7 +64,7 @@ export default function Auth({ mode, onModeChange }: AuthProps) {
         if (data.user) {
           await supabase.from("profiles").upsert({ id: data.user.id, full_name: fullName.trim(), email: email.trim() });
         }
-        setMessage("Account created. Check your email if confirmation is enabled, then sign in.");
+        setMessage(data.session ? "Account created. You are signed in and can continue." : "Account created. If email confirmation is enabled, check your inbox once, then sign in. Repeated confirmation requests are temporarily limited by Supabase.");
         setPassword("");
       } else {
         const { error: signInError } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
@@ -73,7 +74,9 @@ export default function Auth({ mode, onModeChange }: AuthProps) {
       const rawMessage = cause instanceof Error ? cause.message : "We could not complete that request.";
       const isRateLimited = /rate limit|too many requests|over_email_send_rate_limit|429/i.test(rawMessage);
       if (isRateLimited && mode === "signup") {
-        setCooldownSeconds(60);
+        const cooldownUntil = Date.now() + SIGNUP_COOLDOWN_MS;
+        setCooldownSeconds(Math.ceil(SIGNUP_COOLDOWN_MS / 1000));
+        writeSignupCooldown(cooldownUntil);
         setRateLimited(true);
         setError("Supabase has temporarily limited confirmation emails. Wait a few minutes before retrying. If an email already arrived, use Sign in instead. This is a provider limit, not a problem with your account details.");
       } else setError(rawMessage);
@@ -98,11 +101,11 @@ export default function Auth({ mode, onModeChange }: AuthProps) {
             <label>Password<div className="password-field"><input type={showPassword ? "text" : "password"} value={password} onChange={(event) => setPassword(event.target.value)} placeholder="At least 6 characters" autoComplete={mode === "login" ? "current-password" : "new-password"} required /><button type="button" onClick={() => setShowPassword((value) => !value)} aria-label={showPassword ? "Hide password" : "Show password"}>{showPassword ? <EyeOff size={17} /> : <Eye size={17} />}</button></div></label>
             {error && <div className="auth-message auth-message--error"><CircleAlert size={16} /><span>{error}</span></div>}
             {message && <div className="auth-message auth-message--success"><ShieldCheck size={16} /><span>{message}</span></div>}
-            {mode === "signup" && cooldownSeconds > 0 && <p className="auth-cooldown">Try again in <strong>{cooldownSeconds}s</strong>. Repeated requests can extend the provider cooldown.</p>}
-            {rateLimited && <div className="auth-recovery-actions"><button type="button" onClick={() => { setRateLimited(false); setCooldownSeconds(0); setError(""); onModeChange("login"); }}>Use Sign in instead</button>{cooldownSeconds === 0 && <button type="button" onClick={() => { setRateLimited(false); setError(""); }}>Try signup again</button>}</div>}
+            {mode === "signup" && <p className="auth-scale-note">Unlimited member accounts are supported by the app. Email confirmation delivery is controlled by your Supabase plan and SMTP provider.</p>}{mode === "signup" && cooldownSeconds > 0 && <p className="auth-cooldown">Try again in <strong>{cooldownSeconds}s</strong>. The cooldown is saved on this device so refreshing will not resend confirmation emails.</p>}
+            {rateLimited && <div className="auth-recovery-actions"><button type="button" onClick={() => { setRateLimited(false); setCooldownSeconds(0); clearSignupCooldown(); setError(""); onModeChange("login"); }}>Use Sign in instead</button>{cooldownSeconds === 0 && <button type="button" onClick={() => { setRateLimited(false); setError(""); }}>Try signup again</button>}</div>}
             <button className="primary-button auth-submit" type="submit" disabled={busy || (mode === "signup" && cooldownSeconds > 0)}>{busy ? <LoaderCircle size={17} className="spin" /> : <ArrowRight size={17} />}{busy ? "Working…" : cooldownSeconds > 0 && mode === "signup" ? "Email cooldown active" : mode === "login" ? "Enter playback room" : "Create account"}</button>
           </form>
-          <div className="auth-switch"><span>{mode === "login" ? "New to Eliminator?" : "Already have an account?"}</span><button onClick={() => { setError(""); setMessage(""); setRateLimited(false); setCooldownSeconds(0); onModeChange(mode === "login" ? "signup" : "login"); }}>{mode === "login" ? "Create account" : "Sign in"}</button></div>
+          <div className="auth-switch"><span>{mode === "login" ? "New to Eliminator?" : "Already have an account?"}</span><button onClick={() => { setError(""); setMessage(""); setRateLimited(false); setCooldownSeconds(0); clearSignupCooldown(); onModeChange(mode === "login" ? "signup" : "login"); }}>{mode === "login" ? "Create account" : "Sign in"}</button></div>
           <a className="auth-back" href="/"><ArrowLeft size={14} /> Back to feed</a><a className="auth-feedback" href="mailto:elijahchinecheremonah@gmail.com?subject=Eliminator%20feedback">Feedback: elijahchinecheremonah@gmail.com</a>
         </section>
       </main>
