@@ -423,3 +423,6 @@
 - [x] Remove elizzy-host.nx.kg from confirmation redirects and restore the deployed production URL.
 - [x] Refine the signup provider-limit message and recovery path for a clearer mobile experience.
 - [x] Add/update tests, verify auth behavior, publish, and push the fix to GitHub.
+- [x] Audit all signup and email-confirmation paths for localhost redirects or client-side signup limits.
+- [x] Harden production confirmation redirects and clearly separate unlimited member records from provider email limits.
+- [x] Add/update tests, verify mobile auth behavior, build, publish, and push the update to GitHub.
