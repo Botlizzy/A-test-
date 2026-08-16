@@ -9,7 +9,7 @@ import { getApkDownloaderUrl, getOfficialStoreLinks, isApkSearch, isAuthorizedPa
 import { extractPremiumAiText, getPremiumAiUrl, PREMIUM_AI_MODELS, type PremiumAiModel } from "@/lib/premiumAi";
 import { getImageGeneratorUrl, parseImageGeneratorResponse, type ImageGeneratorKind } from "@/lib/imageGenerators";
 import { fetchLiveScores, LIVE_SCORES_REFRESH_MS, type LiveMatch } from "@/lib/liveScores";
-import { buildMurekaCreatePayload, extractMurekaAudioTracks, extractMurekaTaskId, isMurekaTerminal, safeMurekaFilename, MUREKA_BASE_URL, MUREKA_CREATE_PATH, MUREKA_STATUS_PATH } from "@/lib/murekaMusic";
+import { buildTextToSpeechQuery, extractBase64Audio, extractSpeechAudioLinks, isAudioContentType, safeSpeechFilename, TTS_BASE_URL, TTS_PATH } from "@/lib/textToSpeech";
 
 type PremiumRoomProps = { user: User; isPremium: boolean; onBack: () => void; onPricing: () => void; onSignOut: () => Promise<void> };
 type BoostResult = Record<string, unknown> & { success?: boolean; message?: string; status?: string; status_url?: string; statusUrl?: string; poll_url?: string; pollUrl?: string };
@@ -141,18 +141,18 @@ export default function PremiumRoom({ user, isPremium, onBack, onPricing, onSign
   const [liveMatches, setLiveMatches] = useState<LiveMatch[]>([]);
   const [liveScoresLoading, setLiveScoresLoading] = useState(false);
   const [liveScoresError, setLiveScoresError] = useState("");
-  const [murekaPrompt, setMurekaPrompt] = useState("");
-  const [murekaTitle, setMurekaTitle] = useState("");
-  const [murekaStyle, setMurekaStyle] = useState("");
-  const [murekaLyrics, setMurekaLyrics] = useState("");
-  const [murekaInstrumental, setMurekaInstrumental] = useState(false);
-  const [murekaLoading, setMurekaLoading] = useState(false);
-  const [murekaProgress, setMurekaProgress] = useState(0);
-  const [murekaStage, setMurekaStage] = useState("");
-  const [murekaTracks, setMurekaTracks] = useState<string[]>([]);
-  const [murekaRawResult, setMurekaRawResult] = useState<unknown>(null);
-  const [murekaError, setMurekaError] = useState("");
-  const [murekaDownloadState, setMurekaDownloadState] = useState<Record<string, "idle" | "downloading" | "success" | "error">>({});
+  const [ttsPrompt, setTextToSpeechPrompt] = useState("");
+  const [ttsTitle, setTextToSpeechTitle] = useState("");
+  const [ttsStyle, setTextToSpeechStyle] = useState("");
+  const [ttsLyrics, setTextToSpeechLyrics] = useState("");
+  const [ttsInstrumental, setTextToSpeechInstrumental] = useState(false);
+  const [ttsLoading, setTextToSpeechLoading] = useState(false);
+  const [ttsProgress, setTextToSpeechProgress] = useState(0);
+  const [ttsStage, setTextToSpeechStage] = useState("");
+  const [ttsTracks, setTextToSpeechTracks] = useState<string[]>([]);
+  const [ttsRawResult, setTextToSpeechRawResult] = useState<unknown>(null);
+  const [ttsError, setTextToSpeechError] = useState("");
+  const [ttsDownloadState, setTextToSpeechDownloadState] = useState<Record<string, "idle" | "downloading" | "success" | "error">>({});
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
@@ -279,29 +279,104 @@ export default function PremiumRoom({ user, isPremium, onBack, onPricing, onSign
     }
   };
 
-  const generateMurekaTrack = async (event: FormEvent) => {
+  const generateTextToSpeechTrack = async (event: FormEvent) => {
     event.preventDefault();
-    const prompt = murekaPrompt.trim();
-    if (prompt.length < 3 || murekaLoading) return;
-    setMurekaError("");
-    setMurekaTracks([]);
-    setMurekaRawResult(null);
-    setMurekaProgress(8);
-    setMurekaStage("Writing your music brief…");
-    setMurekaLoading(true);
+    const text = ttsPrompt.trim();
+    if (text.length < 2 || ttsLoading) return;
+    setTextToSpeechError("");
+    setTextToSpeechTracks([]);
+    setTextToSpeechRawResult(null);
+    setTextToSpeechProgress(12);
+    setTextToSpeechStage("Preparing your speech request…");
+    setTextToSpeechLoading(true);
     try {
-      const createResponse = await fetch(`${MUREKA_BASE_URL}${MUREKA_CREATE_PATH}`, { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(buildMurekaCreatePayload({ prompt, title: murekaTitle, style: murekaStyle, lyrics: murekaLyrics, instrumental: murekaInstrumental })) });
+      const query = buildTextToSpeechQuery({ text, voice: ttsStyle, language: ttsTitle });
+      const response = await fetch(`${TTS_BASE_URL}${TTS_PATH}?${query.toString()}`, { headers: { Accept: "audio/mpeg, audio/wav, application/json" } });
+      setTextToSpeechProgress(58);
+      setTextToSpeechStage("Reading the returned speech audio…");
+      if (!response.ok) {
+        const errorPayload = await response.json().catch(() => ({}));
+        throw new Error(errorPayload?.message || `Text-to-Speech returned HTTP ${response.status}.`);
+      }
+      const contentType = response.headers.get("content-type");
+      if (isAudioContentType(contentType)) {
+        const blob = await response.blob();
+        const audioUrl = URL.createObjectURL(blob);
+        setTextToSpeechTracks([audioUrl]);
+        setTextToSpeechRawResult({ type: "audio", contentType, filename: safeSpeechFilename(contentType || "audio/mpeg") });
+        setTextToSpeechProgress(100);
+        setTextToSpeechStage("Speech audio ready to play and download.");
+        return;
+      }
+      const payload = await response.json().catch(() => ({}));
+      setTextToSpeechRawResult(payload);
+      const links = extractSpeechAudioLinks(payload);
+      if (links.length) {
+        setTextToSpeechTracks(links);
+        setTextToSpeechProgress(100);
+        setTextToSpeechStage("Speech audio ready to play and download.");
+        return;
+      }
+      const base64 = extractBase64Audio(payload);
+      if (base64) {
+        const audioUrl = `data:audio/mpeg;base64,${base64}`;
+        setTextToSpeechTracks([audioUrl]);
+        setTextToSpeechProgress(100);
+        setTextToSpeechStage("Speech audio ready to play and download.");
+        return;
+      }
+      throw new Error("The Text2Speech service returned a response without a playable audio file.");
+    } catch (cause) {
+      setTextToSpeechError(cause instanceof Error ? cause.message : "Text-to-Speech could not create the audio.");
+    } finally {
+      setTextToSpeechLoading(false);
+    }
+  };
+
+  const downloadTextToSpeechTrack = async (url: string, index: number) => {
+    setTextToSpeechDownloadState((current) => ({ ...current, [url]: "downloading" }));
+    try {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error(`Speech file request failed (${response.status})`);
+      const blob = await response.blob();
+      const objectUrl = URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = objectUrl;
+      anchor.download = safeSpeechFilename(response.headers.get("content-type") || undefined);
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
+      URL.revokeObjectURL(objectUrl);
+      setTextToSpeechDownloadState((current) => ({ ...current, [url]: "success" }));
+    } catch {
+      setTextToSpeechDownloadState((current) => ({ ...current, [url]: "error" }));
+    }
+  };
+
+  /* legacy provider handler removed */
+  /*
+    event.preventDefault();
+    const prompt = ttsPrompt.trim();
+    if (prompt.length < 3 || ttsLoading) return;
+    setTextToSpeechError("");
+    setTextToSpeechTracks([]);
+    setTextToSpeechRawResult(null);
+    setTextToSpeechProgress(8);
+    setTextToSpeechStage("Writing your music brief…");
+    setTextToSpeechLoading(true);
+    try {
+      const createResponse = await fetch(`${MUREKA_BASE_URL}${MUREKA_CREATE_PATH}`, { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(buildTextToSpeechCreatePayload({ prompt, title: ttsTitle, style: ttsStyle, lyrics: ttsLyrics, instrumental: ttsInstrumental })) });
       const initial = await createResponse.json().catch(() => ({}));
-      if (!createResponse.ok) throw new Error(initial?.message || `Mureka returned HTTP ${createResponse.status}.`);
-      setMurekaRawResult(initial);
-      const immediateTracks = extractMurekaAudioTracks(initial);
-      if (immediateTracks.length) { setMurekaTracks(immediateTracks); setMurekaProgress(100); setMurekaStage("Full track ready to play and download."); return; }
-      const taskId = extractMurekaTaskId(initial);
-      if (!taskId) throw new Error("Mureka accepted the request but did not return a task ID or a complete audio file.");
+      if (!createResponse.ok) throw new Error(initial?.message || `TextToSpeech returned HTTP ${createResponse.status}.`);
+      setTextToSpeechRawResult(initial);
+      const immediateTracks = extractTextToSpeechAudioTracks(initial);
+      if (immediateTracks.length) { setTextToSpeechTracks(immediateTracks); setTextToSpeechProgress(100); setTextToSpeechStage("Full track ready to play and download."); return; }
+      const taskId = extractTextToSpeechTaskId(initial);
+      if (!taskId) throw new Error("TextToSpeech accepted the request but did not return a task ID or a complete audio file.");
       let latest = initial;
       for (let attempt = 0; attempt < 20; attempt += 1) {
-        setMurekaProgress(Math.min(94, 18 + Math.round((attempt / 20) * 76)));
-        setMurekaStage(`Rendering your track… check ${attempt + 1} of 20`);
+        setTextToSpeechProgress(Math.min(94, 18 + Math.round((attempt / 20) * 76)));
+        setTextToSpeechStage(`Rendering your track… check ${attempt + 1} of 20`);
         await new Promise((resolve) => window.setTimeout(resolve, 1800));
         const statusUrl = new URL(`${MUREKA_BASE_URL}${MUREKA_STATUS_PATH}`);
         statusUrl.searchParams.set("taskId", taskId);
@@ -309,23 +384,23 @@ export default function PremiumRoom({ user, isPremium, onBack, onPricing, onSign
         statusUrl.searchParams.set("id", taskId);
         const statusResponse = await fetch(statusUrl.toString(), { headers: { Accept: "application/json" } });
         const next = await statusResponse.json().catch(() => ({}));
-        if (!statusResponse.ok) throw new Error(next?.message || `Mureka status returned HTTP ${statusResponse.status}.`);
+        if (!statusResponse.ok) throw new Error(next?.message || `TextToSpeech status returned HTTP ${statusResponse.status}.`);
         latest = next;
-        setMurekaRawResult(latest);
-        const tracks = extractMurekaAudioTracks(latest);
-        if (tracks.length) { setMurekaTracks(tracks); setMurekaProgress(100); setMurekaStage("Full track ready to play and download."); return; }
-        if (isMurekaTerminal(latest)) throw new Error(latest?.message || "Mureka finished without returning a complete audio file.");
+        setTextToSpeechRawResult(latest);
+        const tracks = extractTextToSpeechAudioTracks(latest);
+        if (tracks.length) { setTextToSpeechTracks(tracks); setTextToSpeechProgress(100); setTextToSpeechStage("Full track ready to play and download."); return; }
+        if (isTextToSpeechTerminal(latest)) throw new Error(latest?.message || "TextToSpeech finished without returning a complete audio file.");
       }
-      throw new Error("Mureka is still rendering this track. No download button was shown because the complete audio file is not ready yet.");
+      throw new Error("TextToSpeech is still rendering this track. No download button was shown because the complete audio file is not ready yet.");
     } catch (cause) {
-      setMurekaError(cause instanceof Error ? cause.message : "Mureka could not generate this track.");
+      setTextToSpeechError(cause instanceof Error ? cause.message : "TextToSpeech could not generate this track.");
     } finally {
-      setMurekaLoading(false);
+      setTextToSpeechLoading(false);
     }
   };
 
-  const downloadMurekaTrack = async (url: string, index: number) => {
-    setMurekaDownloadState((current) => ({ ...current, [url]: "downloading" }));
+  const downloadTextToSpeechTrack = async (url: string, index: number) => {
+    setTextToSpeechDownloadState((current) => ({ ...current, [url]: "downloading" }));
     try {
       const response = await fetch(url);
       if (!response.ok) throw new Error(`Track request failed (${response.status})`);
@@ -333,16 +408,18 @@ export default function PremiumRoom({ user, isPremium, onBack, onPricing, onSign
       const objectUrl = URL.createObjectURL(blob);
       const anchor = document.createElement("a");
       anchor.href = objectUrl;
-      anchor.download = safeMurekaFilename(url, index);
+      anchor.download = safeTextToSpeechFilename(url, index);
       document.body.appendChild(anchor);
       anchor.click();
       anchor.remove();
       URL.revokeObjectURL(objectUrl);
-      setMurekaDownloadState((current) => ({ ...current, [url]: "success" }));
+      setTextToSpeechDownloadState((current) => ({ ...current, [url]: "success" }));
     } catch {
-      setMurekaDownloadState((current) => ({ ...current, [url]: "error" }));
+      setTextToSpeechDownloadState((current) => ({ ...current, [url]: "error" }));
     }
   };
+
+  */
 
   const downloadGeneratedImage = async (filename: string) => {
     if (!generatedImageUrl || imageDownloadState === "downloading") return;
@@ -441,7 +518,7 @@ export default function PremiumRoom({ user, isPremium, onBack, onPricing, onSign
         {boostLoading && <div className="premium-boost-status premium-boost-status--loading"><span className="premium-boost-status__icon"><RefreshCw size={15} className="spin" /></span><div><strong>Submitting TikTok boost…</strong><p>Connecting to the provider and waiting for a real response.</p></div></div>}
         {boostResult && <div className={boostResultClass(boostResult)}><div><strong>{boostOutcomeLabel(boostResult)}</strong><p>{String(boostResult.message || (boostResult.success === true ? "The provider confirmed completion." : "The provider has not confirmed completion yet."))}</p></div><pre>{JSON.stringify(boostResult, null, 2)}</pre></div>}
       </section>
-      <section id="premium-youtube-studio" className="premium-tool-card premium-tool-card--youtube"><div className="premium-tool-card__heading"><div><span className="eyebrow eyebrow--red">PREMIUM TOOL / SOCIAL BOOST</span><h2>YouTube View Booster</h2></div><Zap size={22} /></div><p className="premium-tool-card__lead">Submit a YouTube video or channel target to the connected service. Eliminator follows any returned job/status URL and labels the result accurately: confirmed completion, failure, or still pending. A first acceptance response alone is not treated as a completed metric boost.</p><form className="premium-boost-form" onSubmit={submitYouTubeBoost}><label>Target URL<input value={youtubeTarget} onChange={(event) => setYoutubeTarget(event.target.value)} placeholder={youtubeType === "subscribers" ? "https://www.youtube.com/@channel" : "https://www.youtube.com/watch?v=..."} inputMode="url" /></label><label>Service<select value={youtubeType} onChange={(event) => setYoutubeType(event.target.value as YouTubeBoostType)}><option value="views">Video views</option><option value="likes">Likes</option><option value="subscribers">Subscribers</option></select></label><button className="red-button premium-boost-submit" type="submit" disabled={youtubeLoading}>{youtubeLoading ? <RefreshCw size={16} className="spin" /> : <Zap size={16} />}{youtubeLoading ? "Checking service…" : "Run YouTube Boost"}</button></form>{youtubeError && <div className="premium-boost-result premium-boost-result--error"><CircleAlert size={17} /><span>{youtubeError}</span></div>}{youtubeLoading && <div className="premium-boost-status premium-boost-status--loading"><span className="premium-boost-status__icon"><RefreshCw size={15} className="spin" /></span><div><strong>Submitting YouTube boost…</strong><p>Connecting to the provider and waiting for a real response.</p></div></div>}{youtubeResult && <div className={boostResultClass(youtubeResult)}><div><strong>{boostOutcomeLabel(youtubeResult)}</strong><p>{String(youtubeResult.message || (youtubeResult.success === true ? "The provider confirmed completion." : "The provider has not confirmed completion yet."))}</p>{youtubeResult.amount !== undefined && <small>Reported amount: {String(youtubeResult.amount)} · Type: {String(youtubeResult.type || youtubeType)}</small>}</div><pre>{JSON.stringify(youtubeResult, null, 2)}</pre></div>}</section>      <section id="premium-mureka-studio" className="premium-tool-card premium-tool-card--mureka"><div className="premium-tool-card__heading"><div><span className="eyebrow eyebrow--red">PREMIUM CREATOR DESK / SUNO</span><h2>Mureka Music Studio</h2></div><Sparkles size={22} /></div><p className="premium-tool-card__lead">Turn a simple idea into a complete vocal or instrumental track. Shape the title, sound, lyrics, and mood here, then play the full returned file and save it directly to your phone.</p><form className="premium-boost-form premium-mureka-form" onSubmit={generateMurekaTrack}><label>Music brief<textarea value={murekaPrompt} onChange={(event) => setMurekaPrompt(event.target.value)} placeholder="Afrobeat love song about finding hope after a hard season…" rows={3} required /></label><div className="premium-mureka-grid"><label>Track title<input value={murekaTitle} onChange={(event) => setMurekaTitle(event.target.value)} placeholder="Midnight Signal" /></label><label>Style and mood<input value={murekaStyle} onChange={(event) => setMurekaStyle(event.target.value)} placeholder="Afrobeats, warm guitar, uplifting" /></label></div><label>Custom lyrics <span className="premium-field-note">optional</span><textarea value={murekaLyrics} onChange={(event) => setMurekaLyrics(event.target.value)} placeholder="Leave empty for Mureka to write lyrics, or paste your own structure…" rows={5} /></label><label className="premium-mureka-toggle"><input type="checkbox" checked={murekaInstrumental} onChange={(event) => setMurekaInstrumental(event.target.checked)} /><span><strong>Instrumental mode</strong><small>Generate the track without vocals.</small></span></label><button className="red-button premium-boost-submit" type="submit" disabled={murekaLoading || murekaPrompt.trim().length < 3}>{murekaLoading ? <RefreshCw size={16} className="spin" /> : <Sparkles size={16} />}{murekaLoading ? "Creating your full track…" : "Generate with Mureka"}</button></form>{murekaLoading && <div className="premium-mureka-progress" aria-live="polite"><div className="premium-mureka-progress__top"><span>{murekaStage}</span><strong>{murekaProgress}%</strong></div><div className="premium-mureka-progress__track"><span style={{ width: `${murekaProgress}%` }} /></div><small>Mureka is rendering the music. Keep this room open while the complete audio file is prepared.</small></div>}{murekaError && <div className="premium-boost-result premium-boost-result--error"><CircleAlert size={17} /><span>{murekaError}</span></div>}{murekaTracks.length > 0 && <div className="premium-mureka-results"><div className="premium-mureka-results__heading"><div><span className="eyebrow eyebrow--blue">FULL TRACKS READY</span><h3>Play or save your Mureka music</h3></div><Check size={22} /></div>{murekaTracks.map((track, index) => <div className="premium-mureka-track" key={track}><div className="premium-mureka-track__meta"><span>TRACK {index + 1}</span><strong>{murekaTitle.trim() || `Eliminator Mureka track ${index + 1}`}</strong></div><audio controls preload="metadata" src={track} aria-label={`Mureka track ${index + 1}`} /><button className="red-button" type="button" onClick={() => downloadMurekaTrack(track, index + 1)} disabled={murekaDownloadState[track] === "downloading"}>{murekaDownloadState[track] === "downloading" ? <RefreshCw size={16} className="spin" /> : <Download size={16} />}{murekaDownloadState[track] === "downloading" ? "Preparing download…" : murekaDownloadState[track] === "success" ? "Downloaded" : murekaDownloadState[track] === "error" ? "Retry download" : "Download full music"}</button></div>)}</div>}{Boolean(murekaRawResult) && murekaTracks.length === 0 && !murekaLoading && <details className="apk-result-card__details"><summary>View technical response</summary><pre>{JSON.stringify(murekaRawResult, null, 2)}</pre></details>}</section>
+      <section id="premium-youtube-studio" className="premium-tool-card premium-tool-card--youtube"><div className="premium-tool-card__heading"><div><span className="eyebrow eyebrow--red">PREMIUM TOOL / SOCIAL BOOST</span><h2>YouTube View Booster</h2></div><Zap size={22} /></div><p className="premium-tool-card__lead">Submit a YouTube video or channel target to the connected service. Eliminator follows any returned job/status URL and labels the result accurately: confirmed completion, failure, or still pending. A first acceptance response alone is not treated as a completed metric boost.</p><form className="premium-boost-form" onSubmit={submitYouTubeBoost}><label>Target URL<input value={youtubeTarget} onChange={(event) => setYoutubeTarget(event.target.value)} placeholder={youtubeType === "subscribers" ? "https://www.youtube.com/@channel" : "https://www.youtube.com/watch?v=..."} inputMode="url" /></label><label>Service<select value={youtubeType} onChange={(event) => setYoutubeType(event.target.value as YouTubeBoostType)}><option value="views">Video views</option><option value="likes">Likes</option><option value="subscribers">Subscribers</option></select></label><button className="red-button premium-boost-submit" type="submit" disabled={youtubeLoading}>{youtubeLoading ? <RefreshCw size={16} className="spin" /> : <Zap size={16} />}{youtubeLoading ? "Checking service…" : "Run YouTube Boost"}</button></form>{youtubeError && <div className="premium-boost-result premium-boost-result--error"><CircleAlert size={17} /><span>{youtubeError}</span></div>}{youtubeLoading && <div className="premium-boost-status premium-boost-status--loading"><span className="premium-boost-status__icon"><RefreshCw size={15} className="spin" /></span><div><strong>Submitting YouTube boost…</strong><p>Connecting to the provider and waiting for a real response.</p></div></div>}{youtubeResult && <div className={boostResultClass(youtubeResult)}><div><strong>{boostOutcomeLabel(youtubeResult)}</strong><p>{String(youtubeResult.message || (youtubeResult.success === true ? "The provider confirmed completion." : "The provider has not confirmed completion yet."))}</p>{youtubeResult.amount !== undefined && <small>Reported amount: {String(youtubeResult.amount)} · Type: {String(youtubeResult.type || youtubeType)}</small>}</div><pre>{JSON.stringify(youtubeResult, null, 2)}</pre></div>}</section>      <section id="premium-tts-studio" className="premium-tool-card premium-tool-card--tts"><div className="premium-tool-card__heading"><div><span className="eyebrow eyebrow--red">PREMIUM CREATOR DESK / TEXT TO SPEECH</span><h2>Text-to-Speech Studio</h2></div><Sparkles size={22} /></div><p className="premium-tool-card__lead">Convert your words into clear speech. Choose an optional language and voice setting, then play the returned audio and save it directly to your phone.</p><form className="premium-boost-form premium-tts-form" onSubmit={generateTextToSpeechTrack}><label>Text to speak<textarea value={ttsPrompt} onChange={(event) => setTextToSpeechPrompt(event.target.value)} placeholder="Afrobeat love song about finding hope after a hard season…" rows={3} required /></label><div className="premium-tts-grid"><label>Language or locale<input value={ttsTitle} onChange={(event) => setTextToSpeechTitle(event.target.value)} placeholder="en-US" /></label><label>Voice (optional)<input value={ttsStyle} onChange={(event) => setTextToSpeechStyle(event.target.value)} placeholder="alloy, female, narrator" /></label></div><label>Speech options <span className="premium-field-note">optional</span><textarea value={ttsLyrics} onChange={(event) => setTextToSpeechLyrics(event.target.value)} placeholder="Optional provider settings can be added here if supported by the endpoint." rows={5} /></label><label className="premium-tts-toggle"><input type="checkbox" checked={ttsInstrumental} onChange={(event) => setTextToSpeechInstrumental(event.target.checked)} /><span><strong>Natural pacing</strong><small>Keep the speech natural and evenly paced.</small></span></label><button className="red-button premium-boost-submit" type="submit" disabled={ttsLoading || ttsPrompt.trim().length < 3}>{ttsLoading ? <RefreshCw size={16} className="spin" /> : <Sparkles size={16} />}{ttsLoading ? "Creating speech…" : "Generate speech"}</button></form>{ttsLoading && <div className="premium-tts-progress" aria-live="polite"><div className="premium-tts-progress__top"><span>{ttsStage}</span><strong>{ttsProgress}%</strong></div><div className="premium-tts-progress__track"><span style={{ width: `${ttsProgress}%` }} /></div><small>The speech service is preparing your audio file. Keep this room open until playback is ready.</small></div>}{ttsError && <div className="premium-boost-result premium-boost-result--error"><CircleAlert size={17} /><span>{ttsError}</span></div>}{ttsTracks.length > 0 && <div className="premium-tts-results"><div className="premium-tts-results__heading"><div><span className="eyebrow eyebrow--blue">SPEECH AUDIO READY</span><h3>Play or save your generated speech</h3></div><Check size={22} /></div>{ttsTracks.map((track, index) => <div className="premium-tts-track" key={track}><div className="premium-tts-track__meta"><span>AUDIO FILE {index + 1}</span><strong>{ttsTitle.trim() || `Eliminator speech file ${index + 1}`}</strong></div><audio controls preload="metadata" src={track} aria-label={`speech file ${index + 1}`} /><button className="red-button" type="button" onClick={() => downloadTextToSpeechTrack(track, index + 1)} disabled={ttsDownloadState[track] === "downloading"}>{ttsDownloadState[track] === "downloading" ? <RefreshCw size={16} className="spin" /> : <Download size={16} />}{ttsDownloadState[track] === "downloading" ? "Preparing download…" : ttsDownloadState[track] === "success" ? "Downloaded" : ttsDownloadState[track] === "error" ? "Retry download" : "Download speech audio"}</button></div>)}</div>}{Boolean(ttsRawResult) && ttsTracks.length === 0 && !ttsLoading && <details className="apk-result-card__details"><summary>View technical response</summary><pre>{JSON.stringify(ttsRawResult, null, 2)}</pre></details>}</section>
       <section id="premium-apk-vault" className="premium-tool-card premium-tool-card--apk"><div className="premium-tool-card__heading"><div><span className="eyebrow eyebrow--red">PREMIUM TOOL / APP UTILITY</span><h2>APK App Downloader</h2></div><Zap size={22} /></div><p className="premium-tool-card__lead">Search the connected APK catalog by app name, review the returned package details, and download the exact APK link returned by the service. Always verify the source, package, permissions, and device compatibility before installing.</p><form className="premium-boost-form" onSubmit={submitApkSearch}><label>App name<input value={apkSearch} onChange={(event) => setApkSearch(event.target.value)} placeholder="WhatsApp, Telegram, Spotify…" autoCapitalize="words" /></label><button className="red-button premium-boost-submit" type="submit" disabled={apkLoading}>{apkLoading ? <RefreshCw size={16} className="spin" /> : <Zap size={16} />}{apkLoading ? "Searching APK catalog…" : "Find APK"}</button></form>{apkError && <div className="premium-boost-result premium-boost-result--error"><CircleAlert size={17} /><span>{apkError}</span></div>}{apkResult && <div className="apk-result-card">{apkResult.apk?.icon ? <img src={apkResult.apk.icon} alt={`${apkResult.apk.name || apkResult.query || "App"} icon`} className="apk-result-card__icon" /> : <div className="apk-result-card__icon apk-result-card__icon--fallback" aria-hidden="true"><LockKeyhole size={22} /></div>}<div className="apk-result-card__identity"><strong>{apkResult.apk?.name || apkResult.query || "App search result"}</strong><span>{apkResult.apk?.package || "Official store listing"}</span><small>{apkResult.apk?.developer ? `By ${apkResult.apk.developer}` : apkResult.apk?.lastUpdated ? `Catalog update: ${apkResult.apk.lastUpdated}` : "Choose the official store you trust to install this app."}</small></div><div className="apk-result-card__meta"><span className="apk-rating" aria-label={apkResult.apk?.rating ? `Rating ${apkResult.apk.rating} out of 5` : "Rating unavailable"}>★ {apkResult.apk?.rating !== undefined && apkResult.apk?.rating !== "" ? String(apkResult.apk.rating) : "Not rated"}</span><p>{apkResult.apk?.description || apkResult.apk?.summary || "No description was supplied by the catalog. Open an official store to review the current listing details."}</p></div>{apkResult.stores && <div className="apk-store-actions"><a className="red-button apk-download-button" href={apkResult.stores.googlePlay} target="_blank" rel="noreferrer">Open Google Play <ArrowLeft size={16} className="rotate-180" /></a><a className="tool-download" href={apkResult.stores.palmstore} target="_blank" rel="noreferrer">Open Palmstore <ArrowLeft size={16} className="rotate-180" /></a></div>}{apkResult.apk?.downloadLink && <a className="tool-download" href={apkResult.apk.downloadLink} target="_blank" rel="noreferrer">Provider package link <ArrowLeft size={16} className="rotate-180" /></a>}<details className="apk-result-card__details"><summary>View exact API response</summary><pre>{JSON.stringify(apkResult, null, 2)}</pre></details></div>}<p className="apk-safety-note"><LockKeyhole size={14} /> Official store links open the store listing. Eliminator does not bypass store protections or certify third-party APK safety.</p></section><section id="premium-toolkit" className="premium-tool-card premium-tool-card--future"><span className="eyebrow">PREMIUM TOOLKIT</span><h2>More premium functions coming here.</h2><p>This room is ready for additional approved API workspaces without changing the protected layout.</p></section>
     </>
   );
