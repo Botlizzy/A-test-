@@ -324,3 +324,6 @@
 - [x] Run a live Text2Speech V3 request and verify the returned audio is playable and downloadable through the Premium workflow; live response was HTTP 200, audio/mpeg, 18,576 bytes, valid MP3, 3.096 seconds.
 - [x] Fix Premium Text2Speech V3 HTTP 400 by aligning the request with the provider contract and exposing actionable diagnostics; the invalid Female voice was replaced with documented Andrew and nested provider errors are now shown.
 - [x] Run live TTS validation, tests, mobile verification, build, synchronize GitHub, and publish the fix; live response was HTTP 200, audio/mpeg, 16,560 bytes, valid MP3, 2.76 seconds.
+- [x] Move Nano Banana, Play Store/APK search, lyrics search, and selected AI tools off the homepage.
+- [x] Add distinct customized Premium workspaces for Nano Banana, app search, lyrics search, and AI tools.
+- [x] Verify remaining homepage tools, Premium access/routing, mobile layout, tests, build, GitHub sync, and publish.
