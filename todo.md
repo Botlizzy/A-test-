@@ -492,3 +492,7 @@
 - [x] Fix Profile deletion so it invokes the secure account-deletion RPC instead of a storage-table mutation error
 - [x] Rerun and verify the latest Supabase schema for complete registered-member listing
 - [x] Test the mobile deletion flow, save a checkpoint, and synchronize the fix to GitHub
+
+- [ ] Open live authentication flow for mikeakex80@gmail.com without exposing credentials
+- [ ] Confirm or recover the existing account through user-controlled browser input
+- [ ] Verify permanent admin and premium allowlist access
