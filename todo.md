@@ -450,3 +450,6 @@
 - [x] Remove Google OAuth buttons, handler, and provider-specific auth messaging.
 - [x] Restore the formal email/password login and signup presentation and archive-derived auth flow without obsolete cooldown or credentials.
 - [x] Add/update tests, verify login/signup behavior, build, publish, and push the restored auth update to GitHub.
+- [x] Audit and remove any remaining stale Google OAuth route or redirect that can expose the disabled-provider error.
+- [x] Add a secure Forgot password request and password-reset form using Supabase Auth.
+- [x] Add/update tests, verify unlimited signup behavior and reset states, build, publish, and push the update to GitHub.

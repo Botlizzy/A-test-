@@ -859,3 +859,5 @@ button:focus-visible, a:focus-visible { outline: 3px solid rgba(22,119,255,.35);
 
 
 .auth-google-divider{display:flex;align-items:center;gap:.7rem;margin:.9rem 0 .2rem;color:var(--muted);font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.12em}.auth-google-divider::before,.auth-google-divider::after{content:"";height:1px;flex:1;background:#d9e4ed}
+
+.auth-forgot-link{display:block;margin:.65rem auto 0;padding:.2rem .3rem;border:0;background:transparent;color:var(--blue);font:inherit;font-size:.74rem;font-weight:800;text-decoration:underline;cursor:pointer}.auth-forgot-link:hover{color:var(--signal-red)}

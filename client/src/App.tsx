@@ -18,8 +18,10 @@ import { isPremiumCurrentlyActive } from "@/lib/premiumDuration";
 import type { Session, User } from "@supabase/supabase-js";
 import { hasConfirmedEmail } from "@/lib/authRedirect";
 
-function getAuthMode() {
-  return new URLSearchParams(window.location.search).get("mode") === "signup" ? "signup" : "login";
+function getAuthMode(): "login" | "signup" | "forgot" | "reset" {
+  const mode = new URLSearchParams(window.location.search).get("mode");
+  if (mode === "signup" || mode === "forgot" || mode === "reset") return mode;
+  return window.location.hash.includes("type=recovery") ? "reset" : "login";
 }
 
 type VerificationReturnProps = {
@@ -53,7 +55,7 @@ export default function App() {
   const [session, setSession] = useState<Session | null>(null);
   const [checkingAuth, setCheckingAuth] = useState(true);
   const [verificationComplete, setVerificationComplete] = useState(false);
-  const [authMode, setAuthMode] = useState<"login" | "signup">(getAuthMode);
+  const [authMode, setAuthMode] = useState<"login" | "signup" | "forgot" | "reset">(getAuthMode);
   const [showProfile, setShowProfile] = useState(() => new URLSearchParams(window.location.search).get("profile") === "1");
   const [showPricing, setShowPricing] = useState(() => new URLSearchParams(window.location.search).get("pricing") === "1");
   const [showAdmin, setShowAdmin] = useState(() => new URLSearchParams(window.location.search).get("admin") === "1");
