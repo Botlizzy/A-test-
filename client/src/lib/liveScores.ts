@@ -1,4 +1,5 @@
 export const LIVE_SCORES_ENDPOINT = "https://apis.davidcyril.name.ng/sports/live";
+export const SOCCER_SCORES_ENDPOINT = "https://apis.davidcyril.name.ng/sports/soccer/scores";
 export const LIVE_SCORES_REFRESH_MS = 60_000;
 
 export type LiveMatch = {
@@ -16,7 +17,9 @@ export type LiveMatch = {
   broadcast?: string;
 };
 
-function text(value: unknown): string | undefined { return typeof value === "string" || typeof value === "number" ? String(value) : undefined; }
+function text(value: unknown): string | undefined {
+  return typeof value === "string" || typeof value === "number" ? String(value) : undefined;
+}
 
 function isSoccerLeague(league: string, label: string): boolean {
   const value = `${league} ${label}`.toLowerCase();
@@ -44,29 +47,62 @@ function normalizeGame(game: any, league: string, leagueLabel: string, index: nu
   };
 }
 
+function appendGames(matches: LiveMatch[], games: unknown, league: string, leagueLabel: string) {
+  if (!Array.isArray(games)) return;
+  games.forEach((game, index) => {
+    const normalized = normalizeGame(game, league, leagueLabel, index);
+    if (normalized) matches.push(normalized);
+  });
+}
+
 export function normalizeLiveScores(payload: any): LiveMatch[] {
   if (!payload?.success) return [];
   const matches: LiveMatch[] = [];
-  for (const [league, value] of Object.entries(payload)) {
-    if (league === "success" || !value || typeof value !== "object") continue;
-    const leagueLabel = text((value as any).name) ?? league.toUpperCase();
-    if (!isSoccerLeague(league, leagueLabel)) continue;
-    const games = Array.isArray((value as any).games) ? (value as any).games : Array.isArray((value as any).events) ? (value as any).events : [];
-    games.forEach((game: any, index: number) => {
-      const normalized = normalizeGame(game, league, leagueLabel, index);
-      if (normalized) matches.push(normalized);
-    });
+
+  if (Array.isArray(payload.games)) {
+    const league = text(payload.leagueId) ?? text(payload.league) ?? "soccer";
+    const leagueLabel = text(payload.league) ?? "Football";
+    if (isSoccerLeague(league, leagueLabel)) appendGames(matches, payload.games, league, leagueLabel);
   }
-  return matches;
+
+  for (const [league, value] of Object.entries(payload)) {
+    if (league === "success" || league === "games" || !value || typeof value !== "object") continue;
+    const record = value as any;
+    const leagueLabel = text(record.name) ?? text(record.league) ?? league.toUpperCase();
+    if (!isSoccerLeague(league, leagueLabel)) continue;
+    appendGames(matches, record.games ?? record.events, league, leagueLabel);
+  }
+
+  const unique = new Map<string, LiveMatch>();
+  matches.forEach((match) => {
+    const key = match.id || `${match.league}:${match.name}:${match.date}`;
+    if (!unique.has(key)) unique.set(key, match);
+  });
+  return Array.from(unique.values()).sort((a, b) => {
+    const aLive = /live|progress|halftime|in play/i.test(a.status) ? 0 : 1;
+    const bLive = /live|progress|halftime|in play/i.test(b.status) ? 0 : 1;
+    return aLive - bLive || (a.date || "").localeCompare(b.date || "");
+  });
 }
 
-export async function fetchLiveScores(): Promise<LiveMatch[]> {
-  const response = await fetch(LIVE_SCORES_ENDPOINT, { headers: { Accept: "application/json" } });
+async function fetchScorePayload(endpoint: string): Promise<any> {
+  const response = await fetch(endpoint, { headers: { Accept: "application/json" } });
   const raw = await response.text().catch(() => "");
   if (!response.ok) throw new Error(`LiveScore service returned HTTP ${response.status}.`);
   if (!raw.trim()) throw new Error("LiveScore returned no match data.");
   let payload: any;
   try { payload = JSON.parse(raw); } catch { throw new Error("LiveScore returned an unreadable response."); }
   if (payload?.success === false) throw new Error(typeof payload.message === "string" ? payload.message : "LiveScore is temporarily unavailable.");
-  return normalizeLiveScores(payload);
+  return payload;
+}
+
+export async function fetchLiveScores(): Promise<LiveMatch[]> {
+  const results = await Promise.allSettled([fetchScorePayload(LIVE_SCORES_ENDPOINT), fetchScorePayload(SOCCER_SCORES_ENDPOINT)]);
+  const matches = results.flatMap((result) => result.status === "fulfilled" ? normalizeLiveScores(result.value) : []);
+  if (!matches.length && results.every((result) => result.status === "rejected")) {
+    throw new Error("Football LiveScore sources are temporarily unavailable. Try again shortly.");
+  }
+  const unique = new Map<string, LiveMatch>();
+  matches.forEach((match) => unique.set(match.id || `${match.league}:${match.name}:${match.date}`, match));
+  return Array.from(unique.values());
 }

@@ -369,3 +369,6 @@
 - [x] Restore the customer Premium request entry point and protected admin activation page with Customer ID and WhatsApp workflow.
 - [x] Add admin-selectable Premium duration options including 1 day, 2 days, 10 days, and custom duration with expiry-aware status.
 - [x] Improve mobile video and XXL API error recovery, then validate tests, build, checkpoint, publish, and GitHub synchronization.
+- [x] Expand Football LiveScore to show every available football fixture and current score/status from the provider.
+- [x] Add robust multi-match normalization, safe refresh behavior, mobile scoreboard presentation, and test coverage.
+- [x] Validate the full LiveScore update, publish it, and push the resulting commit to the selected GitHub repository.
