@@ -304,3 +304,16 @@
 - [x] Add a customized Premium Suno Music Studio with song-generation controls and clear task progress.
 - [x] Extract complete Suno audio tracks, render native playback, and provide a direct download button only when a real audio file is returned.
 - [x] Add/update tests, verify responsive Premium UI, run build, push GitHub at remote commit `8ad6da8`, and publish a checkpoint.
+- [ ] Fix Premium Suno generation failure caused by missing SUNO_COOKIE configuration.
+- [ ] Move Suno provider calls behind a secure server-side proxy and add the required credential configuration without exposing the cookie to the browser.
+- [ ] Show a clear Suno readiness/error state, add tests, validate mobile behavior, push GitHub, and publish the fix.
+- [ ] Replace cookie-dependent Suno generation with a no-cookie alternative music provider.
+- [ ] Preserve the Premium Music Studio controls, polling, full-track playback, and direct download behavior on the alternative provider.
+- [ ] Add secure provider credential configuration, tests, mobile verification, GitHub sync, and publish the provider switch.
+- [ ] Validate the user-supplied MiniMax API key and complete the no-cookie provider switch once the provider accepts it.
+- [ ] Validate the replacement MiniMax subscription key supplied by the user and use it for the no-cookie music provider switch.
+- [ ] Retain the existing Suno Premium Music Studio and stop the alternative-provider migration.
+- [ ] Keep Suno credential guidance and failure handling clear; do not substitute MiniMax or Replicate keys for SUNO_COOKIE.
+- [x] Replace the active Suno music provider path with the documented Mureka Create endpoint.
+- [x] Preserve Mureka task polling, complete-track playback, and direct download behavior in Premium Music Studio.
+- [x] Add tests, verify mobile UI, run build, synchronize GitHub at remote commit `a8cfb4d`, and publish the Mureka migration.
