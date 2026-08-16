@@ -754,3 +754,11 @@ button:focus-visible, a:focus-visible { outline: 3px solid rgba(22,119,255,.35);
 
 .shortcut-button--admin { color:#fff; background:#9f2f2b; border-color:#9f2f2b; }
 .shortcut-button--admin:hover { background:#7f2522; border-color:#7f2522; }
+
+.shortcut-button--request { color:#9f2f2b; background:#fff4f3; border-color:#e8b2ae; }
+.shortcut-button--request:hover { background:#ffe7e4; border-color:#c94a45; }
+.premium-duration-control { display:grid; gap:.7rem; margin:1rem 0; padding:.9rem; border:1px solid #eadfdd; border-radius:1rem; background:#fffaf9; }
+.premium-duration-control label { display:grid; gap:.35rem; font-size:.78rem; font-weight:700; color:#24334a; }
+.premium-duration-control select, .premium-duration-control input { width:100%; min-height:2.8rem; border:1px solid #d8dfe8; border-radius:.75rem; padding:.65rem .75rem; background:#fff; color:#10233f; }
+.premium-duration-control small { color:#687386; line-height:1.45; }
+@media (max-width: 520px) { .premium-duration-control { grid-template-columns:1fr; } }

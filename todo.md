@@ -366,3 +366,6 @@
 - [x] Validate mobile login behavior, tests, build, checkpoint, and publish the correction.
 - [x] Restore a clear approved-admin entry point to the Premium Admin activation page and preserve regular-user protection.
 - [x] Validate the mobile Premium Admin route, activation lookup controls, tests, build, checkpoint, and selected-repository synchronization.
+- [x] Restore the customer Premium request entry point and protected admin activation page with Customer ID and WhatsApp workflow.
+- [x] Add admin-selectable Premium duration options including 1 day, 2 days, 10 days, and custom duration with expiry-aware status.
+- [x] Improve mobile video and XXL API error recovery, then validate tests, build, checkpoint, publish, and GitHub synchronization.

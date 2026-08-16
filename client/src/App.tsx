@@ -14,6 +14,7 @@ import Auth from "./pages/Auth";
 import Maintenance from "./pages/Maintenance";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { hasPermanentPremiumAccess } from "@/lib/premiumAccess";
+import { isPremiumCurrentlyActive } from "@/lib/premiumDuration";
 import type { Session, User } from "@supabase/supabase-js";
 import { hasConfirmedEmail } from "@/lib/authRedirect";
 
@@ -69,8 +70,8 @@ export default function App() {
     supabase.auth.getSession().then(async ({ data }) => {
       setSession(data.session);
       if (data.session?.user) {
-        const { data: entitlement } = await supabase.from("premium_entitlements").select("active").eq("user_id", data.session.user.id).maybeSingle();
-        setPremiumActive(Boolean(entitlement?.active) || hasPermanentPremiumAccess(data.session.user.email));
+        const { data: entitlement } = await supabase.from("premium_entitlements").select("active, expires_at").eq("user_id", data.session.user.id).maybeSingle();
+        setPremiumActive(isPremiumCurrentlyActive(Boolean(entitlement?.active), entitlement?.expires_at) || hasPermanentPremiumAccess(data.session.user.email));
       }
       setVerificationComplete(confirmedEmailReturn);
       setCheckingAuth(false);
@@ -78,8 +79,8 @@ export default function App() {
     const { data: listener } = supabase.auth.onAuthStateChange(async (_event, nextSession) => {
       setSession(nextSession);
       if (nextSession?.user) {
-        const { data: entitlement } = await supabase.from("premium_entitlements").select("active").eq("user_id", nextSession.user.id).maybeSingle();
-        setPremiumActive(Boolean(entitlement?.active) || hasPermanentPremiumAccess(nextSession.user.email));
+        const { data: entitlement } = await supabase.from("premium_entitlements").select("active, expires_at").eq("user_id", nextSession.user.id).maybeSingle();
+        setPremiumActive(isPremiumCurrentlyActive(Boolean(entitlement?.active), entitlement?.expires_at) || hasPermanentPremiumAccess(nextSession.user.email));
       } else setPremiumActive(false);
       setVerificationComplete(confirmedEmailReturn);
       setCheckingAuth(false);

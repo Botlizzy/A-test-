@@ -77,6 +77,7 @@ create table if not exists public.premium_entitlements (
   transaction_reference text,
   notes text,
   activated_at timestamptz,
+  expires_at timestamptz,
   activated_by text,
   updated_at timestamptz not null default now()
 );
