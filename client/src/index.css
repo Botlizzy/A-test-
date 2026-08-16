@@ -795,3 +795,22 @@ button:focus-visible, a:focus-visible { outline: 3px solid rgba(22,119,255,.35);
   .focused-homepage { background-image: linear-gradient(180deg, rgba(3,8,20,.82) 0%, rgba(5,18,42,.66) 32%, rgba(247,251,255,.96) 68%), url('/manus-storage/homepage-background_7d31ea6f.jpg'); }
   .premium-room-shell { background-image: linear-gradient(180deg, rgba(105,0,0,.56), rgba(247,251,255,.94) 38%, rgba(247,251,255,.99) 70%), url('/manus-storage/premium-background_8b712941.jpg'); }
 }
+
+
+/* Generated ELIMINATOR STREAMING identity for login and sign-up screens. */
+.auth-shell {
+  background-image: linear-gradient(90deg, rgba(3,8,20,.86) 0%, rgba(3,8,20,.58) 46%, rgba(3,8,20,.8) 100%), url('/manus-storage/eliminator-streaming-auth-logo_4a00a2a0.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+.auth-art { opacity: .18; }
+.auth-brand { color: #fff; text-shadow: 0 2px 18px rgba(0,0,0,.36); }
+.auth-intro { color: #fff; text-shadow: 0 2px 18px rgba(0,0,0,.42); }
+.auth-intro p, .auth-proof { color: rgba(255,255,255,.86); }
+.auth-intro h1 i { color: #2f9aff; }
+.auth-card { box-shadow: 0 24px 70px rgba(0,0,0,.28); }
+@media (max-width: 700px) {
+  .auth-shell { background-image: linear-gradient(180deg, rgba(3,8,20,.78) 0%, rgba(3,8,20,.64) 34%, rgba(255,255,255,.94) 72%), url('/manus-storage/eliminator-streaming-auth-logo_4a00a2a0.png'); background-attachment: scroll; background-position: center top; }
+  .auth-intro { color: #fff; }
+}

@@ -408,3 +408,6 @@
 - [x] Use the supplied Eliminator image as the homepage background and the supplied Premium Page image as the Premium Room background.
 - [x] Upload both assets through managed project storage and preserve readable responsive overlays.
 - [x] Verify mobile/desktop backgrounds, build, publish, and push the update to GitHub.
+- [x] Generate a red-and-blue ELIMINATOR STREAMING logo suitable for auth-screen branding.
+- [x] Upload the logo and use it as the login and sign-up page background with readable overlays.
+- [x] Validate auth backgrounds, build, publish, and push the logo update to GitHub.
