@@ -1,13 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { LIVE_SCORES_ENDPOINT, SOCCER_SCORES_ENDPOINT, normalizeLiveScores } from "./liveScores";
+import { LIVE_SCORES_ENDPOINT, isLiveMatch, normalizeLiveScores } from "./liveScores";
 
 describe("Premium LiveScore helper", () => {
   it("uses the documented sports endpoint", () => {
     expect(LIVE_SCORES_ENDPOINT).toBe("https://apis.davidcyril.name.ng/sports/live");
-  });
-
-  it("uses the dedicated Soccer Scores endpoint alongside the aggregate feed", () => {
-    expect(SOCCER_SCORES_ENDPOINT).toBe("https://apis.davidcyril.name.ng/sports/soccer/scores");
   });
 
   it("normalizes a direct Soccer Scores payload with every game", () => {
@@ -35,6 +31,19 @@ describe("Premium LiveScore helper", () => {
   it("deduplicates a fixture when it appears in both feed shapes", () => {
     const matches = normalizeLiveScores({ success: true, league: "Premier League", games: [{ id: "same", awayTeam: { name: "Away" }, homeTeam: { name: "Home" } }], soccer: { name: "Premier League", games: [{ id: "same", awayTeam: { name: "Away" }, homeTeam: { name: "Home" } }, { id: "new", awayTeam: { name: "New Away" }, homeTeam: { name: "New Home" } }] } });
     expect(matches.map((match) => match.id)).toEqual(["same", "new"]);
+  });
+
+  it("recognizes live statuses and excludes scheduled or finished statuses", () => {
+    expect(isLiveMatch({ status: "In Progress" })).toBe(true);
+    expect(isLiveMatch({ status: "Halftime" })).toBe(true);
+    expect(isLiveMatch({ status: "Scheduled" })).toBe(false);
+    expect(isLiveMatch({ status: "Final" })).toBe(false);
+  });
+
+  it("normalizes every live football league in an aggregated response", () => {
+    const matches = normalizeLiveScores({ success: true, premier: { name: "Premier League Football", games: [{ id: "p-live", status: "In Progress", awayTeam: { name: "Away P" }, homeTeam: { name: "Home P" } }, { id: "p-final", status: "Final", awayTeam: { name: "Away Final" }, homeTeam: { name: "Home Final" } }] }, laLiga: { name: "La Liga Soccer", games: [{ id: "la-live", status: "Halftime", awayTeam: { name: "Away LA" }, homeTeam: { name: "Home LA" } }] } });
+    const live = matches.filter(isLiveMatch);
+    expect(live.map((match) => match.id)).toEqual(["p-live", "la-live"]);
   });
 
   it("returns an empty result for unsuccessful payloads", () => {

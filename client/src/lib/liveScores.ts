@@ -1,5 +1,4 @@
 export const LIVE_SCORES_ENDPOINT = "https://apis.davidcyril.name.ng/sports/live";
-export const SOCCER_SCORES_ENDPOINT = "https://apis.davidcyril.name.ng/sports/soccer/scores";
 export const LIVE_SCORES_REFRESH_MS = 60_000;
 
 export type LiveMatch = {
@@ -55,6 +54,10 @@ function appendGames(matches: LiveMatch[], games: unknown, league: string, leagu
   });
 }
 
+export function isLiveMatch(match: Pick<LiveMatch, "status">): boolean {
+  return /live|in progress|in-play|in play|halftime|half time|1st half|2nd half|extra time|penalty/i.test(match.status);
+}
+
 export function normalizeLiveScores(payload: any): LiveMatch[] {
   if (!payload?.success) return [];
   const matches: LiveMatch[] = [];
@@ -97,12 +100,6 @@ async function fetchScorePayload(endpoint: string): Promise<any> {
 }
 
 export async function fetchLiveScores(): Promise<LiveMatch[]> {
-  const results = await Promise.allSettled([fetchScorePayload(LIVE_SCORES_ENDPOINT), fetchScorePayload(SOCCER_SCORES_ENDPOINT)]);
-  const matches = results.flatMap((result) => result.status === "fulfilled" ? normalizeLiveScores(result.value) : []);
-  if (!matches.length && results.every((result) => result.status === "rejected")) {
-    throw new Error("Football LiveScore sources are temporarily unavailable. Try again shortly.");
-  }
-  const unique = new Map<string, LiveMatch>();
-  matches.forEach((match) => unique.set(match.id || `${match.league}:${match.name}:${match.date}`, match));
-  return Array.from(unique.values());
+  const payload = await fetchScorePayload(LIVE_SCORES_ENDPOINT);
+  return normalizeLiveScores(payload).filter(isLiveMatch);
 }

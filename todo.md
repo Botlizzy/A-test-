@@ -372,3 +372,9 @@
 - [x] Expand Football LiveScore to show every available football fixture and current score/status from the provider.
 - [x] Add robust multi-match normalization, safe refresh behavior, mobile scoreboard presentation, and test coverage.
 - [x] Validate the full LiveScore update, publish it, and push the resulting commit to the selected GitHub repository.
+- [x] Use the provided aggregated Live Scores API to include every available live football match across leagues, not only Premier League.
+- [x] Add multi-league live filtering/normalization tests and verify mobile scoreboard behavior.
+- [x] Publish the LiveScore correction and push the resulting commit to the selected GitHub repository.
+- [x] Use the provided aggregated Live Scores API to include every available live football match across leagues, not only Premier League.
+- [x] Add multi-league live filtering/normalization tests and verify mobile scoreboard behavior.
+- [x] Publish the LiveScore correction and push the resulting commit to the selected GitHub repository.
