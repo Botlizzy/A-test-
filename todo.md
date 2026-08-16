@@ -358,3 +358,6 @@
 - [x] Remove the app-level signup cooldown and improve signup/login validation, retry behavior, and provider-error recovery.
 - [x] Verify the member data model has no application-level user cap and clarify unavoidable provider-side limits.
 - [x] Add/update auth tests, verify mobile auth rendering, production build, and publish the authentication revision.
+- [x] Refine public homepage and Auth layouts to match the compact Premium Room mobile style.
+- [x] Improve Premium Room mobile navigation, cards, forms, buttons, and horizontal tool selectors without breaking desktop fallback.
+- [x] Verify phone-width screenshots, tests, build, checkpoint, and publish the mobile UI revision.
