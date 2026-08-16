@@ -317,3 +317,6 @@
 - [x] Replace the active Suno music provider path with the documented Mureka Create endpoint.
 - [x] Preserve Mureka task polling, complete-track playback, and direct download behavior in Premium Music Studio.
 - [x] Add tests, verify mobile UI, run build, synchronize GitHub at remote commit `a8cfb4d`, and publish the Mureka migration.
+- [x] Replace the Premium Mureka Music Studio with a Text-to-Speech Studio using text2speech-v3.
+- [x] Return a real speech audio file with native playback, progress/loading feedback, and direct download.
+- [x] Add tests, verify mobile UI, run build, synchronize GitHub at remote commit `c199aa6`, and publish the TTS migration.
