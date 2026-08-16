@@ -19,4 +19,9 @@ describe("auth confirmation redirect", () => {
     expect(getConfirmationMessage("?confirmed=1")).toContain("Email confirmed");
     expect(getConfirmationMessage("?mode=signup")).toBe("");
   });
+
+  it("keeps the success state active when confirmation includes additional routing parameters", () => {
+    expect(hasConfirmedEmail("?confirmed=1&source=email#access_token=redacted")).toBe(true);
+    expect(getConfirmationMessage("?confirmed=1&source=email")).toBe("Email confirmed. Sign in to continue to your Eliminator account.");
+  });
 });

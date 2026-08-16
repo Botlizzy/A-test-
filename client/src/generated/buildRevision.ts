@@ -1,1 +1,1 @@
-export const BUILD_REVISION = "85289d4" as const;
+export const BUILD_REVISION = "1827be6" as const;

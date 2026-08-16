@@ -343,3 +343,6 @@
 - [x] Fix Supabase confirmation links that redirect to localhost:3000 instead of the live deployed URL; signup now derives the current origin and safely falls back to the live Vercel origin.
 - [x] Validate live-origin confirmation handling without exposing auth tokens, then run tests/build and mobile verification; 19 test files/65 tests pass and the mobile `?confirmed=1` route renders the confirmation banner.
 - [x] Synchronize the redirect fix to GitHub and publish the corrected deployment; Supabase must allow `https://a-test-ten.vercel.app/**` and use that live URL as the Site URL.
+- [x] Add an email-verification processing loader and clear success message after users return from Supabase verification.
+- [x] Improve confirmation/auth mobile layout stability, safe-area spacing, accessibility, and action sizing.
+- [x] Add/update auth tests, verify mobile screenshots, build, synchronize GitHub, and publish the confirmation UX refinement.
