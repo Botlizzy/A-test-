@@ -3,7 +3,7 @@ import { FormEvent, useState } from "react";
 import { ArrowLeft, ArrowRight, CircleAlert, Eye, EyeOff, LoaderCircle, ShieldCheck, UserRound } from "lucide-react";
 import { isSupabaseConfigured, supabase, supabaseConfigMessage } from "@/lib/supabase";
 import { getConfirmationMessage, getConfirmationRedirect, hasConfirmedEmail } from "@/lib/authRedirect";
-import { formatAuthError } from "@/lib/authErrors";
+import { formatAuthError, formatSignupSuccess } from "@/lib/authErrors";
 
 type AuthMode = "login" | "signup";
 
@@ -18,6 +18,7 @@ export default function Auth({ mode, onModeChange }: AuthProps) {
   const [message, setMessage] = useState(() => getConfirmationMessage(window.location.search));
   const [error, setError] = useState("");
   const [emailDeliveryLimited, setEmailDeliveryLimited] = useState(false);
+  const [signupSuccess, setSignupSuccess] = useState(false);
   const confirmationRequested = hasConfirmedEmail(window.location.search);
 
   const submit = async (event: FormEvent) => {
@@ -25,6 +26,7 @@ export default function Auth({ mode, onModeChange }: AuthProps) {
     setError("");
     setMessage("");
     setEmailDeliveryLimited(false);
+    setSignupSuccess(false);
     if (!supabase || !isSupabaseConfigured) {
       setError(supabaseConfigMessage);
       return;
@@ -53,7 +55,8 @@ export default function Auth({ mode, onModeChange }: AuthProps) {
         if (data.user) {
           await supabase.from("profiles").upsert({ id: data.user.id, full_name: fullName.trim(), email: email.trim() });
         }
-        setMessage(data.session ? "Account created. You are signed in and can continue." : "Account created. Check your inbox for the confirmation link. If email delivery is delayed, wait for the message or use Sign in after confirming.");
+        setSignupSuccess(true);
+        setMessage(formatSignupSuccess(Boolean(data.session)));
         setPassword("");
       } else {
         const credentials = { email: email.trim(), password };
@@ -88,11 +91,12 @@ export default function Auth({ mode, onModeChange }: AuthProps) {
             <label>Email address<input type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@example.com" autoComplete="email" required /></label>
             <label>Password<div className="password-field"><input type={showPassword ? "text" : "password"} value={password} onChange={(event) => setPassword(event.target.value)} placeholder="At least 6 characters" autoComplete={mode === "login" ? "current-password" : "new-password"} required /><button type="button" onClick={() => setShowPassword((value) => !value)} aria-label={showPassword ? "Hide password" : "Show password"}>{showPassword ? <EyeOff size={17} /> : <Eye size={17} />}</button></div></label>
             {error && <div className="auth-message auth-message--error"><CircleAlert size={16} /><span>{error}</span>{emailDeliveryLimited && <button className="auth-message__action" type="button" onClick={() => { setError(""); setMessage(""); setEmailDeliveryLimited(false); onModeChange("login"); }}>Go to Sign in</button>}</div>}
-            {message && <div className="auth-message auth-message--success"><ShieldCheck size={16} /><span>{message}</span></div>}
+            {busy && mode === "signup" && <div className="auth-progress" role="status" aria-live="polite"><LoaderCircle size={17} className="spin" /><span>Creating your account and preparing confirmation…</span></div>}
+            {message && <div className={`auth-message auth-message--success${signupSuccess ? " auth-message--signup-success" : ""}`} role="status"><ShieldCheck size={16} /><span>{signupSuccess && <strong>Signup successful. </strong>}{message.replace(/^Signup successful\.\s*/, "")}</span></div>}
             {mode === "signup" && <p className="auth-scale-note">Unlimited member records are supported by the app. Email confirmation delivery is controlled by your Supabase plan and SMTP provider.</p>}
-            <button className="primary-button auth-submit" type="submit" disabled={busy}>{busy ? <LoaderCircle size={17} className="spin" /> : <ArrowRight size={17} />}{busy ? "Working…" : mode === "login" ? "Enter playback room" : "Create account"}</button>
+            <button className="primary-button auth-submit" type="submit" disabled={busy}>{busy ? <LoaderCircle size={17} className="spin" /> : <ArrowRight size={17} />}{busy ? (mode === "signup" ? "Creating account…" : "Working…") : mode === "login" ? "Enter playback room" : "Create account"}</button>
           </form>
-          <div className="auth-switch"><span>{mode === "login" ? "New to Eliminator?" : "Already have an account?"}</span><button onClick={() => { setError(""); setMessage(""); setEmailDeliveryLimited(false); onModeChange(mode === "login" ? "signup" : "login"); }}>{mode === "login" ? "Create account" : "Sign in"}</button></div>
+          <div className="auth-switch"><span>{mode === "login" ? "New to Eliminator?" : "Already have an account?"}</span><button onClick={() => { setError(""); setMessage(""); setEmailDeliveryLimited(false); setSignupSuccess(false); onModeChange(mode === "login" ? "signup" : "login"); }}>{mode === "login" ? "Create account" : "Sign in"}</button></div>
           <a className="auth-back" href="/"><ArrowLeft size={14} /> Back to feed</a><a className="auth-feedback" href="mailto:elijahchinecheremonah@gmail.com?subject=Eliminator%20feedback">Feedback: elijahchinecheremonah@gmail.com</a>
         </section>
       </main>

@@ -426,3 +426,6 @@
 - [x] Audit all signup and email-confirmation paths for localhost redirects or client-side signup limits.
 - [x] Harden production confirmation redirects and clearly separate unlimited member records from provider email limits.
 - [x] Add/update tests, verify mobile auth behavior, build, publish, and push the update to GitHub.
+- [x] Add a visible signup loading spinner while Supabase processes account creation.
+- [x] Add a clear success message after signup is accepted, including the email-confirmation next step.
+- [x] Add/update tests, verify mobile auth feedback, build, publish, and push the update to GitHub.

@@ -1,3 +1,9 @@
+export function formatSignupSuccess(hasSession: boolean): string {
+  return hasSession
+    ? "Signup successful. Your account is ready and you are signed in."
+    : "Signup successful. Check your inbox for the confirmation link, then return here and use Sign in.";
+}
+
 export function formatAuthError(rawMessage: string, mode: "login" | "signup"): string {
   const message = rawMessage || "We could not complete that request.";
   if (/failed to fetch|networkerror|load failed|network request failed/i.test(message)) {

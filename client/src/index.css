@@ -850,3 +850,6 @@ button:focus-visible, a:focus-visible { outline: 3px solid rgba(22,119,255,.35);
 .auth-message__action { margin-left: auto; flex: 0 0 auto; padding: .45rem .65rem; border: 1px solid currentColor; border-radius: .55rem; color: inherit; background: rgba(255,255,255,.58); font-size: .7rem; font-weight: 900; cursor: pointer; white-space: nowrap; }
 .auth-message__action:hover { transform: translateY(-1px); background: #fff; }
 @media (max-width: 520px) { .auth-message__action { margin: .4rem 0 0; } }
+
+
+.auth-progress{display:flex;align-items:center;gap:.55rem;margin:.15rem 0;color:var(--blue);background:#eef6ff;border:1px solid #cfe2ff;border-radius:.7rem;padding:.75rem .8rem;font-size:.72rem;font-weight:800}.auth-progress .spin{flex:0 0 auto}.auth-message--signup-success{box-shadow:0 8px 20px rgba(37,184,100,.12);border-color:#a8e0bd}.auth-message--signup-success strong{font-weight:950;color:#16864a}
