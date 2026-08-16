@@ -1,7 +1,8 @@
 export const EPICREALISM_IMAGE_ENDPOINT = "https://apis.davidcyril.name.ng/epicrealism";
 export const ANIMAGINE_IMAGE_ENDPOINT = "https://apis.davidcyril.name.ng/animagine";
+export const NANO_BANANA_IMAGE_ENDPOINT = "https://apis.davidcyril.name.ng/nanobanana2";
 
-export type ImageGeneratorKind = "epicrealism" | "animagine";
+export type ImageGeneratorKind = "epicrealism" | "animagine" | "nanobanana";
 export type ImageGeneratorResult = { url: string; objectUrl: boolean };
 
 export function prepareImagePrompt(prompt: string): string {
@@ -10,9 +11,9 @@ export function prepareImagePrompt(prompt: string): string {
 }
 
 export function getImageGeneratorUrl(kind: ImageGeneratorKind, prompt: string, ratio = "1:1"): string {
-  const url = new URL(kind === "epicrealism" ? EPICREALISM_IMAGE_ENDPOINT : ANIMAGINE_IMAGE_ENDPOINT);
+  const url = new URL(kind === "epicrealism" ? EPICREALISM_IMAGE_ENDPOINT : kind === "animagine" ? ANIMAGINE_IMAGE_ENDPOINT : NANO_BANANA_IMAGE_ENDPOINT);
   url.searchParams.set("prompt", prepareImagePrompt(prompt));
-  if (kind === "epicrealism") url.searchParams.set("ratio", ratio);
+  if (kind !== "animagine") url.searchParams.set("ratio", ratio);
   return url.toString();
 }
 

@@ -552,3 +552,19 @@ button:focus-visible, a:focus-visible { outline: 3px solid rgba(22,119,255,.35);
 .premium-tts-track__meta strong { color: var(--ink); font: 800 .95rem/1.15 "Space Grotesk", sans-serif; }
 .premium-tts-track audio { width: 100%; height: 2.5rem; }
 @media (max-width: 620px) { .premium-tts-grid { grid-template-columns: 1fr; } .premium-tts-track .red-button { width: 100%; justify-content: center; } }
+
+/* Premium-only AI and discovery workspaces */
+.premium-tool-card--nano { background: radial-gradient(circle at 90% 0%, rgba(224,72,65,.2), transparent 30%), linear-gradient(145deg,#101d3d,#1d4b84 68%,#8c2e30); color:#fff; border-color:rgba(255,255,255,.18); }
+.premium-tool-card--nano .premium-tool-card__heading h2,.premium-tool-card--nano .premium-tool-card__lead { color:#fff; }
+.premium-tool-card--nano .premium-tool-card__lead { color:#dce8f6; }
+.premium-tool-card--nano label { color:#eaf2fb; }
+.premium-tool-card--nano input,.premium-tool-card--nano textarea,.premium-tool-card--nano select { color:#fff; background:rgba(255,255,255,.1); border-color:rgba(255,255,255,.25); }
+.premium-tool-card--nano input::placeholder,.premium-tool-card--nano textarea::placeholder { color:#bdd0e6; }
+.premium-tool-card--lyrics { background:linear-gradient(145deg,#fff,#fff7f5 56%,#eef5ff); border-color:#e9c4bf; }
+.premium-lyrics-result { display:grid; gap:.75rem; margin-top:1rem; padding:1rem; background:#fff; border:1px solid #e8d6d2; border-radius:.9rem; box-shadow:0 10px 24px rgba(27,51,87,.08); }
+.premium-lyrics-result__heading { display:flex; align-items:flex-start; justify-content:space-between; gap:.75rem; }
+.premium-lyrics-result__heading h3 { margin:.35rem 0 0; color:#142644; font:800 1.25rem/1.1 "Space Grotesk",sans-serif; }
+.premium-lyrics-result__heading svg { color:#c94a43; flex:0 0 auto; }
+.premium-lyrics-result > pre { max-height:22rem; overflow:auto; margin:0; padding:.9rem; color:#263650; background:#f8fbff; border:1px solid #dbe6f1; border-radius:.7rem; white-space:pre-wrap; overflow-wrap:anywhere; font:500 .82rem/1.6 "DM Sans",sans-serif; }
+.premium-tool-card--lyrics .premium-boost-form input:focus,.premium-tool-card--lyrics .premium-boost-form select:focus { border-color:#c94a43; box-shadow:0 0 0 3px rgba(201,74,67,.12); }
+@media (max-width:560px) { .premium-tool-card--nano,.premium-tool-card--lyrics { padding:.85rem; }.premium-lyrics-result { padding:.75rem; }.premium-lyrics-result__heading h3 { font-size:1.05rem; } }
