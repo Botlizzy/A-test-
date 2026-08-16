@@ -501,3 +501,4 @@
 - [x] Fix the real production RPC or admin-session failure and expose actionable errors
 - [x] Add regression coverage, verify mobile admin feedback, and synchronize GitHub
 - [x] Re-investigate the live Premium Admin member-list schema error and verify the deployed GitHub commit contains the fix
+- [ ] Fix the admin_list_members PostgreSQL return-type mismatch, apply the corrected Supabase function, and verify GitHub deployment

@@ -110,15 +110,15 @@ language plpgsql security definer set search_path = public, auth as $$
 begin
   if lower(coalesce(auth.jwt() ->> 'email', '')) not in ('mikeakex80@gmail.com', 'elijahchinecheremonah@gmail.com') then raise exception 'Only approved administrators can list members'; end if;
   return query
-  select u.id,
-    coalesce(p.full_name, u.raw_user_meta_data ->> 'full_name', split_part(u.email, '@', 1)) as full_name,
-    u.email,
-    p.avatar_url,
-    coalesce(p.account_status, 'active') as account_status,
-    coalesce(p.account_warning, false) as account_warning,
-    p.account_warning_started_at,
-    coalesce(e.active, false) as premium_active,
-    e.expires_at
+  select u.id::uuid,
+    coalesce(p.full_name, u.raw_user_meta_data ->> 'full_name', split_part(u.email, '@', 1))::text as full_name,
+    u.email::text,
+    p.avatar_url::text,
+    coalesce(p.account_status, 'active')::text as account_status,
+    coalesce(p.account_warning, false)::boolean as account_warning,
+    p.account_warning_started_at::timestamptz,
+    coalesce(e.active, false)::boolean as premium_active,
+    e.expires_at::timestamptz
   from auth.users u
   left join public.profiles p on p.id = u.id
   left join public.premium_entitlements e on e.user_id = u.id
