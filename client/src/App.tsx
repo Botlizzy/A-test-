@@ -14,6 +14,7 @@ import Auth from "./pages/Auth";
 import Maintenance from "./pages/Maintenance";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { hasPermanentPremiumAccess } from "@/lib/premiumAccess";
+import { isAccountSuspended } from "@/lib/accountManagement";
 import { isPremiumCurrentlyActive } from "@/lib/premiumDuration";
 import type { Session, User } from "@supabase/supabase-js";
 import { hasConfirmedEmail } from "@/lib/authRedirect";
@@ -79,7 +80,7 @@ export default function App() {
         supabase.from("profiles").select("account_status").eq("id", nextSession.user.id).maybeSingle(),
         supabase.from("premium_entitlements").select("active, expires_at").eq("user_id", nextSession.user.id).maybeSingle(),
       ]);
-      if (profile?.account_status === "suspended") {
+      if (isAccountSuspended(profile?.account_status)) {
         await supabase.auth.signOut();
         window.history.replaceState({}, "", "/?mode=login&suspended=1");
         setSession(null);
@@ -89,17 +90,36 @@ export default function App() {
       setSession(nextSession);
       setPremiumActive(isPremiumCurrentlyActive(Boolean(entitlement?.active), entitlement?.expires_at) || hasPermanentPremiumAccess(nextSession.user.email));
     };
+    let active = true;
+    const refreshSessionStatus = async () => {
+      const { data } = await supabase.auth.getSession();
+      if (active && data.session) await resolveSession(data.session);
+    };
     supabase.auth.getSession().then(async ({ data }) => {
       await resolveSession(data.session);
-      setVerificationComplete(confirmedEmailReturn);
-      setCheckingAuth(false);
+      if (active) {
+        setVerificationComplete(confirmedEmailReturn);
+        setCheckingAuth(false);
+      }
     });
     const { data: listener } = supabase.auth.onAuthStateChange(async (_event, nextSession) => {
       await resolveSession(nextSession);
-      setVerificationComplete(confirmedEmailReturn);
-      setCheckingAuth(false);
+      if (active) {
+        setVerificationComplete(confirmedEmailReturn);
+        setCheckingAuth(false);
+      }
     });
-    return () => listener.subscription.unsubscribe();
+    const statusInterval = window.setInterval(() => void refreshSessionStatus(), 15000);
+    const handleResume = () => void refreshSessionStatus();
+    window.addEventListener("focus", handleResume);
+    document.addEventListener("visibilitychange", handleResume);
+    return () => {
+      active = false;
+      window.clearInterval(statusInterval);
+      window.removeEventListener("focus", handleResume);
+      document.removeEventListener("visibilitychange", handleResume);
+      listener.subscription.unsubscribe();
+    };
   }, []);
 
   const signOut = async () => {

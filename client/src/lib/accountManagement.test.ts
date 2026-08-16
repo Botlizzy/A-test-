@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { accountStatusDescription, accountStatusLabel, getNextAccountStatus, getNextWarningState } from "./accountManagement";
+import { accountStatusDescription, accountStatusLabel, getNextAccountStatus, getNextWarningState, isAccountSuspended } from "./accountManagement";
 
 describe("account management helpers", () => {
   it("toggles between active and suspended safely", () => {
@@ -12,6 +12,12 @@ describe("account management helpers", () => {
     expect(getNextWarningState(false)).toBe(true);
     expect(getNextWarningState(true)).toBe(false);
     expect(getNextWarningState(undefined)).toBe(true);
+  });
+
+  it("detects a suspended session for the auth boundary", () => {
+    expect(isAccountSuspended("suspended")).toBe(true);
+    expect(isAccountSuspended("active")).toBe(false);
+    expect(isAccountSuspended(undefined)).toBe(false);
   });
 
   it("uses a safe active default for missing status", () => {

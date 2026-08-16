@@ -475,3 +475,7 @@
 - [x] Fix admin suspension for registered members returning Customer not found
 - [x] Add confirmation dialog before admin suspend/reactivate and permanent self-delete actions
 - [x] Add regression tests, verify mobile destructive-action feedback, and synchronize GitHub
+
+- [x] Enforce suspension immediately for already-authenticated sessions and show the suspended-access notice
+- [x] Add regression coverage for session invalidation after an admin suspension
+- [x] Verify mobile access blocking, save a checkpoint, and synchronize the fix to GitHub

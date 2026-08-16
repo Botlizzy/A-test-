@@ -4,6 +4,10 @@ export function getNextAccountStatus(status: AccountStatus | null | undefined): 
   return status === "suspended" ? "active" : "suspended";
 }
 
+export function isAccountSuspended(status: AccountStatus | null | undefined): boolean {
+  return status === "suspended";
+}
+
 export function accountStatusLabel(status: AccountStatus | null | undefined): string {
   return status === "suspended" ? "SUSPENDED" : "ACTIVE";
 }
