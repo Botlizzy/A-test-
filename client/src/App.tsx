@@ -18,11 +18,12 @@ import { isAccountSuspended, isAccountWarningExpired } from "@/lib/accountManage
 import { isPremiumCurrentlyActive } from "@/lib/premiumDuration";
 import type { Session, User } from "@supabase/supabase-js";
 import { hasConfirmedEmail } from "@/lib/authRedirect";
+import { hasRecoverySessionHash } from "@/lib/passwordRecovery";
 
 function getAuthMode(): "login" | "signup" | "forgot" | "reset" {
   const mode = new URLSearchParams(window.location.search).get("mode");
   if (mode === "signup" || mode === "forgot" || mode === "reset") return mode;
-  return window.location.hash.includes("type=recovery") ? "reset" : "login";
+  return hasRecoverySessionHash(window.location.hash) ? "reset" : "login";
 }
 
 type VerificationReturnProps = {

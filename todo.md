@@ -503,3 +503,4 @@
 - [x] Re-investigate the live Premium Admin member-list schema error and verify the deployed GitHub commit contains the fix
 - [x] Fix the admin_list_members PostgreSQL return-type mismatch, apply the corrected Supabase function, and verify GitHub deployment
 - [x] Scan source, tests, build output, runtime logs, and Supabase schema for errors; fix actionable issues and verify GitHub synchronization
+- [x] Customize Forgot password into a dedicated new-password page with secure validation, mobile UI, and tested recovery states

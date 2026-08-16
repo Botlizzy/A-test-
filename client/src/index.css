@@ -870,3 +870,6 @@ button:focus-visible, a:focus-visible { outline: 3px solid rgba(22,119,255,.35);
 .warning-button--active{background:#f59e0b;color:#fff;border-color:#f59e0b}
 .member-status--warning{background:#fff7ed;color:#b45309;border-color:#fed7aa}
 @media (max-width:640px){.member-row__actions{align-items:stretch}.member-row__actions button{width:100%;min-width:0}.warning-button{min-height:36px}}
+
+.auth-reset-complete{display:grid;gap:.8rem;margin:.55rem 0 1rem;padding:1rem;border:1px solid #b8e6c9;border-radius:.9rem;background:linear-gradient(145deg,#f0fff6,#f7fbff);color:var(--ink);text-align:center}.auth-reset-complete__icon{display:grid;place-items:center;width:3rem;height:3rem;margin:0 auto;border-radius:50%;color:#16864a;background:#dff7e8;box-shadow:0 8px 18px rgba(37,184,100,.14)}.auth-reset-complete h3{margin:0;font-size:1.05rem}.auth-reset-complete p{margin:0;color:var(--muted);font-size:.76rem;line-height:1.5}.auth-reset-complete .auth-submit{margin-top:.2rem}
+@media (max-width:520px){.auth-reset-complete{padding:.9rem}.auth-reset-complete p{font-size:.72rem}}

@@ -17,6 +17,7 @@ export default function Auth({ mode, onModeChange }: AuthProps) {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState(() => { const params = new URLSearchParams(window.location.search); if (params.get("suspended") === "1") return "This account has been suspended by an administrator. Contact support if you believe this is a mistake."; if (params.get("warning_expired") === "1") return "Your five-minute warning access window has ended, so you have been signed out. Contact support if you need help."; return getConfirmationMessage(window.location.search); });
   const [error, setError] = useState("");
+  const [resetComplete, setResetComplete] = useState(false);
   const confirmationRequested = hasConfirmedEmail(window.location.search);
   const isForgot = mode === "forgot";
   const isReset = mode === "reset";
@@ -64,8 +65,7 @@ export default function Auth({ mode, onModeChange }: AuthProps) {
         setPassword("");
         setConfirmPassword("");
         setMessage("Your password was updated securely. You can now sign in with the new password.");
-        window.history.replaceState({}, "", "/?mode=login");
-        onModeChange("login");
+        setResetComplete(true);
       } else if (mode === "signup") {
         const { data, error: signUpError } = await supabase.auth.signUp({
           email: email.trim(),
@@ -96,6 +96,7 @@ export default function Auth({ mode, onModeChange }: AuthProps) {
   const switchMode = (nextMode: AuthMode) => {
     setError("");
     setMessage("");
+    setResetComplete(false);
     setPassword("");
     setConfirmPassword("");
     onModeChange(nextMode);
@@ -116,7 +117,7 @@ export default function Auth({ mode, onModeChange }: AuthProps) {
           <div className="auth-card__top"><span className="auth-card__icon"><UserRound size={19} /></span><span className="eyebrow">{eyebrow}</span></div>
           <h2>{title}</h2><p className="auth-card__lead">{lead}</p>
           {confirmationRequested && <div className="auth-message auth-message--success" role="status"><ShieldCheck size={16} /><span>Email confirmed. Sign in to continue to your ELIZZY DOMAIN account.</span></div>}
-          <form onSubmit={submit} className="auth-form">
+          {resetComplete ? <div className="auth-reset-complete" role="status"><div className="auth-reset-complete__icon"><ShieldCheck size={24} /></div><h3>Password updated</h3><p>Your new password is ready. Return to sign in and use it to enter your private viewing room.</p><button className="primary-button auth-submit" type="button" onClick={() => switchMode("login")}><ArrowRight size={17} /> Continue to sign in</button></div> : <form onSubmit={submit} className="auth-form">
             {mode === "signup" && <label>Full name<input value={fullName} onChange={(event) => setFullName(event.target.value)} placeholder="Ada Lovelace" autoComplete="name" required /></label>}
             {!isReset && <label>Email address<input type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@example.com" autoComplete="email" required /></label>}
             {!isForgot && <label>{isReset ? "New password" : "Password"}<div className="password-field"><input type={showPassword ? "text" : "password"} value={password} onChange={(event) => setPassword(event.target.value)} placeholder={isReset ? "At least 8 characters" : "At least 6 characters"} autoComplete={isReset ? "new-password" : mode === "login" ? "current-password" : "new-password"} required /><button type="button" onClick={() => setShowPassword((value) => !value)} aria-label={showPassword ? "Hide password" : "Show password"}>{showPassword ? <EyeOff size={17} /> : <Eye size={17} />}</button></div></label>}
@@ -126,7 +127,7 @@ export default function Auth({ mode, onModeChange }: AuthProps) {
             {message && <div className="auth-message auth-message--success" role="status"><ShieldCheck size={16} /><span>{message}</span></div>}
             {mode === "signup" && <p className="auth-scale-note">Unlimited member records are supported by the app. Email confirmation delivery is controlled by your Supabase plan and SMTP provider.</p>}
             <button className="primary-button auth-submit" type="submit" disabled={busy}>{busy ? <LoaderCircle size={17} className="spin" /> : <ArrowRight size={17} />}{busy ? "Working…" : isForgot ? "Send reset link" : isReset ? "Update password" : mode === "login" ? "Enter playback room" : "Create account"}</button>
-          </form>
+          </form>}
           {mode === "login" && <button className="auth-forgot-link" type="button" onClick={() => switchMode("forgot")}>Forgot password?</button>}
           {(mode === "login" || mode === "signup") && <div className="auth-switch"><span>{mode === "login" ? "New to ELIZZY DOMAIN?" : "Already have an account?"}</span><button onClick={() => switchMode(mode === "login" ? "signup" : "login")}>{mode === "login" ? "Create account" : "Sign in"}</button></div>}
           {(isForgot || isReset) && <button className="auth-forgot-link" type="button" onClick={() => switchMode("login")}>Back to sign in</button>}
