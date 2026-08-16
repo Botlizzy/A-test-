@@ -1,13 +1,15 @@
 export const TTS_BASE_URL = "https://apis.davidcyril.name.ng";
 export const TTS_PATH = "/tools/speechma";
 
-export type TextToSpeechOptions = { text: string; voice?: string; language?: string };
+export type TextToSpeechOptions = { text: string; voice?: string; language?: string; pitch?: string; rate?: string };
 
 export function buildTextToSpeechQuery(options: TextToSpeechOptions): URLSearchParams {
   const params = new URLSearchParams();
   params.set("text", options.text.trim());
   if (options.voice?.trim()) params.set("voice", options.voice.trim());
   if (options.language?.trim()) params.set("lang", options.language.trim());
+  if (options.pitch?.trim()) params.set("pitch", options.pitch.trim());
+  if (options.rate?.trim()) params.set("rate", options.rate.trim());
   return params;
 }
 
