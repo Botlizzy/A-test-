@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { formatAuthError, formatSignupSuccess } from "./authErrors";
+import { formatAuthError, formatPasswordResetError, formatSignupSuccess } from "./authErrors";
 
 describe("authentication error guidance", () => {
   it("provides explicit signup success guidance", () => {
@@ -25,5 +25,10 @@ describe("authentication error guidance", () => {
 
   it("keeps unknown provider details readable", () => {
     expect(formatAuthError("Unexpected authentication response", "login")).toBe("Unexpected authentication response");
+  });
+
+  it("turns missing reset sessions into a clear retry instruction", () => {
+    expect(formatPasswordResetError("Auth session missing")).toContain("expired or was already used");
+    expect(formatPasswordResetError("Invalid password")).toBe("Invalid password");
   });
 });

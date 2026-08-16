@@ -2,7 +2,7 @@ import { FormEvent, useState } from "react";
 import { ArrowLeft, ArrowRight, CircleAlert, Eye, EyeOff, LoaderCircle, ShieldCheck, UserRound } from "lucide-react";
 import { isSupabaseConfigured, supabase, supabaseConfigMessage } from "@/lib/supabase";
 import { getConfirmationMessage, getConfirmationRedirect, hasConfirmedEmail } from "@/lib/authRedirect";
-import { formatAuthError, formatSignupSuccess } from "@/lib/authErrors";
+import { formatAuthError, formatPasswordResetError, formatSignupSuccess } from "@/lib/authErrors";
 import { getPasswordResetRedirect, validatePasswordReset } from "@/lib/passwordRecovery";
 
 type AuthMode = "login" | "signup" | "forgot" | "reset";
@@ -87,7 +87,7 @@ export default function Auth({ mode, onModeChange }: AuthProps) {
       }
     } catch (cause) {
       const rawMessage = cause instanceof Error ? cause.message : "We could not complete that request.";
-      setError(formatAuthError(rawMessage, mode === "signup" ? "signup" : "login"));
+      setError(isReset ? formatPasswordResetError(rawMessage) : formatAuthError(rawMessage, mode === "signup" ? "signup" : "login"));
     } finally {
       setBusy(false);
     }

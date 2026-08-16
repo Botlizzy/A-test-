@@ -63,7 +63,7 @@ export default function App() {
   const [showAdmin, setShowAdmin] = useState(() => new URLSearchParams(window.location.search).get("admin") === "1");
   const [showPremium, setShowPremium] = useState(() => new URLSearchParams(window.location.search).get("premium") === "1");
   const [premiumActive, setPremiumActive] = useState(false);
-  const confirmedEmailReturn = hasConfirmedEmail(window.location.search);
+  const confirmedEmailReturn = hasConfirmedEmail(window.location.search) && getAuthMode() !== "reset";
   const maintenanceMode = false;
 
   useEffect(() => {

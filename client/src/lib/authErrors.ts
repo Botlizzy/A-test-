@@ -4,6 +4,13 @@ export function formatSignupSuccess(hasSession: boolean): string {
     : "Signup successful. Check your inbox for the confirmation link, then return here and use Sign in.";
 }
 
+export function formatPasswordResetError(rawMessage: string): string {
+  if (/auth session missing|session missing|jwt|expired|invalid.*token|token.*invalid|already been used/i.test(rawMessage)) {
+    return "This password-reset link is expired or was already used. Request a new reset link and open the newest email.";
+  }
+  return formatAuthError(rawMessage, "login");
+}
+
 export function formatAuthError(rawMessage: string, mode: "login" | "signup"): string {
   const message = rawMessage || "We could not complete that request.";
   if (/failed to fetch|networkerror|load failed|network request failed/i.test(message)) {
