@@ -15,7 +15,7 @@ export default function Auth({ mode, onModeChange }: AuthProps) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [busy, setBusy] = useState(false);
-  const [message, setMessage] = useState(() => new URLSearchParams(window.location.search).get("suspended") === "1" ? "This account has been suspended by an administrator. Contact support if you believe this is a mistake." : getConfirmationMessage(window.location.search));
+  const [message, setMessage] = useState(() => { const params = new URLSearchParams(window.location.search); if (params.get("suspended") === "1") return "This account has been suspended by an administrator. Contact support if you believe this is a mistake."; if (params.get("warning_expired") === "1") return "Your five-minute warning access window has ended, so you have been signed out. Contact support if you need help."; return getConfirmationMessage(window.location.search); });
   const [error, setError] = useState("");
   const confirmationRequested = hasConfirmedEmail(window.location.search);
   const isForgot = mode === "forgot";

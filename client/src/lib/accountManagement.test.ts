@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { accountStatusDescription, accountStatusLabel, getNextAccountStatus, getNextWarningState, isAccountSuspended } from "./accountManagement";
+import { accountStatusDescription, accountStatusLabel, getNextAccountStatus, getNextWarningState, isAccountSuspended, isAccountWarningExpired, ACCOUNT_WARNING_WINDOW_MS } from "./accountManagement";
 
 describe("account management helpers", () => {
   it("toggles between active and suspended safely", () => {
@@ -18,6 +18,13 @@ describe("account management helpers", () => {
     expect(isAccountSuspended("suspended")).toBe(true);
     expect(isAccountSuspended("active")).toBe(false);
     expect(isAccountSuspended(undefined)).toBe(false);
+  });
+
+  it("enforces the five-minute warning window boundary", () => {
+    const startedAt = "2026-08-16T19:00:00.000Z";
+    expect(isAccountWarningExpired(startedAt, Date.parse(startedAt) + ACCOUNT_WARNING_WINDOW_MS - 1)).toBe(false);
+    expect(isAccountWarningExpired(startedAt, Date.parse(startedAt) + ACCOUNT_WARNING_WINDOW_MS)).toBe(true);
+    expect(isAccountWarningExpired(null)).toBe(false);
   });
 
   it("uses a safe active default for missing status", () => {

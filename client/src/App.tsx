@@ -14,7 +14,7 @@ import Auth from "./pages/Auth";
 import Maintenance from "./pages/Maintenance";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { hasPermanentPremiumAccess } from "@/lib/premiumAccess";
-import { isAccountSuspended } from "@/lib/accountManagement";
+import { isAccountSuspended, isAccountWarningExpired } from "@/lib/accountManagement";
 import { isPremiumCurrentlyActive } from "@/lib/premiumDuration";
 import type { Session, User } from "@supabase/supabase-js";
 import { hasConfirmedEmail } from "@/lib/authRedirect";
@@ -77,12 +77,13 @@ export default function App() {
         return;
       }
       const [{ data: profile }, { data: entitlement }] = await Promise.all([
-        supabase.from("profiles").select("account_status").eq("id", nextSession.user.id).maybeSingle(),
+        supabase.from("profiles").select("account_status, account_warning, account_warning_started_at").eq("id", nextSession.user.id).maybeSingle(),
         supabase.from("premium_entitlements").select("active, expires_at").eq("user_id", nextSession.user.id).maybeSingle(),
       ]);
-      if (isAccountSuspended(profile?.account_status)) {
+      if (isAccountSuspended(profile?.account_status) || (profile?.account_warning && isAccountWarningExpired(profile.account_warning_started_at))) {
+        const warningExpired = Boolean(profile?.account_warning && isAccountWarningExpired(profile.account_warning_started_at));
         await supabase.auth.signOut();
-        window.history.replaceState({}, "", "/?mode=login&suspended=1");
+        window.history.replaceState({}, "", warningExpired ? "/?mode=login&warning_expired=1" : "/?mode=login&suspended=1");
         setSession(null);
         setPremiumActive(false);
         return;
