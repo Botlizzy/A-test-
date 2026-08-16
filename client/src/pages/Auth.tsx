@@ -54,7 +54,12 @@ export default function Auth({ mode, onModeChange }: AuthProps) {
         setMessage(data.session ? "Account created. You are signed in and can continue." : "Account created. Check your inbox for the confirmation link. If email delivery is delayed, wait for the message or use Sign in after confirming.");
         setPassword("");
       } else {
-        const { error: signInError } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
+        const credentials = { email: email.trim(), password };
+        let { error: signInError } = await supabase.auth.signInWithPassword(credentials);
+        if (signInError && /failed to fetch|networkerror|load failed/i.test(signInError.message)) {
+          await new Promise((resolve) => window.setTimeout(resolve, 700));
+          ({ error: signInError } = await supabase.auth.signInWithPassword(credentials));
+        }
         if (signInError) throw signInError;
       }
     } catch (cause) {

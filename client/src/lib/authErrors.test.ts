@@ -13,6 +13,10 @@ describe("authentication error guidance", () => {
     expect(message).not.toContain("wait 300");
   });
 
+  it("turns browser fetch failures into actionable mobile guidance", () => {
+    expect(formatAuthError("Failed to fetch", "login")).toContain("mobile connection");
+  });
+
   it("keeps unknown provider details readable", () => {
     expect(formatAuthError("Unexpected authentication response", "login")).toBe("Unexpected authentication response");
   });

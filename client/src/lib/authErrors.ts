@@ -1,5 +1,8 @@
 export function formatAuthError(rawMessage: string, mode: "login" | "signup"): string {
   const message = rawMessage || "We could not complete that request.";
+  if (/failed to fetch|networkerror|load failed|network request failed/i.test(message)) {
+    return "We could not reach the login service. Check your mobile connection, keep this page open, and tap Sign in again. If the problem continues, the service may be temporarily unavailable.";
+  }
   if (/rate limit|too many requests|over_email_send_rate_limit|429/i.test(message)) {
     return "The email provider is temporarily limiting delivery. Your account details are still valid; try again later or use Sign in if you already confirmed your email. The app does not impose a cooldown.";
   }
