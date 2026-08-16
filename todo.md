@@ -334,4 +334,5 @@
 - [x] Push all current updates to GitHub, run tests/build, publish a fresh checkpoint, and verify Nano Banana in the live Premium workspace; tests, TypeScript, and production build pass.
 - [x] Fix the Supabase signup confirmation-rate-limit experience and prevent repeated submissions from trapping users with a persisted five-minute cooldown and sign-in recovery.
 - [x] Make the membership flow scale to unlimited application members while clearly respecting Supabase account and email-provider limits; the app has no member-count cap, while confirmation email quotas remain provider-controlled.
-- [ ] Add/update auth tests, verify mobile signup recovery, run build, synchronize GitHub, and publish the fix.
+- [x] Add/update auth tests, verify mobile signup recovery, run build, synchronize GitHub at b5dd694, and publish the fix.
+- [ ] Push all current project updates to Botlizzy/A-test-, verify no private credentials are included, and confirm the final GitHub commit.
