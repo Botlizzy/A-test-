@@ -435,3 +435,6 @@
 - [x] Remove the email/password signup form entry and its provider-delivery error path.
 - [x] Add Supabase Google OAuth sign-in while preserving existing Supabase profiles and Premium records.
 - [x] Add/update tests, verify OAuth redirect and mobile auth UI, build, publish, and push the update to GitHub.
+- [x] Add a Sign in with Google button to the existing login panel using Supabase OAuth.
+- [x] Preserve email/password login and shared Google loading/error behavior.
+- [x] Add/update tests, verify both mobile auth modes, build, publish, and push the update to GitHub.
