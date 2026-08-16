@@ -6,12 +6,14 @@ create table if not exists public.profiles (
   email text not null,
   avatar_url text,
   account_status text not null default 'active' check (account_status in ('active', 'suspended')),
+  account_warning boolean not null default false,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
 
 alter table public.profiles add column if not exists avatar_url text;
 alter table public.profiles add column if not exists account_status text not null default 'active';
+alter table public.profiles add column if not exists account_warning boolean not null default false;
 alter table public.profiles drop constraint if exists profiles_account_status_check;
 alter table public.profiles add constraint profiles_account_status_check check (account_status in ('active', 'suspended'));
 alter table public.profiles enable row level security;
@@ -76,6 +78,21 @@ end;
 $$;
 revoke all on function public.admin_set_account_status(uuid, text) from public;
 grant execute on function public.admin_set_account_status(uuid, text) to authenticated;
+
+create or replace function public.admin_set_account_warning(target_user_id uuid, flagged boolean)
+returns public.profiles language plpgsql security definer set search_path = public, auth as $$
+declare updated_profile public.profiles;
+begin
+  if lower(coalesce(auth.jwt() ->> 'email', '')) not in ('mikeakex80@gmail.com', 'elijahchinecheremonah@gmail.com') then
+    raise exception 'Only approved administrators can flag accounts';
+  end if;
+  update public.profiles set account_warning = flagged where id = target_user_id returning * into updated_profile;
+  if updated_profile.id is null then raise exception 'Customer not found'; end if;
+  return updated_profile;
+end;
+$$;
+revoke all on function public.admin_set_account_warning(uuid, boolean) from public;
+grant execute on function public.admin_set_account_warning(uuid, boolean) to authenticated;
 
 -- Avatar storage setup. Run this section once in Supabase SQL Editor.
 insert into storage.buckets (id, name, public)
