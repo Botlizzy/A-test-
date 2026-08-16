@@ -349,3 +349,6 @@
 - [x] Create a complete sale-ready project ZIP that excludes credentials, private deployment metadata, generated build output, and local secrets.
 - [x] Add buyer handoff documentation with environment-variable placeholders and setup instructions.
 - [x] Scan and validate the ZIP for credential leakage and deliver it to the user.
+- [x] Replace the homepage content with only Football LiveScore, XXL search, and five or six selected Premium AI workspaces.
+- [x] Preserve Premium Room and existing functional tools while adapting the selected homepage workspaces for mobile use.
+- [x] Verify homepage loading/error states, responsive layout, tests, production build, and publish the redesign.

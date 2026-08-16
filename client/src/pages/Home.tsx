@@ -1,220 +1,80 @@
-/* Coastal Signal: editorial video discovery, Tide Blue actions, signal-led motion, playback-first hierarchy. */
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import {
-  ArrowUpRight,
-  Check,
-  ChevronRight,
-  CircleAlert,
-  Clock3,
-  LoaderCircle,
-  Pause,
-  Play,
-  RefreshCw,
-  ShieldCheck,
-  Sparkles,
-  Volume2,
-  LogOut,
-  UserRound,
-  Wrench,
-} from "lucide-react";
+import { FormEvent, useEffect, useMemo, useState } from "react";
+import { CircleAlert, LogOut, RefreshCw, Search, ShieldCheck, Sparkles, Trophy, UserRound, Zap } from "lucide-react";
 import type { User } from "@supabase/supabase-js";
-import ToolHub from "./ToolHub";
+import { fetchLiveScores, LIVE_SCORES_REFRESH_MS, type LiveMatch } from "@/lib/liveScores";
+import { extractPremiumAiError, extractPremiumAiText, getPremiumAiUrl, PREMIUM_AI_MODELS, type PremiumAiModel } from "@/lib/premiumAi";
 
-type ApiVideo = {
-  title: string;
-  url: string;
-  thumbnail?: string | { cover?: string; preview?: string };
-  duration?: string;
-  video?: string;
-  videoUrl?: string;
-  stream?: string;
-  mp4?: string;
-  m3u8?: string;
-  playback_url?: string;
-  download_url?: string;
-  views?: string;
-  uploader?: { name?: string; url?: string };
-};
-
-type ApiResponse = { success: boolean; source?: string; data?: ApiVideo | { results?: ApiVideo[] }; fetchedAt?: string; title?: string; thumbnail?: string; download_url?: string };
-
-const HOMEPAGE_API_URL = "";
-const FALLBACK_VIDEO: ApiVideo = {
-  title: "Homepage video API ready for connection",
-  url: "",
-  thumbnail: "",
-  duration: "—",
-  views: "Waiting for source API",
-  uploader: { name: "Eliminator Homepage" },
-};
-
-function resolveThumbnail(path?: string | { cover?: string; preview?: string }) {
-  const cover = typeof path === "object" ? path.cover : path;
-  if (!cover) return "";
-  if (cover.startsWith("http")) return cover;
-  return `https://www.xnxx.com/${cover.replace(/^\//, "")}`;
-}
-
-function formatDuration(value?: string) {
-  if (!value) return "—";
-  const parts = value.split(":");
-  return parts.length > 2 ? parts.slice(-2).join(":") : value;
-}
-
-function shortTitle(title: string) {
-  return title.length > 82 ? `${title.slice(0, 79)}…` : title;
-}
-
-function directMediaUrl(item: ApiVideo) {
-  const preview = typeof item.thumbnail === "object" ? item.thumbnail.preview : "";
-  const candidate = item.videoUrl || item.video || item.stream || item.mp4 || item.m3u8 || item.playback_url || item.download_url || preview;
-  return candidate?.startsWith("http") ? candidate : "";
-}
-
-function SignalMark({ small = false }: { small?: boolean }) {
-  return (
-    <span className={small ? "signal-mark signal-mark--small" : "signal-mark"} aria-hidden="true">
-      <span />
-      <span />
-      <span />
-    </span>
-  );
-}
+const HOMEPAGE_AI_MODELS = PREMIUM_AI_MODELS.filter((model) => ["gpt-4o", "claude-haiku-4.5", "gemini-3-pro", "deepseek-v4-flash", "grok-4.1-fast", "llama-4-maverick"].includes(model.id));
+const XXL_SEARCH_ENDPOINT = "https://apis.davidcyril.name.ng/search/xnxx";
 
 type HomeProps = { user: User; onProfile: () => void; onPricing: () => void; onPremium: () => void; onAdmin: () => void; onTools: () => void; onSignOut: () => Promise<void> };
 const ADMIN_EMAILS = new Set(["mikeakex80@gmail.com", "elijahchinecheremonah@gmail.com"]);
 
+type SearchItem = { title: string; url?: string; thumbnail?: string; duration?: string; views?: string };
+export function extractSearchItems(payload: unknown): SearchItem[] {
+  const found: SearchItem[] = [];
+  const visit = (value: unknown) => {
+    if (!value || typeof value !== "object") return;
+    if (Array.isArray(value)) { value.forEach(visit); return; }
+    const row = value as Record<string, unknown>;
+    const title = [row.title, row.name, row.caption].find((entry) => typeof entry === "string" && entry.trim()) as string | undefined;
+    const url = [row.url, row.link, row.href, row.video_url, row.videoUrl].find((entry) => typeof entry === "string" && /^https?:\/\//i.test(entry)) as string | undefined;
+    const thumbnail = [row.thumbnail, row.thumb, row.image, row.cover].find((entry) => typeof entry === "string" && /^https?:\/\//i.test(entry)) as string | undefined;
+    if (title && (url || thumbnail)) found.push({ title: title.trim(), url, thumbnail, duration: typeof row.duration === "string" ? row.duration : undefined, views: typeof row.views === "string" || typeof row.views === "number" ? String(row.views) : undefined });
+    Object.values(row).forEach((child) => { if (child && typeof child === "object") visit(child); });
+  };
+  visit(payload);
+  const unique = new Map<string, SearchItem>();
+  found.forEach((item) => { if (!unique.has(item.title)) unique.set(item.title, item); });
+  return Array.from(unique.values()).slice(0, 12);
+}
+
+function MatchRow({ match }: { match: LiveMatch }) {
+  return <article className="homepage-match-row"><div className="homepage-match-row__league"><span>{match.leagueLabel}</span><b className={/progress|live|in progress/i.test(match.status) ? "is-live" : ""}>{match.status}</b></div><div className="homepage-match-row__teams"><div>{match.away.logo ? <img src={match.away.logo} alt="" /> : <span className="homepage-team-fallback">A</span>}<strong>{match.away.shortName || match.away.name}</strong><b>{match.away.score ?? "—"}</b></div><div>{match.home.logo ? <img src={match.home.logo} alt="" /> : <span className="homepage-team-fallback">H</span>}<strong>{match.home.shortName || match.home.name}</strong><b>{match.home.score ?? "—"}</b></div></div><small>{match.clock || match.period || match.date || "Scheduled"}</small></article>;
+}
+
 export default function Home({ user, onProfile, onPricing, onPremium, onAdmin, onTools, onSignOut }: HomeProps) {
-  const [video, setVideo] = useState<ApiVideo>(FALLBACK_VIDEO);
-  const [previous, setPrevious] = useState<ApiVideo[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [consented, setConsented] = useState(() => localStorage.getItem("streamline-18-plus") === "true");
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
-  const [copied, setCopied] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const [liveMatches, setLiveMatches] = useState<LiveMatch[]>([]);
+  const [liveLoading, setLiveLoading] = useState(true);
+  const [liveError, setLiveError] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState<SearchItem[]>([]);
+  const [searchLoading, setSearchLoading] = useState(false);
+  const [searchError, setSearchError] = useState("");
+  const [aiModel, setAiModel] = useState<PremiumAiModel>(HOMEPAGE_AI_MODELS[0]);
+  const [aiPrompt, setAiPrompt] = useState("");
+  const [aiReply, setAiReply] = useState("");
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiError, setAiError] = useState("");
 
-  const loadFeed = useCallback(async (count = 6) => {
-    setLoading(true);
-    setError("");
-    try {
-      if (!HOMEPAGE_API_URL) {
-        setError("The homepage video API is ready for the new source you will provide.");
-        setVideo(FALLBACK_VIDEO);
-        setPrevious([]);
-        return;
-      }
-      const response = await fetch(HOMEPAGE_API_URL, { headers: { Accept: "application/json" } });
-      if (!response.ok) throw new Error(`Request failed (${response.status})`);
-      const payload = (await response.json()) as ApiResponse;
-      const items = (() => {
-        if (payload.data && "results" in payload.data) return payload.data.results || [];
-        if (payload.data && "title" in payload.data) return [payload.data];
-        if (payload.title) return [{ title: payload.title, thumbnail: payload.thumbnail, download_url: payload.download_url, url: "", uploader: { name: "Homepage video API" }, views: "Live API" }];
-        return [];
-      })().filter((item): item is ApiVideo => "title" in item && Boolean(item.title));
-      if (!items.length) throw new Error("The feed returned no video items.");
-      setVideo(items[0]);
-      setPrevious(items.slice(1).filter((item, index, all) => all.findIndex((candidate) => candidate.title === item.title) === index).slice(0, 5));
-      setIsPlaying(false);
-    } catch (cause) {
-      setError(cause instanceof Error ? cause.message : "The signal was interrupted.");
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  const loadLiveScores = async () => {
+    setLiveLoading(true); setLiveError("");
+    try { setLiveMatches(await fetchLiveScores()); } catch (cause) { setLiveMatches([]); setLiveError(cause instanceof Error ? cause.message : "LiveScore is temporarily unavailable."); } finally { setLiveLoading(false); }
+  };
+  useEffect(() => { void loadLiveScores(); const timer = window.setInterval(() => void loadLiveScores(), LIVE_SCORES_REFRESH_MS); return () => window.clearInterval(timer); }, []);
 
-  useEffect(() => {
-    if (consented) void loadFeed();
-  }, [consented]);
-
-  const thumbnail = useMemo(() => resolveThumbnail(video.thumbnail), [video.thumbnail]);
-  const mediaUrl = useMemo(() => directMediaUrl(video), [video]);
-  const isPreviewMedia = Boolean(mediaUrl && mediaUrl.includes("/preview.mp4"));
-
-  const acceptGate = () => {
-    localStorage.setItem("streamline-18-plus", "true");
-    setConsented(true);
+  const searchXXL = async (event: FormEvent) => {
+    event.preventDefault(); const query = searchQuery.trim();
+    if (query.length < 2 || searchLoading) return;
+    setSearchLoading(true); setSearchError(""); setSearchResults([]);
+    try { const url = new URL(XXL_SEARCH_ENDPOINT); url.searchParams.set("q", query); const response = await fetch(url, { headers: { Accept: "application/json" } }); const payload = await response.json().catch(() => ({})); if (!response.ok) throw new Error(`XXL search returned HTTP ${response.status}.`); const items = extractSearchItems(payload); if (!items.length) throw new Error("No XXL results were returned for that search."); setSearchResults(items); } catch (cause) { setSearchError(cause instanceof Error ? cause.message : "XXL search could not complete."); } finally { setSearchLoading(false); }
   };
 
-  const copyLink = async () => {
-    await navigator.clipboard?.writeText(video.url);
-    setCopied(true);
-    window.setTimeout(() => setCopied(false), 1600);
+  const sendAi = async (event: FormEvent) => {
+    event.preventDefault(); const prompt = aiPrompt.trim(); if (!prompt || aiLoading) return;
+    setAiLoading(true); setAiError(""); setAiReply("");
+    try { const response = await fetch(getPremiumAiUrl(aiModel, prompt), { headers: { Accept: "application/json" } }); const payload = await response.json().catch(() => ({})); const text = extractPremiumAiText(payload); if (!response.ok || !text) throw new Error(extractPremiumAiError(payload) || `The selected AI returned no readable reply (${response.status}).`); setAiReply(text); setAiPrompt(""); } catch (cause) { setAiError(cause instanceof Error ? cause.message : "The selected AI could not reply right now."); } finally { setAiLoading(false); }
   };
 
-  const handlePlay = async () => {
-    if (!mediaUrl || !videoRef.current) return;
-    try {
-      // This runs from the user’s play tap, so browsers allow audible playback here.
-      videoRef.current.muted = false;
-      videoRef.current.volume = 1;
-      setIsMuted(false);
-      await videoRef.current.play();
-      setIsPlaying(true);
-    } catch {
-      setError("The browser could not start this video stream.");
-    }
-  };
-
-  const togglePlayback = async () => {
-    if (!mediaUrl || !videoRef.current) return;
-    if (videoRef.current.paused) await handlePlay();
-    else videoRef.current.pause();
-  };
-
-  return (
-    <div className="app-shell">
-      <div className="ambient ambient--one" />
-      <div className="ambient ambient--two" />
-      <header className="topbar">
-        <a className="brand" href="#top" aria-label="Eliminator Streaming Platform and Multitools home">
-          <span className="brand-mark"><SignalMark /></span>
-          <span><strong>eliminator</strong><em>streaming</em></span>
-        </a>
-        <div className="topbar__status"><span className="status-dot" /> LIVE FEED <span className="topbar__divider" /> 18+ ONLY</div>
-        <div className="topbar__account"><button className="shortcut-button shortcut-button--tools" onClick={onTools}><Wrench size={16} /><span>Multi-tools</span></button><button className="shortcut-button shortcut-button--plans" onClick={onPricing}><Sparkles size={16} /><span>Premium Plans</span></button><button className="shortcut-button shortcut-button--premium" onClick={onPremium}><Sparkles size={16} /><span>Premium Room</span></button>{ADMIN_EMAILS.has((user.email || "").toLowerCase()) && <button className="shortcut-button shortcut-button--admin" onClick={onAdmin}><ShieldCheck size={16} /><span>Admin Verify</span></button>}<button className="shortcut-button shortcut-button--profile" onClick={onProfile}><span className="profile-chip__avatar"><UserRound size={14} /></span><span>Profile</span></button><button className="shortcut-button shortcut-button--signout" onClick={onSignOut}><LogOut size={16} /><span>Sign out</span></button></div>
-        <button className="refresh-button" onClick={() => loadFeed()} disabled={loading}>
-          <RefreshCw size={16} className={loading ? "spin" : ""} />
-          <span>Pull a new frame</span>
-        </button>
-      </header>
-
-      <main id="top" className="page-layout">
-        <aside className="side-rail">
-          <div className="rail-intro"><span className="eyebrow">01 / ELIMINATOR PLATFORM</span><p>A focused route through tools, account, and Premium access.</p></div>
-          <nav className="rail-nav" aria-label="Sections">
-            <a className="rail-nav__item rail-nav__item--active" href="#top"><span>01</span>Platform home <ChevronRight size={15} /></a>
-            <a className="rail-nav__item" href="#tools"><span>02</span>Tool workspace <ChevronRight size={15} /></a>
-            <a className="rail-nav__item" href="#note"><span>03</span>Boundaries <ChevronRight size={15} /></a>
-          </nav>
-          <div className="rail-note"><ShieldCheck size={18} /><p>Source links stay visible. Nothing is hidden behind a mystery button.</p></div>
-        </aside>
-
-        <section className="content-canvas">
-          <section className="hero-copy">
-            <div className="hero-copy__text">
-              <span className="eyebrow eyebrow--blue">THE DAILY DROP / {new Date().toLocaleDateString("en-US", { month: "short", day: "2-digit" }).toUpperCase()}</span>
-              <h1>Find the next<br /><i>good signal.</i></h1>
-              <p>Explore the Eliminator platform through focused tools, account controls, and a curated Premium workspace.</p>
-            </div>
-            <div className="hero-copy__stamp"><Sparkles size={18} /><span>CURATED<br /><b>RANDOMLY</b></span></div>
-          </section>
-
-
-          <section id="tools" className="homepage-tools-section"><div className="homepage-tools-section__intro"><span className="eyebrow eyebrow--red">ELIMINATOR MULTI-TOOLS</span><h2>Every API, clearly documented.</h2><p>Tap any model or tool to view its endpoint, method, parameters, and a copyable request snippet. Functional execution is reserved for the Premium Room.</p></div><ToolHub user={user} onBack={() => document.getElementById("tools")?.scrollIntoView({ behavior: "smooth", block: "start" })} onSignOut={onSignOut} embedded publicInfoOnly hiddenCategories={["ai"]} hiddenPaths={["/nanobanana2", "/download/apk", "/lyrics", "/lyrics/genius", "/lyrics/lrclib", "/lyrics/details", "/lyrics/search", "/lyrics2", "/lyrics3"]} /></section>
-
-          <section className="monetization-card"><div><span className="eyebrow eyebrow--red">MONETIZATION READY</span><h2>Make the platform sustainable.</h2><p>This reserved in-site slot can hold an approved AdSense unit, direct sponsor creative, or a paid-membership CTA once your publisher or payment IDs are ready.</p></div><a className="red-button" href="mailto:elijahchinecheremonah@gmail.com?subject=Eliminator%20monetization">Discuss monetization <ArrowUpRight size={16} /></a></section>
-
-
-          <section id="note" className="footer-note"><CircleAlert size={17} /><p><b>18+ notice.</b> This interface connects to a third-party adult-content API. Continue only if you are legally an adult in your location. Eliminator Streaming Platform and Multitools does not host or control the source media. <a className="feedback-link" href="mailto:elijahchinecheremonah@gmail.com?subject=Eliminator%20feedback">Send feedback</a></p></section>
-        </section>
-      </main>
-
-      {error && <div className="toast-error"><CircleAlert size={17} /><span>{error}</span><button onClick={() => loadFeed()}>Try again</button></div>}
-
-      {!consented && <div className="gate-backdrop"><div className="age-gate"><div className="age-gate__mark"><SignalMark small /></div><span className="eyebrow eyebrow--blue">A QUICK CHECK BEFORE PLAY</span><h2>This feed is for adults only.</h2><p>The connected source can return explicit material. Confirm that you are 18+ and legally allowed to view adult content where you are.</p><div className="age-gate__actions"><button className="primary-button" onClick={acceptGate}>I’m 18+ — continue <ArrowUpRight size={16} /></button><a href="https://www.google.com" className="secondary-button">Leave page</a></div><small>By continuing, you acknowledge the source-content boundary.</small></div></div>}
-    </div>
-  );
+  const accountLabel = useMemo(() => user.user_metadata?.full_name || user.email || "Account", [user]);
+  return <div className="focused-homepage">
+    <header className="focused-homepage__topbar"><a className="brand" href="#home" aria-label="Eliminator home"><span className="brand-mark"><span className="signal-mark"><span /><span /><span /></span></span><span><strong>eliminator</strong><em>streaming</em></span></a><div className="focused-homepage__account"><span>{accountLabel}</span><button className="shortcut-button shortcut-button--profile" onClick={onProfile}><UserRound size={15} />Profile</button><button className="shortcut-button shortcut-button--premium" onClick={onPremium}><Sparkles size={15} />Premium Room</button><button className="shortcut-button shortcut-button--signout" onClick={onSignOut}><LogOut size={15} />Sign out</button></div></header>
+    <main id="home" className="focused-homepage__main">
+      <section className="focused-homepage__intro"><span className="eyebrow eyebrow--blue">ELIMINATOR HOME / THREE ROOMS</span><h1>Scores, search,<br /><i>and smart tools.</i></h1><p>The homepage is now focused. Use the football board, search the XXL catalog, or ask one of six connected AI models.</p><div className="focused-homepage__quick-actions"><button className="red-button" onClick={() => document.getElementById("homepage-live-score")?.scrollIntoView({ behavior: "smooth" })}><Trophy size={16} />LiveScore</button><button className="secondary-button" onClick={() => document.getElementById("homepage-ai")?.scrollIntoView({ behavior: "smooth" })}><Zap size={16} />AI tools</button></div></section>
+      <section id="homepage-live-score" className="homepage-focus-card homepage-focus-card--score"><div className="homepage-focus-card__heading"><div><span className="eyebrow eyebrow--red">FOOTBALL ONLY</span><h2>LiveScore board</h2><p>Live and scheduled football matches, refreshed automatically every minute.</p></div><button className="tool-download" type="button" onClick={() => void loadLiveScores()} disabled={liveLoading}>{liveLoading ? <RefreshCw size={15} className="spin" /> : <RefreshCw size={15} />}{liveLoading ? "Updating" : "Refresh"}</button></div>{liveLoading && <div className="homepage-loading"><RefreshCw size={18} className="spin" /><span>Fetching football scores…</span></div>}{liveError && <div className="homepage-error"><CircleAlert size={17} /><span>{liveError}</span><button onClick={() => void loadLiveScores()}>Try again</button></div>}{!liveLoading && !liveError && liveMatches.length === 0 && <div className="homepage-empty"><Trophy size={22} /><strong>No football matches found</strong><span>The board will update automatically when matches are available.</span></div>}{liveMatches.length > 0 && <div className="homepage-score-list">{liveMatches.map((match) => <MatchRow key={`${match.league}-${match.id}`} match={match} />)}</div>}</section>
+      <section id="homepage-xxl" className="homepage-focus-card homepage-focus-card--search"><div className="homepage-focus-card__heading"><div><span className="eyebrow eyebrow--red">XXL DISCOVERY</span><h2>Search the catalog</h2><p>Search results stay in this page. Open a returned source only when you choose it.</p></div><Search size={24} /></div><form className="homepage-search-form" onSubmit={searchXXL}><input value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} placeholder="Search XXL by title or keyword…" aria-label="Search XXL" /><button className="red-button" type="submit" disabled={searchLoading || searchQuery.trim().length < 2}>{searchLoading ? <><RefreshCw size={16} className="spin" />Searching…</> : <><Search size={16} />Search XXL</>}</button></form>{searchError && <div className="homepage-error"><CircleAlert size={17} /><span>{searchError}</span></div>}{searchLoading && <div className="homepage-loading"><RefreshCw size={18} className="spin" /><span>Preparing search results…</span></div>}{searchResults.length > 0 && <div className="homepage-search-results">{searchResults.map((item) => <article className="homepage-search-result" key={`${item.title}-${item.url}`}><div>{item.thumbnail ? <img src={item.thumbnail} alt="" loading="lazy" /> : <span className="homepage-search-result__fallback"><Search size={18} /></span>}</div><section><h3>{item.title}</h3><p>{[item.duration, item.views].filter(Boolean).join(" · ") || "XXL result"}</p>{item.url && <a href={item.url} target="_blank" rel="noreferrer">Open result</a>}</section></article>)}</div>}</section>
+      <section id="homepage-ai" className="homepage-focus-card homepage-focus-card--ai"><div className="homepage-focus-card__heading"><div><span className="eyebrow eyebrow--red">SIX AI ROOMS</span><h2>Ask the right model</h2><p>These six models are adapted from Premium Room and return readable answers instead of raw JSON.</p></div><Sparkles size={24} /></div><div className="homepage-ai-models">{HOMEPAGE_AI_MODELS.map((model) => <button key={model.id} className={aiModel.id === model.id ? "is-active" : ""} onClick={() => { setAiModel(model); setAiError(""); }}>{model.name}<small>{model.provider}</small></button>)}</div><div className="homepage-ai-selected"><strong>{aiModel.name}</strong><span>{aiModel.provider} · {aiModel.path}</span></div><form className="homepage-ai-form" onSubmit={sendAi}><textarea value={aiPrompt} onChange={(event) => setAiPrompt(event.target.value)} rows={4} placeholder={`Ask ${aiModel.name} anything…`} /><button className="red-button" type="submit" disabled={aiLoading || !aiPrompt.trim()}>{aiLoading ? <><RefreshCw size={16} className="spin" />Thinking…</> : <><Sparkles size={16} />Send prompt</>}</button></form>{aiError && <div className="homepage-error"><CircleAlert size={17} /><span>{aiError}</span></div>}{aiReply && <article className="homepage-ai-reply"><span>{aiModel.name.toUpperCase()} REPLY</span><p>{aiReply}</p></article>}</section>
+      <footer className="focused-homepage__footer"><ShieldCheck size={16} /><span>Premium Room still contains the complete functional toolkit. This homepage intentionally shows only LiveScore, XXL search, and six AI workspaces.</span><button className="text-button" onClick={onPremium}>Open Premium Room</button></footer>
+    </main>
+  </div>;
 }
