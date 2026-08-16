@@ -508,3 +508,5 @@
 - [x] After verified reset, automatically sign the user into the website and clarify that the new password is set only after the email link is opened
 - [x] After verified reset, automatically sign the user into the website and clarify that the new password is set only after the email link is opened
 - [x] Keep Supabase recovery links on the new-password page, preserve the temporary session, and prevent session-expired errors after logout
+- [x] Create and verify a sanitized full-project ZIP archive containing frontend, backend, schema, tests, and configuration without credentials or generated artifacts
+- [x] Add a Premium-only AI Web Builder with prompt-to-draft generation, safe live preview, and guarded publish workflow
