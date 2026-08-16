@@ -396,3 +396,6 @@
 - [x] Display the complete XXL video result list with a Play button for each result inside Eliminator.
 - [x] Broaden direct-media extraction and replace generic no-playable-file errors with precise per-result states while keeping playback unmuted.
 - [x] Validate the full XXL list and mobile player, tests, build, publish, and GitHub synchronization.
+- [x] Add Copy answer controls to generated AI responses on the homepage and Premium Room.
+- [x] Provide accessible copied/fallback feedback and mobile-safe button styling.
+- [x] Add/update tests, verify mobile AI cards, build, publish, and push the update to GitHub.
