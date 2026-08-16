@@ -447,3 +447,6 @@
 - [x] Adapt the supplied archive’s working auth implementation into the current Auth.tsx without importing secrets or obsolete redirects.
 - [x] Keep disabled Google-provider errors inside the app with a clear setup message instead of raw Supabase JSON.
 - [x] Add/update tests, verify mobile auth behavior, build, publish, and push the archive-derived auth fix to GitHub.
+- [x] Remove Google OAuth buttons, handler, and provider-specific auth messaging.
+- [x] Restore the formal email/password login and signup presentation and archive-derived auth flow without obsolete cooldown or credentials.
+- [x] Add/update tests, verify login/signup behavior, build, publish, and push the restored auth update to GitHub.
