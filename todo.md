@@ -336,3 +336,7 @@
 - [x] Make the membership flow scale to unlimited application members while clearly respecting Supabase account and email-provider limits; the app has no member-count cap, while confirmation email quotas remain provider-controlled.
 - [x] Add/update auth tests, verify mobile signup recovery, run build, synchronize GitHub at b5dd694, and publish the fix.
 - [x] Push all current project updates to Botlizzy/A-test-, verify no private credentials are included, and confirm the final GitHub commit `09e120a`.
+- [x] Convert homepage tool cards from executable forms into API-information/documentation cards.
+- [x] Keep all functional tool execution in Premium Room and preserve Premium access boundaries.
+- [x] Add/update tests, verify mobile public directory and Premium functionality, synchronize GitHub, and publish.
+- [x] Make every homepage model/tool selection show its endpoint, method, parameters, and a copyable API request snippet without executing it.
