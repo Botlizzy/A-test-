@@ -873,3 +873,5 @@ button:focus-visible, a:focus-visible { outline: 3px solid rgba(22,119,255,.35);
 
 .auth-reset-complete{display:grid;gap:.8rem;margin:.55rem 0 1rem;padding:1rem;border:1px solid #b8e6c9;border-radius:.9rem;background:linear-gradient(145deg,#f0fff6,#f7fbff);color:var(--ink);text-align:center}.auth-reset-complete__icon{display:grid;place-items:center;width:3rem;height:3rem;margin:0 auto;border-radius:50%;color:#16864a;background:#dff7e8;box-shadow:0 8px 18px rgba(37,184,100,.14)}.auth-reset-complete h3{margin:0;font-size:1.05rem}.auth-reset-complete p{margin:0;color:var(--muted);font-size:.76rem;line-height:1.5}.auth-reset-complete .auth-submit{margin-top:.2rem}
 @media (max-width:520px){.auth-reset-complete{padding:.9rem}.auth-reset-complete p{font-size:.72rem}}
+
+.auth-recovery-note{display:flex;align-items:flex-start;gap:.5rem;margin:.55rem 0;padding:.7rem .75rem;border:1px solid #cfe2ff;border-radius:.7rem;background:#eef6ff;color:#245783;font-size:.7rem;font-weight:750;line-height:1.45}.auth-recovery-note svg{flex:0 0 auto;margin-top:.05rem;color:var(--blue)}

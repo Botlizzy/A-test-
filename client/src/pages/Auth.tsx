@@ -118,6 +118,7 @@ export default function Auth({ mode, onModeChange }: AuthProps) {
         <section className="auth-card">
           <div className="auth-card__top"><span className="auth-card__icon"><UserRound size={19} /></span><span className="eyebrow">{eyebrow}</span></div>
           <h2>{title}</h2><p className="auth-card__lead">{lead}</p>
+          {isReset && <div className="auth-recovery-note" role="note"><ShieldCheck size={15} /><span>Keep this page open and do not log out until your new password is saved.</span></div>}
           {confirmationRequested && <div className="auth-message auth-message--success" role="status"><ShieldCheck size={16} /><span>Email confirmed. Sign in to continue to your ELIZZY DOMAIN account.</span></div>}
           {resetComplete ? <div className="auth-reset-complete" role="status"><div className="auth-reset-complete__icon"><ShieldCheck size={24} /></div><h3>Password updated</h3><p>Your new password is ready. Return to sign in and use it to enter your private viewing room.</p><button className="primary-button auth-submit" type="button" onClick={() => switchMode("login")}><ArrowRight size={17} /> Continue to sign in</button></div> : <form onSubmit={submit} className="auth-form">
             {mode === "signup" && <label>Full name<input value={fullName} onChange={(event) => setFullName(event.target.value)} placeholder="Ada Lovelace" autoComplete="name" required /></label>}
