@@ -414,3 +414,6 @@
 - [x] Rename the visible website brand to ELIZZY DOMAIN across branded page surfaces and document metadata.
 - [x] Add a bold red, blue, yellow, and green decorative brand treatment with tasteful floral/spark accents.
 - [x] Validate responsive brand rendering, build, publish, and push the update to GitHub.
+- [x] Improve signup handling for Supabase email-delivery rate limits with a clear recovery action to Sign in.
+- [x] Prepare confirmation redirects for https://elizzy-host.nx.kg and document that the custom domain must be bound in Management UI.
+- [x] Add/update tests, verify mobile signup behavior, build, publish, and push the update to GitHub.

@@ -1,4 +1,4 @@
-export const PRODUCTION_APP_ORIGIN = "https://a-test-ten.vercel.app";
+export const PRODUCTION_APP_ORIGIN = "https://elizzy-host.nx.kg";
 
 function isNonPublicOrigin(origin: string): boolean {
   return /(?:localhost|127\.0\.0\.1|0\.0\.0\.0|\.manus(?:pre)?\.computer|\.manus\.space)(?::\d+)?$/i.test(origin.replace(/\/$/, ""));
@@ -6,7 +6,7 @@ function isNonPublicOrigin(origin: string): boolean {
 
 export function getConfirmationRedirect(origin: string): string {
   const normalized = origin.replace(/\/$/, "");
-  const target = isNonPublicOrigin(normalized) ? PRODUCTION_APP_ORIGIN : normalized;
+  const target = PRODUCTION_APP_ORIGIN;
   return `${target}/?confirmed=1`;
 }
 
@@ -15,7 +15,7 @@ export function hasConfirmedEmail(search: string): boolean {
 }
 
 export function getConfirmationMessage(search: string): string {
-  return hasConfirmedEmail(search) ? "Email confirmed. Sign in to continue to your Eliminator account." : "";
+  return hasConfirmedEmail(search) ? "Email confirmed. Sign in to continue to your ELIZZY DOMAIN account." : "";
 }
 
 export default getConfirmationRedirect;

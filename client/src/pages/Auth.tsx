@@ -17,12 +17,14 @@ export default function Auth({ mode, onModeChange }: AuthProps) {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState(() => getConfirmationMessage(window.location.search));
   const [error, setError] = useState("");
+  const [emailDeliveryLimited, setEmailDeliveryLimited] = useState(false);
   const confirmationRequested = hasConfirmedEmail(window.location.search);
 
   const submit = async (event: FormEvent) => {
     event.preventDefault();
     setError("");
     setMessage("");
+    setEmailDeliveryLimited(false);
     if (!supabase || !isSupabaseConfigured) {
       setError(supabaseConfigMessage);
       return;
@@ -64,6 +66,7 @@ export default function Auth({ mode, onModeChange }: AuthProps) {
       }
     } catch (cause) {
       const rawMessage = cause instanceof Error ? cause.message : "We could not complete that request.";
+      setEmailDeliveryLimited(mode === "signup" && /rate limit|too many requests|over_email_send_rate_limit|429/i.test(rawMessage));
       setError(formatAuthError(rawMessage, mode));
     } finally {
       setBusy(false);
@@ -84,12 +87,12 @@ export default function Auth({ mode, onModeChange }: AuthProps) {
             {mode === "signup" && <label>Full name<input value={fullName} onChange={(event) => setFullName(event.target.value)} placeholder="Ada Lovelace" autoComplete="name" required /></label>}
             <label>Email address<input type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@example.com" autoComplete="email" required /></label>
             <label>Password<div className="password-field"><input type={showPassword ? "text" : "password"} value={password} onChange={(event) => setPassword(event.target.value)} placeholder="At least 6 characters" autoComplete={mode === "login" ? "current-password" : "new-password"} required /><button type="button" onClick={() => setShowPassword((value) => !value)} aria-label={showPassword ? "Hide password" : "Show password"}>{showPassword ? <EyeOff size={17} /> : <Eye size={17} />}</button></div></label>
-            {error && <div className="auth-message auth-message--error"><CircleAlert size={16} /><span>{error}</span></div>}
+            {error && <div className="auth-message auth-message--error"><CircleAlert size={16} /><span>{error}</span>{emailDeliveryLimited && <button className="auth-message__action" type="button" onClick={() => { setError(""); setMessage(""); setEmailDeliveryLimited(false); onModeChange("login"); }}>Go to Sign in</button>}</div>}
             {message && <div className="auth-message auth-message--success"><ShieldCheck size={16} /><span>{message}</span></div>}
             {mode === "signup" && <p className="auth-scale-note">Unlimited member records are supported by the app. Email confirmation delivery is controlled by your Supabase plan and SMTP provider.</p>}
             <button className="primary-button auth-submit" type="submit" disabled={busy}>{busy ? <LoaderCircle size={17} className="spin" /> : <ArrowRight size={17} />}{busy ? "Working…" : mode === "login" ? "Enter playback room" : "Create account"}</button>
           </form>
-          <div className="auth-switch"><span>{mode === "login" ? "New to Eliminator?" : "Already have an account?"}</span><button onClick={() => { setError(""); setMessage(""); onModeChange(mode === "login" ? "signup" : "login"); }}>{mode === "login" ? "Create account" : "Sign in"}</button></div>
+          <div className="auth-switch"><span>{mode === "login" ? "New to Eliminator?" : "Already have an account?"}</span><button onClick={() => { setError(""); setMessage(""); setEmailDeliveryLimited(false); onModeChange(mode === "login" ? "signup" : "login"); }}>{mode === "login" ? "Create account" : "Sign in"}</button></div>
           <a className="auth-back" href="/"><ArrowLeft size={14} /> Back to feed</a><a className="auth-feedback" href="mailto:elijahchinecheremonah@gmail.com?subject=Eliminator%20feedback">Feedback: elijahchinecheremonah@gmail.com</a>
         </section>
       </main>

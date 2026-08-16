@@ -847,3 +847,8 @@ button:focus-visible, a:focus-visible { outline: 3px solid rgba(22,119,255,.35);
 @media (max-width: 620px) {
   .brand::after, .auth-brand::after, .maintenance-brand::after { right: -.85rem; font-size: .72rem; }
 }
+
+
+.auth-message__action { margin-left: auto; flex: 0 0 auto; padding: .45rem .65rem; border: 1px solid currentColor; border-radius: .55rem; color: inherit; background: rgba(255,255,255,.58); font-size: .7rem; font-weight: 900; cursor: pointer; white-space: nowrap; }
+.auth-message__action:hover { transform: translateY(-1px); background: #fff; }
+@media (max-width: 520px) { .auth-message__action { margin: .4rem 0 0; } }
