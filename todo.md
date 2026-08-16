@@ -480,7 +480,7 @@
 - [x] Add regression coverage for session invalidation after an admin suspension
 - [x] Verify mobile access blocking, save a checkpoint, and synchronize the fix to GitHub
 
-- [ ] Make Member Management list every registered Supabase auth member reliably
-- [ ] Add timed warning metadata and admin controls for five-minute limited access
-- [ ] Enforce automatic logout after the five-minute warning window with tests and mobile feedback
-- [ ] Verify suspend, warning, reactivation, and premium actions from the member list and synchronize GitHub
+- [x] Make Member Management list every registered Supabase auth member reliably
+- [x] Add timed warning metadata and admin controls for five-minute limited access
+- [x] Enforce automatic logout after the five-minute warning window with tests and mobile feedback
+- [x] Verify suspend, warning, reactivation, and premium actions from the member list and synchronize GitHub
