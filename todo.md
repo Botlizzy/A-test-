@@ -355,3 +355,6 @@
 - [x] Restrict the homepage to six AI tools, image generation, XXL search, and a playable unmuted API video feed.
 - [x] Remove the Multi-tools route and its visible navigation while preserving Premium Room functionality.
 - [x] Validate mobile video playback, loading/error states, tests, production build, and publish the revised homepage.
+- [x] Remove the app-level signup cooldown and improve signup/login validation, retry behavior, and provider-error recovery.
+- [x] Verify the member data model has no application-level user cap and clarify unavoidable provider-side limits.
+- [x] Add/update auth tests, verify mobile auth rendering, production build, and publish the authentication revision.
