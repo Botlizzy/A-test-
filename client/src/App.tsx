@@ -69,21 +69,33 @@ export default function App() {
       setCheckingAuth(false);
       return;
     }
-    supabase.auth.getSession().then(async ({ data }) => {
-      setSession(data.session);
-      if (data.session?.user) {
-        const { data: entitlement } = await supabase.from("premium_entitlements").select("active, expires_at").eq("user_id", data.session.user.id).maybeSingle();
-        setPremiumActive(isPremiumCurrentlyActive(Boolean(entitlement?.active), entitlement?.expires_at) || hasPermanentPremiumAccess(data.session.user.email));
+    const resolveSession = async (nextSession: Session | null) => {
+      if (!nextSession?.user) {
+        setSession(null);
+        setPremiumActive(false);
+        return;
       }
+      const [{ data: profile }, { data: entitlement }] = await Promise.all([
+        supabase.from("profiles").select("account_status").eq("id", nextSession.user.id).maybeSingle(),
+        supabase.from("premium_entitlements").select("active, expires_at").eq("user_id", nextSession.user.id).maybeSingle(),
+      ]);
+      if (profile?.account_status === "suspended") {
+        await supabase.auth.signOut();
+        window.history.replaceState({}, "", "/?mode=login&suspended=1");
+        setSession(null);
+        setPremiumActive(false);
+        return;
+      }
+      setSession(nextSession);
+      setPremiumActive(isPremiumCurrentlyActive(Boolean(entitlement?.active), entitlement?.expires_at) || hasPermanentPremiumAccess(nextSession.user.email));
+    };
+    supabase.auth.getSession().then(async ({ data }) => {
+      await resolveSession(data.session);
       setVerificationComplete(confirmedEmailReturn);
       setCheckingAuth(false);
     });
     const { data: listener } = supabase.auth.onAuthStateChange(async (_event, nextSession) => {
-      setSession(nextSession);
-      if (nextSession?.user) {
-        const { data: entitlement } = await supabase.from("premium_entitlements").select("active, expires_at").eq("user_id", nextSession.user.id).maybeSingle();
-        setPremiumActive(isPremiumCurrentlyActive(Boolean(entitlement?.active), entitlement?.expires_at) || hasPermanentPremiumAccess(nextSession.user.email));
-      } else setPremiumActive(false);
+      await resolveSession(nextSession);
       setVerificationComplete(confirmedEmailReturn);
       setCheckingAuth(false);
     });

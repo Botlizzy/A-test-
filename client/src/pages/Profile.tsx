@@ -1,6 +1,6 @@
 /* Coastal Signal profile room: account details and avatar identity share the same calm, explicit save states. */
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
-import { ArrowLeft, Camera, Check, CheckCircle2, CircleAlert, Copy, Crown, Clock3, LoaderCircle, LogOut, Mail, Save, ShieldCheck, UserRound, XCircle } from "lucide-react";
+import { ArrowLeft, Camera, Check, CheckCircle2, CircleAlert, Copy, Crown, Clock3, LoaderCircle, LogOut, Mail, Save, ShieldCheck, Trash2, UserRound, XCircle } from "lucide-react";
 import type { User } from "@supabase/supabase-js";
 import { supabase } from "@/lib/supabase";
 import { profileErrorMessage } from "@/lib/profileErrors";
@@ -31,6 +31,8 @@ export default function Profile({ user, onBack, onSignOut }: ProfileProps) {
   const [saved, setSaved] = useState(false);
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState("");
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -119,6 +121,22 @@ export default function Profile({ user, onBack, onSignOut }: ProfileProps) {
     }
   };
 
+  const deleteAccount = async () => {
+    if (!supabase) {
+      setError("Supabase is not available in this deployment.");
+      return;
+    }
+    setError("");
+    setDeleting(true);
+    const { error: deleteError } = await supabase.rpc("delete_my_account");
+    if (deleteError) {
+      setError(deleteError.message.includes("function") ? "Account deletion is not enabled yet. Run the latest Supabase schema first." : deleteError.message);
+      setDeleting(false);
+      return;
+    }
+    await onSignOut();
+  };
+
   const saveProfile = async (event: FormEvent) => {
     event.preventDefault();
     setError("");
@@ -146,6 +164,10 @@ export default function Profile({ user, onBack, onSignOut }: ProfileProps) {
     <main className="profile-layout"><section className="profile-intro"><span className="eyebrow eyebrow--blue">03 / VIEWER PROFILE</span><h1>Keep your<br /><i>signal personal.</i></h1><p>Your account details travel with your playback room. Update your name and avatar here; your email remains managed securely by Supabase Auth.</p><div className="profile-trust"><ShieldCheck size={18} /><div><b>Protected account</b><span>Only you can read or update this profile.</span></div></div></section>
       <section className="profile-card"><div className="profile-avatar-wrap"><div className="profile-avatar profile-avatar--photo">{avatarUrl ? <img src={avatarUrl} alt="Profile avatar" /> : <span>{initials(fullName, user.email)}</span>}</div><button className="avatar-upload-button" type="button" onClick={() => fileInputRef.current?.click()} disabled={uploading} aria-label="Upload profile avatar">{uploading ? <LoaderCircle size={16} className="spin" /> : <Camera size={16} />}</button><input ref={fileInputRef} type="file" accept="image/png,image/jpeg,image/webp,image/gif" onChange={uploadAvatar} hidden /></div><div className="profile-avatar-hint">PNG, JPG, WEBP, or GIF · max 5 MB</div><div className="profile-card__heading"><div><span className="eyebrow">ACCOUNT DETAILS</span><h2>{fullName || "Your profile"}</h2><PremiumBadge state={premiumStatus} /></div><span className={`profile-status profile-status--premium profile-status--${premiumStatus}`}><span /> {premiumStatus === "active" ? "PREMIUM ACTIVE" : premiumStatus === "pending" ? "AWAITING VERIFICATION" : "PREMIUM INACTIVE"}</span></div>
         <form className="profile-form" onSubmit={saveProfile}><label>Full name<input value={fullName} onChange={(event) => setFullName(event.target.value)} placeholder="Your full name" disabled={loading || saving || uploading} autoComplete="name" /></label><label>Email address<div className="profile-readonly"><Mail size={16} /><input value={user.email || "Not available"} readOnly /><span>Verified by auth</span></div></label><div className="profile-user-id"><div><span className="profile-user-id__label">Customer / User ID</span><code>{user.id}</code><small>Copy this ID and enter it in Premium Admin to activate this customer.</small></div><button className="secondary-button profile-user-id__copy" type="button" onClick={() => void copyUserId()} aria-label="Copy customer User ID">{copied ? <Check size={15} /> : <Copy size={15} />}{copied ? "Copied" : "Copy ID"}</button></div><div className="profile-meta"><span>Member since</span><b>{new Date(createdAt).toLocaleDateString("en-US", { month: "long", year: "numeric" })}</b></div><div className={`premium-status-panel premium-status-panel--${premiumStatus}`} role="status" aria-label={`Premium status: ${premiumStatus}`}><span className="premium-status-panel__icon">{premiumStatus === "active" ? <CheckCircle2 size={22} /> : premiumStatus === "pending" ? <Clock3 size={22} /> : <XCircle size={22} />}</span><div className="premium-status-panel__copy"><span className="premium-status-panel__eyebrow"><Crown size={13} /> PREMIUM ACCESS</span><strong>{premiumStatus === "active" ? "Premium is currently active" : premiumStatus === "pending" ? "Premium is awaiting verification" : "Premium is currently inactive"}</strong><small>{premiumStatus === "active" ? premiumActivatedAt ? `${premiumExpiresAt ? `Active until ${new Date(premiumExpiresAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}` : `Activated ${new Date(premiumActivatedAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}`}. Your account is ready for premium features.` : hasPermanentPremiumAccess(user.email) ? "Owner access is permanently enabled for this account." : "Your account is ready for premium features." : premiumStatus === "pending" ? "Your request is waiting for an approved admin to verify the WhatsApp transaction." : "Premium access is not active. Request verification from the Plans page when ready."}</small></div><span className="premium-status-panel__badge">{premiumStatus === "active" ? "ACTIVE" : premiumStatus === "pending" ? "PENDING" : "INACTIVE"}</span></div>{error && <div className="auth-message auth-message--error"><CircleAlert size={16} /><span>{error}</span></div>}{saved && <div className="auth-message auth-message--success"><Check size={16} /><span>Your profile has been updated.</span></div>}<button className="primary-button profile-save" type="submit" disabled={loading || saving || uploading}>{saving ? <LoaderCircle size={16} className="spin" /> : <Save size={16} />}{saving ? "Saving changes…" : "Save profile"}</button></form>
+        <div className="profile-danger-zone" aria-labelledby="delete-account-title">
+          <div className="profile-danger-zone__copy"><span className="eyebrow eyebrow--red">DANGER ZONE</span><h3 id="delete-account-title">Delete this account permanently</h3><p>This permanently removes your account, profile, premium status, verification history, and avatar. This action cannot be undone.</p></div>
+          {!deleteConfirmOpen ? <button className="danger-outline-button" type="button" onClick={() => setDeleteConfirmOpen(true)} disabled={deleting}><Trash2 size={16} /> Delete account</button> : <div className="profile-danger-zone__confirm"><strong>Are you absolutely sure?</strong><span>There is no recovery after deletion.</span><div><button className="secondary-button" type="button" onClick={() => setDeleteConfirmOpen(false)} disabled={deleting}>Cancel</button><button className="danger-button" type="button" onClick={() => void deleteAccount()} disabled={deleting}>{deleting ? <LoaderCircle size={16} className="spin" /> : <Trash2 size={16} />}{deleting ? "Deleting account…" : "Yes, delete permanently"}</button></div></div>}
+        </div>
       </section></main>
   </div>;
 }

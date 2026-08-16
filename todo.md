@@ -456,3 +456,14 @@
 - [x] Remove Supabase email-delivery-limit wording from all user-facing signup errors.
 - [x] Replace it with neutral recovery messaging and preserve a direct Sign in path.
 - [x] Add/update tests, verify no stale copy remains, build, publish, and push the update to GitHub.
+- [ ] Confirm Resend SMTP credentials, verified sender domain, and Supabase access prerequisites.
+- [ ] Configure available Resend SMTP settings for Supabase without exposing secrets.
+- [ ] Verify authentication email delivery and document any remaining DNS/provider action.
+
+## Account deletion and admin member management
+
+- [ ] Add a permanent self-service account deletion control in Profile with explicit confirmation and post-delete sign-out
+- [ ] Add admin account suspension by Customer ID and by selecting a listed member
+- [ ] Split the admin area into Member Management and Premium Grants sections
+- [ ] Add secure suspension/deletion backend procedures, authorization checks, and tests
+- [ ] Verify mobile UI, destructive-action feedback, and repository synchronization

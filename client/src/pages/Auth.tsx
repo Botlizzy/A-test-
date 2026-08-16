@@ -15,7 +15,7 @@ export default function Auth({ mode, onModeChange }: AuthProps) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [busy, setBusy] = useState(false);
-  const [message, setMessage] = useState(() => getConfirmationMessage(window.location.search));
+  const [message, setMessage] = useState(() => new URLSearchParams(window.location.search).get("suspended") === "1" ? "This account has been suspended by an administrator. Contact support if you believe this is a mistake." : getConfirmationMessage(window.location.search));
   const [error, setError] = useState("");
   const confirmationRequested = hasConfirmedEmail(window.location.search);
   const isForgot = mode === "forgot";
