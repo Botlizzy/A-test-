@@ -6,6 +6,7 @@ import { supabase } from "@/lib/supabase";
 import { isCustomerId, normalizeCustomerId } from "@/lib/adminLookup";
 import { getPremiumDurationDays, getPremiumExpiryIso, isPremiumCurrentlyActive, PREMIUM_DURATION_OPTIONS, type PremiumDurationSelection } from "@/lib/premiumDuration";
 import { accountStatusLabel, getNextAccountStatus, getNextWarningState } from "@/lib/accountManagement";
+import { memberListErrorMessage, shouldRetryMemberListError } from "@/lib/adminMemberErrors";
 
 const ADMIN_EMAILS = new Set(["mikeakex80@gmail.com", "elijahchinecheremonah@gmail.com"]);
 type PremiumAdminProps = { user: User; onBack: () => void; onSignOut: () => Promise<void> };
@@ -44,12 +45,18 @@ export default function PremiumAdmin({ user, onBack, onSignOut }: PremiumAdminPr
     setRequestsLoading(false);
   };
 
-  const loadMembers = async () => {
+  const loadMembers = async (retrying = false) => {
     if (!isAdmin || !supabase) return;
     setMembersLoading(true);
     const { data, error: membersError } = await supabase.rpc("admin_list_members");
-    if (membersError) setError(membersError.message.includes("admin_list_members") || membersError.message.includes("function") ? "Run the latest Supabase schema to enable the complete registered-member list." : membersError.message);
-    else setMembers((data || []) as Customer[]);
+    if (membersError && !retrying && shouldRetryMemberListError(membersError)) {
+      // PostgREST can briefly retain an older function signature after a migration.
+      // A single retry avoids making admins rerun SQL when the schema is already present.
+      window.setTimeout(() => { void loadMembers(true); }, 450);
+      return;
+    }
+    if (membersError) setError(memberListErrorMessage(membersError));
+    else { setMembers((data || []) as Customer[]); setError(""); }
     setMembersLoading(false);
   };
 

@@ -496,3 +496,7 @@
 - [ ] Open live authentication flow for mikeakex80@gmail.com without exposing credentials
 - [ ] Confirm or recover the existing account through user-controlled browser input
 - [ ] Verify permanent admin and premium allowlist access
+
+- [x] Diagnose the generic member-list schema error in Premium Admin
+- [x] Fix the real production RPC or admin-session failure and expose actionable errors
+- [x] Add regression coverage, verify mobile admin feedback, and synchronize GitHub
