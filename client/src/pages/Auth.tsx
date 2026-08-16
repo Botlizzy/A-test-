@@ -60,11 +60,13 @@ export default function Auth({ mode, onModeChange }: AuthProps) {
         if (resetError) throw resetError;
         setMessage("If an account uses this email, a secure password-reset link is on its way. Check your inbox and spam folder.");
       } else if (isReset) {
-        const { error: updateError } = await supabase.auth.updateUser({ password });
+        const { data: updatedUser, error: updateError } = await supabase.auth.updateUser({ password });
         if (updateError) throw updateError;
+        const { data: currentSession } = await supabase.auth.getSession();
+        if (!currentSession.session || !updatedUser.user) throw new Error("Auth session missing");
         setPassword("");
         setConfirmPassword("");
-        setMessage("Your password was updated securely. You can now sign in with the new password.");
+        setMessage("Password updated successfully. Signing you into ELIZZY DOMAIN…");
         setResetComplete(true);
       } else if (mode === "signup") {
         const { data, error: signUpError } = await supabase.auth.signUp({
@@ -104,7 +106,7 @@ export default function Auth({ mode, onModeChange }: AuthProps) {
   };
 
   const title = isForgot ? "Reset your password." : isReset ? "Choose a new password." : mode === "login" ? "Welcome back." : "Create your account.";
-  const lead = isForgot ? "Enter your email and we’ll send a secure reset link." : isReset ? "Create a new password for your ELIZZY DOMAIN account." : mode === "login" ? "Sign in to continue to the live video feed." : "A few details, then your private viewing room is ready.";
+  const lead = isForgot ? "Enter your email to generate a secure reset link. You will choose your new password after opening the email." : isReset ? "Create a new password for your ELIZZY DOMAIN account." : mode === "login" ? "Sign in to continue to the live video feed." : "A few details, then your private viewing room is ready.";
   const eyebrow = isForgot || isReset ? "ACCOUNT RECOVERY" : mode === "login" ? "RETURNING VIEWER" : "NEW VIEWER";
 
   return (
@@ -126,7 +128,7 @@ export default function Auth({ mode, onModeChange }: AuthProps) {
             {busy && <div className="auth-progress" role="status" aria-live="polite"><LoaderCircle size={17} className="spin" /><span>{isForgot ? "Preparing your secure reset email…" : isReset ? "Updating your password securely…" : mode === "signup" ? "Creating your account and preparing confirmation…" : "Checking your secure sign-in…"}</span></div>}
             {message && <div className="auth-message auth-message--success" role="status"><ShieldCheck size={16} /><span>{message}</span></div>}
             {mode === "signup" && <p className="auth-scale-note">Unlimited member records are supported by the app. Email confirmation delivery is controlled by your Supabase plan and SMTP provider.</p>}
-            <button className="primary-button auth-submit" type="submit" disabled={busy}>{busy ? <LoaderCircle size={17} className="spin" /> : <ArrowRight size={17} />}{busy ? "Working…" : isForgot ? "Send reset link" : isReset ? "Update password" : mode === "login" ? "Enter playback room" : "Create account"}</button>
+            <button className="primary-button auth-submit" type="submit" disabled={busy}>{busy ? <LoaderCircle size={17} className="spin" /> : <ArrowRight size={17} />}{busy ? "Working…" : isForgot ? "Generate reset link" : isReset ? "Update password" : mode === "login" ? "Enter playback room" : "Create account"}</button>
           </form>}
           {mode === "login" && <button className="auth-forgot-link" type="button" onClick={() => switchMode("forgot")}>Forgot password?</button>}
           {(mode === "login" || mode === "signup") && <div className="auth-switch"><span>{mode === "login" ? "New to ELIZZY DOMAIN?" : "Already have an account?"}</span><button onClick={() => switchMode(mode === "login" ? "signup" : "login")}>{mode === "login" ? "Create account" : "Sign in"}</button></div>}

@@ -505,3 +505,5 @@
 - [x] Scan source, tests, build output, runtime logs, and Supabase schema for errors; fix actionable issues and verify GitHub synchronization
 - [x] Customize Forgot password into a dedicated new-password page with secure validation, mobile UI, and tested recovery states
 - [x] Fix recovery emails opening email-verification success instead of the new-password page and handle missing Auth sessions safely
+- [x] After verified reset, automatically sign the user into the website and clarify that the new password is set only after the email link is opened
+- [x] After verified reset, automatically sign the user into the website and clarify that the new password is set only after the email link is opened
