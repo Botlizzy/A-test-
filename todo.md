@@ -384,3 +384,6 @@
 - [x] Test whether LiveScore.com permits a safe iframe/embed view without automated scraping.
 - [x] If embedding is supported, add a clear mobile link/embed; otherwise preserve an honest provider-empty fallback.
 - [x] Validate the fallback, tests, build, checkpoint, and GitHub synchronization.
+- [x] Recheck whether the current provider or an authorized structured feed can supply live football scores for direct in-page rendering.
+- [x] Keep scores inside Eliminator with a transparent unavailable state if no authorized live feed is available.
+- [x] Validate the direct-rendering decision, tests, build, checkpoint, publish, and GitHub synchronization.
