@@ -1,4 +1,4 @@
-export const PRODUCTION_APP_ORIGIN = "https://elizzy-host.nx.kg";
+export const PRODUCTION_APP_ORIGIN = "https://a-test-ten.vercel.app";
 
 function isNonPublicOrigin(origin: string): boolean {
   return /(?:localhost|127\.0\.0\.1|0\.0\.0\.0|\.manus(?:pre)?\.computer|\.manus\.space)(?::\d+)?$/i.test(origin.replace(/\/$/, ""));

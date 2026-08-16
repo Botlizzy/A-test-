@@ -4,7 +4,7 @@ export function formatAuthError(rawMessage: string, mode: "login" | "signup"): s
     return "We could not reach the login service. Check your mobile connection, keep this page open, and tap Sign in again. If the problem continues, the service may be temporarily unavailable.";
   }
   if (/rate limit|too many requests|over_email_send_rate_limit|429/i.test(message)) {
-    return "Supabase email delivery is temporarily rate-limited. This is a provider limit, not an ELIZZY DOMAIN signup cooldown. If this email already has an account, use Sign in now; otherwise wait for the provider window to clear or configure a higher-capacity SMTP provider in Supabase. The app does not impose a cooldown.";
+    return "Supabase email delivery is temporarily limited. This is not an ELIZZY DOMAIN signup cooldown. If this email already has an account, use Sign in now; otherwise try again later or configure SMTP in Supabase. The app does not impose a cooldown.";
   }
   if (/invalid login credentials|invalid email or password/i.test(message)) {
     return "The email or password is incorrect. Check both fields, or switch to Create account if you are new here.";

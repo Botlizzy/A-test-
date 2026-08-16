@@ -417,3 +417,9 @@
 - [x] Improve signup handling for Supabase email-delivery rate limits with a clear recovery action to Sign in.
 - [x] Prepare confirmation redirects for https://elizzy-host.nx.kg and document that the custom domain must be bound in Management UI.
 - [x] Add/update tests, verify mobile signup behavior, build, publish, and push the update to GitHub.
+- [x] Audit the Supabase email-confirmation configuration and current custom-domain readiness.
+- [x] Make the signup flow resilient to provider email limits with a clear no-trap recovery path.
+- [x] Validate the mobile auth flow, document any required SMTP/DNS action, publish, and push the update to GitHub.
+- [x] Remove elizzy-host.nx.kg from confirmation redirects and restore the deployed production URL.
+- [x] Refine the signup provider-limit message and recovery path for a clearer mobile experience.
+- [x] Add/update tests, verify auth behavior, publish, and push the fix to GitHub.
