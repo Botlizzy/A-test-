@@ -1,7 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { extractSearchItems } from "./Home";
+import { extractDirectMediaUrl, extractSearchItems } from "./Home";
 
 describe("focused homepage XXL search", () => {
+  it("extracts nested direct preview media for in-page playback", () => {
+    expect(extractDirectMediaUrl({ thumbnail: { preview: "https://cdn.example.test/clip.mp4" } })).toBe("https://cdn.example.test/clip.mp4");
+    expect(extractDirectMediaUrl({ url: "https://example.test/watch/123" })).toBeUndefined();
+  });
+
   it("normalizes nested provider results and removes duplicate titles", () => {
     const results = extractSearchItems({
       success: true,

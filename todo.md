@@ -390,3 +390,6 @@
 - [x] Use both documented Live Scores and Soccer Scores endpoints in the customized in-page football board.
 - [x] Merge, deduplicate, and normalize leagues, fixtures, scores, and statuses with mobile loading/refresh/empty states.
 - [x] Validate the customized board, publish it, and push the update to the selected GitHub repository.
+- [x] Keep selected XXL search videos inside Eliminator with direct-media resolution and native playback where the API supports it.
+- [x] Preserve the adult-content gate and show clear unsupported-media states instead of redirecting metadata-only results.
+- [x] Add XXL media extraction tests, verify mobile playback, build, publish, and push the update to GitHub.
