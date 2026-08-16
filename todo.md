@@ -402,3 +402,6 @@
 - [x] Add the documented Xvideos, Xvideo, and XHamster Random sources to the XXL workspace without external redirects.
 - [x] Normalize all three source responses into one in-page result list with Play controls and unmuted native playback.
 - [x] Add/update tests, verify mobile playback and source states, publish, and push the multi-source XXL update to GitHub.
+- [x] Prefer full direct XXL files over short preview media when the provider exposes a resolver/download URL.
+- [x] Move the selected XXL player above the search results and keep native playback unmuted.
+- [x] Add/update tests, verify the player placement and media preference, publish, and push the update to GitHub.
