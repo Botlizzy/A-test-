@@ -484,3 +484,11 @@
 - [x] Add timed warning metadata and admin controls for five-minute limited access
 - [x] Enforce automatic logout after the five-minute warning window with tests and mobile feedback
 - [x] Verify suspend, warning, reactivation, and premium actions from the member list and synchronize GitHub
+
+- [ ] Bind elizzy-host.nx.kg to the live ELIZZY DOMAIN website
+- [ ] Configure required website DNS records without changing Resend records
+- [ ] Verify HTTPS resolution, redirects, and preserved email DNS records
+
+- [x] Fix Profile deletion so it invokes the secure account-deletion RPC instead of a storage-table mutation error
+- [x] Rerun and verify the latest Supabase schema for complete registered-member listing
+- [x] Test the mobile deletion flow, save a checkpoint, and synchronize the fix to GitHub

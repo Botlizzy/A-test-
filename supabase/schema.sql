@@ -154,10 +154,9 @@ create or replace function public.delete_my_account()
 returns void
 language plpgsql
 security definer
-set search_path = public, auth, storage
+set search_path = public, auth
 as $$
 begin
-  delete from storage.objects where bucket_id = 'avatars' and (storage.foldername(name))[1] = auth.uid()::text;
   delete from auth.users where id = auth.uid();
 end;
 $$;

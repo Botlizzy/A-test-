@@ -128,6 +128,17 @@ export default function Profile({ user, onBack, onSignOut }: ProfileProps) {
     }
     setError("");
     setDeleting(true);
+    // Clean up avatar files through the supported Storage API before deleting the auth user.
+    // The database RPC intentionally never mutates storage.objects directly.
+    const { data: avatarFiles, error: avatarListError } = await supabase.storage.from("avatars").list(user.id);
+    if (!avatarListError && avatarFiles?.length) {
+      const { error: avatarDeleteError } = await supabase.storage.from("avatars").remove(avatarFiles.map((file) => `${user.id}/${file.name}`));
+      if (avatarDeleteError) {
+        setError("Your avatar could not be removed. Please try again before deleting the account.");
+        setDeleting(false);
+        return;
+      }
+    }
     const { error: deleteError } = await supabase.rpc("delete_my_account");
     if (deleteError) {
       setError(deleteError.message.includes("function") ? "Account deletion is not enabled yet. Run the latest Supabase schema first." : deleteError.message);
