@@ -1,9 +1,9 @@
 /* Coastal Signal auth layer: keep credential handling inside Supabase Auth and expose only the session client. */
 import { createClient } from "@supabase/supabase-js";
 
-// These are browser-safe Supabase values. Vercel environment variables override them when configured.
-const supabaseUrl = (import.meta.env.VITE_SUPABASE_URL as string | undefined) || "https://hvaytcqnimsvrrwwwqqz.supabase.co";
-const supabaseAnonKey = (import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined) || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh2YXl0Y3FuaW1zdnJyd3d3cXF6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY3NzM5MzksImV4cCI6MjEwMjM0OTkzOX0.O5f0Tflj3aKMDkkIdqSGewibITNcyU-A02V1kGmrbF8";
+// Buyer-provided environment variables are required. Placeholders keep the client constructible without shipping credentials.
+const supabaseUrl = (import.meta.env.VITE_SUPABASE_URL as string | undefined) || "https://your-project.supabase.co";
+const supabaseAnonKey = (import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined) || "replace-with-your-supabase-anon-key";
 
 export const isSupabaseConfigured = Boolean(supabaseUrl && supabaseAnonKey);
 

@@ -346,3 +346,6 @@
 - [x] Add an email-verification processing loader and clear success message after users return from Supabase verification.
 - [x] Improve confirmation/auth mobile layout stability, safe-area spacing, accessibility, and action sizing.
 - [x] Add/update auth tests, verify mobile screenshots, build, synchronize GitHub, and publish the confirmation UX refinement.
+- [x] Create a complete sale-ready project ZIP that excludes credentials, private deployment metadata, generated build output, and local secrets.
+- [x] Add buyer handoff documentation with environment-variable placeholders and setup instructions.
+- [x] Scan and validate the ZIP for credential leakage and deliver it to the user.
