@@ -405,3 +405,6 @@
 - [x] Prefer full direct XXL files over short preview media when the provider exposes a resolver/download URL.
 - [x] Move the selected XXL player above the search results and keep native playback unmuted.
 - [x] Add/update tests, verify the player placement and media preference, publish, and push the update to GitHub.
+- [x] Use the supplied Eliminator image as the homepage background and the supplied Premium Page image as the Premium Room background.
+- [x] Upload both assets through managed project storage and preserve readable responsive overlays.
+- [x] Verify mobile/desktop backgrounds, build, publish, and push the update to GitHub.
