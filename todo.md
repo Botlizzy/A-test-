@@ -335,4 +335,4 @@
 - [x] Fix the Supabase signup confirmation-rate-limit experience and prevent repeated submissions from trapping users with a persisted five-minute cooldown and sign-in recovery.
 - [x] Make the membership flow scale to unlimited application members while clearly respecting Supabase account and email-provider limits; the app has no member-count cap, while confirmation email quotas remain provider-controlled.
 - [x] Add/update auth tests, verify mobile signup recovery, run build, synchronize GitHub at b5dd694, and publish the fix.
-- [ ] Push all current project updates to Botlizzy/A-test-, verify no private credentials are included, and confirm the final GitHub commit.
+- [x] Push all current project updates to Botlizzy/A-test-, verify no private credentials are included, and confirm the final GitHub commit `09e120a`.
