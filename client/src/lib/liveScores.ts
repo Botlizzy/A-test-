@@ -1,4 +1,5 @@
 export const LIVE_SCORES_ENDPOINT = "https://apis.davidcyril.name.ng/sports/live";
+export const SOCCER_SCORES_ENDPOINT = "https://apis.davidcyril.name.ng/sports/soccer/scores";
 export const LIVE_SCORES_REFRESH_MS = 60_000;
 
 export type LiveMatch = {
@@ -88,6 +89,17 @@ export function normalizeLiveScores(payload: any): LiveMatch[] {
   });
 }
 
+export function mergeLiveScoreFeeds(payloads: any[]): LiveMatch[] {
+  const matches = payloads.flatMap((payload) => normalizeLiveScores(payload));
+  const unique = new Map<string, LiveMatch>();
+  matches.forEach((match) => unique.set(match.id || `${match.league}:${match.name}:${match.date}`, match));
+  return Array.from(unique.values()).sort((a, b) => {
+    const aLive = isLiveMatch(a) ? 0 : 1;
+    const bLive = isLiveMatch(b) ? 0 : 1;
+    return aLive - bLive || (a.date || "").localeCompare(b.date || "");
+  });
+}
+
 async function fetchScorePayload(endpoint: string): Promise<any> {
   const response = await fetch(endpoint, { headers: { Accept: "application/json" } });
   const raw = await response.text().catch(() => "");
@@ -100,6 +112,11 @@ async function fetchScorePayload(endpoint: string): Promise<any> {
 }
 
 export async function fetchLiveScores(): Promise<LiveMatch[]> {
-  const payload = await fetchScorePayload(LIVE_SCORES_ENDPOINT);
-  return normalizeLiveScores(payload).filter(isLiveMatch);
+  const results = await Promise.allSettled([
+    fetchScorePayload(LIVE_SCORES_ENDPOINT),
+    fetchScorePayload(SOCCER_SCORES_ENDPOINT),
+  ]);
+  const payloads = results.flatMap((result) => result.status === "fulfilled" ? [result.value] : []);
+  if (!payloads.length) throw new Error("Football LiveScore sources are temporarily unavailable. Try again shortly.");
+  return mergeLiveScoreFeeds(payloads);
 }

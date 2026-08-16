@@ -387,3 +387,6 @@
 - [x] Recheck whether the current provider or an authorized structured feed can supply live football scores for direct in-page rendering.
 - [x] Keep scores inside Eliminator with a transparent unavailable state if no authorized live feed is available.
 - [x] Validate the direct-rendering decision, tests, build, checkpoint, publish, and GitHub synchronization.
+- [x] Use both documented Live Scores and Soccer Scores endpoints in the customized in-page football board.
+- [x] Merge, deduplicate, and normalize leagues, fixtures, scores, and statuses with mobile loading/refresh/empty states.
+- [x] Validate the customized board, publish it, and push the update to the selected GitHub repository.

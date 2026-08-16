@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { LIVE_SCORES_ENDPOINT, isLiveMatch, normalizeLiveScores } from "./liveScores";
+import { LIVE_SCORES_ENDPOINT, SOCCER_SCORES_ENDPOINT, isLiveMatch, mergeLiveScoreFeeds, normalizeLiveScores } from "./liveScores";
 
 describe("Premium LiveScore helper", () => {
   it("uses the documented sports endpoint", () => {
@@ -38,6 +38,18 @@ describe("Premium LiveScore helper", () => {
     expect(isLiveMatch({ status: "Halftime" })).toBe(true);
     expect(isLiveMatch({ status: "Scheduled" })).toBe(false);
     expect(isLiveMatch({ status: "Final" })).toBe(false);
+  });
+
+  it("uses both documented football endpoints", () => {
+    expect(SOCCER_SCORES_ENDPOINT).toBe("https://apis.davidcyril.name.ng/sports/soccer/scores");
+  });
+
+  it("merges both feed shapes, deduplicates, and keeps live games first", () => {
+    const matches = mergeLiveScoreFeeds([
+      { success: true, soccer: { name: "Premier League", games: [{ id: "same", status: "Scheduled", awayTeam: { name: "Away" }, homeTeam: { name: "Home" } }, { id: "agg-live", status: "In Progress", awayTeam: { name: "Away Live" }, homeTeam: { name: "Home Live" } }] } },
+      { success: true, sport: "Soccer", league: "Premier League", leagueId: "eng.1", games: [{ id: "same", status: "Scheduled", awayTeam: { name: "Away" }, homeTeam: { name: "Home" } }, { id: "soc-live", status: "Halftime", awayTeam: { name: "Away Soccer" }, homeTeam: { name: "Home Soccer" } }] },
+    ]);
+    expect(matches.map((match) => match.id)).toEqual(["agg-live", "soc-live", "same"]);
   });
 
   it("normalizes every live football league in an aggregated response", () => {
