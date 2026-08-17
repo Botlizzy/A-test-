@@ -521,3 +521,6 @@
 - [x] Replace Web Cloner, AI code generator/publisher, and lyrics generator with the user-supplied Azbry API endpoints; preserve safe parsing, loading states, toasts, file download, and publishing safeguards.
 - [x] Add regression tests for the three supplied endpoint contracts and run full validation; 28 test files / 111 tests, TypeScript, and production build pass.
 - [x] Push the completed API integration update to Botlizzy/A-test- at commit d0e42d3 and save a published checkpoint.
+- [x] Add a recent lyrics-generation history panel with persistent local history, reopen actions, and downloadable generated lyric files.
+- [x] Add skeleton screens and descriptive progress messages to long-running API tool requests without regressing existing toasts or errors.
+- [x] Add regression tests, run full validation, push the update, and publish a checkpoint.
