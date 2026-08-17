@@ -520,4 +520,4 @@
 - [x] Fix Web Cloner empty/non-JSON response errors and add toast success/error notifications for Web Cloner and AI features
 - [x] Replace Web Cloner, AI code generator/publisher, and lyrics generator with the user-supplied Azbry API endpoints; preserve safe parsing, loading states, toasts, file download, and publishing safeguards.
 - [x] Add regression tests for the three supplied endpoint contracts and run full validation; 28 test files / 111 tests, TypeScript, and production build pass.
-- [ ] Push the completed API integration update to Botlizzy/A-test- and save a published checkpoint.
+- [x] Push the completed API integration update to Botlizzy/A-test- at commit d0e42d3 and save a published checkpoint.
