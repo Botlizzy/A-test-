@@ -6,6 +6,7 @@ import { generateImage } from "./_core/imageGeneration";
 import { z } from "zod";
 import { generateWebDraft, renderWebDraftHtml, WebDraftSchema } from "./webBuilder";
 import { storagePut } from "./storage";
+import { cloneAuthorizedWebsite } from "./webClone";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -29,6 +30,12 @@ export const appRouter = router({
         if (!result.url) throw new Error("Image generation returned no image file.");
         return { url: result.url };
       }),
+  }),
+
+  webClone: router({
+    clone: protectedProcedure
+      .input(z.object({ targetUrl: z.string().trim().min(8).max(2000), authorized: z.literal(true) }))
+      .mutation(async ({ input }) => cloneAuthorizedWebsite(input.targetUrl)),
   }),
 
   webBuilder: router({
