@@ -7,7 +7,7 @@ import { hasPermanentPremiumAccess } from "@/lib/premiumAccess";
 import { getTikTokBoostUrl, isTikTokTarget, type TikTokBoostType } from "@/lib/tiktokBoost";
 import { getYouTubeBoostUrl, isYouTubeTarget, type YouTubeBoostType } from "@/lib/youtubeBoost";
 import { getApkDownloaderUrl, getOfficialStoreLinks, isApkSearch, isAuthorizedPackageUrl, type ApkResult } from "@/lib/apkDownloader";
-import { buildLyricsSearchUrl, extractLyricsText, extractLyricsTitle, extractPremiumAiError, extractPremiumAiText, getPremiumAiUrl, PREMIUM_AI_MODELS, type PremiumAiModel } from "@/lib/premiumAi";
+import { buildLyricsGenerationUrl, extractLyricsText, extractLyricsTitle, extractPremiumAiError, extractPremiumAiText, getPremiumAiUrl, PREMIUM_AI_MODELS, type PremiumAiModel } from "@/lib/premiumAi";
 import { copyText } from "@/lib/copyText";
 import { getImageGeneratorUrl, parseImageGeneratorResponse, type ImageGeneratorKind } from "@/lib/imageGenerators";
 import { fetchLiveScores, LIVE_SCORES_REFRESH_MS, type LiveMatch } from "@/lib/liveScores";
@@ -493,15 +493,15 @@ export default function PremiumRoom({ user, isPremium, onBack, onPricing, onSign
     setLyricsError("");
     setLyricsResult(null);
     try {
-      const response = await fetch(buildLyricsSearchUrl("/lyrics/search", query), { headers: { Accept: "application/json" } });
+      const response = await fetch(buildLyricsGenerationUrl(query), { headers: { Accept: "application/json" } });
       const payload = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(extractPremiumAiError(payload) || `Lyrics search returned HTTP ${response.status}.`);
+      if (!response.ok) throw new Error(extractPremiumAiError(payload) || `Lyrics generation returned HTTP ${response.status}.`);
       setLyricsResult(payload);
-      toast.success("Lyrics search complete", { description: "A readable result is ready below." });
+      toast.success("Lyrics generated", { description: "A readable lyric result is ready below." });
     } catch (cause) {
-      const message = cause instanceof Error ? cause.message : "Lyrics search could not complete.";
+      const message = cause instanceof Error ? cause.message : "Lyrics generation could not complete.";
       setLyricsError(message);
-      toast.error("Lyrics search failed", { description: message });
+      toast.error("Lyrics generation failed", { description: message });
     } finally {
       setLyricsLoading(false);
     }

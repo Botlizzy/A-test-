@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildLyricsSearchUrl, extractLyricsText, extractLyricsTitle, extractPremiumAiError, extractPremiumAiText, getPremiumAiUrl, PREMIUM_AI_MODELS } from "./premiumAi";
+import { buildLyricsGenerationUrl, extractLyricsText, extractLyricsTitle, extractPremiumAiError, extractPremiumAiText, getPremiumAiUrl, LYRICS_GENERATOR_URL, PREMIUM_AI_MODELS } from "./premiumAi";
 
 describe("Premium AI chat helpers", () => {
   it("builds a prompt URL for a selected model", () => {
@@ -13,7 +13,7 @@ describe("Premium AI chat helpers", () => {
   });
 
   it("builds lyrics searches and extracts readable lyric text", () => {
-    expect(buildLyricsSearchUrl("/lyrics/search", "Adele hello")).toBe("https://apis.davidcyril.name.ng/lyrics/search?q=Adele+hello");
+    expect(buildLyricsGenerationUrl("Adele hello")).toBe(`${LYRICS_GENERATOR_URL}?theme=Adele+hello&genre=pop&emotion=hopeful&lang=en`);
     expect(extractLyricsTitle({ title: "Hello", artist: "Adele" })).toBe("Hello — Adele");
     expect(extractLyricsText({ data: { lyrics: "Hello, it’s me" } })).toBe("Hello, it’s me");
     expect(extractPremiumAiError({ result: { error: "Not found" } })).toBe("Not found");

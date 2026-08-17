@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { invokeLLM } from "./_core/llm";
 
 export const WebDraftSchema = z.object({
   title: z.string().min(1).max(80),
@@ -15,38 +14,11 @@ export const WebDraftSchema = z.object({
 });
 
 export type WebDraft = z.infer<typeof WebDraftSchema>;
+export type WebCodeArtifact = { downloadUrl: string; filename: string; files: string[]; model?: string; totalFiles?: number };
+export type WebBuilderResult = { draft: WebDraft; artifact: WebCodeArtifact };
 
-const webDraftJsonSchema = {
-  name: "web_draft",
-  strict: true,
-  schema: {
-    type: "object",
-    properties: {
-      title: { type: "string" },
-      tagline: { type: "string" },
-      primaryColor: { type: "string", description: "Six-digit hex color" },
-      accentColor: { type: "string", description: "Six-digit hex color" },
-      sections: {
-        type: "array",
-        minItems: 1,
-        maxItems: 6,
-        items: {
-          type: "object",
-          properties: {
-            heading: { type: "string" },
-            body: { type: "string" },
-            ctaLabel: { type: "string" },
-          },
-          required: ["heading", "body", "ctaLabel"],
-          additionalProperties: false,
-        },
-      },
-      footer: { type: "string" },
-    },
-    required: ["title", "tagline", "primaryColor", "accentColor", "sections", "footer"],
-    additionalProperties: false,
-  },
-};
+type AICoderPayload = { status?: boolean; message?: string; error?: string; result?: { prompt?: string; model?: string; total_files?: number; files?: unknown; download_url?: string; zip_filename?: string } };
+const AI_CODER_URL = "https://api.azbry.com/api/tools/aicoder";
 
 function escapeHtml(value: string): string {
   return value.replace(/[&<>'"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[character] || character);
@@ -62,28 +34,56 @@ export function parseWebDraftContent(content: unknown): WebDraft {
   const raw = Array.isArray(content)
     ? content.map((part) => typeof part === "string" ? part : part && typeof part === "object" && "text" in part ? String((part as { text?: unknown }).text || "") : "").join("")
     : typeof content === "string" ? content : "";
-  const normalized = raw.replace(/^```(?:json)?\\s*/i, "").replace(/\\s*```$/i, "").trim();
-  if (!normalized) throw new Error("Manus AI returned an empty website draft. Please try again.");
+  const normalized = raw.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/i, "").trim();
+  if (!normalized) throw new Error("AI coder returned an empty website draft. Please try again.");
   const start = normalized.indexOf("{");
   const end = normalized.lastIndexOf("}");
-  if (start < 0 || end <= start) throw new Error("Manus AI returned an incomplete website draft. Please try again.");
-  try {
-    return WebDraftSchema.parse(JSON.parse(normalized.slice(start, end + 1)));
-  } catch {
-    throw new Error("Manus AI returned an invalid website draft. Please try again with a more specific brief.");
-  }
+  if (start < 0 || end <= start) throw new Error("AI coder returned an incomplete website draft. Please try again.");
+  try { return WebDraftSchema.parse(JSON.parse(normalized.slice(start, end + 1))); }
+  catch { throw new Error("AI coder returned an invalid website draft. Please try again with a more specific brief."); }
 }
 
-export async function generateWebDraft(prompt: string): Promise<WebDraft> {
-  const response = await invokeLLM({
-    model: "gpt-5-mini",
-    messages: [
-      { role: "system", content: "You create concise, polished, safe single-page website drafts. Return only the requested JSON structure. Never include scripts, iframes, external HTML, unsafe URLs, or arbitrary code. Use accessible, mobile-first copy." },
-      { role: "user", content: `Create a single-page website draft from this brief:\n${prompt}` },
+export async function parseAICoderResponse(response: Pick<Response, "ok" | "status" | "text">): Promise<AICoderPayload> {
+  const raw = await response.text();
+  const body = raw.trim();
+  if (!body) throw new Error(response.ok ? "The AI coder returned an empty response. Please try again." : `The AI coder returned HTTP ${response.status} without an error message.`);
+  let payload: unknown;
+  try { payload = JSON.parse(body); } catch { throw new Error(response.ok ? "The AI coder returned an unreadable response. Please try again." : `The AI coder returned HTTP ${response.status}.`); }
+  if (!payload || typeof payload !== "object" || Array.isArray(payload)) throw new Error("The AI coder returned an invalid response. Please try again.");
+  return payload as AICoderPayload;
+}
+
+function safeFilename(value: unknown): string {
+  const filename = typeof value === "string" ? value.trim() : "";
+  return /^[\w.-]+\.zip$/i.test(filename) ? filename : "ai-generated-website.zip";
+}
+
+function buildSafeDraft(prompt: string, artifact: WebCodeArtifact): WebDraft {
+  const title = prompt.trim().split(/[.!?\n]/)[0].slice(0, 72).trim() || "AI Coder Website";
+  return {
+    title,
+    tagline: "A safe preview of the website generated by the AI coder.",
+    primaryColor: "#2c8cff",
+    accentColor: "#ff4e6e",
+    sections: [
+      { heading: "Generated project", body: `The AI coder prepared ${artifact.totalFiles || artifact.files.length || 1} file${(artifact.totalFiles || artifact.files.length || 1) === 1 ? "" : "s"}. Download the ZIP to continue editing the generated source.`, ctaLabel: "Download code" },
+      { heading: "Requested brief", body: prompt.trim().slice(0, 600) },
     ],
-    maxTokens: 1800,
-    outputSchema: webDraftJsonSchema,
-  });
-  const content = response.choices?.[0]?.message?.content;
-  return parseWebDraftContent(content);
+    footer: "Generated safely by ELIZZY DOMAIN AI Coder.",
+  };
+}
+
+export async function generateWebDraft(prompt: string): Promise<WebBuilderResult> {
+  const endpoint = new URL(AI_CODER_URL);
+  endpoint.searchParams.set("prompt", `Create a complete, mobile-first website project for this brief. Return the downloadable project ZIP: ${prompt.trim()}`);
+  let response: Response;
+  try { response = await fetch(endpoint, { headers: { Accept: "application/json" } }); }
+  catch { throw new Error("The AI coder could not be reached. Please try again."); }
+  const payload = await parseAICoderResponse(response);
+  const result = payload.result;
+  const downloadUrl = result?.download_url;
+  if (!response.ok || payload.status !== true || !result || typeof downloadUrl !== "string" || !/^https:\/\//i.test(downloadUrl)) throw new Error(payload.message || payload.error || `The AI coder returned HTTP ${response.status}.`);
+  const files = Array.isArray(result.files) ? result.files.filter((file): file is string => typeof file === "string").slice(0, 100) : [];
+  const artifact: WebCodeArtifact = { downloadUrl, filename: safeFilename(result.zip_filename), files, model: typeof result.model === "string" ? result.model : undefined, totalFiles: typeof result.total_files === "number" ? result.total_files : files.length };
+  return { draft: buildSafeDraft(prompt, artifact), artifact };
 }

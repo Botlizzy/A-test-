@@ -41,7 +41,7 @@ export const appRouter = router({
   webBuilder: router({
     generate: protectedProcedure
       .input(z.object({ prompt: z.string().trim().min(12).max(1200) }))
-      .mutation(async ({ input }) => ({ draft: await generateWebDraft(input.prompt) })),
+      .mutation(async ({ input }) => generateWebDraft(input.prompt)),
     publish: protectedProcedure
       .input(z.object({ draft: WebDraftSchema }))
       .mutation(async ({ input, ctx }) => {

@@ -37,6 +37,7 @@ export const PREMIUM_AI_MODELS: PremiumAiModel[] = [
 ];
 
 const AI_BASE = "https://apis.davidcyril.name.ng";
+export const LYRICS_GENERATOR_URL = "https://api.azbry.com/api/ai/lyricsgen";
 const TEXT_KEYS = ["data", "response", "answer", "message", "text", "content", "result", "output", "completion"];
 const ERROR_KEYS = ["message", "error", "detail", "reason"];
 
@@ -83,10 +84,20 @@ export function extractPremiumAiError(payload: unknown): string {
   return findText(payload, ERROR_KEYS);
 }
 
-export function buildLyricsSearchUrl(path: string, query: string): string {
-  const url = new URL(`${AI_BASE}${path}`);
-  url.searchParams.set("q", query.trim());
+export type LyricsGenerationOptions = { genre?: string; emotion?: string; lang?: string };
+
+export function buildLyricsGenerationUrl(theme: string, options: LyricsGenerationOptions = {}): string {
+  const url = new URL(LYRICS_GENERATOR_URL);
+  url.searchParams.set("theme", theme.trim());
+  url.searchParams.set("genre", options.genre?.trim() || "pop");
+  url.searchParams.set("emotion", options.emotion?.trim() || "hopeful");
+  url.searchParams.set("lang", options.lang?.trim() || "en");
   return url.toString();
+}
+
+/** @deprecated Use buildLyricsGenerationUrl for the supplied lyrics generator. */
+export function buildLyricsSearchUrl(_path: string, query: string): string {
+  return buildLyricsGenerationUrl(query);
 }
 
 export function extractLyricsText(payload: unknown): string {
