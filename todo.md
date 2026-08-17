@@ -524,3 +524,7 @@
 - [x] Add a recent lyrics-generation history panel with persistent local history, reopen actions, and downloadable generated lyric files.
 - [x] Add skeleton screens and descriptive progress messages to long-running API tool requests without regressing existing toasts or errors.
 - [x] Add regression tests, run full validation, push the update, and publish a checkpoint.
+- [x] Superseded: the user confirmed the Premium Web Builder should remain on the Azbry AI coder API instead of a GPT provider.
+- [x] Push all current project updates to Botlizzy/A-test- and preserve the automatic GitHub synchronization preference for future changes; future project updates should be synchronized automatically when technically possible.
+- [x] Keep the Premium Web Builder on the confirmed Azbry AI coder API; no GPT-provider change was applied.
+- [x] Validate the confirmed AI coder integration and push all pending updates to Botlizzy/A-test- with a published checkpoint.
