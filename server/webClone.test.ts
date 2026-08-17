@@ -35,4 +35,9 @@ describe("web clone response parsing", () => {
   it("uses a concise HTTP message for an empty failed body", async () => {
     await expect(parseCloneResponse(mockResponse("", false, 502))).rejects.toThrow("HTTP 502");
   });
+
+  it("normalizes a response-body read failure instead of leaking a browser JSON exception", async () => {
+    const response = { ok: true, status: 200, headers: new Headers(), text: async () => { throw new Error("Failed to execute 'json' on 'Response': Unexpected end of JSON input"); } } as Response;
+    await expect(parseCloneResponse(response)).rejects.toThrow("empty response");
+  });
 });

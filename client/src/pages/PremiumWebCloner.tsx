@@ -13,7 +13,7 @@ export default function PremiumWebCloner() {
   const [error, setError] = useState("");
   const clone = trpc.webClone.clone.useMutation({
     onSuccess: (value) => { setResult(value); setError(""); toast.success("Web clone ready", { description: `${value.filename} is ready to download.` }); },
-    onError: (cause) => { const message = cause.message || "The web clone could not be prepared."; setResult(null); setError(message); toast.error("Web clone failed", { description: message }); },
+    onError: (cause) => { const rawMessage = cause.message || "The web clone could not be prepared."; const message = /response\.json|unexpected end of json|failed to execute/i.test(rawMessage) ? "The clone service returned an empty or unreadable response. Please try again with a public website URL." : rawMessage; setResult(null); setError(message); toast.error("Web clone failed", { description: message }); },
   });
   useEffect(() => {
     if (!clone.isPending) { setStatusIndex(0); return; }

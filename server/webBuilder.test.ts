@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { parseAICoderResponse, parseWebDraftContent, renderWebDraftHtml, WebDraftSchema } from "./webBuilder";
+import { parseLlamaScoutResponse, parseWebDraftContent, renderWebDraftHtml, WebDraftSchema } from "./webBuilder";
 
 const draft = {
   title: "Studio <One>",
@@ -9,6 +9,8 @@ const draft = {
   sections: [{ heading: "Services", body: "Portraits & launches", ctaLabel: "Book now" }],
   footer: "Built with ELIZZY Studio",
 };
+
+const response = (body: string, ok = true, status = 200) => ({ ok, status, text: async () => body });
 
 describe("AI web builder draft contract", () => {
   it("accepts the controlled structured draft shape", () => {
@@ -28,13 +30,17 @@ describe("AI web builder draft contract", () => {
     expect(parseWebDraftContent(draft).footer).toContain("ELIZZY");
   });
 
-  it("parses the supplied AI coder artifact envelope", async () => {
-    const payload = await parseAICoderResponse({ ok: true, status: 200, text: async () => JSON.stringify({ status: true, result: { model: "GLM-5", total_files: 1, files: ["src/App.tsx"], download_url: "https://tmpfiles.org/dl/example/site.zip", zip_filename: "site.zip" } }) });
-    expect(payload.result?.download_url).toContain("https://");
-    expect(payload.result?.files).toEqual(["src/App.tsx"]);
+  it("parses the supplied LLAMA 4 SCOUT envelope", async () => {
+    const payload = await parseLlamaScoutResponse(response(JSON.stringify({ success: true, model: "llama-4-scout", data: "```html\n<h1>Hello</h1>\n```" })));
+    expect(payload.success).toBe(true);
+    expect(payload.model).toBe("llama-4-scout");
+    expect(payload.data).toContain("<h1>Hello</h1>");
   });
 
-  it("turns empty or truncated responses into actionable errors", () => {
+  it("turns empty, malformed, and invalid responses into actionable errors", async () => {
+    await expect(parseLlamaScoutResponse(response(""))).rejects.toThrow("empty response");
+    await expect(parseLlamaScoutResponse(response('{"success":'))).rejects.toThrow("unreadable response");
+    await expect(parseLlamaScoutResponse(response("[]"))).rejects.toThrow("invalid response");
     expect(() => parseWebDraftContent("")).toThrow("empty website draft");
     expect(() => parseWebDraftContent('{"title":"Incomplete')).toThrow("incomplete website draft");
   });

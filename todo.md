@@ -528,3 +528,6 @@
 - [x] Push all current project updates to Botlizzy/A-test- and preserve the automatic GitHub synchronization preference for future changes; future project updates should be synchronized automatically when technically possible.
 - [x] Keep the Premium Web Builder on the confirmed Azbry AI coder API; no GPT-provider change was applied.
 - [x] Validate the confirmed AI coder integration and push all pending updates to Botlizzy/A-test- with a published checkpoint.
+- [x] Route the AI Web Builder through the existing LLAMA 4 SCOUT project API route and preserve the downloadable code artifact contract.
+- [x] Harden Web Cloner response handling so empty, malformed, HTML, and non-JSON responses become clear actionable errors instead of raw JSON parse exceptions.
+- [x] Add regression tests, run full validation, push the repair to Botlizzy/A-test-, and publish a checkpoint; 29 test files / 115 tests pass.

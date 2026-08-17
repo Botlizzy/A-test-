@@ -17,8 +17,8 @@ export type WebDraft = z.infer<typeof WebDraftSchema>;
 export type WebCodeArtifact = { downloadUrl: string; filename: string; files: string[]; model?: string; totalFiles?: number };
 export type WebBuilderResult = { draft: WebDraft; artifact: WebCodeArtifact };
 
-type AICoderPayload = { status?: boolean; message?: string; error?: string; result?: { prompt?: string; model?: string; total_files?: number; files?: unknown; download_url?: string; zip_filename?: string } };
-const AI_CODER_URL = "https://api.azbry.com/api/tools/aicoder";
+type LlamaPayload = { success?: boolean; creator?: string; model?: string; data?: unknown; message?: string; error?: string };
+const LLAMA_SCOUT_URL = "https://apis.davidcyril.name.ng/llama-4-scout";
 
 function escapeHtml(value: string): string {
   return value.replace(/[&<>'"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[character] || character);
@@ -43,19 +43,37 @@ export function parseWebDraftContent(content: unknown): WebDraft {
   catch { throw new Error("AI coder returned an invalid website draft. Please try again with a more specific brief."); }
 }
 
-export async function parseAICoderResponse(response: Pick<Response, "ok" | "status" | "text">): Promise<AICoderPayload> {
+export async function parseLlamaScoutResponse(response: Pick<Response, "ok" | "status" | "text">): Promise<LlamaPayload> {
   const raw = await response.text();
   const body = raw.trim();
   if (!body) throw new Error(response.ok ? "The AI coder returned an empty response. Please try again." : `The AI coder returned HTTP ${response.status} without an error message.`);
   let payload: unknown;
   try { payload = JSON.parse(body); } catch { throw new Error(response.ok ? "The AI coder returned an unreadable response. Please try again." : `The AI coder returned HTTP ${response.status}.`); }
   if (!payload || typeof payload !== "object" || Array.isArray(payload)) throw new Error("The AI coder returned an invalid response. Please try again.");
-  return payload as AICoderPayload;
+  return payload as LlamaPayload;
 }
 
 function safeFilename(value: unknown): string {
   const filename = typeof value === "string" ? value.trim() : "";
-  return /^[\w.-]+\.zip$/i.test(filename) ? filename : "ai-generated-website.zip";
+  return /^[\w.-]+\.(zip|md|html|txt)$/i.test(filename) ? filename : "llama-4-scout-website.md";
+}
+
+function extractGeneratedCode(value: unknown): string {
+  if (typeof value === "string" && value.trim()) return value.trim();
+  if (Array.isArray(value)) return value.map((part) => typeof part === "string" ? part : part && typeof part === "object" && "text" in part ? String((part as { text?: unknown }).text || "") : "").join("\n").trim();
+  if (value && typeof value === "object") {
+    const record = value as Record<string, unknown>;
+    for (const key of ["content", "text", "answer", "response", "code"]) {
+      const found = extractGeneratedCode(record[key]);
+      if (found) return found;
+    }
+  }
+  return "";
+}
+
+function makeDownloadArtifact(code: string, model: string): WebCodeArtifact {
+  const encoded = Buffer.from(code, "utf8").toString("base64");
+  return { downloadUrl: `data:text/markdown;base64,${encoded}`, filename: safeFilename(`${model}-website.md`), files: ["README.md"], model, totalFiles: 1 };
 }
 
 function buildSafeDraft(prompt: string, artifact: WebCodeArtifact): WebDraft {
@@ -74,16 +92,20 @@ function buildSafeDraft(prompt: string, artifact: WebCodeArtifact): WebDraft {
 }
 
 export async function generateWebDraft(prompt: string): Promise<WebBuilderResult> {
-  const endpoint = new URL(AI_CODER_URL);
-  endpoint.searchParams.set("prompt", `Create a complete, mobile-first website project for this brief. Return the downloadable project ZIP: ${prompt.trim()}`);
+  const endpoint = new URL(LLAMA_SCOUT_URL);
+  endpoint.searchParams.set("prompt", `Act as a senior web developer. Generate a complete mobile-first website project for this brief. Return the implementation as Markdown with fenced files such as index.html, styles.css, and script.js, followed by a short implementation summary. Brief: ${prompt.trim()}`);
   let response: Response;
   try { response = await fetch(endpoint, { headers: { Accept: "application/json" } }); }
-  catch { throw new Error("The AI coder could not be reached. Please try again."); }
-  const payload = await parseAICoderResponse(response);
-  const result = payload.result;
-  const downloadUrl = result?.download_url;
-  if (!response.ok || payload.status !== true || !result || typeof downloadUrl !== "string" || !/^https:\/\//i.test(downloadUrl)) throw new Error(payload.message || payload.error || `The AI coder returned HTTP ${response.status}.`);
-  const files = Array.isArray(result.files) ? result.files.filter((file): file is string => typeof file === "string").slice(0, 100) : [];
-  const artifact: WebCodeArtifact = { downloadUrl, filename: safeFilename(result.zip_filename), files, model: typeof result.model === "string" ? result.model : undefined, totalFiles: typeof result.total_files === "number" ? result.total_files : files.length };
+  catch { throw new Error("Llama 4 Scout could not be reached. Please try again."); }
+  const raw = await response.text();
+  const body = raw.trim();
+  if (!body) throw new Error(response.ok ? "Llama 4 Scout returned an empty website response. Please try again." : `Llama 4 Scout returned HTTP ${response.status}.`);
+  let payload: LlamaPayload;
+  try { payload = JSON.parse(body) as LlamaPayload; }
+  catch { throw new Error("Llama 4 Scout returned an unreadable response. Please try again."); }
+  const code = extractGeneratedCode(payload.data);
+  if (!response.ok || payload.success !== true || !code) throw new Error(payload.message || payload.error || `Llama 4 Scout returned HTTP ${response.status}.`);
+  const model = typeof payload.model === "string" && payload.model.trim() ? payload.model : "llama-4-scout";
+  const artifact = makeDownloadArtifact(code, model);
   return { draft: buildSafeDraft(prompt, artifact), artifact };
 }

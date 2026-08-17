@@ -16,7 +16,7 @@ export type WebCloneResult = { url: string; filename: string };
 type ClonePayload = { status?: boolean; message?: string; error?: string; result?: { url?: string; filename?: string } };
 
 export async function parseCloneResponse(response: Pick<Response, "ok" | "status" | "headers" | "text">): Promise<ClonePayload> {
-  const raw = await response.text();
+  const raw = await response.text().catch(() => "");
   const body = raw.trim();
   if (!body) {
     throw new Error(response.ok ? "The clone service returned an empty response. Please try again." : `The clone service returned HTTP ${response.status} without an error message.`);
@@ -39,7 +39,13 @@ export async function cloneAuthorizedWebsite(targetValue: string): Promise<WebCl
   } catch {
     throw new Error("The clone service could not be reached. Please try again.");
   }
-  const payload = await parseCloneResponse(response);
+  let payload: ClonePayload;
+  try {
+    payload = await parseCloneResponse(response);
+  } catch (cause) {
+    if (cause instanceof Error) throw cause;
+    throw new Error("The clone service returned an unreadable response. Please try again.");
+  }
   if (!response.ok || payload.status !== true || !payload.result?.url) throw new Error(payload.message || payload.error || `The clone service returned HTTP ${response.status}.`);
   const resultUrl = payload.result.url;
   if (!/^https:\/\//i.test(resultUrl) || !/\.zip(?:$|[?#])/i.test(resultUrl)) throw new Error("The clone service returned an invalid ZIP download.");
