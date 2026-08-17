@@ -16,12 +16,19 @@ describe("Premium AI chat helpers", () => {
     expect(buildLyricsSearchUrl("/lyrics/search", "Adele hello")).toBe("https://apis.davidcyril.name.ng/lyrics/search?q=Adele+hello");
     expect(extractLyricsTitle({ title: "Hello", artist: "Adele" })).toBe("Hello — Adele");
     expect(extractLyricsText({ data: { lyrics: "Hello, it’s me" } })).toBe("Hello, it’s me");
-    expect(extractPremiumAiError({ result: { error: "Not found" } })).toBe("");
+    expect(extractPremiumAiError({ result: { error: "Not found" } })).toBe("Not found");
   });
 
-  it("extracts a readable response instead of forcing JSON into chat", () => {
+  it("extracts a readable response from nested, array, and JSON-string envelopes", () => {
     expect(extractPremiumAiText({ success: true, data: "Hello from the model" })).toBe("Hello from the model");
     expect(extractPremiumAiText({ answer: "Another answer" })).toBe("Another answer");
+    expect(extractPremiumAiText({ choices: [{ message: { content: "Nested answer" } }] })).toBe("Nested answer");
+    expect(extractPremiumAiText('[{"response":"Array answer"}]')).toBe("Array answer");
     expect(extractPremiumAiText({ success: false })).toBe("");
+  });
+
+  it("extracts nested provider errors without displaying raw JSON", () => {
+    expect(extractPremiumAiError({ result: { error: "Not found" } })).toBe("Not found");
+    expect(extractPremiumAiError({ errors: [{ detail: "Rate limited" }] })).toBe("Rate limited");
   });
 });
