@@ -1,6 +1,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import { Archive, Check, CircleAlert, Download, Globe2, LoaderCircle, ShieldCheck } from "lucide-react";
 import { trpc } from "@/lib/trpc";
+import { toast } from "sonner";
 
 const CLONE_STATUS_MESSAGES = ["Connecting to the clone service…", "Fetching the authorized website…", "Collecting pages and assets…", "Packaging the ZIP archive…"];
 
@@ -11,8 +12,8 @@ export default function PremiumWebCloner() {
   const [result, setResult] = useState<{ url: string; filename: string } | null>(null);
   const [error, setError] = useState("");
   const clone = trpc.webClone.clone.useMutation({
-    onSuccess: (value) => { setResult(value); setError(""); },
-    onError: (cause) => { setResult(null); setError(cause.message || "The web clone could not be prepared."); },
+    onSuccess: (value) => { setResult(value); setError(""); toast.success("Web clone ready", { description: `${value.filename} is ready to download.` }); },
+    onError: (cause) => { const message = cause.message || "The web clone could not be prepared."; setResult(null); setError(message); toast.error("Web clone failed", { description: message }); },
   });
   useEffect(() => {
     if (!clone.isPending) { setStatusIndex(0); return; }

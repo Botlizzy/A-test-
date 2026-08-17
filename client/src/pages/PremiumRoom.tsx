@@ -1,6 +1,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import { ArrowLeft, Check, CircleAlert, Copy, Download, LockKeyhole, LogOut, Play, RefreshCw, Sparkles, Trophy, Zap } from "lucide-react";
 import type { User } from "@supabase/supabase-js";
+import { toast } from "sonner";
 import PremiumBadge from "@/components/PremiumBadge";
 import { hasPermanentPremiumAccess } from "@/lib/premiumAccess";
 import { getTikTokBoostUrl, isTikTokTarget, type TikTokBoostType } from "@/lib/tiktokBoost";
@@ -317,6 +318,7 @@ export default function PremiumRoom({ user, isPremium, onBack, onPricing, onSign
         setTextToSpeechRawResult({ type: "audio", contentType, filename: safeSpeechFilename(contentType || "audio/mpeg") });
         setTextToSpeechProgress(100);
         setTextToSpeechStage("Speech audio ready to play and download.");
+        toast.success("Speech audio ready", { description: "Your audio can now be played or downloaded." });
         return;
       }
       const payload = await response.json().catch(() => ({}));
@@ -326,6 +328,7 @@ export default function PremiumRoom({ user, isPremium, onBack, onPricing, onSign
         setTextToSpeechTracks(links);
         setTextToSpeechProgress(100);
         setTextToSpeechStage("Speech audio ready to play and download.");
+        toast.success("Speech audio ready", { description: "Your audio can now be played or downloaded." });
         return;
       }
       const base64 = extractBase64Audio(payload);
@@ -334,11 +337,14 @@ export default function PremiumRoom({ user, isPremium, onBack, onPricing, onSign
         setTextToSpeechTracks([audioUrl]);
         setTextToSpeechProgress(100);
         setTextToSpeechStage("Speech audio ready to play and download.");
+        toast.success("Speech audio ready", { description: "Your audio can now be played or downloaded." });
         return;
       }
       throw new Error("The Text2Speech service returned a response without a playable audio file.");
     } catch (cause) {
-      setTextToSpeechError(cause instanceof Error ? cause.message : "Text-to-Speech could not create the audio.");
+      const message = cause instanceof Error ? cause.message : "Text-to-Speech could not create the audio.";
+      setTextToSpeechError(message);
+      toast.error("Speech generation failed", { description: message });
     } finally {
       setTextToSpeechLoading(false);
     }
@@ -469,8 +475,11 @@ export default function PremiumRoom({ user, isPremium, onBack, onPricing, onSign
       const result = await parseImageGeneratorResponse(response);
       setGeneratedImageUrl(result.url);
       setGeneratedImageKind(kind);
+      toast.success("Image generated", { description: "Your image is ready to save or download." });
     } catch (cause) {
-      setImageError(cause instanceof Error ? cause.message : "The image provider could not generate an image.");
+      const message = cause instanceof Error ? cause.message : "The image provider could not generate an image.";
+      setImageError(message);
+      toast.error("Image generation failed", { description: message });
     } finally {
       setImageLoading(null);
     }
@@ -488,8 +497,11 @@ export default function PremiumRoom({ user, isPremium, onBack, onPricing, onSign
       const payload = await response.json().catch(() => ({}));
       if (!response.ok) throw new Error(extractPremiumAiError(payload) || `Lyrics search returned HTTP ${response.status}.`);
       setLyricsResult(payload);
+      toast.success("Lyrics search complete", { description: "A readable result is ready below." });
     } catch (cause) {
-      setLyricsError(cause instanceof Error ? cause.message : "Lyrics search could not complete.");
+      const message = cause instanceof Error ? cause.message : "Lyrics search could not complete.";
+      setLyricsError(message);
+      toast.error("Lyrics search failed", { description: message });
     } finally {
       setLyricsLoading(false);
     }
@@ -509,8 +521,11 @@ export default function PremiumRoom({ user, isPremium, onBack, onPricing, onSign
       const text = extractPremiumAiText(payload);
       if (!response.ok || !text) throw new Error(extractPremiumAiError(payload) || `The selected AI returned no readable reply (${response.status}).`);
       setAiMessages((current) => [...current, { role: "assistant", text }]);
+      toast.success(`${aiModel.name} replied`, { description: "The AI response is ready in your chat." });
     } catch (cause) {
-      setAiError(cause instanceof Error ? cause.message : "The selected AI could not reply right now.");
+      const message = cause instanceof Error ? cause.message : "The selected AI could not reply right now.";
+      setAiError(message);
+      toast.error("AI request failed", { description: message });
     } finally {
       setAiLoading(false);
     }

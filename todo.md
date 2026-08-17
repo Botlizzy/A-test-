@@ -517,3 +517,4 @@
 - [x] Run a comprehensive health audit across all site features, fix actionable errors, add regression coverage, validate desktop/mobile production behavior, and synchronize the repaired project to GitHub
 - [x] Verify the exact repository named A-test, retarget the project remote if needed, and push and verify the complete current project there
 - [x] Audit and repair every API-backed feature and AI response path, validate the full application, and push the complete repaired project to Botlizzy/A-test-
+- [x] Fix Web Cloner empty/non-JSON response errors and add toast success/error notifications for Web Cloner and AI features
