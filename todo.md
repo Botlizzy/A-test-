@@ -512,3 +512,4 @@
 - [x] Add a Premium-only AI Web Builder with prompt-to-draft generation, safe live preview, and guarded publish workflow
 - [x] Fix Premium AI Web Builder Unexpected end of JSON input errors with defensive Manus AI parsing and publisher verification
 - [x] Make desktop UI responsive on mobile and add a Premium authorized web-cloner with API progress, ZIP download, and tested error states
+- [x] Add a spinner, rotating processing messages, and accessible live progress feedback to the Premium Web Cloner
