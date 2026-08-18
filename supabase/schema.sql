@@ -287,7 +287,8 @@ begin
   if lower(target_email) in ('mikeakex80@gmail.com', 'elijahchinecheremonah@gmail.com') then
     raise exception 'Approved administrator accounts cannot be deleted here';
   end if;
-  delete from storage.objects where bucket_id = 'avatars' and name like target_user_id::text || '/%';
+  -- Avatar files are removed by the client through supabase.storage before this RPC.
+  -- This function intentionally does not mutate storage.objects directly.
   delete from auth.users where id = target_user_id;
 end;
 $$;

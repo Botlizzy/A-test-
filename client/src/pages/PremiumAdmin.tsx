@@ -116,16 +116,23 @@ export default function PremiumAdmin({ user, onBack, onSignOut }: PremiumAdminPr
     const confirmed = window.confirm(`Permanently delete ${member.email}?\n\nThis removes the auth account, profile, premium access, verification history, and avatar files. The existing account cannot log in again; the person would need to register a new account. This action cannot be undone.`);
     if (!confirmed) return;
     setError(""); setMessage(""); setDeleteBusyId(member.id);
+    let storageWarning = "";
+    const { data: avatarFiles, error: avatarListError } = await supabase.storage.from("avatars").list(member.id);
+    if (avatarListError) storageWarning = "The account was deleted, but its avatar cleanup could not be confirmed.";
+    if (!avatarListError && avatarFiles?.length) {
+      const { error: avatarDeleteError } = await supabase.storage.from("avatars").remove(avatarFiles.map((file) => `${member.id}/${file.name}`));
+      if (avatarDeleteError) storageWarning = "The account was deleted, but its avatar cleanup could not be confirmed.";
+    }
     const { error: deleteError } = await supabase.rpc("admin_delete_account", { target_user_id: member.id });
     if (deleteError) {
-      const message = deleteError.message.includes("function") ? "Permanent admin deletion is not enabled in Supabase yet. Apply the latest supabase/schema.sql migration first." : deleteError.message.includes("approved administrator") ? "Only approved administrator accounts can use this control." : deleteError.message;
+      const message = deleteError.message.includes("function") ? "Permanent admin deletion is not enabled in Supabase yet. Apply the latest supabase/schema.sql migration first." : deleteError.message.includes("storage.objects") ? "The live deletion function still uses direct storage-table access. Apply the latest supabase/schema.sql migration again." : deleteError.message.includes("approved administrator") ? "Only approved administrator accounts can use this control." : deleteError.message;
       setError(message);
       toast.error("Account deletion failed", { description: message });
     } else {
       setMembers((items) => items.filter((item) => item.id !== member.id));
       if (customer?.id === member.id) { setCustomer(null); setEntitlement(null); setCustomerId(""); setReference(""); setNotes(""); setSelectedRequestId(null); }
-      setMessage(`${member.email} was permanently deleted.`);
-      toast.success("Account permanently deleted", { description: member.email });
+      setMessage(storageWarning ? `${member.email} was permanently deleted. ${storageWarning}` : `${member.email} was permanently deleted.`);
+      toast.success("Account permanently deleted", { description: storageWarning || member.email });
     }
     setDeleteBusyId(null);
   };

@@ -540,3 +540,5 @@
 - [x] Add regression tests, run full validation, push the correction to Botlizzy/A-test-, and publish a checkpoint; 30 test files / 117 tests pass.
 - [x] Apply and verify the Supabase admin_delete_account RPC so the Admin Members permanent deletion action works without the migration error; Supabase SQL Editor reported success with no rows returned.
 - [x] Run affected tests, push the RPC repair and related changes to Botlizzy/A-test-, and publish a checkpoint.
+- [x] Replace direct storage.objects deletion in admin_delete_account with supported Supabase Storage API cleanup, preserving secure member account deletion in the client and removing the direct table mutation from the SQL source.
+- [ ] Validate the storage cleanup repair, push it to Botlizzy/A-test-, and publish a checkpoint.
