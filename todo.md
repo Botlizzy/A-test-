@@ -538,3 +538,5 @@
 - [x] Fix administrator login/loading so approved admin accounts are not treated as deleted when their profile lookup is unavailable.
 - [x] Restrict the Admin Members deletion control to selected non-admin members and preserve server-side protection against deleting any approved administrator.
 - [x] Add regression tests, run full validation, push the correction to Botlizzy/A-test-, and publish a checkpoint; 30 test files / 117 tests pass.
+- [x] Apply and verify the Supabase admin_delete_account RPC so the Admin Members permanent deletion action works without the migration error; Supabase SQL Editor reported success with no rows returned.
+- [x] Run affected tests, push the RPC repair and related changes to Botlizzy/A-test-, and publish a checkpoint.
