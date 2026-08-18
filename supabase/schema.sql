@@ -260,3 +260,36 @@ drop policy if exists "Approved admins can update verification requests" on publ
 create policy "Approved admins can update verification requests" on public.verification_requests
   for update using (lower(coalesce(auth.jwt() ->> 'email', '')) in ('mikeakex80@gmail.com', 'elijahchinecheremonah@gmail.com'))
   with check (lower(coalesce(auth.jwt() ->> 'email', '')) in ('mikeakex80@gmail.com', 'elijahchinecheremonah@gmail.com'));
+
+-- Permanent administrator deletion. Apply this section in Supabase SQL Editor.
+create or replace function public.admin_delete_account(target_user_id uuid)
+returns void
+language plpgsql
+security definer
+set search_path = public, auth
+as $$
+declare
+  target_email text;
+begin
+  if lower(coalesce(auth.jwt() ->> 'email', '')) not in ('mikeakex80@gmail.com', 'elijahchinecheremonah@gmail.com') then
+    raise exception 'Only approved administrators can delete accounts';
+  end if;
+  if target_user_id is null then
+    raise exception 'A target account is required';
+  end if;
+  if target_user_id = auth.uid() then
+    raise exception 'Administrators cannot delete their own account from this control room';
+  end if;
+  select email into target_email from auth.users where id = target_user_id;
+  if target_email is null then
+    raise exception 'Customer not found';
+  end if;
+  if lower(target_email) in ('mikeakex80@gmail.com', 'elijahchinecheremonah@gmail.com') then
+    raise exception 'Approved administrator accounts cannot be deleted here';
+  end if;
+  delete from storage.objects where bucket_id = 'avatars' and name like target_user_id::text || '/%';
+  delete from auth.users where id = target_user_id;
+end;
+$$;
+revoke all on function public.admin_delete_account(uuid) from public;
+grant execute on function public.admin_delete_account(uuid) to authenticated;

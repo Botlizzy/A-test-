@@ -77,10 +77,17 @@ export default function App() {
         setPremiumActive(false);
         return;
       }
-      const [{ data: profile }, { data: entitlement }] = await Promise.all([
+      const [{ data: profile, error: profileError }, { data: entitlement }] = await Promise.all([
         supabase.from("profiles").select("account_status, account_warning, account_warning_started_at").eq("id", nextSession.user.id).maybeSingle(),
         supabase.from("premium_entitlements").select("active, expires_at").eq("user_id", nextSession.user.id).maybeSingle(),
       ]);
+      if (!profileError && !profile) {
+        await supabase.auth.signOut();
+        window.history.replaceState({}, "", "/?mode=login&deleted=1");
+        setSession(null);
+        setPremiumActive(false);
+        return;
+      }
       if (isAccountSuspended(profile?.account_status) || (profile?.account_warning && isAccountWarningExpired(profile.account_warning_started_at))) {
         const warningExpired = Boolean(profile?.account_warning && isAccountWarningExpired(profile.account_warning_started_at));
         await supabase.auth.signOut();

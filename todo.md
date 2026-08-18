@@ -531,3 +531,7 @@
 - [x] Route the AI Web Builder through the existing LLAMA 4 SCOUT project API route and preserve the downloadable code artifact contract.
 - [x] Harden Web Cloner response handling so empty, malformed, HTML, and non-JSON responses become clear actionable errors instead of raw JSON parse exceptions.
 - [x] Add regression tests, run full validation, push the repair to Botlizzy/A-test-, and publish a checkpoint; 29 test files / 115 tests pass.
+- [ ] Application-side admin deletion control and session invalidation are complete; live Supabase `admin_delete_account` RPC still requires successful SQL Editor application before this item can be closed.
+- [x] Repair the AI Web Builder so it uses the configured project AI API and preserves safe preview, publish, and download behavior.
+- [x] Repair the Web Cloner so upstream failures never expose raw JSON parser errors and successful clones still return a valid downloadable file.
+- [x] Add regression tests, run full validation, push all changes to Botlizzy/A-test-, and publish a checkpoint; 29 test files / 115 tests pass.
