@@ -535,3 +535,6 @@
 - [x] Repair the AI Web Builder so it uses the configured project AI API and preserves safe preview, publish, and download behavior.
 - [x] Repair the Web Cloner so upstream failures never expose raw JSON parser errors and successful clones still return a valid downloadable file.
 - [x] Add regression tests, run full validation, push all changes to Botlizzy/A-test-, and publish a checkpoint; 29 test files / 115 tests pass.
+- [x] Fix administrator login/loading so approved admin accounts are not treated as deleted when their profile lookup is unavailable.
+- [x] Restrict the Admin Members deletion control to selected non-admin members and preserve server-side protection against deleting any approved administrator.
+- [x] Add regression tests, run full validation, push the correction to Botlizzy/A-test-, and publish a checkpoint; 30 test files / 117 tests pass.
