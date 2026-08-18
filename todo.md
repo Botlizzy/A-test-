@@ -542,3 +542,5 @@
 - [x] Run affected tests, push the RPC repair and related changes to Botlizzy/A-test-, and publish a checkpoint.
 - [x] Replace direct storage.objects deletion in admin_delete_account with supported Supabase Storage API cleanup, preserving secure member account deletion in the client and removing the direct table mutation from the SQL source.
 - [x] Validate the storage cleanup repair, push it to Botlizzy/A-test-, and publish a checkpoint; 30 test files / 117 tests pass. Live Supabase function was then reapplied successfully without direct storage-table access.
+- [x] Ensure permanent member deletion removes all account-linked premium state so the same email can register again as a fresh non-premium account; the live RPC explicitly deletes `premium_entitlements` before `auth.users`.
+- [x] Add regression tests, run full validation, push the re-registration fix to Botlizzy/A-test-, and publish a checkpoint; 31 test files / 119 tests pass.

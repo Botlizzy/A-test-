@@ -289,6 +289,8 @@ begin
   end if;
   -- Avatar files are removed by the client through supabase.storage before this RPC.
   -- This function intentionally does not mutate storage.objects directly.
+  -- Remove premium state explicitly so a later account using the same email starts fresh.
+  delete from public.premium_entitlements where user_id = target_user_id;
   delete from auth.users where id = target_user_id;
 end;
 $$;
