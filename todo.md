@@ -544,3 +544,5 @@
 - [x] Validate the storage cleanup repair, push it to Botlizzy/A-test-, and publish a checkpoint; 30 test files / 117 tests pass. Live Supabase function was then reapplied successfully without direct storage-table access.
 - [x] Ensure permanent member deletion removes all account-linked premium state so the same email can register again as a fresh non-premium account; the live RPC explicitly deletes `premium_entitlements` before `auth.users`.
 - [x] Add regression tests, run full validation, push the re-registration fix to Botlizzy/A-test-, and publish a checkpoint; 31 test files / 119 tests pass.
+- [x] Diagnose confirmation-email delivery for deleted-email re-registration, including signup redirect and Supabase delivery responses, and fix the application-side stale redirect and provider-limit messaging. Remaining delivery throttling, if present, is controlled by Supabase email/SMTP settings.
+- [x] Add regression coverage, run validation, push any repair to Botlizzy/A-test-, and publish a checkpoint; 31 test files / 119 tests pass.

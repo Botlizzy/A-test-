@@ -11,12 +11,12 @@ describe("authentication error guidance", () => {
     expect(formatAuthError("Invalid login credentials", "login")).toContain("incorrect");
   });
 
-  it("uses neutral recovery guidance for provider delivery limits", () => {
+  it("explains when Supabase is limiting confirmation-email delivery", () => {
     const message = formatAuthError("over_email_send_rate_limit", "signup");
-    expect(message).toContain("We could not complete signup right now");
-    expect(message).toContain("use Sign in");
-    expect(message).not.toContain("Supabase email delivery");
-    expect(message).not.toContain("signup cooldown");
+    expect(message).toContain("Supabase could not send the confirmation email");
+    expect(message).toContain("email-provider limit");
+    expect(message).toContain("not an ELIZZY DOMAIN signup cooldown");
+    expect(message).toContain("configure SMTP in Supabase");
   });
 
   it("turns browser fetch failures into actionable mobile guidance", () => {
