@@ -546,3 +546,5 @@
 - [x] Add regression tests, run full validation, push the re-registration fix to Botlizzy/A-test-, and publish a checkpoint; 31 test files / 119 tests pass.
 - [x] Diagnose confirmation-email delivery for deleted-email re-registration, including signup redirect and Supabase delivery responses, and fix the application-side stale redirect and provider-limit messaging. Remaining delivery throttling, if present, is controlled by Supabase email/SMTP settings.
 - [x] Add regression coverage, run validation, push any repair to Botlizzy/A-test-, and publish a checkpoint; 31 test files / 119 tests pass.
+- [x] Re-investigate signup confirmation-email delivery end to end, including deployed redirect configuration and Supabase delivery responses, and fix application-side delivery guidance and retry behavior; Supabase provider limits remain external to the app.
+- [x] Add regression coverage, run validation, push any repair to Botlizzy/A-test-, and publish a checkpoint; 31 test files / 119 tests pass.
