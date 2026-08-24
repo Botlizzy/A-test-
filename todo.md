@@ -550,3 +550,5 @@
 - [x] Add regression coverage, run validation, push any repair to Botlizzy/A-test-, and publish a checkpoint; 31 test files / 119 tests pass.
 - [x] Verify and ensure the signup success page exposes a Resend Confirmation Email button only while confirmation is pending, with loading and provider-error feedback.
 - [x] Validate, push any adjustment to Botlizzy/A-test-, and publish a checkpoint; 31 test files / 119 tests pass.
+- [x] Re-investigate why confirmation emails are not arriving after signup or resend, and fix application-side redirect, resend, and provider-error handling. Supabase provider/SMTP delivery remains external to the website.
+- [x] Run full validation, push all current changes to Botlizzy/A-test-, and publish a checkpoint; current validation remains 31 test files / 119 tests, TypeScript, and production build.
