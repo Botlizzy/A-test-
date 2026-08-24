@@ -548,3 +548,5 @@
 - [x] Add regression coverage, run validation, push any repair to Botlizzy/A-test-, and publish a checkpoint; 31 test files / 119 tests pass.
 - [x] Re-investigate signup confirmation-email delivery end to end, including deployed redirect configuration and Supabase delivery responses, and fix application-side delivery guidance and retry behavior; Supabase provider limits remain external to the app.
 - [x] Add regression coverage, run validation, push any repair to Botlizzy/A-test-, and publish a checkpoint; 31 test files / 119 tests pass.
+- [x] Verify and ensure the signup success page exposes a Resend Confirmation Email button only while confirmation is pending, with loading and provider-error feedback.
+- [x] Validate, push any adjustment to Botlizzy/A-test-, and publish a checkpoint; 31 test files / 119 tests pass.
