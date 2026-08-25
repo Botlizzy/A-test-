@@ -20,3 +20,7 @@ The Supabase URL Configuration page opened but remained in a skeleton/loading st
 ## Email settings page
 
 The Supabase Emails page loaded and exposes separate Templates and SMTP Settings sections, but the template configuration itself remained in a skeleton/loading state. The project therefore has email authentication enabled, but the dashboard evidence does not show that a custom SMTP provider is configured. The current Supabase dashboard also displayed a technical-issue banner during provider inspection.
+
+## Supabase status check
+
+The live Supabase status page at https://status.supabase.com/ reports Auth as Operational but API Gateway as Degraded Performance. It also lists a recent incident involving intermittent HTTP 401 JWT rejections, with fixes still being rolled out as of Aug 21, 2026. This can cause browser auth requests to fail or appear as network errors even when the app’s endpoint and credentials are valid.
