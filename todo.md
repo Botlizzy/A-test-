@@ -555,6 +555,6 @@
 - [x] Fix login error handling so transient Supabase network failures receive three resilient attempts and authentication failures remain accurately classified.
 - [x] Add regression coverage, run validation, push the login repair to Botlizzy/A-test-, and publish a checkpoint; 32 test files / 122 tests pass.
 
-- [ ] Investigate the latest failed live signup confirmation-email attempt, repair any remaining application-side issue, verify delivery/redirect evidence, and synchronize the fix to Botlizzy/A-test-.
+- [x] Investigate the latest failed live signup confirmation-email attempt: no remaining application-side defect was found; Resend delivery was verified, the live URL/template were checked, and the diagnosis was synchronized to Botlizzy/A-test-. A fresh unique-recipient signup remains user-controlled verification.
 
-- [ ] Inspect and repair the current signup confirmation-email flow, validate the repair with available evidence, and push the verified changes to Botlizzy/A-test-.
+- [x] Inspect and repair the current signup confirmation-email flow: client redirect and Supabase template are correct, Resend shows sent/delivered evidence, automated tests/build pass, and the verified diagnosis was pushed to Botlizzy/A-test-.
