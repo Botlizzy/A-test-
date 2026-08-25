@@ -552,3 +552,5 @@
 - [x] Validate, push any adjustment to Botlizzy/A-test-, and publish a checkpoint; 31 test files / 119 tests pass.
 - [x] Re-investigate why confirmation emails are not arriving after signup or resend, and fix application-side redirect, resend, and provider-error handling. Supabase provider/SMTP delivery remains external to the website.
 - [x] Run full validation, push all current changes to Botlizzy/A-test-, and publish a checkpoint; current validation remains 31 test files / 119 tests, TypeScript, and production build.
+- [x] Fix login error handling so transient Supabase network failures receive three resilient attempts and authentication failures remain accurately classified.
+- [x] Add regression coverage, run validation, push the login repair to Botlizzy/A-test-, and publish a checkpoint; 32 test files / 122 tests pass.

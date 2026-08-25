@@ -4,6 +4,7 @@ import { isSupabaseConfigured, supabase, supabaseConfigMessage } from "@/lib/sup
 import { getConfirmationMessage, getConfirmationRedirect, hasConfirmedEmail } from "@/lib/authRedirect";
 import { formatAuthError, formatPasswordResetError, formatSignupSuccess } from "@/lib/authErrors";
 import { getPasswordResetRedirect, validatePasswordReset } from "@/lib/passwordRecovery";
+import { withTransientAuthRetry } from "@/lib/authRetry";
 
 type AuthMode = "login" | "signup" | "forgot" | "reset";
 type AuthProps = { mode: AuthMode; onModeChange: (mode: AuthMode) => void };
@@ -99,11 +100,15 @@ export default function Auth({ mode, onModeChange }: AuthProps) {
         setPassword("");
       } else {
         const credentials = { email: email.trim(), password };
-        let { error: signInError } = await supabase.auth.signInWithPassword(credentials);
-        if (signInError && /failed to fetch|networkerror|load failed/i.test(signInError.message)) {
-          await new Promise((resolve) => window.setTimeout(resolve, 700));
-          ({ error: signInError } = await supabase.auth.signInWithPassword(credentials));
-        }
+        setMessage("Connecting securely to Supabase…");
+        const { error: signInError } = await withTransientAuthRetry(
+          async () => {
+            const result = await supabase.auth.signInWithPassword(credentials);
+            if (result.error) throw result.error;
+            return result;
+          },
+          { onRetry: (attempt) => setMessage(`The login service is responding slowly. Retrying securely (${attempt}/2)…`) },
+        );
         if (signInError) throw signInError;
       }
     } catch (cause) {
