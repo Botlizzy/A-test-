@@ -508,3 +508,5 @@
 - [x] After verified reset, automatically sign the user into the website and clarify that the new password is set only after the email link is opened
 - [x] After verified reset, automatically sign the user into the website and clarify that the new password is set only after the email link is opened
 - [x] Keep Supabase recovery links on the new-password page, preserve the temporary session, and prevent session-expired errors after logout
+
+- [x] Restore the complete website to the stable state immediately before the AI Web Builder and publisher were introduced (parent of 8d820aa, commit 2cde3d80), validate with 25 test files / 97 tests and a production build, and prepare the rollback for GitHub synchronization.
