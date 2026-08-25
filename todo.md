@@ -531,7 +531,7 @@
 - [x] Route the AI Web Builder through the existing LLAMA 4 SCOUT project API route and preserve the downloadable code artifact contract.
 - [x] Harden Web Cloner response handling so empty, malformed, HTML, and non-JSON responses become clear actionable errors instead of raw JSON parse exceptions.
 - [x] Add regression tests, run full validation, push the repair to Botlizzy/A-test-, and publish a checkpoint; 29 test files / 115 tests pass.
-- [ ] Application-side admin deletion control and session invalidation are complete; live Supabase `admin_delete_account` RPC still requires successful SQL Editor application before this item can be closed.
+- [x] Application-side admin deletion control and session invalidation are complete; the live Supabase `admin_delete_account` RPC was subsequently applied and verified successfully.
 - [x] Repair the AI Web Builder so it uses the configured project AI API and preserves safe preview, publish, and download behavior.
 - [x] Repair the Web Cloner so upstream failures never expose raw JSON parser errors and successful clones still return a valid downloadable file.
 - [x] Add regression tests, run full validation, push all changes to Botlizzy/A-test-, and publish a checkpoint; 29 test files / 115 tests pass.
@@ -554,3 +554,7 @@
 - [x] Run full validation, push all current changes to Botlizzy/A-test-, and publish a checkpoint; current validation remains 31 test files / 119 tests, TypeScript, and production build.
 - [x] Fix login error handling so transient Supabase network failures receive three resilient attempts and authentication failures remain accurately classified.
 - [x] Add regression coverage, run validation, push the login repair to Botlizzy/A-test-, and publish a checkpoint; 32 test files / 122 tests pass.
+
+- [ ] Investigate the latest failed live signup confirmation-email attempt, repair any remaining application-side issue, verify delivery/redirect evidence, and synchronize the fix to Botlizzy/A-test-.
+
+- [ ] Inspect and repair the current signup confirmation-email flow, validate the repair with available evidence, and push the verified changes to Botlizzy/A-test-.
