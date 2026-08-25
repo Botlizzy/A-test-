@@ -510,3 +510,5 @@
 - [x] Keep Supabase recovery links on the new-password page, preserve the temporary session, and prevent session-expired errors after logout
 - [x] Create and verify a sanitized full-project ZIP archive containing frontend, backend, schema, tests, and configuration without credentials or generated artifacts
 - [x] Add a Premium-only AI Web Builder with prompt-to-draft generation, safe live preview, and guarded publish workflow
+
+- [x] Restore the first Premium AI Web Builder and publisher version from checkpoint 8d820aa, validate the restored site with 26 test files / 99 tests and a production build, and push the restored state to Botlizzy/A-test-.
