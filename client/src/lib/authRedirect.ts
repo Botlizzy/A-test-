@@ -1,4 +1,4 @@
-export const PRODUCTION_APP_ORIGIN = "https://streamvideo-h2f3nxnx.manus.space";
+export const PRODUCTION_APP_ORIGIN = "https://a-test-ten.vercel.app";
 
 function isNonPublicOrigin(origin: string): boolean {
   return /(?:localhost|127\.0\.0\.1|0\.0\.0\.0|\.manus(?:pre)?\.computer|\.manus\.space)(?::\d+)?$/i.test(origin.replace(/\/$/, ""));
@@ -6,7 +6,7 @@ function isNonPublicOrigin(origin: string): boolean {
 
 export function getConfirmationRedirect(origin: string): string {
   const normalized = origin.replace(/\/$/, "");
-  const target = isNonPublicOrigin(normalized) ? PRODUCTION_APP_ORIGIN : normalized;
+  const target = PRODUCTION_APP_ORIGIN;
   return `${target}/?confirmed=1`;
 }
 

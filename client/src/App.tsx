@@ -19,7 +19,6 @@ import { isPremiumCurrentlyActive } from "@/lib/premiumDuration";
 import type { Session, User } from "@supabase/supabase-js";
 import { hasConfirmedEmail } from "@/lib/authRedirect";
 import { hasRecoverySessionHash } from "@/lib/passwordRecovery";
-import { isApprovedAdminEmail } from "@/lib/adminAccess";
 
 function getAuthMode(): "login" | "signup" | "forgot" | "reset" {
   const mode = new URLSearchParams(window.location.search).get("mode");
@@ -78,18 +77,10 @@ export default function App() {
         setPremiumActive(false);
         return;
       }
-      const [{ data: profile, error: profileError }, { data: entitlement }] = await Promise.all([
+      const [{ data: profile }, { data: entitlement }] = await Promise.all([
         supabase.from("profiles").select("account_status, account_warning, account_warning_started_at").eq("id", nextSession.user.id).maybeSingle(),
         supabase.from("premium_entitlements").select("active, expires_at").eq("user_id", nextSession.user.id).maybeSingle(),
       ]);
-      const isApprovedAdmin = isApprovedAdminEmail(nextSession.user.email);
-      if (!profileError && !profile && !isApprovedAdmin) {
-        await supabase.auth.signOut();
-        window.history.replaceState({}, "", "/?mode=login&deleted=1");
-        setSession(null);
-        setPremiumActive(false);
-        return;
-      }
       if (isAccountSuspended(profile?.account_status) || (profile?.account_warning && isAccountWarningExpired(profile.account_warning_started_at))) {
         const warningExpired = Boolean(profile?.account_warning && isAccountWarningExpired(profile.account_warning_started_at));
         await supabase.auth.signOut();

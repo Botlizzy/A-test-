@@ -4,7 +4,6 @@ import { isSupabaseConfigured, supabase, supabaseConfigMessage } from "@/lib/sup
 import { getConfirmationMessage, getConfirmationRedirect, hasConfirmedEmail } from "@/lib/authRedirect";
 import { formatAuthError, formatPasswordResetError, formatSignupSuccess } from "@/lib/authErrors";
 import { getPasswordResetRedirect, validatePasswordReset } from "@/lib/passwordRecovery";
-import { withTransientAuthRetry } from "@/lib/authRetry";
 
 type AuthMode = "login" | "signup" | "forgot" | "reset";
 type AuthProps = { mode: AuthMode; onModeChange: (mode: AuthMode) => void };
@@ -16,30 +15,12 @@ export default function Auth({ mode, onModeChange }: AuthProps) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [busy, setBusy] = useState(false);
-  const [message, setMessage] = useState(() => { const params = new URLSearchParams(window.location.search); if (params.get("deleted") === "1") return "This account was permanently deleted by an administrator. You can register a new account to continue."; if (params.get("suspended") === "1") return "This account has been suspended by an administrator. Contact support if you believe this is a mistake."; if (params.get("warning_expired") === "1") return "Your five-minute warning access window has ended, so you have been signed out. Contact support if you need help."; return getConfirmationMessage(window.location.search); });
+  const [message, setMessage] = useState(() => { const params = new URLSearchParams(window.location.search); if (params.get("suspended") === "1") return "This account has been suspended by an administrator. Contact support if you believe this is a mistake."; if (params.get("warning_expired") === "1") return "Your five-minute warning access window has ended, so you have been signed out. Contact support if you need help."; return getConfirmationMessage(window.location.search); });
   const [error, setError] = useState("");
   const [resetComplete, setResetComplete] = useState(false);
-  const [confirmationEmail, setConfirmationEmail] = useState("");
   const confirmationRequested = hasConfirmedEmail(window.location.search);
   const isForgot = mode === "forgot";
   const isReset = mode === "reset";
-
-  const resendConfirmation = async () => {
-    if (!supabase || !confirmationEmail) return;
-    setBusy(true);
-    setError("");
-    setMessage("");
-    try {
-      const { error: resendError } = await supabase.auth.resend({ type: "signup", email: confirmationEmail });
-      if (resendError) throw resendError;
-      setMessage("A fresh confirmation email is on its way. Check your inbox and spam folder.");
-    } catch (cause) {
-      const rawMessage = cause instanceof Error ? cause.message : "We could not resend the confirmation email.";
-      setError(formatAuthError(rawMessage, "signup"));
-    } finally {
-      setBusy(false);
-    }
-  };
 
   const submit = async (event: FormEvent) => {
     event.preventDefault();
@@ -96,19 +77,14 @@ export default function Auth({ mode, onModeChange }: AuthProps) {
         if (signUpError) throw signUpError;
         if (data.user) await supabase.from("profiles").upsert({ id: data.user.id, full_name: fullName.trim(), email: email.trim() });
         setMessage(formatSignupSuccess(Boolean(data.session)));
-        setConfirmationEmail(data.session ? "" : email.trim());
         setPassword("");
       } else {
         const credentials = { email: email.trim(), password };
-        setMessage("Connecting securely to Supabase…");
-        const { error: signInError } = await withTransientAuthRetry(
-          async () => {
-            const result = await supabase.auth.signInWithPassword(credentials);
-            if (result.error) throw result.error;
-            return result;
-          },
-          { onRetry: (attempt) => setMessage(`The login service is responding slowly. Retrying securely (${attempt}/2)…`) },
-        );
+        let { error: signInError } = await supabase.auth.signInWithPassword(credentials);
+        if (signInError && /failed to fetch|networkerror|load failed/i.test(signInError.message)) {
+          await new Promise((resolve) => window.setTimeout(resolve, 700));
+          ({ error: signInError } = await supabase.auth.signInWithPassword(credentials));
+        }
         if (signInError) throw signInError;
       }
     } catch (cause) {
@@ -123,7 +99,6 @@ export default function Auth({ mode, onModeChange }: AuthProps) {
     setError("");
     setMessage("");
     setResetComplete(false);
-    setConfirmationEmail("");
     setPassword("");
     setConfirmPassword("");
     onModeChange(nextMode);
@@ -153,7 +128,6 @@ export default function Auth({ mode, onModeChange }: AuthProps) {
             {error && <div className="auth-message auth-message--error"><CircleAlert size={16} /><span>{error}</span></div>}
             {busy && <div className="auth-progress" role="status" aria-live="polite"><LoaderCircle size={17} className="spin" /><span>{isForgot ? "Preparing your secure reset email…" : isReset ? "Updating your password securely…" : mode === "signup" ? "Creating your account and preparing confirmation…" : "Checking your secure sign-in…"}</span></div>}
             {message && <div className="auth-message auth-message--success" role="status"><ShieldCheck size={16} /><span>{message}</span></div>}
-            {mode === "signup" && confirmationEmail && !busy && <div className="auth-confirmation-actions"><p className="auth-scale-note">Didn’t receive the first message? Check your spam folder, then request another confirmation email.</p><button className="auth-forgot-link" type="button" onClick={resendConfirmation}>Resend Confirmation Email</button></div>}
             {mode === "signup" && <p className="auth-scale-note">Unlimited member records are supported by the app. Email confirmation delivery is controlled by your Supabase plan and SMTP provider.</p>}
             <button className="primary-button auth-submit" type="submit" disabled={busy}>{busy ? <LoaderCircle size={17} className="spin" /> : <ArrowRight size={17} />}{busy ? "Working…" : isForgot ? "Generate reset link" : isReset ? "Update password" : mode === "login" ? "Enter playback room" : "Create account"}</button>
           </form>}

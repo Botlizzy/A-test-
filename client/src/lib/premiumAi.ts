@@ -32,43 +32,11 @@ export const PREMIUM_AI_MODELS: PremiumAiModel[] = [
   { id: "gpt-oss-120b", name: "GPT OSS 120B", provider: "OpenAI", path: "/gpt-oss-120b" },
   { id: "gpt-5-nano", name: "GPT-5 Nano", provider: "OpenAI", path: "/gpt-5-nano" },
   { id: "llama-3.3-70b-instruct", name: "Llama 3.3 70B Instruct", provider: "Meta", path: "/llama-3.3-70b-instruct" },
-  { id: "llama-3.1-8b-instant", name: "Llama 3.1 8B Instruct", provider: "Meta", path: "/llama-3.1-8b-instant" },
+  { id: "llama-3.1-8b-instant", name: "Llama 3.1 8B Instant", provider: "Meta", path: "/llama-3.1-8b-instant" },
   { id: "llama-4-scout", name: "Llama 4 Scout", provider: "Meta", path: "/llama-4-scout" },
 ];
 
 const AI_BASE = "https://apis.davidcyril.name.ng";
-export const LYRICS_GENERATOR_URL = "https://api.azbry.com/api/ai/lyricsgen";
-const TEXT_KEYS = ["data", "response", "answer", "message", "text", "content", "result", "output", "completion"];
-const ERROR_KEYS = ["message", "error", "detail", "reason"];
-
-function parseJsonString(value: string): unknown {
-  const trimmed = value.trim();
-  if (!trimmed) return "";
-  try { return JSON.parse(trimmed); } catch { return value; }
-}
-
-function findText(payload: unknown, keys: string[], depth = 0): string {
-  if (depth > 6 || payload == null) return "";
-  if (typeof payload === "string") {
-    const parsed = parseJsonString(payload);
-    return parsed === payload ? payload.trim() : findText(parsed, keys, depth + 1);
-  }
-  if (Array.isArray(payload)) {
-    for (const item of payload) { const found = findText(item, keys, depth + 1); if (found) return found; }
-    return "";
-  }
-  if (typeof payload !== "object") return "";
-  const record = payload as Record<string, unknown>;
-  for (const key of keys) {
-    const found = findText(record[key], [], depth + 1);
-    if (found) return found;
-  }
-  for (const value of Object.values(record)) {
-    const found = findText(value, keys, depth + 1);
-    if (found) return found;
-  }
-  return "";
-}
 
 export function getPremiumAiUrl(model: PremiumAiModel, prompt: string): string {
   const url = new URL(`${AI_BASE}${model.path}`);
@@ -77,31 +45,45 @@ export function getPremiumAiUrl(model: PremiumAiModel, prompt: string): string {
 }
 
 export function extractPremiumAiText(payload: unknown): string {
-  return findText(payload, TEXT_KEYS);
+  if (typeof payload === "string") return payload;
+  if (!payload || typeof payload !== "object") return "";
+  const record = payload as Record<string, unknown>;
+  for (const key of ["data", "response", "answer", "message", "text", "result"]) {
+    const value = record[key];
+    if (typeof value === "string" && value.trim()) return value.trim();
+  }
+  return "";
 }
 
 export function extractPremiumAiError(payload: unknown): string {
-  return findText(payload, ERROR_KEYS);
+  if (!payload || typeof payload !== "object") return "";
+  const record = payload as Record<string, unknown>;
+  for (const key of ["message", "error", "detail"]) {
+    const value = record[key];
+    if (typeof value === "string" && value.trim()) return value.trim();
+  }
+  return "";
 }
 
-export type LyricsGenerationOptions = { genre?: string; emotion?: string; lang?: string };
-
-export function buildLyricsGenerationUrl(theme: string, options: LyricsGenerationOptions = {}): string {
-  const url = new URL(LYRICS_GENERATOR_URL);
-  url.searchParams.set("theme", theme.trim());
-  url.searchParams.set("genre", options.genre?.trim() || "pop");
-  url.searchParams.set("emotion", options.emotion?.trim() || "hopeful");
-  url.searchParams.set("lang", options.lang?.trim() || "en");
+export function buildLyricsSearchUrl(path: string, query: string): string {
+  const url = new URL(`${AI_BASE}${path}`);
+  url.searchParams.set("q", query.trim());
   return url.toString();
 }
 
-/** @deprecated Use buildLyricsGenerationUrl for the supplied lyrics generator. */
-export function buildLyricsSearchUrl(_path: string, query: string): string {
-  return buildLyricsGenerationUrl(query);
-}
-
 export function extractLyricsText(payload: unknown): string {
-  return findText(payload, ["lyrics", "lyric", "text", "content", "data", "result", "response"]);
+  if (typeof payload === "string") return payload.trim();
+  if (!payload || typeof payload !== "object") return "";
+  const record = payload as Record<string, unknown>;
+  for (const key of ["lyrics", "lyric", "text", "content", "data", "result"]) {
+    const value = record[key];
+    if (typeof value === "string" && value.trim()) return value.trim();
+    if (value && typeof value === "object") {
+      const nested = extractLyricsText(value);
+      if (nested) return nested;
+    }
+  }
+  return "";
 }
 
 export function extractLyricsTitle(payload: unknown): string {

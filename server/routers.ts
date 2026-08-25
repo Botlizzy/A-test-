@@ -6,7 +6,6 @@ import { generateImage } from "./_core/imageGeneration";
 import { z } from "zod";
 import { generateWebDraft, renderWebDraftHtml, WebDraftSchema } from "./webBuilder";
 import { storagePut } from "./storage";
-import { cloneAuthorizedWebsite } from "./webClone";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -32,16 +31,10 @@ export const appRouter = router({
       }),
   }),
 
-  webClone: router({
-    clone: protectedProcedure
-      .input(z.object({ targetUrl: z.string().trim().min(8).max(2000), authorized: z.literal(true) }))
-      .mutation(async ({ input }) => cloneAuthorizedWebsite(input.targetUrl)),
-  }),
-
   webBuilder: router({
     generate: protectedProcedure
       .input(z.object({ prompt: z.string().trim().min(12).max(1200) }))
-      .mutation(async ({ input }) => generateWebDraft(input.prompt)),
+      .mutation(async ({ input }) => ({ draft: await generateWebDraft(input.prompt) })),
     publish: protectedProcedure
       .input(z.object({ draft: WebDraftSchema }))
       .mutation(async ({ input, ctx }) => {

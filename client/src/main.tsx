@@ -6,28 +6,25 @@ import { createRoot } from "react-dom/client";
 import superjson from "superjson";
 import App from "./App";
 import { startLogin } from "./const";
-import { supabase } from "@/lib/supabase";
 import "./index.css";
 
 const queryClient = new QueryClient();
 
-const redirectToLoginIfUnauthorized = async (error: unknown) => {
+const redirectToLoginIfUnauthorized = (error: unknown) => {
   if (!(error instanceof TRPCClientError)) return;
   if (typeof window === "undefined") return;
-  if (error.message !== UNAUTHED_ERR_MSG) return;
-  try {
-    const { data } = await supabase.auth.getSession();
-    if (data.session) return;
-  } catch {
-    // Continue to the Manus login fallback when no Supabase session is available.
-  }
+
+  const isUnauthorized = error.message === UNAUTHED_ERR_MSG;
+
+  if (!isUnauthorized) return;
+
   startLogin();
 };
 
 queryClient.getQueryCache().subscribe(event => {
   if (event.type === "updated" && event.action.type === "error") {
     const error = event.query.state.error;
-    void redirectToLoginIfUnauthorized(error);
+    redirectToLoginIfUnauthorized(error);
     console.error("[API Query Error]", error);
   }
 });
@@ -35,7 +32,7 @@ queryClient.getQueryCache().subscribe(event => {
 queryClient.getMutationCache().subscribe(event => {
   if (event.type === "updated" && event.action.type === "error") {
     const error = event.mutation.state.error;
-    void redirectToLoginIfUnauthorized(error);
+    redirectToLoginIfUnauthorized(error);
     console.error("[API Mutation Error]", error);
   }
 });
@@ -45,15 +42,7 @@ const trpcClient = trpc.createClient({
     httpBatchLink({
       url: "/api/trpc",
       transformer: superjson,
-      async headers() {
-        try {
-          const { data } = await supabase.auth.getSession();
-          if (data.session?.access_token) {
-            return { Authorization: `Bearer ${data.session.access_token}` };
-          }
-        } catch {
-          // Supabase session unavailable; fall back to the Manus preview session.
-        }
+      headers() {
         // Preview auto-login fallback: when the browser blocks iframe cookies
         // (Safari ITP / private browsing / WebView), the runtime mirrors the
         // session into sessionStorage so we can forward it as a Bearer token.
