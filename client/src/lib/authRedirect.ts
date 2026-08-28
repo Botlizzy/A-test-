@@ -1,13 +1,7 @@
-export const PRODUCTION_APP_ORIGIN = "https://a-test-ten.vercel.app";
+export const PRODUCTION_APP_ORIGIN = "https://streamvideo-h2f3nxnx.manus.space";
 
-function isNonPublicOrigin(origin: string): boolean {
-  return /(?:localhost|127\.0\.0\.1|0\.0\.0\.0|\.manus(?:pre)?\.computer|\.manus\.space)(?::\d+)?$/i.test(origin.replace(/\/$/, ""));
-}
-
-export function getConfirmationRedirect(origin: string): string {
-  const normalized = origin.replace(/\/$/, "");
-  const target = PRODUCTION_APP_ORIGIN;
-  return `${target}/?confirmed=1`;
+export function getConfirmationRedirect(_origin: string): string {
+  return `${PRODUCTION_APP_ORIGIN}/?confirmed=1`;
 }
 
 export function hasConfirmedEmail(search: string): boolean {
@@ -15,8 +9,9 @@ export function hasConfirmedEmail(search: string): boolean {
 }
 
 export function getConfirmationMessage(search: string): string {
-  return hasConfirmedEmail(search) ? "Email confirmed. Sign in to continue to your ELIZZY DOMAIN account." : "";
+  return hasConfirmedEmail(search)
+    ? "Email confirmed. Sign in to continue to your ELIZZY DOMAIN account."
+    : "";
 }
 
 export default getConfirmationRedirect;
-

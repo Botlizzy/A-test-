@@ -510,3 +510,11 @@
 - [x] Keep Supabase recovery links on the new-password page, preserve the temporary session, and prevent session-expired errors after logout
 
 - [x] Restore the complete website to the stable state immediately before the AI Web Builder and publisher were introduced (parent of 8d820aa, commit 2cde3d80), validate with 25 test files / 97 tests and a production build, and prepare the rollback for GitHub synchronization.
+
+- [ ] Test the restored site’s signup and login flow, verify confirmation-email delivery and deployed-origin redirects, repair any application-side issue found, and push the verified result.
+
+- [ ] Disable Supabase email confirmation globally if approved, update signup messaging to reflect immediate access, validate login and recovery implications, and push the change.
+
+- [ ] Permanently remove email confirmation and forgotten-password UI/code, configure immediate signup behavior, validate signup/login, and push the authentication-policy change.
+
+- [ ] Implement a secure one-time email verification-code signup flow with ELIZZY DOMAIN subject text and mikeakex80@gmail.com sender configuration, including expiry, attempt limits, verification UI, tests, and live validation.

@@ -17,13 +17,8 @@ import { hasPermanentPremiumAccess } from "@/lib/premiumAccess";
 import { isAccountSuspended, isAccountWarningExpired } from "@/lib/accountManagement";
 import { isPremiumCurrentlyActive } from "@/lib/premiumDuration";
 import type { Session, User } from "@supabase/supabase-js";
-import { hasConfirmedEmail } from "@/lib/authRedirect";
-import { hasRecoverySessionHash } from "@/lib/passwordRecovery";
-
-function getAuthMode(): "login" | "signup" | "forgot" | "reset" {
-  const mode = new URLSearchParams(window.location.search).get("mode");
-  if (mode === "signup" || mode === "forgot" || mode === "reset") return mode;
-  return hasRecoverySessionHash(window.location.hash) ? "reset" : "login";
+function getAuthMode(): "login" | "signup" {
+  return new URLSearchParams(window.location.search).get("mode") === "signup" ? "signup" : "login";
 }
 
 type VerificationReturnProps = {
@@ -57,13 +52,12 @@ export default function App() {
   const [session, setSession] = useState<Session | null>(null);
   const [checkingAuth, setCheckingAuth] = useState(true);
   const [verificationComplete, setVerificationComplete] = useState(false);
-  const [authMode, setAuthMode] = useState<"login" | "signup" | "forgot" | "reset">(getAuthMode);
+  const [authMode, setAuthMode] = useState<"login" | "signup">(getAuthMode);
   const [showProfile, setShowProfile] = useState(() => new URLSearchParams(window.location.search).get("profile") === "1");
   const [showPricing, setShowPricing] = useState(() => new URLSearchParams(window.location.search).get("pricing") === "1");
   const [showAdmin, setShowAdmin] = useState(() => new URLSearchParams(window.location.search).get("admin") === "1");
   const [showPremium, setShowPremium] = useState(() => new URLSearchParams(window.location.search).get("premium") === "1");
   const [premiumActive, setPremiumActive] = useState(false);
-  const confirmedEmailReturn = hasConfirmedEmail(window.location.search) && getAuthMode() !== "reset";
   const maintenanceMode = false;
 
   useEffect(() => {
@@ -100,14 +94,12 @@ export default function App() {
     supabase.auth.getSession().then(async ({ data }) => {
       await resolveSession(data.session);
       if (active) {
-        setVerificationComplete(confirmedEmailReturn);
         setCheckingAuth(false);
       }
     });
     const { data: listener } = supabase.auth.onAuthStateChange(async (_event, nextSession) => {
       await resolveSession(nextSession);
       if (active) {
-        setVerificationComplete(confirmedEmailReturn);
         setCheckingAuth(false);
       }
     });
@@ -163,15 +155,9 @@ export default function App() {
   };
 
   if (checkingAuth) {
-    return confirmedEmailReturn ? <VerificationReturn status="processing" authenticated={false} onContinue={continueAfterVerification} /> : <div className="auth-loading"><span className="signal-mark"><span /><span /><span /></span><p>Tuning into your session…</p></div>;
+    return <div className="auth-loading"><span className="signal-mark"><span /><span /><span /></span><p>Tuning into your session…</p></div>;
   }
 
-    if (confirmedEmailReturn && verificationComplete) {
-    return <VerificationReturn status="success" authenticated={Boolean(session?.user)} onContinue={continueAfterVerification} />;
-  }
-  if (authMode === "reset") {
-    return <ErrorBoundary><ThemeProvider defaultTheme="light"><TooltipProvider><Toaster /><Auth mode="reset" onModeChange={(mode) => { setAuthMode(mode); window.history.replaceState({}, "", `/?mode=${mode}`); }} /></TooltipProvider></ThemeProvider></ErrorBoundary>;
-  }
   return <ErrorBoundary><ThemeProvider defaultTheme="light"><TooltipProvider><Toaster />{showPricing ? <Pricing user={session?.user} onBack={goToFeed} /> : session?.user ? (showAdmin ? <PremiumAdmin user={session.user} onBack={goToFeed} onSignOut={signOut} /> : showPremium ? <PremiumRoom user={session.user} isPremium={premiumActive} onBack={goToFeed} onPricing={goToPricing} onSignOut={signOut} /> : showProfile ? <Profile user={session.user} onBack={goToFeed} onSignOut={signOut} /> : <Home user={session.user} onProfile={goToProfile} onPricing={goToPricing} onPremium={goToPremium} onAdmin={goToAdmin} onSignOut={signOut} />) : <Auth mode={authMode} onModeChange={(mode) => { setAuthMode(mode); window.history.replaceState({}, "", `/?mode=${mode}`); }} />}</TooltipProvider></ThemeProvider></ErrorBoundary>;
 }
 
