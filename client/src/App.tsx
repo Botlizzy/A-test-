@@ -1,6 +1,5 @@
 /* Coastal Signal app shell: auth is the doorway, playback is the protected room, and session transitions stay explicit. */
 import { useEffect, useState } from "react";
-import { CheckCircle2, LoaderCircle, ShieldCheck } from "lucide-react";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import ErrorBoundary from "./components/ErrorBoundary";
@@ -21,37 +20,9 @@ function getAuthMode(): "login" | "signup" {
   return new URLSearchParams(window.location.search).get("mode") === "signup" ? "signup" : "login";
 }
 
-type VerificationReturnProps = {
-  status: "processing" | "success";
-  authenticated: boolean;
-  onContinue: () => void;
-};
-
-function VerificationReturn({ status, authenticated, onContinue }: VerificationReturnProps) {
-  const isProcessing = status === "processing";
-  return (
-    <main className={`verification-return ${isProcessing ? "verification-return--processing" : "verification-return--success"}`}>
-      <div className="verification-return__glow verification-return__glow--one" aria-hidden="true" />
-      <div className="verification-return__glow verification-return__glow--two" aria-hidden="true" />
-      <section className="verification-return__card" aria-live="polite" aria-busy={isProcessing}>
-        <a className="verification-return__brand" href="/" aria-label="Return to Eliminator home"><span className="brand-mark"><span className="signal-mark"><span /><span /><span /></span></span><strong>eliminator</strong><em>streaming</em></a>
-        <div className={`verification-return__icon ${isProcessing ? "verification-return__icon--loading" : "verification-return__icon--success"}`}>
-          {isProcessing ? <LoaderCircle size={30} className="spin" aria-hidden="true" /> : <CheckCircle2 size={32} aria-hidden="true" />}
-        </div>
-        <span className="eyebrow eyebrow--blue">{isProcessing ? "SECURE CHECK" : "ACCOUNT READY"}</span>
-        <h1>{isProcessing ? "Confirming your email…" : "Email verified successfully."}</h1>
-        <p>{isProcessing ? "We’re securely processing your verification and preparing the right next step. This usually takes only a moment." : authenticated ? "Your verified session is ready. Continue to your Eliminator streaming room." : "Your email is confirmed. Sign in with your password to enter your Eliminator account."}</p>
-        <div className="verification-return__status"><ShieldCheck size={16} /><span>{isProcessing ? "Checking your secure session" : authenticated ? "Verified and signed in" : "Verified — sign-in required"}</span></div>
-        {!isProcessing && <button className="primary-button verification-return__action" type="button" onClick={onContinue}>{authenticated ? "Continue to Eliminator" : "Continue to sign in"}</button>}
-      </section>
-    </main>
-  );
-}
-
 export default function App() {
   const [session, setSession] = useState<Session | null>(null);
   const [checkingAuth, setCheckingAuth] = useState(true);
-  const [verificationComplete, setVerificationComplete] = useState(false);
   const [authMode, setAuthMode] = useState<"login" | "signup">(getAuthMode);
   const [showProfile, setShowProfile] = useState(() => new URLSearchParams(window.location.search).get("profile") === "1");
   const [showPricing, setShowPricing] = useState(() => new URLSearchParams(window.location.search).get("pricing") === "1");
@@ -146,13 +117,6 @@ export default function App() {
   };
 
   if (maintenanceMode) return <Maintenance />;
-
-  const continueAfterVerification = () => {
-    const nextPath = session?.user ? "/" : "/?mode=login";
-    window.history.replaceState({}, "", nextPath);
-    setVerificationComplete(false);
-    if (!session?.user) setAuthMode("login");
-  };
 
   if (checkingAuth) {
     return <div className="auth-loading"><span className="signal-mark"><span /><span /><span /></span><p>Tuning into your session…</p></div>;

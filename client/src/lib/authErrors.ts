@@ -1,14 +1,7 @@
 export function formatSignupSuccess(hasSession: boolean): string {
   return hasSession
     ? "Signup successful. Your account is ready and you are signed in."
-    : "Signup successful. Check your inbox for the confirmation link, then return here and use Sign in.";
-}
-
-export function formatPasswordResetError(rawMessage: string): string {
-  if (/auth session missing|session missing|jwt|expired|invalid.*token|token.*invalid|already been used/i.test(rawMessage)) {
-    return "This password-reset link is expired or was already used. Request a new reset link and open the newest email.";
-  }
-  return formatAuthError(rawMessage, "login");
+    : "Signup successful. Use Sign in to enter your account.";
 }
 
 export function formatAuthError(rawMessage: string, mode: "login" | "signup"): string {
@@ -33,5 +26,5 @@ export function formatAuthError(rawMessage: string, mode: "login" | "signup"): s
   if (/email/i.test(message) && /invalid|valid/i.test(message)) {
     return "Enter a valid email address and try again.";
   }
-  return mode === "signup" && /confirm/i.test(message) ? `${message} You can return here and use Sign in after confirming.` : message;
+  return message;
 }
