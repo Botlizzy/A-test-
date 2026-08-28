@@ -158,7 +158,7 @@ export default function Auth({ mode, onModeChange }: AuthProps) {
             {error && <div className="auth-message auth-message--error"><CircleAlert size={16} /><span>{error}</span></div>}
             {busy && <div className="auth-progress" role="status" aria-live="polite"><LoaderCircle size={17} className="spin" /><span>{mode === "signup" ? "Creating your account…" : "Checking your secure sign-in…"}</span></div>}
             {message && <div className="auth-message auth-message--success" role="status"><ShieldCheck size={16} /><span>{message}</span></div>}
-            {mode === "signup" && <p className="auth-scale-note">After signup, enter the six-digit code sent from **ELIZZY DOMAIN** to activate your account.</p>}
+            {mode === "signup" && <p className="auth-scale-note">After signup, enter the six-digit code sent from ELIZZY DOMAIN to activate your account.</p>}
             <button className="primary-button auth-submit" type="submit" disabled={busy}>{busy ? <LoaderCircle size={17} className="spin" /> : <ArrowRight size={17} />}{busy ? "Working…" : mode === "login" ? "Enter playback room" : "Create account"}</button>
           </form>}
           {(mode === "login" || mode === "signup") && <div className="auth-switch"><span>{mode === "login" ? "New to ELIZZY DOMAIN?" : "Already have an account?"}</span><button onClick={() => switchMode(mode === "login" ? "signup" : "login")}>{mode === "login" ? "Create account" : "Sign in"}</button></div>}
