@@ -1,3 +1,13 @@
 # Confirmation-email findings
 
 2026-08-28 verification-code update: Auth.tsx now shows a six-digit code field after signup when Supabase returns no session, verifies with `supabase.auth.verifyOtp({ type: "signup" })`, supports resend, and removes the forgotten-password UI/routes. Added tested signupVerification helpers. Supabase Confirm sign up template subject was set to `ELIZZY DOMAIN` and body uses `{{ .Token }}` with branded code instructions; the template save state reported no pending changes. Supabase SMTP currently shows custom SMTP enabled with sender `no-reply@elizzy-host.nx.kg` and sender name `ELIZZY DOMAIN`. The requested `mikeakex80@gmail.com` sender cannot be assumed valid through the current Resend setup without provider verification or switching to Gmail SMTP with an app password; no credential was stored in this note.
+
+Gmail SMTP research: Supabase’s official guidance states the sender email and SMTP username must be the Google Workspace/admin email, the SMTP password must be a Google App Password after enabling 2FA, and smtp.gmail.com supports ports 465 or 587. This means mikeakex80@gmail.com can be used only with Gmail SMTP and an App Password, not as an unverified Resend sender. Source: https://supabase.com/docs/guides/troubleshooting/using-google-smtp-with-supabase-custom-smtp-ZZzU4Y
+
+2026-08-28 Gmail SMTP cutover: Supabase SMTP now shows custom SMTP enabled with sender `mikeakex80@gmail.com`, sender name `ELIZZY DOMAIN`, host `smtp.gmail.com`, port `465`, username `mikeakex80@gmail.com`, and a populated masked password field after the user saved the App Password. Supabase displayed its standard warning that Gmail is personal rather than transactional; no credential was recorded.
+
+2026-08-28 template repair: the Supabase Confirm sign up template was corrected through the live Monaco editor after an earlier coordinate edit had appended malformed content. The saved state now shows subject `ELIZZY DOMAIN` and one clean HTML body containing `{{ .Token }}` and six-digit verification instructions; no credential was recorded.
+
+2026-08-28 final template verification: after reloading and using the actual Monaco editor instance, the Supabase Confirm sign up template was saved cleanly. Current visible state is subject `ELIZZY DOMAIN` and one valid body with `{{ .Token }}` and six-digit activation instructions; the earlier duplicated/malformed unsaved editor content is no longer present.
+
+2026-08-28 re-verification: Gmail SMTP had previously rendered with custom SMTP enabled, sender `mikeakex80@gmail.com`, host `smtp.gmail.com`, port `465`, and a masked saved App Password. A later Supabase navigation showed the session-expired dialog before the fields could be re-read; no credential was exposed or recorded.

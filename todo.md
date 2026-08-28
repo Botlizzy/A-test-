@@ -518,3 +518,5 @@
 - [ ] Permanently remove email confirmation and forgotten-password UI/code, configure immediate signup behavior, validate signup/login, and push the authentication-policy change.
 
 - [ ] Implement a secure one-time email verification-code signup flow with ELIZZY DOMAIN subject text and mikeakex80@gmail.com sender configuration, including expiry, attempt limits, verification UI, tests, and live validation.
+
+- [ ] Switch Supabase auth SMTP from Resend to Gmail SMTP for mikeakex80@gmail.com using a Gmail App Password, preserve the six-digit ELIZZY DOMAIN template, validate delivery/login, and save the synchronized release.
