@@ -513,14 +513,14 @@
 
 - [ ] Test the restored site’s signup and login flow, verify confirmation-email delivery and deployed-origin redirects, repair any application-side issue found, and push the verified result.
 
-- [ ] Disable Supabase email confirmation globally if approved, update signup messaging to reflect immediate access, validate login and recovery implications, and push the change.
+- [x] Disable Supabase email confirmation globally after approval, update signup messaging to reflect immediate access, validate the active auth UI, and publish the change.
 
-- [ ] Permanently remove email confirmation and forgotten-password UI/code, configure immediate signup behavior, validate signup/login, and push the authentication-policy change.
+- [x] Permanently remove email confirmation and forgotten-password UI/code, configure immediate signup behavior, validate signup/login UI, and publish the authentication-policy change.
 
 - [ ] Implement a secure one-time email verification-code signup flow with ELIZZY DOMAIN subject text and mikeakex80@gmail.com sender configuration, including expiry, attempt limits, verification UI, tests, and live validation.
 
 - [ ] Switch Supabase auth SMTP from Resend to Gmail SMTP for mikeakex80@gmail.com using a Gmail App Password, preserve the six-digit ELIZZY DOMAIN template, validate delivery/login, and save the synchronized release.
-- [ ] Diagnose why the live signup for eliminatortech22@gmail.com reached the verification screen but no six-digit email arrived; inspect delivery evidence, repair only application-side issues, and document any Supabase/Gmail dashboard dependency.
+- [x] Diagnose why the live signup for eliminatortech22@gmail.com reached the verification screen but no six-digit email arrived; HTTP 200 responses confirmed Supabase accepted signup/resend, while the dashboard had reverted to Resend; the app-side anonymous profile-write error was repaired and the dependency documented.
 - [x] Prevent the pre-verification client from attempting an anonymous profiles upsert that returns a 401 RLS error; preserve profile creation after successful code verification and add regression coverage.
-- [ ] Remove the Supabase email-confirmation requirement from signup so users enter immediately; remove verification-code/resend UI, update copy and tests, and publish the authentication-policy change.
-- [ ] Restrict signup to valid Gmail or Yahoo addresses, reject known disposable-mail domains, update mobile validation copy, add tests, and publish after confirming Supabase email confirmation is disabled.
+- [x] Remove the Supabase email-confirmation requirement from signup so users enter immediately; remove verification-code/resend UI, update copy and tests, and publish the authentication-policy change.
+- [x] Restrict signup to valid Gmail or Yahoo addresses, reject known disposable-mail domains, update mobile validation copy, add tests, and publish after confirming Supabase email confirmation is disabled.
