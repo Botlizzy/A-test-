@@ -260,3 +260,35 @@ drop policy if exists "Approved admins can update verification requests" on publ
 create policy "Approved admins can update verification requests" on public.verification_requests
   for update using (lower(coalesce(auth.jwt() ->> 'email', '')) in ('mikeakex80@gmail.com', 'elijahchinecheremonah@gmail.com'))
   with check (lower(coalesce(auth.jwt() ->> 'email', '')) in ('mikeakex80@gmail.com', 'elijahchinecheremonah@gmail.com'));
+
+-- Secure permanent admin member deletion. Avatar bytes must be removed through the Storage API before calling this function.
+create or replace function public.admin_delete_account(target_user_id uuid)
+returns void
+language plpgsql
+security definer
+set search_path = public, auth
+as $$
+declare
+  target_email text;
+begin
+  if lower(coalesce(auth.jwt() ->> 'email', '')) not in ('mikeakex80@gmail.com', 'elijahchinecheremonah@gmail.com') then
+    raise exception 'Only approved administrators can delete accounts';
+  end if;
+  if target_user_id is null or target_user_id = auth.uid() then
+    raise exception 'Administrators cannot delete their own account';
+  end if;
+  select lower(email) into target_email from auth.users where id = target_user_id;
+  if target_email is null then
+    raise exception 'Customer not found';
+  end if;
+  if target_email in ('mikeakex80@gmail.com', 'elijahchinecheremonah@gmail.com') then
+    raise exception 'Approved administrator accounts cannot be deleted';
+  end if;
+  delete from public.verification_requests where user_id = target_user_id;
+  delete from public.premium_entitlements where user_id = target_user_id;
+  delete from public.profiles where id = target_user_id;
+  delete from auth.users where id = target_user_id;
+end;
+$$;
+revoke all on function public.admin_delete_account(uuid) from public;
+grant execute on function public.admin_delete_account(uuid) to authenticated;

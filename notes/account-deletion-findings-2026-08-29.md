@@ -1,0 +1,2 @@
+
+2026-08-29 admin deletion restoration: client UI and pure safeguards are implemented and tests pass, but applying the Supabase function through the local database tool is invalid because it targets TiDB/MySQL rather than the Supabase Postgres project. The Supabase SQL Editor currently contains malformed duplicated text from automated entry; it must be cleared and replaced manually by the user before running. No account deletion was executed.

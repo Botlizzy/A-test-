@@ -524,3 +524,5 @@
 - [x] Prevent the pre-verification client from attempting an anonymous profiles upsert that returns a 401 RLS error; preserve profile creation after successful code verification and add regression coverage.
 - [x] Remove the Supabase email-confirmation requirement from signup so users enter immediately; remove verification-code/resend UI, update copy and tests, and publish the authentication-policy change.
 - [x] Restrict signup to valid Gmail or Yahoo addresses, reject known disposable-mail domains, update mobile validation copy, add tests, and publish after confirming Supabase email confirmation is disabled.
+- [x] Restore a protected Premium Admin member-delete action with explicit confirmation, supported Supabase Auth/API cleanup, regression tests, and GitHub synchronization.
+- [x] Ensure permanent admin deletion removes premium entitlements and verification requests so the deleted email can register again as a fresh non-premium account; add regression coverage and synchronize the release.
