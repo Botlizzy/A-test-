@@ -526,6 +526,6 @@
 - [x] Restrict signup to valid Gmail or Yahoo addresses, reject known disposable-mail domains, update mobile validation copy, add tests, and publish after confirming Supabase email confirmation is disabled.
 - [x] Restore a protected Premium Admin member-delete action with explicit confirmation, supported Supabase Auth/API cleanup, regression tests, and GitHub synchronization.
 - [x] Ensure permanent admin deletion removes premium entitlements and verification requests so the deleted email can register again as a fresh non-premium account; add regression coverage and synchronize the release.
-- [ ] Push the restored Premium Admin deletion release to the selected GitHub repository and verify the remote commit.
-- [ ] Add regression tests covering deletion cleanup semantics for verification_requests and premium_entitlements plus the fresh non-premium re-registration behavior.
-- [ ] Re-validate the admin deletion flow after cleanup coverage is added and update the checklist.
+- [x] Push the restored Premium Admin deletion release to the selected GitHub repository and verify the remote commit; origin/main is fb84b6f981ee051f6e8eeec8de184178c0b6a01d.
+- [x] Add regression tests covering deletion cleanup semantics for verification_requests and premium_entitlements plus the fresh non-premium re-registration behavior; 27 test files and 100 tests pass.
+- [x] Re-validate the admin deletion flow after cleanup coverage is added and update the checklist; production build and Supabase SQL function execution both succeeded.
