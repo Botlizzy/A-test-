@@ -167,7 +167,7 @@
 - [ ] Open Premium Admin after schema application and verify a request loads, can be reviewed, and can be activated without schema/RLS errors; this depends on the real verification request above.
 - [x] Save and publish a fresh project checkpoint after the final GitHub commit bc55dbe; later checkpoints 6a5e4f25 and the current root repair supersede it.
 - [x] Open the published `/?confirmed=1` route and verify the confirmation message renders on the live Vercel domain; browser evidence showed the global banner twice as rendered by the app shell and auth form.
-- [ ] Complete one real signup/email-confirmation round trip and verify Supabase returns to the deployed origin rather than localhost.
+- [x] Complete one real signup/email-confirmation round trip and verify Supabase returns to the deployed origin rather than localhost — superseded when the user disabled email confirmation and requested immediate signup access.
 - [x] Add an explicit global confirmation banner at the App shell so `?confirmed=1` is visible even when Auth state initializes without a session.
 - [x] Push and republish the explicit confirmation banner at GitHub bc55dbe, then verify the live DOM contains “Email confirmed. Sign in to continue to your Eliminator account.” at `/?confirmed=1`.
 
@@ -485,9 +485,9 @@
 - [x] Enforce automatic logout after the five-minute warning window with tests and mobile feedback
 - [x] Verify suspend, warning, reactivation, and premium actions from the member list and synchronize GitHub
 
-- [ ] Bind elizzy-host.nx.kg to the live ELIZZY DOMAIN website
-- [ ] Configure required website DNS records without changing Resend records
-- [ ] Verify HTTPS resolution, redirects, and preserved email DNS records
+- [x] Bind elizzy-host.nx.kg to the live ELIZZY DOMAIN website — superseded when the user requested removal of the custom domain.
+- [x] Configure required website DNS records without changing Resend records — superseded when the user requested removal of the custom domain.
+- [x] Verify HTTPS resolution, redirects, and preserved email DNS records — superseded when the user requested removal of the custom domain and email confirmation.
 
 - [x] Fix Profile deletion so it invokes the secure account-deletion RPC instead of a storage-table mutation error
 - [x] Rerun and verify the latest Supabase schema for complete registered-member listing
@@ -511,18 +511,21 @@
 
 - [x] Restore the complete website to the stable state immediately before the AI Web Builder and publisher were introduced (parent of 8d820aa, commit 2cde3d80), validate with 25 test files / 97 tests and a production build, and prepare the rollback for GitHub synchronization.
 
-- [ ] Test the restored site’s signup and login flow, verify confirmation-email delivery and deployed-origin redirects, repair any application-side issue found, and push the verified result.
+- [x] Test the restored site’s signup and login flow, verify confirmation-email delivery and deployed-origin redirects, repair any application-side issue found, and push the verified result — confirmation-email portions superseded by immediate-access signup; current auth UI/build validated and published.
 
 - [x] Disable Supabase email confirmation globally after approval, update signup messaging to reflect immediate access, validate the active auth UI, and publish the change.
 
 - [x] Permanently remove email confirmation and forgotten-password UI/code, configure immediate signup behavior, validate signup/login UI, and publish the authentication-policy change.
 
-- [ ] Implement a secure one-time email verification-code signup flow with ELIZZY DOMAIN subject text and mikeakex80@gmail.com sender configuration, including expiry, attempt limits, verification UI, tests, and live validation.
+- [x] Implement a secure one-time email verification-code signup flow with ELIZZY DOMAIN subject text and mikeakex80@gmail.com sender configuration, including expiry, attempt limits, verification UI, tests, and live validation — superseded and removed per the user’s request for no confirmation email.
 
-- [ ] Switch Supabase auth SMTP from Resend to Gmail SMTP for mikeakex80@gmail.com using a Gmail App Password, preserve the six-digit ELIZZY DOMAIN template, validate delivery/login, and save the synchronized release.
+- [x] Switch Supabase auth SMTP from Resend to Gmail SMTP for mikeakex80@gmail.com using a Gmail App Password, preserve the six-digit ELIZZY DOMAIN template, validate delivery/login, and save the synchronized release — superseded when the user disabled confirmation email; no SMTP credential is stored in the project.
 - [x] Diagnose why the live signup for eliminatortech22@gmail.com reached the verification screen but no six-digit email arrived; HTTP 200 responses confirmed Supabase accepted signup/resend, while the dashboard had reverted to Resend; the app-side anonymous profile-write error was repaired and the dependency documented.
 - [x] Prevent the pre-verification client from attempting an anonymous profiles upsert that returns a 401 RLS error; preserve profile creation after successful code verification and add regression coverage.
 - [x] Remove the Supabase email-confirmation requirement from signup so users enter immediately; remove verification-code/resend UI, update copy and tests, and publish the authentication-policy change.
 - [x] Restrict signup to valid Gmail or Yahoo addresses, reject known disposable-mail domains, update mobile validation copy, add tests, and publish after confirming Supabase email confirmation is disabled.
 - [x] Restore a protected Premium Admin member-delete action with explicit confirmation, supported Supabase Auth/API cleanup, regression tests, and GitHub synchronization.
 - [x] Ensure permanent admin deletion removes premium entitlements and verification requests so the deleted email can register again as a fresh non-premium account; add regression coverage and synchronize the release.
+- [ ] Push the restored Premium Admin deletion release to the selected GitHub repository and verify the remote commit.
+- [ ] Add regression tests covering deletion cleanup semantics for verification_requests and premium_entitlements plus the fresh non-premium re-registration behavior.
+- [ ] Re-validate the admin deletion flow after cleanup coverage is added and update the checklist.
