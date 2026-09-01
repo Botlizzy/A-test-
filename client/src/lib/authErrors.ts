@@ -1,7 +1,7 @@
 export function formatSignupSuccess(hasSession: boolean): string {
   return hasSession
     ? "Signup successful. Your account is ready and you are signed in."
-    : "Signup successful. Use Sign in to enter your account.";
+    : "Signup successful. Check your inbox for the verification link, then sign in.";
 }
 
 export function formatAuthError(rawMessage: string, mode: "login" | "signup"): string {
@@ -11,8 +11,11 @@ export function formatAuthError(rawMessage: string, mode: "login" | "signup"): s
   }
   if (/rate limit|too many requests|over_email_send_rate_limit|429/i.test(message)) {
     return mode === "signup"
-      ? "We could not complete signup right now. If you already have an account, use Sign in; otherwise please try again shortly."
+      ? "We could not send the verification email right now. If you already have an account, use Sign in; otherwise please try again shortly."
       : "We could not complete that request right now. Please try again shortly.";
+  }
+  if (/email not confirmed|email not verified/i.test(message)) {
+    return "Your email is not verified yet. Open the verification link in your inbox, or create the account again with the same email to resend it.";
   }
   if (/invalid login credentials|invalid email or password/i.test(message)) {
     return "The email or password is incorrect. Check both fields, or switch to Create account if you are new here.";

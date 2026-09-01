@@ -10,20 +10,50 @@ import Pricing from "./pages/Pricing";
 import PremiumAdmin from "./pages/PremiumAdmin";
 import PremiumRoom from "./pages/PremiumRoom";
 import Auth from "./pages/Auth";
+import type { AuthView } from "./pages/Auth";
 import Maintenance from "./pages/Maintenance";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { hasPermanentPremiumAccess } from "@/lib/premiumAccess";
 import { isAccountSuspended, isAccountWarningExpired } from "@/lib/accountManagement";
 import { isPremiumCurrentlyActive } from "@/lib/premiumDuration";
 import type { Session, User } from "@supabase/supabase-js";
-function getAuthMode(): "login" | "signup" {
-  return new URLSearchParams(window.location.search).get("mode") === "signup" ? "signup" : "login";
+
+function getAuthView(): AuthView {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("reset") === "1") return "reset";
+  if (params.get("forgot") === "1") return "forgot";
+  return params.get("mode") === "signup" ? "signup" : "login";
+}
+
+function getAuthNotice() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("confirmed") === "1") {
+    return "Email verified. Sign in to enter your account.";
+  }
+  if (params.get("reset_done") === "1") {
+    return "Password updated. Sign in with your new password.";
+  }
+  if (params.get("warning_expired") === "1") {
+    return "Your account warning has expired this session. Sign in again to continue if your access was restored.";
+  }
+  if (params.get("suspended") === "1") {
+    return "Your account is suspended. Contact support if you believe this is a mistake.";
+  }
+  return "";
+}
+
+function getAuthPath(view: AuthView) {
+  if (view === "signup") return "/?mode=signup";
+  if (view === "forgot") return "/?forgot=1";
+  if (view === "reset") return "/?reset=1";
+  return "/?mode=login";
 }
 
 export default function App() {
   const [session, setSession] = useState<Session | null>(null);
   const [checkingAuth, setCheckingAuth] = useState(true);
-  const [authMode, setAuthMode] = useState<"login" | "signup">(getAuthMode);
+  const [authView, setAuthView] = useState<AuthView>(getAuthView);
+  const [authNotice, setAuthNotice] = useState(getAuthNotice);
   const [showProfile, setShowProfile] = useState(() => new URLSearchParams(window.location.search).get("profile") === "1");
   const [showPricing, setShowPricing] = useState(() => new URLSearchParams(window.location.search).get("pricing") === "1");
   const [showAdmin, setShowAdmin] = useState(() => new URLSearchParams(window.location.search).get("admin") === "1");
@@ -68,7 +98,12 @@ export default function App() {
         setCheckingAuth(false);
       }
     });
-    const { data: listener } = supabase.auth.onAuthStateChange(async (_event, nextSession) => {
+    const { data: listener } = supabase.auth.onAuthStateChange(async (event, nextSession) => {
+      if (event === "PASSWORD_RECOVERY") {
+        setAuthView("reset");
+        setAuthNotice("");
+        window.history.replaceState({}, "", getAuthPath("reset"));
+      }
       await resolveSession(nextSession);
       if (active) {
         setCheckingAuth(false);
@@ -89,6 +124,18 @@ export default function App() {
 
   const signOut = async () => {
     await supabase?.auth.signOut();
+  };
+
+  const goToAuthView = (view: AuthView) => {
+    setAuthView(view);
+    if (view !== "reset") setAuthNotice("");
+    window.history.replaceState({}, "", getAuthPath(view));
+  };
+
+  const handlePasswordResetComplete = (message: string) => {
+    setAuthNotice(message);
+    setAuthView("login");
+    window.history.replaceState({}, "", "/?mode=login&reset_done=1");
   };
 
   const goToProfile = () => {
@@ -122,7 +169,7 @@ export default function App() {
     return <div className="auth-loading"><span className="signal-mark"><span /><span /><span /></span><p>Tuning into your session…</p></div>;
   }
 
-  return <ErrorBoundary><ThemeProvider defaultTheme="light"><TooltipProvider><Toaster />{showPricing ? <Pricing user={session?.user} onBack={goToFeed} /> : session?.user ? (showAdmin ? <PremiumAdmin user={session.user} onBack={goToFeed} onSignOut={signOut} /> : showPremium ? <PremiumRoom user={session.user} isPremium={premiumActive} onBack={goToFeed} onPricing={goToPricing} onSignOut={signOut} /> : showProfile ? <Profile user={session.user} onBack={goToFeed} onSignOut={signOut} /> : <Home user={session.user} onProfile={goToProfile} onPricing={goToPricing} onPremium={goToPremium} onAdmin={goToAdmin} onSignOut={signOut} />) : <Auth mode={authMode} onModeChange={(mode) => { setAuthMode(mode); window.history.replaceState({}, "", `/?mode=${mode}`); }} />}</TooltipProvider></ThemeProvider></ErrorBoundary>;
+  return <ErrorBoundary><ThemeProvider defaultTheme="light"><TooltipProvider><Toaster />{showPricing ? <Pricing user={session?.user} onBack={goToFeed} /> : authView === "reset" ? <Auth view={authView} notice={authNotice} recoveryReady={Boolean(session?.user)} onClearNotice={() => setAuthNotice("")} onPasswordResetComplete={handlePasswordResetComplete} onViewChange={goToAuthView} /> : session?.user ? (showAdmin ? <PremiumAdmin user={session.user} onBack={goToFeed} onSignOut={signOut} /> : showPremium ? <PremiumRoom user={session.user} isPremium={premiumActive} onBack={goToFeed} onPricing={goToPricing} onSignOut={signOut} /> : showProfile ? <Profile user={session.user} onBack={goToFeed} onSignOut={signOut} /> : <Home user={session.user} onProfile={goToProfile} onPricing={goToPricing} onPremium={goToPremium} onAdmin={goToAdmin} onSignOut={signOut} />) : <Auth view={authView} notice={authNotice} onClearNotice={() => setAuthNotice("")} onPasswordResetComplete={handlePasswordResetComplete} onViewChange={goToAuthView} />}</TooltipProvider></ThemeProvider></ErrorBoundary>;
 }
 
 export type AppUser = User;

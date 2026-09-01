@@ -6,9 +6,9 @@ describe("immediate signup access", () => {
     expect(signupAccessMessage(true, "person@example.com")).toContain("signed in");
   });
 
-  it("does not mention email verification when no session is returned", () => {
+  it("explains verification when no session is returned", () => {
     const message = signupAccessMessage(false, "person@example.com");
-    expect(message).toContain("Sign in now");
-    expect(message.toLowerCase()).not.toContain("verification");
+    expect(message).toContain("verification link");
+    expect(message).toContain("inbox");
   });
 });
