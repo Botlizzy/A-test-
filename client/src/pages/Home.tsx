@@ -6,7 +6,7 @@ import { extractPremiumAiError, extractPremiumAiText, getPremiumAiUrl, PREMIUM_A
 import { getImageGeneratorUrl, parseImageGeneratorResponse } from "@/lib/imageGenerators";
 import { copyText } from "@/lib/copyText";
 
-const HOMEPAGE_AI_MODELS = PREMIUM_AI_MODELS.filter((model) => ["gpt-4o", "claude-haiku-4.5", "gemini-3-pro", "deepseek-v4-flash", "grok-4.1-fast", "llama-4-maverick"].includes(model.id));
+const HOMEPAGE_AI_MODELS = PREMIUM_AI_MODELS.filter((model) => ["aiko", "ai4chat", "azbryai"].includes(model.id));
 const XXL_SEARCH_ENDPOINT = "https://apis.davidcyril.name.ng/xxx/xvideos";
 const XXL_VIDEO_ENDPOINT = "https://apis.davidcyril.name.ng/xvideo";
 const XXL_HAMSTER_RANDOM_ENDPOINT = "https://apis.davidcyril.name.ng/xhamster/random";
